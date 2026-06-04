@@ -1,15 +1,14 @@
 package com.ke.bella.openapi.server.intercept;
 
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.servlet.HandlerInterceptor;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-public class ConcurrentStartInterceptor extends HandlerInterceptorAdapter {
+public class ConcurrentStartInterceptor implements HandlerInterceptor {
     public static final String ASYNC_REQUEST_MARKER = "ASYNC_REQUEST_MARKER";
 
-    @Override
-    public void afterConcurrentHandlingStarted(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public void afterConcurrentHandlingStarted(HttpServletRequest request, HttpServletResponse response, Object handler) {
         request.setAttribute(ASYNC_REQUEST_MARKER, Boolean.TRUE);
     }
 }

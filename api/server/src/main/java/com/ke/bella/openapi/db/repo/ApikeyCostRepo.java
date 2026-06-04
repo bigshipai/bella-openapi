@@ -5,7 +5,7 @@ import static com.ke.bella.openapi.Tables.*;
 import java.math.BigDecimal;
 import java.util.List;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Component;

@@ -3,8 +3,8 @@ package com.ke.bella.openapi.endpoints;
 import java.io.IOException;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import com.ke.bella.queue.QueueClient;
 import org.apache.commons.io.IOUtils;

@@ -1,4 +1,4 @@
-FROM openjdk:8
+FROM openjdk:17
 
 ENV IDC zeus
 ENV MODULE bella-openapi

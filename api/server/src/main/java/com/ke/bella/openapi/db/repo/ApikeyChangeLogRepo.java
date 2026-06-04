@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 
 import static com.ke.bella.openapi.Tables.APIKEY_CHANGE_LOG;

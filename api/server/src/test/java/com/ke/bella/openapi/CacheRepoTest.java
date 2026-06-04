@@ -8,14 +8,14 @@ import org.jooq.DSLContext;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import java.math.BigDecimal;
 
 import static com.ke.bella.openapi.Tables.APIKEY_MONTH_COST;
 
 @Component
 public class CacheRepoTest {
-    @Resource
+    @Autowired
     private DSLContext db;
     private BigDecimal amount = null;
 

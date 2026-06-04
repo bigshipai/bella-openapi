@@ -2,7 +2,7 @@ package com.ke.bella.openapi.protocol.ocr;
 
 import java.util.Map;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 

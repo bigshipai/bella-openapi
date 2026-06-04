@@ -3,7 +3,7 @@ package com.ke.bella.openapi.protocol.document.parse;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotEmpty;
 
 /**
  * 文档来源信息

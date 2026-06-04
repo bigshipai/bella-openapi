@@ -5,7 +5,7 @@ import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

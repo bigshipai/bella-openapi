@@ -11,10 +11,10 @@ import okhttp3.Response;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -37,9 +37,9 @@ public class HttpSessionManager implements SessionManager {
         if(request == null || this.sessionProperty == null || this.sessionProperty.getCookieName() == null) {
             return "";
         }
-        javax.servlet.http.Cookie[] cookies = request.getCookies();
+        Cookie[] cookies = request.getCookies();
         if(cookies != null) {
-            for (javax.servlet.http.Cookie cookie : cookies) {
+            for (Cookie cookie : cookies) {
                 if(this.sessionProperty.getCookieName().equals(cookie.getName())) {
                     return cookie.getName() + "=" + cookie.getValue();
                 }
@@ -93,13 +93,13 @@ public class HttpSessionManager implements SessionManager {
     @Override
     public String create(Operator sessionInfo, HttpServletRequest request, HttpServletResponse response) {
         log.warn("HttpSessionManager.create(Operator, ...) called but is not implemented.");
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public String create(String secret, HttpServletRequest request, HttpServletResponse response) {
         log.warn("HttpSessionManager.create(String, ...) called but is not implemented.");
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override

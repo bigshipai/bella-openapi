@@ -8,9 +8,10 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.apache.tools.ant.filters.StringInputStream;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -62,7 +63,7 @@ public class AuthorizationProperty implements IProtocolProperty {
 
     private GoogleCredentials getGoogleCredentials() {
         try {
-            return GoogleCredentials.fromStream(new StringInputStream(getSecret()))
+            return GoogleCredentials.fromStream(new ByteArrayInputStream(getSecret().getBytes(StandardCharsets.UTF_8)))
                     .createScoped(GOOGLE_CLOUD_PLATFORM_SCOPE);
         } catch (IOException e) {
             throw new RuntimeException("google auth credentials error", e);

@@ -55,12 +55,6 @@ bella:
   login:
     type: ${login.type:}
     login-page-url: ${SERVER:http://localhost}/login
-  cas:
-    server-url-prefix: ${cas.server:}
-    server-login-url: ${cas.server.login:}
-    client-host: ${SERVER:http://localhost}
-    client-support: true
-    client-index-url: ${SERVER:http://localhost}
   oauth:
     client-index: ${SERVER:http://localhost}
     redirect: ${SERVER:http://localhost}

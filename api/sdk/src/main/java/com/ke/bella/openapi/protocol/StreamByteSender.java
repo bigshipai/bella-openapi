@@ -2,7 +2,7 @@ package com.ke.bella.openapi.protocol;
 
 import lombok.extern.slf4j.Slf4j;
 
-import javax.servlet.AsyncContext;
+import jakarta.servlet.AsyncContext;
 import java.io.IOException;
 import java.io.OutputStream;
 

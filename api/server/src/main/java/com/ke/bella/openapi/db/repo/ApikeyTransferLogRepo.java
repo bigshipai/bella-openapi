@@ -5,7 +5,7 @@ import com.ke.bella.openapi.tables.records.ApikeyTransferLogRecord;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 
 import static com.ke.bella.openapi.Tables.APIKEY_TRANSFER_LOG;

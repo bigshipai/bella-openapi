@@ -7,16 +7,16 @@ import com.ke.bella.openapi.service.ApikeyService;
 import com.ke.bella.openapi.utils.DateTimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.servlet.HandlerInterceptor;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 
 import static com.ke.bella.openapi.server.intercept.ConcurrentStartInterceptor.ASYNC_REQUEST_MARKER;
 
 @Component
-public class MonthQuotaInterceptor extends HandlerInterceptorAdapter {
+public class MonthQuotaInterceptor implements HandlerInterceptor {
     @Autowired
     private ApikeyService apikeyService;
 

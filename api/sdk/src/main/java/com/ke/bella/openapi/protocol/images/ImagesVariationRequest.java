@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Nullable;
-import javax.validation.constraints.NotNull;
+import org.springframework.lang.Nullable;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**

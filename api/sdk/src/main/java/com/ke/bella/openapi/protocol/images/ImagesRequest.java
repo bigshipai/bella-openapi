@@ -11,8 +11,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import javax.annotation.Nullable;
-import javax.validation.constraints.NotBlank;
+import org.springframework.lang.Nullable;
+import jakarta.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;

@@ -4,11 +4,6 @@ import com.ke.bella.openapi.Operator;
 import com.ke.bella.openapi.login.ClientLoginFilter;
 import com.ke.bella.openapi.login.LoginFilter;
 import com.ke.bella.openapi.login.LoginProperties;
-import com.ke.bella.openapi.login.cas.BellaCasClient;
-import com.ke.bella.openapi.login.cas.BellaCasLoginFilter;
-import com.ke.bella.openapi.login.cas.BellaRedirectFilter;
-import com.ke.bella.openapi.login.cas.BellaValidatorFilter;
-import com.ke.bella.openapi.login.cas.CasProperties;
 import com.ke.bella.openapi.login.oauth.OAuthLoginFilter;
 import com.ke.bella.openapi.login.oauth.OAuthProperties;
 import com.ke.bella.openapi.login.oauth.OAuthService;
@@ -61,7 +56,8 @@ public class BellaLoginConfiguration {
         source.registerCorsConfiguration("/**", config);
 
         FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
-        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+		//确保跨域过滤器在最前面执行，避免其他过滤器（如登录拦截器）阻断跨域预检请求
+		bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return bean;
     }
 
@@ -136,36 +132,6 @@ public class BellaLoginConfiguration {
     @ProviderConditional.ConditionalOnGithubAuthEnable
     public GithubOAuthService githubOAuthService(OAuthProperties properties) {
         return new GithubOAuthService(properties);
-    }
-
-    @Bean
-    @ConfigurationProperties(value = "bella.cas")
-    public CasProperties casProperties() {
-        return new CasProperties();
-    }
-
-    @Bean
-    @ConditionalOnCasEnable
-    public BellaCasClient bellaCasClient(LoginProperties loginProperties, CasProperties casProperties, SessionManager sessionManager) {
-        return new BellaCasClient(loginProperties, casProperties, sessionManager);
-    }
-
-    @Bean
-    @ConditionalOnCasEnable
-    public FilterRegistrationBean<BellaValidatorFilter> casValidationFilter(BellaCasClient bellaCasClient) {
-        return bellaCasClient.casValidationFilter();
-    }
-
-    @Bean
-    @ConditionalOnCasEnable
-    public FilterRegistrationBean<BellaRedirectFilter> casRedirectFilter(BellaCasClient bellaCasClient) {
-        return bellaCasClient.casRedirectRegistrationBean();
-    }
-
-    @Bean
-    @ConditionalOnCasEnable
-    public FilterRegistrationBean<BellaCasLoginFilter> casAuthenticationFilter(BellaCasClient bellaCasClient) {
-        return bellaCasClient.casAuthenticationFilter();
     }
 
     @Bean

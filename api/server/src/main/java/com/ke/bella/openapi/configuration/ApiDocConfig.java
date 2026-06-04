@@ -5,8 +5,8 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
-import org.springdoc.core.GroupedOpenApi;
-import org.springdoc.core.customizers.OpenApiCustomiser;
+import org.springdoc.core.models.GroupedOpenApi;
+import org.springdoc.core.customizers.OpenApiCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -29,7 +29,7 @@ public class ApiDocConfig {
         return GroupedOpenApi.builder()
                 .group("元数据管理")
                 .pathsToMatch("/console/endpoint/**", "/console/model/**", "/console/channel/**", "/console/category/**")
-                .addOpenApiCustomiser(customiseOpenApi())
+                .addOpenApiCustomizer(customiseOpenApi())
                 .build();
     }
 
@@ -38,7 +38,7 @@ public class ApiDocConfig {
         return GroupedOpenApi.builder()
                 .group("API Key管理")
                 .pathsToMatch("/console/apikey/**")
-                .addOpenApiCustomiser(customiseOpenApi())
+                .addOpenApiCustomizer(customiseOpenApi())
                 .build();
     }
 
@@ -47,7 +47,7 @@ public class ApiDocConfig {
         return GroupedOpenApi.builder()
                 .group("信息查询")
                 .pathsToMatch("/v1/apikey/**", "/v1/meta/**")
-                .addOpenApiCustomiser(customiseOpenApi())
+                .addOpenApiCustomizer(customiseOpenApi())
                 .build();
     }
 
@@ -57,11 +57,11 @@ public class ApiDocConfig {
                 .group("能力点")
                 .pathsToMatch("/v1/**")
                 .pathsToExclude("/v1/apikey/**", "/v1/meta/**")
-                .addOpenApiCustomiser(customiseOpenApi())
+                .addOpenApiCustomizer(customiseOpenApi())
                 .build();
     }
 
-    private OpenApiCustomiser customiseOpenApi() {
+    private OpenApiCustomizer customiseOpenApi() {
         return openApi -> openApi.getPaths().values().stream()
                 .flatMap(pathItem -> pathItem.readOperations().stream())
                 .forEach(operation -> operation.addParametersItem(new Parameter()

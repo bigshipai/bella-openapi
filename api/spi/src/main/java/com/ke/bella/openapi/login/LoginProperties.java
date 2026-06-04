@@ -4,6 +4,9 @@ import lombok.Data;
 
 @Data
 public class LoginProperties {
+	/**
+	 * client
+	 */
     private String type;
     private String loginPageUrl;
     private String openapiBase;

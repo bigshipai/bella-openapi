@@ -7,10 +7,10 @@ import com.ke.bella.openapi.protocol.limiter.QpsCheckResult;
 import com.ke.bella.openapi.protocol.limiter.QpsLimiterManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.servlet.HandlerInterceptor;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import static com.ke.bella.openapi.server.intercept.ConcurrentStartInterceptor.ASYNC_REQUEST_MARKER;
 
@@ -20,7 +20,7 @@ import static com.ke.bella.openapi.server.intercept.ConcurrentStartInterceptor.A
  * 拦截器顺序: AuthorizationInterceptor -> QpsRateLimitInterceptor -> MonthQuotaInterceptor
  */
 @Component
-public class QpsRateLimitInterceptor extends HandlerInterceptorAdapter {
+public class QpsRateLimitInterceptor implements HandlerInterceptor {
 
     @Autowired
     private QpsLimiterManager qpsLimiterManager;

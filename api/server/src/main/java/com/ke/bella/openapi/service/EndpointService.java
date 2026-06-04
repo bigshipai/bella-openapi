@@ -19,7 +19,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 
 import com.ke.bella.openapi.utils.JacksonUtils;
 import org.apache.commons.collections4.CollectionUtils;

@@ -4,7 +4,7 @@ import com.ke.bella.openapi.protocol.IProtocolAdaptor;
 import com.ke.bella.openapi.protocol.completion.CompletionProperty;
 import com.ke.bella.openapi.protocol.completion.gemini.GeminiRequest;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 public interface GeminiAdaptor<T extends CompletionProperty> extends IProtocolAdaptor {
 

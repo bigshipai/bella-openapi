@@ -8,13 +8,13 @@ import com.ke.bella.openapi.common.EntityConstants;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.servlet.HandlerInterceptor;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Component
-public class TestEnvironmentInterceptor extends HandlerInterceptorAdapter {
+public class TestEnvironmentInterceptor implements HandlerInterceptor {
     @Value("${spring.profiles.active}")
     private String profile;
 

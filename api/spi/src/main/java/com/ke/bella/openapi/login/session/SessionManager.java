@@ -2,8 +2,8 @@ package com.ke.bella.openapi.login.session;
 
 import com.ke.bella.openapi.Operator;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 public interface SessionManager {
 

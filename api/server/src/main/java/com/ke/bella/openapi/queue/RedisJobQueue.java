@@ -3,7 +3,7 @@ package com.ke.bella.openapi.queue;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import org.redisson.api.RDeque;
 import org.redisson.api.RedissonClient;

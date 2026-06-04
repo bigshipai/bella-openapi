@@ -8,11 +8,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.net.URL;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -62,7 +61,7 @@ public class RedisSessionManager implements SessionManager, TicketManager { // C
     @Override
     public String create(String secret, HttpServletRequest request, HttpServletResponse response) {
         if(userRepo == null) {
-            throw new NotImplementedException();
+            throw new UnsupportedOperationException();
         }
         Operator operator = userRepo.checkSecret(secret);
         if(operator == null) {

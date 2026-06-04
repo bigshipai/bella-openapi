@@ -11,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.BeanUtils;
 
-import javax.annotation.Nullable;
+import org.springframework.lang.Nullable;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;

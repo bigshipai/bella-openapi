@@ -3,7 +3,6 @@ package com.ke.bella.openapi.protocol.asr.transcription;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ke.bella.openapi.ISummary;
-import com.theokanning.openai.assistants.IUssrRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TranscriptionsRequest implements IUssrRequest, ISummary {
+public class TranscriptionsRequest implements ISummary {
 
     /**
      * The audio file to transcribe

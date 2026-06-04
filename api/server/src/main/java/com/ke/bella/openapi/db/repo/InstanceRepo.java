@@ -5,7 +5,7 @@ import static org.springframework.transaction.annotation.Isolation.READ_COMMITTE
 
 import java.time.LocalDateTime;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Component;

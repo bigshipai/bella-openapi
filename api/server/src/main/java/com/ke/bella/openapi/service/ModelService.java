@@ -31,7 +31,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.util.Assert;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
