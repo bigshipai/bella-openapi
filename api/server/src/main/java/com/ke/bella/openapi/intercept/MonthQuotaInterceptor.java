@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import jakarta.servlet.DispatcherType;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
@@ -22,7 +23,8 @@ public class MonthQuotaInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        if(Boolean.TRUE.equals(request.getAttribute(ASYNC_REQUEST_MARKER))) {
+        if(Boolean.TRUE.equals(request.getAttribute(ASYNC_REQUEST_MARKER))
+                || request.getDispatcherType() == DispatcherType.ASYNC) {
             return true;
         }
         ApikeyInfo apikey = EndpointContext.getApikey();

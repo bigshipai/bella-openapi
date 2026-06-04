@@ -2,6 +2,7 @@ package com.ke.bella.openapi.intercept;
 
 import static com.ke.bella.openapi.server.intercept.ConcurrentStartInterceptor.ASYNC_REQUEST_MARKER;
 
+import jakarta.servlet.DispatcherType;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -28,7 +29,8 @@ public class AuthorizationInterceptor extends com.ke.bella.openapi.server.interc
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        if(Boolean.TRUE.equals(request.getAttribute(ASYNC_REQUEST_MARKER))) {
+        if(Boolean.TRUE.equals(request.getAttribute(ASYNC_REQUEST_MARKER))
+                || request.getDispatcherType() == DispatcherType.ASYNC) {
             return true;
         }
         boolean hasPermission;

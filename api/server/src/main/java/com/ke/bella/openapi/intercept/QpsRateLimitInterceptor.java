@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import jakarta.servlet.DispatcherType;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -28,7 +29,8 @@ public class QpsRateLimitInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         // 跳过异步请求标记（避免重复处理）
-        if (Boolean.TRUE.equals(request.getAttribute(ASYNC_REQUEST_MARKER))) {
+        if (Boolean.TRUE.equals(request.getAttribute(ASYNC_REQUEST_MARKER))
+                || request.getDispatcherType() == DispatcherType.ASYNC) {
             return true;
         }
 

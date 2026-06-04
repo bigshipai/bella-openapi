@@ -1,10 +1,13 @@
 server:
+  port: 8080
   tomcat:
     threads:
       max: 300
   max-http-header-size: 10240
 
 spring:
+  main:
+    allow-circular-references: true
   profiles:
     active: dev
   datasource:

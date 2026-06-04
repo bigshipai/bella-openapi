@@ -6,6 +6,7 @@ import com.ke.bella.openapi.apikey.ApikeyInfo;
 import com.ke.bella.openapi.common.exception.BellaException;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import jakarta.servlet.DispatcherType;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -14,7 +15,8 @@ import static com.ke.bella.openapi.server.intercept.ConcurrentStartInterceptor.A
 public class AuthorizationInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        if(Boolean.TRUE.equals(request.getAttribute(ASYNC_REQUEST_MARKER))) {
+        if(Boolean.TRUE.equals(request.getAttribute(ASYNC_REQUEST_MARKER))
+                || request.getDispatcherType() == DispatcherType.ASYNC) {
             return true;
         }
         ApikeyInfo apikeyInfo = BellaContext.getApikeyIgnoreNull();
