@@ -3,6 +3,7 @@ package com.ke.bella.openapi.script;
 import org.apache.commons.lang3.StringUtils;
 import org.redisson.api.RScript;
 import org.redisson.api.RedissonClient;
+import org.redisson.client.RedisException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +25,16 @@ public class LuaScriptExecutor {
             return null;
         }
         RScript rScript = redissonClient.getScript();
-        return rScript.evalSha(RScript.Mode.READ_WRITE, sha, RScript.ReturnType.VALUE, keys, args.toArray());
+        try {
+            return rScript.evalSha(RScript.Mode.READ_WRITE, sha, RScript.ReturnType.VALUE, keys, args.toArray());
+        } catch (RedisException e) {
+            if (e.getMessage() != null && e.getMessage().contains("NOSCRIPT")) {
+                // Redis script cache was cleared (e.g. Redis restart or SCRIPT FLUSH).
+                // Reload the script and retry once.
+                sha = luaScriptManager.reloadScript(scriptName, defaultName);
+                return rScript.evalSha(RScript.Mode.READ_WRITE, sha, RScript.ReturnType.VALUE, keys, args.toArray());
+            }
+            throw e;
+        }
     }
 }
