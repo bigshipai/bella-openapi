@@ -43,6 +43,10 @@ public class BellaLoginConfiguration {
     @Autowired(required = false)
     private RedisConnectionFactory redisConnectionFactory;
 
+	/**
+	 * 跨域的e
+	 * @return
+	 */
     @Bean
     public FilterRegistrationBean<CorsFilter> corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

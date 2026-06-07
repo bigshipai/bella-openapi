@@ -21,7 +21,9 @@ import java.util.Map;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class HuoShanV3Request implements IMemoryClearable, ITransfer {
+
     private User user;
+
     @JsonProperty("req_params")
     private ReqParams reqParams;
 
@@ -39,7 +41,15 @@ public class HuoShanV3Request implements IMemoryClearable, ITransfer {
     @AllArgsConstructor
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class ReqParams {
+
+		/**
+		 * 输入文本
+		 */
         private String text;
+
+		/**
+		 * 发音人
+		 */
         private String speaker;
         @JsonProperty("audio_params")
         private AudioParams audioParams;
@@ -64,10 +74,23 @@ public class HuoShanV3Request implements IMemoryClearable, ITransfer {
     @AllArgsConstructor
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class AudioParams {
+
+		/**
+		 * 音频编码格式，mp3/ogg_opus/pcm。接口传入wav并不会报错，
+		 * 在流式场景下传入wav会多次返回wav header，这种场景建议使用pcm。
+		 */
         private String format;
-        @JsonProperty("sample_rate")
+
+		/**
+		 * 音频采样率，可选值 [8000,16000,22050,24000,32000,44100,48000]
+		 */
+		@JsonProperty("sample_rate")
         private Integer sampleRate;
-        @JsonProperty("speech_rate")
+
+		/**
+		 * 语速，取值范围[-50,100]，100代表2.0倍速，-50代表0.5倍数
+		 */
+		@JsonProperty("speech_rate")
         private Integer speechRate;
 
         @JsonIgnore

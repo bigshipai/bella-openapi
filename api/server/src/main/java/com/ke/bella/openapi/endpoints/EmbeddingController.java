@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/v1/embeddings")
 @Tag(name = "chat")
 public class EmbeddingController {
+
     @Autowired
     private ChannelRouter router;
     @Autowired

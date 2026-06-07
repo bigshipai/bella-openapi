@@ -4,11 +4,15 @@ import lombok.Data;
 
 @Data
 public class LoginProperties {
+
 	/**
 	 * client
 	 */
-    private String type;
-    private String loginPageUrl;
-    private String openapiBase;
-    private String authorizationHeader = "Authorization";
+	private String type;
+
+	private String loginPageUrl;
+
+	private String openapiBase;
+
+	private String authorizationHeader = "Authorization";
 }

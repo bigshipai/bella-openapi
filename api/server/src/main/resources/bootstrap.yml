@@ -10,4 +10,4 @@ server:
   max-http-header-size: 10000
 spring:
   application:
-    name: bella-openapi
+    name: one-token-hub

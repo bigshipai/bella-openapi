@@ -6,6 +6,7 @@ import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.log.EndpointLogger;
 import com.ke.bella.openapi.utils.DateTimeUtils;
 import com.ke.bella.openapi.utils.JacksonUtils;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Response;
 import okhttp3.WebSocket;
@@ -25,7 +26,12 @@ import java.util.function.Function;
 @Slf4j
 public class TencentStreamAsrCallback implements Callbacks.WebSocketCallback {
 
-    private final TencentRealTimeAsrRequest request;
+	/**
+	 * -- GETTER --
+	 *  获取请求对象
+	 */
+	@Getter
+	private final TencentRealTimeAsrRequest request;
     private final Callbacks.Sender sender;
     private final EndpointProcessData processData;
     private final EndpointLogger logger;
@@ -55,14 +61,7 @@ public class TencentStreamAsrCallback implements Callbacks.WebSocketCallback {
         processData.setMetrics(new HashMap<>());
     }
 
-    /**
-     * 获取请求对象
-     */
-    public TencentRealTimeAsrRequest getRequest() {
-        return request;
-    }
-
-    @Override
+	@Override
     public void onOpen(WebSocket webSocket, Response response) {
         try {
             log.info("Tencent ASR WebSocket connection established, voice_id: {}", request.getVoiceId());

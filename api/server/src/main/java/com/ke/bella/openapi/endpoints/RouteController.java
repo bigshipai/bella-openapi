@@ -43,7 +43,8 @@ public class RouteController {
             throw new BizParamCheckException("用户的Apikey不存在");
         }
 
-        ChannelDB channelDB = channelRouter.route(request.getEndpoint(), request.getModel(), apikeyInfo, request.getQueueMode());
+        ChannelDB channelDB = channelRouter.route(request.getEndpoint(), request.getModel(),
+			apikeyInfo, request.getQueueMode());
 
         return RouteResult.builder()
                 .channelCode(channelDB.getChannelCode())

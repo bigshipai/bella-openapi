@@ -142,8 +142,8 @@ public class EndpointService {
         return db == null || db.getStatus().equals(INACTIVE) ? null : db;
     }
 
-    @Cached(name = "endpoint:details:", key = "#condition.endpoint + ':' + #identity", cacheType = CacheType.BOTH, condition = "(#condition.modelName == null || #condition.modelName == '') "
-            + "&& (#condition.features == null || #condition.features.isEmpty())")
+//    @Cached(name = "endpoint:details:", key = "#condition.endpoint + ':' + #identity", cacheType = CacheType.BOTH, condition = "(#condition.modelName == null || #condition.modelName == '') "
+//            + "&& (#condition.features == null || #condition.features.isEmpty())")
     public EndpointDetails getEndpointDetails(Condition.EndpointDetailsCondition condition, String identity) {
         List<EnumDto> features = MetadataFeatures.listFeatures(condition.getEndpoint());
         EndpointDetails endpoint = EndpointDetails.builder()
