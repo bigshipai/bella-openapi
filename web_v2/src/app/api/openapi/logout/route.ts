@@ -15,7 +15,7 @@ import { getBackendOrigin } from '@/lib/config/backend';
  *
  * Mock模式:
  * - 设置 NEXT_PUBLIC_USE_MOCK=true 启用
- * - 清除 BELLA-SESSION Cookie
+ * - 通知后端清除 token（前端自行清除 localStorage）
  */
 export async function POST(request: NextRequest) {
   // Mock 模式
@@ -27,8 +27,8 @@ export async function POST(request: NextRequest) {
     // 模拟网络延迟
     await new Promise(resolve => setTimeout(resolve, 200));
 
-    // 清除 Cookie
-    const response = NextResponse.json(
+    // Token 模式下，前端自行清除 localStorage 中的 token
+    return NextResponse.json(
       {
         code: 200,
         message: '登出成功',
@@ -36,17 +36,6 @@ export async function POST(request: NextRequest) {
       },
       { status: 200 }
     );
-
-    // 删除 Session Cookie
-    response.cookies.set('BELLA-SESSION', '', {
-      httpOnly: true,
-      secure: false,
-      sameSite: 'lax',
-      maxAge: 0, // 立即过期
-      path: '/',
-    });
-
-    return response;
   }
 
   // 真实后端模式
@@ -54,33 +43,22 @@ export async function POST(request: NextRequest) {
     // 构造后端 API URL
     const backendUrl = `${getBackendOrigin()}/openapi/logout`;
 
-    // 转发 Cookie
-    const cookie = request.headers.get('cookie') || '';
+    // 转发 X-Auth-Token header（Token 认证模式）
+    const authToken = request.headers.get('X-Auth-Token') || '';
 
     const response = await fetch(backendUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'X-BELLA-CONSOLE': 'true',
-        'Cookie': cookie,
+        'X-Auth-Token': authToken,
       },
-      credentials: 'include',
     });
 
     const data = await response.json();
 
-    // 转发 Set-Cookie 头（后端会清除 Cookie）
-    const setCookie = response.headers.get('set-cookie');
-    const headers: HeadersInit = {
-      'Content-Type': 'application/json',
-    };
-    if (setCookie) {
-      headers['Set-Cookie'] = setCookie;
-    }
-
     return NextResponse.json(data, {
       status: response.status,
-      headers,
     });
   } catch (error) {
     console.error('[Backend POST /openapi/logout Error]', error);

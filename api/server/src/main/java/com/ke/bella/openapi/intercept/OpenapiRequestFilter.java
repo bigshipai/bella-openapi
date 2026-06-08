@@ -2,9 +2,13 @@ package com.ke.bella.openapi.intercept;
 
 import com.ke.bella.openapi.BellaContext;
 import com.ke.bella.openapi.EndpointContext;
+import com.ke.bella.openapi.apikey.ApikeyInfo;
 import com.ke.bella.openapi.request.BellaRequestFilter;
+import com.ke.bella.openapi.service.ApikeyService;
 import com.ke.bella.openapi.utils.DateTimeUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import jakarta.servlet.FilterChain;
@@ -16,6 +20,9 @@ import java.io.IOException;
 @Slf4j
 @Component
 public class OpenapiRequestFilter extends BellaRequestFilter {
+    @Autowired
+    private ApikeyService apikeyService;
+
     public OpenapiRequestFilter() {
         super("openapi");
     }
@@ -25,6 +32,14 @@ public class OpenapiRequestFilter extends BellaRequestFilter {
             throws ServletException, IOException {
         long startTime = System.currentTimeMillis();
         try {
+            // 直接验证 API Key，不走 HTTP 自调用
+            String auth = request.getHeader("Authorization");
+            if(auth != null && StringUtils.isNotBlank(auth)) {
+                ApikeyInfo apikeyInfo = verifyAuthHeader(auth);
+                if(apikeyInfo != null) {
+                    BellaContext.setApikey(apikeyInfo);
+                }
+            }
             super.bellaRequestFilter(request, response);
             log.info("[traceId={}] Request  : {} {}", BellaContext.getTraceId(), request.getMethod(), request.getRequestURI());
             EndpointContext.setHeaderInfo(BellaContext.getHeaders());
@@ -44,6 +59,26 @@ public class OpenapiRequestFilter extends BellaRequestFilter {
                     cost);
             BellaContext.clearAll();
             EndpointContext.clearAll();
+        }
+    }
+
+    /**
+     * 直接注入 ApikeyService 验证 API Key，消除 HTTP 自调用（原 OpenapiClient 方式）。
+     */
+    private ApikeyInfo verifyAuthHeader(String auth) {
+        String ak;
+        if(auth.startsWith("Bearer ")) {
+            ak = auth.substring(7);
+        } else if(!auth.contains(" ")) {
+            ak = auth;
+        } else {
+            return null;
+        }
+        try {
+            return apikeyService.verifyAuth(ak);
+        } catch (Exception e) {
+            log.warn("API key verification failed: {}", e.getMessage());
+            return null;
         }
     }
 }

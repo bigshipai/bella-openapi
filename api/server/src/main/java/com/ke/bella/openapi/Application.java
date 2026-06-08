@@ -14,6 +14,7 @@ import com.ke.bella.job.queue.config.EnableJobQueue;
 @EnableScheduling
 @EnableJobQueue
 public class Application {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
     public static void main(String[] args) {

@@ -66,13 +66,13 @@ export class JsonManager implements IChatTransport {
         headers: {
           'Content-Type': 'application/json',
           'X-BELLA-CONSOLE': 'true', // 标识控制台请求（Java 后端需要）
+          'X-Auth-Token': typeof window !== 'undefined' ? (localStorage.getItem('X-Auth-Token') || '') : '',
         },
         body:
           typeof this.options.body === 'string'
             ? this.options.body
             : JSON.stringify(this.options.body),
         signal: this.controller.signal,
-        credentials: 'include',
       })
 
       console.log('[JsonManager] ✅ 收到响应', {

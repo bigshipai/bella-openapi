@@ -17,7 +17,7 @@ import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row9;
+import org.jooq.Row10;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -78,6 +78,11 @@ public class User extends TableImpl<UserRecord> {
      * The column <code>user.manager_ak</code>. 管理员ak-code
      */
     public final TableField<UserRecord, String> MANAGER_AK = createField(DSL.name("manager_ak"), SQLDataType.VARCHAR(255), this, "管理员ak-code");
+
+    /**
+     * The column <code>user.password</code>. BCrypt密码哈希
+     */
+    public final TableField<UserRecord, String> PASSWORD = createField(DSL.name("password"), SQLDataType.VARCHAR(255), this, "BCrypt密码哈希");
 
     /**
      * The column <code>user.optional_info</code>. 扩展信息
@@ -174,11 +179,11 @@ public class User extends TableImpl<UserRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row9 type methods
+    // Row10 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row9<Long, String, String, String, String, String, String, LocalDateTime, LocalDateTime> fieldsRow() {
-        return (Row9) super.fieldsRow();
+    public Row10<Long, String, String, String, String, String, String, String, LocalDateTime, LocalDateTime> fieldsRow() {
+        return (Row10) super.fieldsRow();
     }
 }

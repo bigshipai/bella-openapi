@@ -9,6 +9,7 @@ import { routing, stripLocalePrefix } from './i18n/routing'
 const PUBLIC_PATHS = [
   '/',
   '/login',
+  '/register',
   '/overview',
   '/api/github/oauth',
 ]
@@ -71,18 +72,8 @@ export default async function middleware(request: NextRequest) {
     return createMiddleware(routing)(request)
   }
 
-  // 4. 检查session cookie（认证守卫）
-  const sessionCookie = request.cookies.get('BELLA-SESSION')
-
-  if (!sessionCookie) {
-    // 未登录，继续到后端路由
-    // 后端会根据配置自动处理：
-    // - CAS模式：返回401 + X-Redirect-Login响应头，客户端自动跳转企业登录页
-    // - OAuth模式：返回401，客户端通过AuthProvider重定向到/login页面
-    return createMiddleware(routing)(request)
-  }
-
-  // 5. 已登录，继续处理国际化
+  // 4. 认证由客户端 AuthProvider 和 client.ts 的 Axios 拦截器处理
+  //    Token 模式通过 X-Auth-Token header 传递，中间件不再检查 cookie
   return createMiddleware(routing)(request)
 }
 

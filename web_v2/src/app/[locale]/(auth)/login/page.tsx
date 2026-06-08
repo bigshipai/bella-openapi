@@ -102,22 +102,28 @@ export default function LoginPage() {
         {/* OAuth第三方登录 */}
         <OAuthButtons redirect={redirect} />
 
-        {/* 密钥登录 - 始终显示 */}
+        {/* 邮箱/密钥登录表单 */}
         <>
-          {/* 分隔线 */}
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
               <Separator />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
               <span className="bg-background px-2 text-muted-foreground">
-                或使用密钥登录
+                或使用账号登录
               </span>
             </div>
           </div>
 
-          {/* 密钥登录 */}
           <LoginForm redirect={redirect} />
+
+          {/* 注册入口 */}
+          <p className="text-center text-sm text-muted-foreground">
+            还没有账号？{' '}
+            <a href="/register" className="text-primary hover:underline">
+              立即注册
+            </a>
+          </p>
         </>
       </div>
     </LoginLayout>

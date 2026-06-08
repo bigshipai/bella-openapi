@@ -80,11 +80,11 @@ export class StreamManager implements IChatTransport {
           'Content-Type': 'text/event-stream',
           'X-BELLA-CONSOLE': 'true', // 标识控制台请求（Java 后端需要）
           'Accept-Encoding': 'identity',
-          ...this.options.headers,     
+          'X-Auth-Token': typeof window !== 'undefined' ? (localStorage.getItem('X-Auth-Token') || '') : '',
+          ...this.options.headers,
         },
         body: JSON.stringify(this.options.body),
         signal,
-        credentials: 'include',
 
         /**
          * onopen: 连接建立，首包到达

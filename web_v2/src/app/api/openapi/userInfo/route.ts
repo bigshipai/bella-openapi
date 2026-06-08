@@ -19,17 +19,16 @@ export async function GET(request: NextRequest) {
     // 构造后端 API URL
     const backendUrl = `${getBackendOrigin()}/console/userInfo`;
 
-    // 转发 Cookie（用于会话认证）
-    const cookie = request.headers.get('cookie') || '';
+    // 转发 X-Auth-Token header（Token 认证模式）
+    const authToken = request.headers.get('X-Auth-Token') || '';
 
     const response = await fetch(backendUrl, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         'X-BELLA-CONSOLE': 'true',
-        'Cookie': cookie,
+        'X-Auth-Token': authToken,
       },
-      credentials: 'include',
     });
 
     // 检查 Content-Type，确保是 JSON 响应
@@ -56,18 +55,8 @@ export async function GET(request: NextRequest) {
     // 解析 JSON 响应
     const data = await response.json();
 
-    // 转发 Set-Cookie 头（如果后端更新了 Cookie）
-    const setCookie = response.headers.get('set-cookie');
-    const headers: HeadersInit = {
-      'Content-Type': 'application/json',
-    };
-    if (setCookie) {
-      headers['Set-Cookie'] = setCookie;
-    }
-
     return NextResponse.json(data, {
       status: response.status,
-      headers,
     });
   } catch (error) {
     console.error('[Backend GET /console/userInfo Error]', error);

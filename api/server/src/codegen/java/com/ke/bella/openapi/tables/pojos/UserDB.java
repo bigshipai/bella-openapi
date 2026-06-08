@@ -24,6 +24,7 @@ public class UserDB implements Timed, Serializable {
     private String        source;
     private String        sourceId;
     private String        managerAk;
+    private String        password;
     private String        optionalInfo;
     private LocalDateTime ctime;
     private LocalDateTime mtime;
@@ -37,6 +38,7 @@ public class UserDB implements Timed, Serializable {
         this.source = value.source;
         this.sourceId = value.sourceId;
         this.managerAk = value.managerAk;
+        this.password = value.password;
         this.optionalInfo = value.optionalInfo;
         this.ctime = value.ctime;
         this.mtime = value.mtime;
@@ -49,6 +51,7 @@ public class UserDB implements Timed, Serializable {
         String        source,
         String        sourceId,
         String        managerAk,
+        String        password,
         String        optionalInfo,
         LocalDateTime ctime,
         LocalDateTime mtime
@@ -59,6 +62,7 @@ public class UserDB implements Timed, Serializable {
         this.source = source;
         this.sourceId = sourceId;
         this.managerAk = managerAk;
+        this.password = password;
         this.optionalInfo = optionalInfo;
         this.ctime = ctime;
         this.mtime = mtime;
@@ -149,6 +153,20 @@ public class UserDB implements Timed, Serializable {
     }
 
     /**
+     * Getter for <code>user.password</code>. BCrypt密码哈希
+     */
+    public String getPassword() {
+        return this.password;
+    }
+
+    /**
+     * Setter for <code>user.password</code>. BCrypt密码哈希
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    /**
      * Getter for <code>user.optional_info</code>. 扩展信息
      */
     public String getOptionalInfo() {
@@ -200,6 +218,7 @@ public class UserDB implements Timed, Serializable {
         sb.append(", ").append(source);
         sb.append(", ").append(sourceId);
         sb.append(", ").append(managerAk);
+        sb.append(", ").append(password != null ? "***" : "null");
         sb.append(", ").append(optionalInfo);
         sb.append(", ").append(ctime);
         sb.append(", ").append(mtime);

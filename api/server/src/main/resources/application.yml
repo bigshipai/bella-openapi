@@ -75,11 +75,7 @@ bella:
     authorization-header: Authorization
     login-page-url: http://localhost:3000/login
   session:
-    cookie-name: bella_openapi_sessionId
     max-inactive-interval: 60
-    cookie-max-age: -1
-    cookie-domain: localhost
-    cookie-context-path: /
   openapi:
     max-models-per-request: 3
     service: openapi

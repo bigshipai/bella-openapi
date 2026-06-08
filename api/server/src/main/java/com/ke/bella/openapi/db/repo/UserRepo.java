@@ -101,6 +101,62 @@ public class UserRepo implements IUserRepo {
                 .build();
     }
 
+    @Override
+    public Operator checkPassword(String email, String password) {
+        UserRecord user = dsl.selectFrom(USER)
+                .where(USER.EMAIL.eq(email))
+                .and(USER.PASSWORD.isNotNull())
+                .fetchOne();
+        if(user == null || !EncryptUtils.bcryptCheck(password, user.getPassword())) {
+            return null;
+        }
+        return Operator.builder()
+                .userId(user.getId())
+                .userName(user.getUserName())
+                .email(user.getEmail())
+                .managerAk(user.getManagerAk())
+                .source(user.getSource())
+                .sourceId(user.getSourceId())
+                .build();
+    }
+
+    @Override
+    @Transactional
+    public Operator register(String email, String password, String userName) {
+        // 检查邮箱是否已被注册
+        UserRecord existing = dsl.selectFrom(USER)
+                .where(USER.SOURCE.eq("email"))
+                .and(USER.SOURCE_ID.eq(email))
+                .fetchOne();
+        if(existing != null) {
+            return null;
+        }
+
+        // 创建用户
+        UserRecord newUser = dsl.newRecord(USER);
+        newUser.setUserName(StringUtils.isNotBlank(userName) ? userName : email);
+        newUser.setEmail(email);
+        newUser.setSource("email");
+        newUser.setSourceId(email);
+        newUser.setPassword(EncryptUtils.bcryptHash(password));
+        newUser.store();
+
+        Operator operator = Operator.builder()
+                .userId(newUser.getId())
+                .userName(newUser.getUserName())
+                .email(email)
+                .source("email")
+                .sourceId(email)
+                .build();
+
+        // 生成 console AK
+        newUser.setManagerAk(generateAk(operator));
+        newUser.store();
+
+        operator.setManagerAk(newUser.getManagerAk());
+        return operator;
+    }
+
     public UserDB addManagerById(Long id) {
         UserDB user = dsl.selectFrom(USER).where(USER.ID.eq(id)).fetchOneInto(UserDB.class);
         updateApikeyRoles(user.getManagerAk());

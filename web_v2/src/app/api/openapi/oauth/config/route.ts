@@ -52,17 +52,16 @@ export async function GET(request: NextRequest) {
     const queryString = searchParams.toString();
     const backendUrl = `${getBackendOrigin()}/openapi/oauth/config${queryString ? `?${queryString}` : ''}`;
 
-    // 转发 Cookie
-    const cookie = request.headers.get('cookie') || '';
+    // 转发 X-Auth-Token header（Token 认证模式）
+    const authToken = request.headers.get('X-Auth-Token') || '';
 
     const response = await fetch(backendUrl, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         'X-BELLA-CONSOLE': 'true',
-        'Cookie': cookie,
+        'X-Auth-Token': authToken,
       },
-      credentials: 'include',
     });
 
     const data = await response.json();

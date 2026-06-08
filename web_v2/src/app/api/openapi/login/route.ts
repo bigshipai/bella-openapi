@@ -37,16 +37,11 @@ export async function POST(request: NextRequest) {
       const mockData = mockSecretLogin(secret);
 
       if (mockData.success) {
-        // 登录成功：设置 Mock Cookie
-        const response = NextResponse.json(mockData, { status: 200 });
-        response.cookies.set('BELLA-SESSION', 'mock-session-token-' + Date.now(), {
-          httpOnly: true,
-          secure: false, // 开发环境使用 http
-          sameSite: 'lax',
-          maxAge: 60 * 60 * 24 * 7, // 7天
-          path: '/',
-        });
-        return response;
+        // 登录成功：返回 token（前端存储到 localStorage，通过 X-Auth-Token header 传递）
+        return NextResponse.json({
+          code: 200,
+          data: { token: 'mock-token-' + Date.now() },
+        }, { status: 200 });
       } else {
         // 登录失败
         return NextResponse.json(mockData, { status: 401 });
@@ -72,34 +67,23 @@ export async function POST(request: NextRequest) {
     // 构造后端 API URL
     const backendUrl = `${getBackendOrigin()}/openapi/login`;
 
-    // 转发 Cookie
-    const cookie = request.headers.get('cookie') || '';
+    // 转发 X-Auth-Token header（Token 认证模式）
+    const authToken = request.headers.get('X-Auth-Token') || '';
 
     const response = await fetch(backendUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'X-BELLA-CONSOLE': 'true',
-        'Cookie': cookie,
+        'X-Auth-Token': authToken,
       },
       body: JSON.stringify(body),
-      credentials: 'include',
     });
 
     const data = await response.json();
 
-    // 转发 Set-Cookie 头（登录成功后后端会设置 Session Cookie）
-    const setCookie = response.headers.get('set-cookie');
-    const headers: HeadersInit = {
-      'Content-Type': 'application/json',
-    };
-    if (setCookie) {
-      headers['Set-Cookie'] = setCookie;
-    }
-
     return NextResponse.json(data, {
       status: response.status,
-      headers,
     });
   } catch (error) {
     console.error('[Backend POST /openapi/login Error]', error);

@@ -5,7 +5,7 @@
  */
 
 import { get, post } from './client'
-import type { UserInfo, OAuthConfig, LoginRequest, LoginResponse } from '@/lib/types/auth'
+import type { UserInfo, OAuthConfig, LoginRequest } from '@/lib/types/auth'
 
 /**
  * 获取API路径前缀
@@ -84,29 +84,60 @@ export async function getUserInfo(): Promise<UserInfo | null> {
  * 对应后端: POST /openapi/login
  *
  * @param secret - 用户密钥
- * @returns 用户信息
+ * @returns 包含 token 的对象 { token: string }
  * @throws {Error} 登录失败时抛出错误
  *
  * 使用场景:
  * - 用户在登录页面输入密钥进行登录
  */
-export async function login(secret: string): Promise<boolean> {
-  // client.ts 已经自动解包 { code: 200, data: true } -> true
+export async function login(secret: string): Promise<{ token: string }> {
+  // client.ts 响应拦截器已解包 { code: 200, data: { token: "xxx" } } -> { token: "xxx" }
   // 如果 code !== 200，拦截器会抛出错误，不会执行到这里
-  const success = await post<boolean>(
+  return post<{ token: string }>(
     getApiPath('/openapi/login'),
     { secret } as LoginRequest
   )
+}
 
-  return success
+/**
+ * 邮箱密码登录
+ *
+ * 对应后端: POST /openapi/login
+ *
+ * @param email - 邮箱
+ * @param password - 密码
+ * @returns 包含 token 的对象 { token: string }
+ * @throws {Error} 登录失败时抛出错误
+ */
+export async function loginByPassword(email: string, password: string): Promise<{ token: string }> {
+  return post<{ token: string }>(
+    getApiPath('/openapi/login'),
+    { email, password }
+  )
+}
+
+/**
+ * 邮箱注册
+ *
+ * 对应后端: POST /openapi/register
+ *
+ * @param email - 邮箱
+ * @param password - 密码
+ * @param userName - 用户名（可选）
+ * @returns token + 用户信息
+ * @throws {Error} 注册失败时抛出错误
+ */
+export async function register(email: string, password: string, userName?: string): Promise<{ token: string; user: UserInfo }> {
+  return post<{ token: string; user: UserInfo }>(
+    getApiPath('/openapi/register'),
+    { email, password, userName }
+  )
 }
 
 /**
  * 登出
  *
  * 对应后端: POST /openapi/logout
- *
- * 后端会清除Session并删除Cookie
  *
  * 使用场景:
  * - 用户点击登出按钮

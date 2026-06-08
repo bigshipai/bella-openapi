@@ -33,7 +33,7 @@ export const apiClient: AxiosInstance = axios.create({
     'Content-Type': 'application/json',
     'X-BELLA-CONSOLE': 'true', // 标识控制台请求（Java 后端需要）
   },
-  withCredentials: true, // 支持跨域认证（携带 Cookie）
+  // Token 认证模式：不再需要 withCredentials，通过 X-Auth-Token header 传递认证信息
 });
 
 /**
@@ -43,6 +43,14 @@ export const apiClient: AxiosInstance = axios.create({
  */
 apiClient.interceptors.request.use(
   (config) => {
+    // Token 认证：从 localStorage 读取 token 并添加到请求头
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('X-Auth-Token');
+      if (token) {
+        config.headers['X-Auth-Token'] = token;
+      }
+    }
+
     // FormData 检测：让浏览器自动设置带 boundary 的 multipart/form-data
     if (config.data instanceof FormData) {
       delete config.headers['Content-Type'];
@@ -144,6 +152,11 @@ apiClient.interceptors.response.use(
           break;
         case 401: {
           error.message = extractErrorMessage('未授权访问');
+
+          // 清除过期的 token
+          if (typeof window !== 'undefined') {
+            localStorage.removeItem('X-Auth-Token');
+          }
 
           // 与旧版 web 对齐：用户信息探测接口的 401 不主动重定向
           // 避免在登录页初始化阶段被强制拉起 CAS/OAuth 跳转

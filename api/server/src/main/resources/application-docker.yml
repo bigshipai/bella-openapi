@@ -44,16 +44,11 @@ management:
 
 bella:
   session:
-    cookie-name: bella_openapi_sessionId
     max-inactive-interval: 60
-    cookie-max-age: -1
-    cookie-domain: ${SERVER_DOMAIN:localhost}
-    cookie-context-path: /
   server:
     initializer:
       enabled: true
   login:
-    type: ${login.type:}
     login-page-url: ${SERVER:http://localhost}/login
   oauth:
     client-index: ${SERVER:http://localhost}

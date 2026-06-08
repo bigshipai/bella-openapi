@@ -17,7 +17,7 @@ import { getUserInfoByScenario, currentScenario } from '@/mocks/login/authData';
  *
  * Mock模式:
  * - 设置 NEXT_PUBLIC_USE_MOCK=true 启用
- * - 检查Cookie中是否有BELLA-SESSION来判断登录状态
+ * - 检查 X-Auth-Token header 来判断登录状态
  */
 export async function GET(request: NextRequest) {
   // Mock 模式
@@ -29,11 +29,11 @@ export async function GET(request: NextRequest) {
     // 模拟网络延迟
     await new Promise(resolve => setTimeout(resolve, 200));
 
-    // 检查是否有 Session Cookie
-    const sessionCookie = request.cookies.get('BELLA-SESSION');
-    const isLoggedIn = !!sessionCookie;
+    // 检查 X-Auth-Token header
+    const authToken = request.headers.get('X-Auth-Token');
+    const isLoggedIn = !!authToken && authToken.startsWith('mock-token-');
 
-    console.log('[Mock] Session Cookie:', sessionCookie?.value, 'Logged in:', isLoggedIn);
+    console.log('[Mock] Auth Token:', authToken, 'Logged in:', isLoggedIn);
 
     if (!isLoggedIn) {
       // 未登录：返回 401
@@ -65,17 +65,16 @@ export async function GET(request: NextRequest) {
     // 构造后端 API URL
     const backendUrl = `${getBackendOrigin()}/console/userInfo`;
 
-    // 转发 Cookie（用于会话认证）
-    const cookie = request.headers.get('cookie') || '';
+    // 转发 X-Auth-Token header（Token 认证模式）
+    const authToken = request.headers.get('X-Auth-Token') || '';
 
     const response = await fetch(backendUrl, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         'X-BELLA-CONSOLE': 'true',
-        'Cookie': cookie,
+        'X-Auth-Token': authToken,
       },
-      credentials: 'include',
     });
 
     // 检查 Content-Type，确保是 JSON 响应
@@ -102,18 +101,8 @@ export async function GET(request: NextRequest) {
     // 解析 JSON 响应
     const data = await response.json();
 
-    // 转发 Set-Cookie 头（如果后端更新了 Cookie）
-    const setCookie = response.headers.get('set-cookie');
-    const headers: HeadersInit = {
-      'Content-Type': 'application/json',
-    };
-    if (setCookie) {
-      headers['Set-Cookie'] = setCookie;
-    }
-
     return NextResponse.json(data, {
       status: response.status,
-      headers,
     });
   } catch (error) {
     console.error('[Backend GET /console/userInfo Error]', error);

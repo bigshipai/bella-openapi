@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 
 import org.jooq.Field;
 import org.jooq.Record1;
-import org.jooq.Record9;
-import org.jooq.Row9;
+import org.jooq.Record10;
+import org.jooq.Row10;
 import org.jooq.impl.UpdatableRecordImpl;
 
 
@@ -20,7 +20,7 @@ import org.jooq.impl.UpdatableRecordImpl;
  * 用户表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Timed, Record9<Long, String, String, String, String, String, String, LocalDateTime, LocalDateTime> {
+public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Timed, Record10<Long, String, String, String, String, String, String, String, LocalDateTime, LocalDateTime> {
 
     private static final long serialVersionUID = 1L;
 
@@ -109,45 +109,59 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Timed
     }
 
     /**
+     * Setter for <code>user.password</code>. BCrypt密码哈希
+     */
+    public void setPassword(String value) {
+        set(6, value);
+    }
+
+    /**
+     * Getter for <code>user.password</code>. BCrypt密码哈希
+     */
+    public String getPassword() {
+        return (String) get(6);
+    }
+
+    /**
      * Setter for <code>user.optional_info</code>. 扩展信息
      */
     public void setOptionalInfo(String value) {
-        set(6, value);
+        set(7, value);
     }
 
     /**
      * Getter for <code>user.optional_info</code>. 扩展信息
      */
     public String getOptionalInfo() {
-        return (String) get(6);
+        return (String) get(7);
     }
 
     /**
      * Setter for <code>user.ctime</code>. 创建时间
      */
     public void setCtime(LocalDateTime value) {
-        set(7, value);
+        set(8, value);
     }
 
     /**
      * Getter for <code>user.ctime</code>. 创建时间
      */
     public LocalDateTime getCtime() {
-        return (LocalDateTime) get(7);
+        return (LocalDateTime) get(8);
     }
 
     /**
      * Setter for <code>user.mtime</code>. 最后一次更新时间
      */
     public void setMtime(LocalDateTime value) {
-        set(8, value);
+        set(9, value);
     }
 
     /**
      * Getter for <code>user.mtime</code>. 最后一次更新时间
      */
     public LocalDateTime getMtime() {
-        return (LocalDateTime) get(8);
+        return (LocalDateTime) get(9);
     }
 
     // -------------------------------------------------------------------------
@@ -160,17 +174,17 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Timed
     }
 
     // -------------------------------------------------------------------------
-    // Record9 type implementation
+    // Record10 type implementation
     // -------------------------------------------------------------------------
 
     @Override
-    public Row9<Long, String, String, String, String, String, String, LocalDateTime, LocalDateTime> fieldsRow() {
-        return (Row9) super.fieldsRow();
+    public Row10<Long, String, String, String, String, String, String, String, LocalDateTime, LocalDateTime> fieldsRow() {
+        return (Row10) super.fieldsRow();
     }
 
     @Override
-    public Row9<Long, String, String, String, String, String, String, LocalDateTime, LocalDateTime> valuesRow() {
-        return (Row9) super.valuesRow();
+    public Row10<Long, String, String, String, String, String, String, String, LocalDateTime, LocalDateTime> valuesRow() {
+        return (Row10) super.valuesRow();
     }
 
     @Override
@@ -205,16 +219,21 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Timed
 
     @Override
     public Field<String> field7() {
+        return User.USER.PASSWORD;
+    }
+
+    @Override
+    public Field<String> field8() {
         return User.USER.OPTIONAL_INFO;
     }
 
     @Override
-    public Field<LocalDateTime> field8() {
+    public Field<LocalDateTime> field9() {
         return User.USER.CTIME;
     }
 
     @Override
-    public Field<LocalDateTime> field9() {
+    public Field<LocalDateTime> field10() {
         return User.USER.MTIME;
     }
 
@@ -250,16 +269,21 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Timed
 
     @Override
     public String component7() {
+        return getPassword();
+    }
+
+    @Override
+    public String component8() {
         return getOptionalInfo();
     }
 
     @Override
-    public LocalDateTime component8() {
+    public LocalDateTime component9() {
         return getCtime();
     }
 
     @Override
-    public LocalDateTime component9() {
+    public LocalDateTime component10() {
         return getMtime();
     }
 
@@ -295,16 +319,21 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Timed
 
     @Override
     public String value7() {
+        return getPassword();
+    }
+
+    @Override
+    public String value8() {
         return getOptionalInfo();
     }
 
     @Override
-    public LocalDateTime value8() {
+    public LocalDateTime value9() {
         return getCtime();
     }
 
     @Override
-    public LocalDateTime value9() {
+    public LocalDateTime value10() {
         return getMtime();
     }
 
@@ -346,24 +375,30 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Timed
 
     @Override
     public UserRecord value7(String value) {
+        setPassword(value);
+        return this;
+    }
+
+    @Override
+    public UserRecord value8(String value) {
         setOptionalInfo(value);
         return this;
     }
 
     @Override
-    public UserRecord value8(LocalDateTime value) {
+    public UserRecord value9(LocalDateTime value) {
         setCtime(value);
         return this;
     }
 
     @Override
-    public UserRecord value9(LocalDateTime value) {
+    public UserRecord value10(LocalDateTime value) {
         setMtime(value);
         return this;
     }
 
     @Override
-    public UserRecord values(Long value1, String value2, String value3, String value4, String value5, String value6, String value7, LocalDateTime value8, LocalDateTime value9) {
+    public UserRecord values(Long value1, String value2, String value3, String value4, String value5, String value6, String value7, String value8, LocalDateTime value9, LocalDateTime value10) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -373,6 +408,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Timed
         value7(value7);
         value8(value8);
         value9(value9);
+        value10(value10);
         return this;
     }
 
@@ -390,7 +426,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Timed
     /**
      * Create a detached, initialised UserRecord
      */
-    public UserRecord(Long id, String userName, String email, String source, String sourceId, String managerAk, String optionalInfo, LocalDateTime ctime, LocalDateTime mtime) {
+    public UserRecord(Long id, String userName, String email, String source, String sourceId, String managerAk, String password, String optionalInfo, LocalDateTime ctime, LocalDateTime mtime) {
         super(User.USER);
 
         setId(id);
@@ -399,6 +435,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Timed
         setSource(source);
         setSourceId(sourceId);
         setManagerAk(managerAk);
+        setPassword(password);
         setOptionalInfo(optionalInfo);
         setCtime(ctime);
         setMtime(mtime);

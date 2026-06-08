@@ -238,9 +238,11 @@ export class FlashAudioRecorder {
       // 发送请求
       const response = await fetch(this.config.url, {
         method: 'POST',
-        headers,
+        headers: {
+          ...headers,
+          'X-Auth-Token': typeof window !== 'undefined' ? (localStorage.getItem('X-Auth-Token') || '') : '',
+        },
         body: this.audioBlob,
-        credentials: 'include' // 确保cookie被发送
       });
 
       if (!response.ok) {

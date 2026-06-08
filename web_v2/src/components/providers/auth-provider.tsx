@@ -1,7 +1,7 @@
 "use client"
 
 import React, { createContext, useState, useEffect, useContext, useCallback, useRef } from "react"
-import { getUserInfo, login as apiLogin, logout as apiLogout, getOAuthConfig as apiGetOAuthConfig } from "@/lib/api/auth"
+import { getUserInfo, login as apiLogin, loginByPassword as apiLoginByPassword, logout as apiLogout, getOAuthConfig as apiGetOAuthConfig } from "@/lib/api/auth"
 import { isLoginPath } from "@/i18n/routing"
 import type { UserInfo, OAuthConfig } from "@/lib/types/auth"
 
@@ -17,6 +17,7 @@ type AuthContextType = {
 
   // 方法
   login: (secret: string) => Promise<void>
+  loginByPassword: (email: string, password: string) => Promise<void>
   logout: () => Promise<void>
   refreshUser: () => Promise<void>
   getOAuthConfig: (redirect?: string) => Promise<OAuthConfig>
@@ -80,12 +81,31 @@ export function AuthProvider({ children }: AuthProviderProps) {
    * 初始化认证状态
    * 应用启动时自动调用，检查用户是否已登录
    *
+   * OAuth 回调处理：
+   * - 从 URL 参数中提取 token，存储到 localStorage
+   * - 清除 URL 中的 token 参数，避免泄露
+   *
    * CAS企业登录模式：
    * - 后端返回401 + X-Redirect-Login响应头
    * - client.ts自动处理跳转到企业登录页
    * - 不需要前端显式重定向到/login
    */
   const initAuth = useCallback(async () => {
+    // OAuth 回调：从 URL 提取 token
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlToken = urlParams.get('token');
+      if (urlToken) {
+        localStorage.setItem('X-Auth-Token', urlToken);
+        // 清除 URL 中的 token 参数
+        const newSearch = window.location.search
+          .replace(/[?&]token=[^&]*/, '')
+          .replace(/^&/, '?');
+        const newUrl = window.location.pathname + (newSearch.length > 1 ? newSearch : '');
+        history.replaceState({}, '', newUrl || '/');
+      }
+    }
+
     let scheduledRetry = false
 
     try {
@@ -153,7 +173,33 @@ export function AuthProvider({ children }: AuthProviderProps) {
     try {
       setIsLoading(true)
       setError(null)
-      await apiLogin(secret)
+      const result = await apiLogin(secret)
+      // 保存 token 到 localStorage
+      if (typeof window !== 'undefined' && result.token) {
+        localStorage.setItem('X-Auth-Token', result.token)
+      }
+      const userInfo = await getUserInfo()
+      setUser(userInfo)
+    } catch (err) {
+      const error = err instanceof Error ? err : new Error('登录失败')
+      setError(error)
+      throw error
+    } finally {
+      setIsLoading(false)
+    }
+  }, [])
+
+  /**
+   * 邮箱密码登录
+   */
+  const loginByPassword = useCallback(async (email: string, password: string) => {
+    try {
+      setIsLoading(true)
+      setError(null)
+      const result = await apiLoginByPassword(email, password)
+      if (typeof window !== 'undefined' && result.token) {
+        localStorage.setItem('X-Auth-Token', result.token)
+      }
       const userInfo = await getUserInfo()
       setUser(userInfo)
     } catch (err) {
@@ -188,6 +234,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       // 清理本地存储（参考sidebar-provider的存储清理模式）
       if (typeof window !== 'undefined') {
+        localStorage.removeItem('X-Auth-Token')
         localStorage.removeItem('user-preferences')
         sessionStorage.clear()
       }
@@ -247,6 +294,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         isInitialized,
         error,
         login,
+        loginByPassword,
         logout,
         refreshUser,
         getOAuthConfig,
