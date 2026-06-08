@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.db.repo;
 
-import static com.ke.bella.openapi.Tables.INSTANCE;
+import static com.ke.bella.openapi.generated.Tables.INSTANCE;
 import static org.springframework.transaction.annotation.Isolation.READ_COMMITTED;
 
 import java.time.LocalDateTime;
@@ -11,7 +11,7 @@ import org.jooq.DSLContext;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ke.bella.openapi.tables.records.InstanceRecord;
+import com.ke.bella.openapi.generated.tables.records.InstanceRecord;
 
 @Component
 public class InstanceRepo {

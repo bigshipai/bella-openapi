@@ -9,53 +9,54 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class TaskExecutor {
-    static ThreadFactory tf = new NamedThreadFactory("bella-worker-", true);
-    static ScheduledExecutorService executor = Executors.newScheduledThreadPool(1000, tf);
 
-    public static CompletableFuture<Void> submit(Runnable r) {
-        return CompletableFuture.runAsync(r, executor);
-    }
+	static ThreadFactory tf = new NamedThreadFactory("bella-worker-", true);
+	static ScheduledExecutorService executor = Executors.newScheduledThreadPool(1000, tf);
 
-    public static void scheduleAtFixedRate(Runnable r, int period) {
-        executor.scheduleAtFixedRate(r, 0, period, TimeUnit.SECONDS);
-    }
+	public static CompletableFuture<Void> submit(Runnable r) {
+		return CompletableFuture.runAsync(r, executor);
+	}
 
-    public static class NamedThreadFactory implements ThreadFactory {
-        private final String prefix;
-        private final AtomicInteger threadNumber = new AtomicInteger(1);
-        private final boolean isDaemon;
-        private final UncaughtExceptionHandler handler;
+	public static void scheduleAtFixedRate(Runnable r, int period) {
+		executor.scheduleAtFixedRate(r, 0, period, TimeUnit.SECONDS);
+	}
 
-        public NamedThreadFactory(String prefix, boolean isDaemon) {
-            this(prefix, isDaemon, null);
-        }
+	public static class NamedThreadFactory implements ThreadFactory {
+		private final String prefix;
+		private final AtomicInteger threadNumber = new AtomicInteger(1);
+		private final boolean isDaemon;
+		private final UncaughtExceptionHandler handler;
 
-        public NamedThreadFactory(String prefix, boolean isDaemon, UncaughtExceptionHandler handler) {
-            this.prefix = prefix;
-            this.isDaemon = isDaemon;
-            this.handler = handler;
-        }
+		public NamedThreadFactory(String prefix, boolean isDaemon) {
+			this(prefix, isDaemon, null);
+		}
 
-        @Override
-        public Thread newThread(Runnable r) {
-            final Thread t = new Thread(r, String.format("%s%d", prefix, threadNumber.getAndIncrement()));
-            t.setDaemon(isDaemon);
-            if(this.handler != null) {
-                t.setUncaughtExceptionHandler(handler);
-            }
-            return t;
-        }
-    }
+		public NamedThreadFactory(String prefix, boolean isDaemon, UncaughtExceptionHandler handler) {
+			this.prefix = prefix;
+			this.isDaemon = isDaemon;
+			this.handler = handler;
+		}
 
-    public static void shutdown() {
-        executor.shutdown();
-        try {
-            if(!executor.awaitTermination(60, TimeUnit.SECONDS)) {
-                executor.shutdownNow();
-            }
-        } catch (InterruptedException e) {
-            executor.shutdownNow();
-            Thread.currentThread().interrupt();
-        }
-    }
+		@Override
+		public Thread newThread(Runnable r) {
+			final Thread t = new Thread(r, String.format("%s%d", prefix, threadNumber.getAndIncrement()));
+			t.setDaemon(isDaemon);
+			if (this.handler != null) {
+				t.setUncaughtExceptionHandler(handler);
+			}
+			return t;
+		}
+	}
+
+	public static void shutdown() {
+		executor.shutdown();
+		try {
+			if (!executor.awaitTermination(60, TimeUnit.SECONDS)) {
+				executor.shutdownNow();
+			}
+		} catch (InterruptedException e) {
+			executor.shutdownNow();
+			Thread.currentThread().interrupt();
+		}
+	}
 }

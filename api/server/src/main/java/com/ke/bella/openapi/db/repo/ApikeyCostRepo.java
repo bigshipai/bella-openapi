@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.db.repo;
 
-import static com.ke.bella.openapi.Tables.*;
+import static com.ke.bella.openapi.generated.Tables.*;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -11,8 +11,8 @@ import org.jooq.DSLContext;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ke.bella.openapi.tables.pojos.ApikeyMonthCostDB;
-import com.ke.bella.openapi.tables.records.ApikeyMonthCostRecord;
+import com.ke.bella.openapi.generated.tables.pojos.ApikeyMonthCostDB;
+import com.ke.bella.openapi.generated.tables.records.ApikeyMonthCostRecord;
 
 @Component
 public class ApikeyCostRepo implements BaseRepo {

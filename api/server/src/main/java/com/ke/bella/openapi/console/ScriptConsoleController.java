@@ -4,7 +4,7 @@ import com.ke.bella.openapi.common.annotation.OneTokenAPI;
 import com.ke.bella.openapi.script.LuaScriptManager;
 import com.ke.bella.openapi.script.ScriptInfo;
 import com.ke.bella.openapi.resource.model.ModelService;
-import com.ke.bella.openapi.tables.pojos.ModelDB;
+import com.ke.bella.openapi.generated.tables.pojos.ModelDB;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;

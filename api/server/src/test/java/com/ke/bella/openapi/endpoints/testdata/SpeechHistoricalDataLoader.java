@@ -1,7 +1,7 @@
 package com.ke.bella.openapi.endpoints.testdata;
 
 import com.ke.bella.openapi.protocol.tts.TtsRequest;
-import com.ke.bella.openapi.tables.pojos.ChannelDB;
+import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
 import lombok.Getter;
 import lombok.Setter;
 

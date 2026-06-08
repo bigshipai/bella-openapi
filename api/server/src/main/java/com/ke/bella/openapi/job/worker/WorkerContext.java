@@ -8,7 +8,7 @@ import com.ke.bella.openapi.job.queue.TaskWrapper;
 import com.ke.bella.openapi.safety.ISafetyCheckService;
 import com.ke.bella.openapi.safety.SafetyCheckRequest;
 import com.ke.bella.openapi.script.LuaScriptExecutor;
-import com.ke.bella.openapi.tables.pojos.ChannelDB;
+import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
 import com.ke.bella.openapi.job.worker.Worker;
 import com.theokanning.openai.queue.Take;
 import com.theokanning.openai.service.OpenAiService;

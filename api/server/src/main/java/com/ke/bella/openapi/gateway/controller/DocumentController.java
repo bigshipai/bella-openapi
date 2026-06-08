@@ -14,7 +14,7 @@ import com.ke.bella.openapi.protocol.document.parse.DocParseResponse;
 import com.ke.bella.openapi.protocol.document.parse.TaskIdUtils;
 import com.ke.bella.openapi.protocol.limiter.LimiterManager;
 import com.ke.bella.openapi.resource.endpoint.EndpointDataService;
-import com.ke.bella.openapi.tables.pojos.ChannelDB;
+import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
 import com.ke.bella.openapi.utils.JacksonUtils;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;

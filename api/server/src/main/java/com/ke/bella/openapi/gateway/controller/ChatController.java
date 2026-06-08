@@ -40,7 +40,7 @@ import com.ke.bella.openapi.safety.SafetyCheckHelper;
 import com.ke.bella.openapi.safety.SafetyCheckRequest;
 import com.ke.bella.openapi.resource.channel.ChannelRepo;
 import com.ke.bella.openapi.resource.endpoint.EndpointDataService;
-import com.ke.bella.openapi.tables.pojos.ChannelDB;
+import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
 import com.ke.bella.openapi.utils.JacksonUtils;
 import com.ke.bella.openapi.utils.SseHelper;
 

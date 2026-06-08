@@ -17,7 +17,7 @@ import com.ke.bella.openapi.protocol.completion.callback.SplitReasoningCallback;
 import com.ke.bella.openapi.protocol.completion.callback.ToolCallSimulatorCallback;
 import com.ke.bella.openapi.safety.ISafetyCheckService;
 import com.ke.bella.openapi.safety.SafetyCheckRequest;
-import com.ke.bella.openapi.tables.pojos.ChannelDB;
+import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
 import com.ke.bella.openapi.utils.JacksonUtils;
 import com.ke.bella.openapi.job.queue.TaskWrapper;
 import lombok.Builder;

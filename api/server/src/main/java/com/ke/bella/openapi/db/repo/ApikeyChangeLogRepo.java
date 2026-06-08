@@ -4,8 +4,8 @@ import com.ke.bella.openapi.common.model.Operator;
 import com.ke.bella.openapi.apikey.ApikeyChangeLog;
 import com.ke.bella.openapi.apikey.ApikeyInfo;
 import com.ke.bella.openapi.apikey.ApikeyOps;
-import com.ke.bella.openapi.tables.pojos.ApikeyDB;
-import com.ke.bella.openapi.tables.records.ApikeyChangeLogRecord;
+import com.ke.bella.openapi.generated.tables.pojos.ApikeyDB;
+import com.ke.bella.openapi.generated.tables.records.ApikeyChangeLogRecord;
 import com.ke.bella.openapi.utils.JacksonUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jooq.DSLContext;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import jakarta.annotation.Resource;
 import java.util.List;
 
-import static com.ke.bella.openapi.Tables.APIKEY_CHANGE_LOG;
+import static com.ke.bella.openapi.generated.Tables.APIKEY_CHANGE_LOG;
 
 /**
  * API Key变更日志数据访问层

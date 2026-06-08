@@ -1,7 +1,7 @@
 package com.ke.bella.openapi.resource.endpoint;
 
 import com.ke.bella.openapi.common.context.EndpointContext;
-import com.ke.bella.openapi.tables.pojos.ChannelDB;
+import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

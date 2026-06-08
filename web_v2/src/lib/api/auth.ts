@@ -159,9 +159,26 @@ export async function logout(): Promise<void> {
  */
 export async function getOAuthConfig(redirect?: string): Promise<OAuthConfig> {
   const params = redirect ? { redirect } : {}
-  const data = await get<OAuthConfig>(getApiPath('/openapi/oauth/config'), params)
+  const data = await get<any>(getApiPath('/openapi/oauth/config'), params)
 
-  return data
+  // 后端返回 {code:200, data: [{type, authUrl}, ...]}
+  // axios 拦截器解包后得到原始数组，需要规范化为 {providers: [...]}
+  if (Array.isArray(data)) {
+    return {
+      providers: data.map((item: any) => ({
+        name: item.type || item.name || '',
+        displayName: item.displayName || (item.type ? item.type.charAt(0).toUpperCase() + item.type.slice(1) : ''),
+        authUrl: item.authUrl || '',
+      })),
+    }
+  }
+
+  // 兼容 {providers: [...]} 格式
+  if (data && data.providers) {
+    return data as OAuthConfig
+  }
+
+  return { providers: [] }
 }
 
 /**

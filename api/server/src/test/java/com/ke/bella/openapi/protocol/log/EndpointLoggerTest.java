@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Collections;
 
+import com.ke.bella.openapi.common.context.EndpointProcessData;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import com.ke.bella.openapi.EndpointProcessData;
+//import com.ke.bella.openapi.EndpointProcessData;EndpointProcessData
 import com.lmax.disruptor.RingBuffer;
 
 @RunWith(MockitoJUnitRunner.class)

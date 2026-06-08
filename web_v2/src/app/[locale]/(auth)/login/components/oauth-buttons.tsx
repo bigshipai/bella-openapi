@@ -27,7 +27,7 @@ export function OAuthButtons({ redirect = '/overview' }: OAuthButtonsProps) {
   const loadOAuthProviders = async () => {
     try {
       const config = await getOAuthConfig(redirect)
-      setProviders(config.providers)
+      setProviders(config?.providers || [])
     } catch (error) {
       console.error('Failed to load OAuth config:', error)
       toast.error('OAuth配置加载失败')

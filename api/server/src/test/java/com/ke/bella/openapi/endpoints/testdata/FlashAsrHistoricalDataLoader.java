@@ -1,14 +1,16 @@
 package com.ke.bella.openapi.endpoints.testdata;
 
+import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
 import com.ke.bella.openapi.protocol.asr.AsrRequest;
-import com.ke.bella.openapi.protocol.asr.flash.FlashAsrResponse;
-import com.ke.bella.openapi.tables.pojos.ChannelDB;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 

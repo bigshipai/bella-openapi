@@ -6,7 +6,7 @@ import com.ke.bella.openapi.gateway.route.ChannelRouter;
 import com.ke.bella.openapi.gateway.route.RouteRequest;
 import com.ke.bella.openapi.gateway.route.RouteResult;
 import com.ke.bella.openapi.service.ApikeyService;
-import com.ke.bella.openapi.tables.pojos.ChannelDB;
+import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
 import com.ke.bella.openapi.utils.EncryptUtils;
 import com.ke.bella.openapi.utils.JacksonUtils;
 import org.springframework.beans.factory.annotation.Autowired;

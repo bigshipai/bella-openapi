@@ -30,8 +30,8 @@ import com.ke.bella.openapi.service.ApikeyService;
 import com.ke.bella.openapi.resource.channel.ChannelService;
 import com.ke.bella.openapi.resource.model.ModelService;
 import com.ke.bella.openapi.service.VideoService;
-import com.ke.bella.openapi.tables.pojos.ChannelDB;
-import com.ke.bella.openapi.tables.pojos.VideoJobDB;
+import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
+import com.ke.bella.openapi.generated.tables.pojos.VideoJobDB;
 import com.ke.bella.openapi.utils.JacksonUtils;
 import com.theokanning.openai.service.OpenAiService;
 

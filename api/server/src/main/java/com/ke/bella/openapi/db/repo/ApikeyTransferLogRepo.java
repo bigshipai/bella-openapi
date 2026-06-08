@@ -1,14 +1,14 @@
 package com.ke.bella.openapi.db.repo;
 
 import com.ke.bella.openapi.apikey.ApikeyTransferLog;
-import com.ke.bella.openapi.tables.records.ApikeyTransferLogRecord;
+import com.ke.bella.openapi.generated.tables.records.ApikeyTransferLogRecord;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Component;
 
 import jakarta.annotation.Resource;
 import java.util.List;
 
-import static com.ke.bella.openapi.Tables.APIKEY_TRANSFER_LOG;
+import static com.ke.bella.openapi.generated.Tables.APIKEY_TRANSFER_LOG;
 
 /**
  * API Key转移日志数据访问层
@@ -24,7 +24,7 @@ public class ApikeyTransferLogRepo implements BaseRepo {
      * 根据API Key编码查询转移历史
      *
      * @param akCode API Key编码
-     * 
+     *
      * @return 转移历史列表
      */
     public List<ApikeyTransferLog> queryByAkCode(String akCode) {
@@ -39,7 +39,7 @@ public class ApikeyTransferLogRepo implements BaseRepo {
      * 插入转移日志
      *
      * @param log 转移日志信息
-     * 
+     *
      * @return 插入的记录ID
      */
     public Long insertTransferLog(ApikeyTransferLog log) {

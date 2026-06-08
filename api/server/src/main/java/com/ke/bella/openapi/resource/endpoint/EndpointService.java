@@ -192,7 +192,7 @@ import com.ke.bella.openapi.protocol.IProtocolAdaptor;
 import com.ke.bella.openapi.resource.channel.ChannelService;
 import com.ke.bella.openapi.resource.model.ModelService;
 import com.ke.bella.openapi.resource.channel.ChannelService;
-import com.ke.bella.openapi.tables.pojos.EndpointDB;
+import com.ke.bella.openapi.generated.tables.pojos.EndpointDB;
 import com.ke.bella.openapi.resource.channel.ChannelService;
 import com.ke.bella.openapi.resource.model.ModelService;
 import com.ke.bella.openapi.resource.channel.ChannelService;

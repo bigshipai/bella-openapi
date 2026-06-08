@@ -2,7 +2,7 @@ package com.ke.bella.openapi.common.context;
 
 import com.ke.bella.openapi.apikey.ApikeyInfo;
 import com.ke.bella.openapi.common.constant.EntityConstants;
-import com.ke.bella.openapi.tables.pojos.ChannelDB;
+import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.util.Assert;

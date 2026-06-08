@@ -5,7 +5,7 @@ import com.ke.bella.openapi.common.model.Operator;
 import com.ke.bella.openapi.common.annotation.OneTokenAPI;
 import com.ke.bella.openapi.common.exception.BizParamCheckException;
 import com.ke.bella.openapi.db.repo.UserRepo;
-import com.ke.bella.openapi.tables.pojos.UserDB;
+import com.ke.bella.openapi.generated.tables.pojos.UserDB;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;

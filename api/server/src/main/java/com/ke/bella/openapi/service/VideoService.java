@@ -19,8 +19,8 @@ import com.ke.bella.openapi.resource.channel.ChannelService;
 import com.ke.bella.openapi.protocol.video.VideoCreateRequest;
 import com.ke.bella.openapi.protocol.video.VideoJob.Status;
 import com.ke.bella.openapi.job.queue.VideoJobQueues;
-import com.ke.bella.openapi.tables.pojos.ChannelDB;
-import com.ke.bella.openapi.tables.pojos.VideoJobDB;
+import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
+import com.ke.bella.openapi.generated.tables.pojos.VideoJobDB;
 import com.ke.bella.openapi.utils.JacksonUtils;
 
 import lombok.extern.slf4j.Slf4j;

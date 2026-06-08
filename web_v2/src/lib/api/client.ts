@@ -131,7 +131,9 @@ apiClient.interceptors.response.use(
         errorInfo.status = error.response.status;
         errorInfo.data = error.response.data;
       }
-      console.error('[API Error]', errorInfo);
+      // 使用 console.warn 而非 console.error，避免 Next.js 15 开发模式
+      // 将 API 错误误判为未处理异常并弹出 error overlay 遮罩层
+      console.warn('[API Error]', errorInfo);
     }
 
     // HTTP 错误处理

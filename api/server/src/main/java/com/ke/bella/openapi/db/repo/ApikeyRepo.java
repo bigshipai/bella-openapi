@@ -3,8 +3,8 @@ package com.ke.bella.openapi.db.repo;
 import com.ke.bella.openapi.apikey.ApikeyInfo;
 import com.ke.bella.openapi.apikey.ApikeyOps;
 import com.ke.bella.openapi.common.constant.EntityConstants;
-import com.ke.bella.openapi.tables.pojos.ApikeyDB;
-import com.ke.bella.openapi.tables.records.ApikeyRecord;
+import com.ke.bella.openapi.generated.tables.pojos.ApikeyDB;
+import com.ke.bella.openapi.generated.tables.records.ApikeyRecord;
 import org.apache.commons.lang3.StringUtils;
 import org.jooq.SelectSeekStep1;
 import org.jooq.TableField;
@@ -16,8 +16,8 @@ import org.springframework.util.Assert;
 
 import java.util.List;
 
-import static com.ke.bella.openapi.Tables.APIKEY;
-import static com.ke.bella.openapi.Tables.APIKEY_ROLE;
+import static com.ke.bella.openapi.generated.Tables.APIKEY;
+import static com.ke.bella.openapi.generated.Tables.APIKEY_ROLE;
 
 @Component
 public class ApikeyRepo extends StatusRepo<ApikeyDB, ApikeyRecord, String> implements AutogenCodeRepo<ApikeyRecord> {

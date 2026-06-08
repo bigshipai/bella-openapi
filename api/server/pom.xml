@@ -2,15 +2,26 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>top.bella</groupId>
-        <artifactId>bella-openapi</artifactId>
-        <version>1.2.75</version>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.4.1</version>
+        <relativePath/>
     </parent>
+    <groupId>top.bella</groupId>
     <artifactId>openapi-server</artifactId>
-    <name>bella-openapi-server</name>
+    <version>1.2.75</version>
+    <name>bella-openapi</name>
+    <description>Bella OpenAPI SDK</description>
     <packaging>jar</packaging>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>17</java.version>
+        <jooq.version>3.18.19</jooq.version>
+        <redisson.version>3.23.2</redisson.version>
+        <awssdk.version>2.31.65</awssdk.version>
+        <bella-openai.version>0.24.5</bella-openai.version>
         <!-- jooq数据库连接配置，jooq生成代码时替换为真实数据库配置 -->
         <db.driver>com.mysql.cj.jdbc.Driver</db.driver>
         <db.url>jdbc:mysql://localhost:3306/bella_openapi?useSSL=false</db.url>
@@ -20,42 +31,98 @@
     </properties>
 
     <dependencies>
+        <!-- ==================== Spring Boot Starters ==================== -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!-- ==================== Spring Modules ==================== -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-websocket</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.7.0</version>
+        </dependency>
+
+        <!-- ==================== Spring Tooling ==================== -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- ==================== Monitoring ==================== -->
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-core</artifactId>
         </dependency>
-        <!-- 来自原 sdk 模块的依赖 -->
+
+        <!-- ==================== Database & Persistence ==================== -->
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-commons</artifactId>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq</artifactId>
         </dependency>
         <dependency>
-            <groupId>jakarta.validation</groupId>
-            <artifactId>jakarta.validation-api</artifactId>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq-meta</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>log4j-over-slf4j</artifactId>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+        </dependency>
+
+        <!-- ==================== Caching & Redis ==================== -->
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-boot-starter</artifactId>
+            <version>${redisson.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
+            <groupId>com.alicp.jetcache</groupId>
+            <artifactId>jetcache-starter-redisson</artifactId>
+            <version>2.7.9</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-collections4</artifactId>
-            <version>4.1</version>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>5.1.5</version>
         </dependency>
         <dependency>
-            <groupId>org.mindrot</groupId>
-            <artifactId>jbcrypt</artifactId>
-            <version>0.4</version>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>jsr305</artifactId>
-            <version>3.0.2</version>
-        </dependency>
+
+        <!-- ==================== HTTP Client ==================== -->
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
@@ -71,188 +138,8 @@
             <artifactId>logging-interceptor</artifactId>
             <version>4.12.0</version>
         </dependency>
-        <dependency>
-            <groupId>com.github.ben-manes.caffeine</groupId>
-            <artifactId>caffeine</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.groovy</groupId>
-            <artifactId>groovy</artifactId>
-            <version>4.0.24</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.auth</groupId>
-            <artifactId>google-auth-library-oauth2-http</artifactId>
-            <version>1.31.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.knuddels</groupId>
-            <artifactId>jtokkit</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-buffer</artifactId>
-            <version>4.1.100.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-api</artifactId>
-            <version>1.69.0</version>
-        </dependency>
-        <!-- 来自原 spi 模块的依赖 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
-            <version>5.1.5</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.rholder</groupId>
-            <artifactId>guava-retrying</artifactId>
-            <version>2.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>top.bella</groupId>
-            <artifactId>openai-service</artifactId>
-            <version>${bella-openai.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-websocket</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jdbc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.ctrip.framework.apollo</groupId>
-            <artifactId>apollo-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>net.logstash.logback</groupId>
-            <artifactId>logstash-logback-encoder</artifactId>
-            <version>7.4</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.11.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>2.7.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.cronutils</groupId>
-            <artifactId>cron-utils</artifactId>
-            <version>9.2.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-        </dependency>
 
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.dataformat</groupId>
-            <artifactId>jackson-dataformat-xml</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.pebbletemplates</groupId>
-            <artifactId>pebble-spring-boot-starter</artifactId>
-            <version>3.2.4</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hubspot.jinjava</groupId>
-            <artifactId>jinjava</artifactId>
-            <version>2.7.2</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.lambdua</groupId>
-            <artifactId>service</artifactId>
-            <version>0.20.8</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jooq</groupId>
-            <artifactId>jooq</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jooq</groupId>
-            <artifactId>jooq-meta</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.mysql</groupId>
-            <artifactId>mysql-connector-j</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.kafka</groupId>
-            <artifactId>spring-kafka</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.googlecode.aviator</groupId>
-            <artifactId>aviator</artifactId>
-            <version>5.4.3</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
+        <!-- ==================== AWS SDK ==================== -->
         <dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>bedrockruntime</artifactId>
@@ -268,21 +155,77 @@
             <artifactId>netty-nio-client</artifactId>
             <version>${awssdk.version}</version>
         </dependency>
+
+        <!-- ==================== Commons ==================== -->
         <dependency>
-            <groupId>com.alicp.jetcache</groupId>
-            <artifactId>jetcache-starter-redisson</artifactId>
-            <version>2.7.8</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-logging</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.redisson</groupId>
-            <artifactId>redisson-spring-boot-starter</artifactId>
-            <version>${redisson.version}</version>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>4.1</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.11.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.rholder</groupId>
+            <artifactId>guava-retrying</artifactId>
+            <version>2.0.0</version>
+        </dependency>
+
+        <!-- ==================== Utilities ==================== -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>0.4</version>
+        </dependency>
+
+        <!-- ==================== Other Libraries ==================== -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>log4j-over-slf4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.groovy</groupId>
+            <artifactId>groovy</artifactId>
+            <version>4.0.24</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.auth</groupId>
+            <artifactId>google-auth-library-oauth2-http</artifactId>
+            <version>1.31.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.knuddels</groupId>
+            <artifactId>jtokkit</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-buffer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.pebbletemplates</groupId>
+            <artifactId>pebble-spring-boot-starter</artifactId>
+            <version>3.2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.larksuite.oapi</groupId>
+            <artifactId>oapi-sdk</artifactId>
+            <version>2.4.19</version>
         </dependency>
         <dependency>
             <groupId>com.lmax</groupId>
@@ -295,6 +238,20 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+        <!-- ==================== Internal ==================== -->
+        <dependency>
+            <groupId>top.bella</groupId>
+            <artifactId>openai-service</artifactId>
+            <version>${bella-openai.version}</version>
+        </dependency>
+
+        <!-- ==================== Test ==================== -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -306,24 +263,15 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.larksuite.oapi</groupId>
-            <artifactId>oapi-sdk</artifactId>
-            <version>2.4.19</version>
-        </dependency>
-        <dependency>
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>
             <version>0.10.2</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>jakarta.servlet</groupId>
-            <artifactId>jakarta.servlet-api</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
-        <finalName>${project.parent.artifactId}</finalName>
+        <finalName>bella-openapi</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -331,24 +279,6 @@
                 <configuration>
                     <skip>true</skip>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>add-source</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>add-source</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>src/codegen/java</source>
-                            </sources>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
             <!-- 代码生成器插件 -->
             <plugin>
@@ -370,155 +300,6 @@
                             <excludes>video_job_\d+.*</excludes>
                             <unsignedTypes>false</unsignedTypes>
                         </database>
-                        <strategy>
-                            <name>org.jooq.codegen.DefaultGeneratorStrategy</name>
-                            <matchers>
-                                <tables>
-                                    <table>
-                                        <daoClass>
-                                            <transform>PASCAL</transform>
-                                            <expression>$0_D_B_Dao</expression>
-                                        </daoClass>
-                                        <pojoClass>
-                                            <transform>PASCAL</transform>
-                                            <expression>$0_D_B</expression>
-                                        </pojoClass>
-                                        <pojoImplements>com.ke.bella.openapi.db.repo.Timed</pojoImplements>
-                                        <recordImplements>com.ke.bella.openapi.db.repo.Timed</recordImplements>
-                                        <expression>apikey_transfer_log</expression>
-                                    </table>
-                                    <table>
-                                        <daoClass>
-                                            <transform>PASCAL</transform>
-                                            <expression>$0_D_B_Dao</expression>
-                                        </daoClass>
-                                        <pojoClass>
-                                            <transform>PASCAL</transform>
-                                            <expression>$0_D_B</expression>
-                                        </pojoClass>
-                                        <pojoImplements>com.ke.bella.openapi.db.repo.Timed</pojoImplements>
-                                        <recordImplements>com.ke.bella.openapi.db.repo.Timed</recordImplements>
-                                        <expression>apikey_change_log</expression>
-                                    </table>
-                                    <table>
-                                        <daoClass>
-                                            <transform>PASCAL</transform>
-                                            <expression>$0_D_B_Dao</expression>
-                                        </daoClass>
-                                        <pojoClass>
-                                            <transform>PASCAL</transform>
-                                            <expression>$0_D_B</expression>
-                                        </pojoClass>
-                                        <pojoImplements>com.ke.bella.openapi.db.repo.Timed</pojoImplements>
-                                        <recordImplements>com.ke.bella.openapi.db.repo.Timed</recordImplements>
-                                        <expression>user</expression>
-                                    </table>
-                                    <table>
-                                        <daoClass>
-                                            <transform>PASCAL</transform>
-                                            <expression>$0_D_B_Dao</expression>
-                                        </daoClass>
-                                        <pojoClass>
-                                            <transform>PASCAL</transform>
-                                            <expression>$0_D_B</expression>
-                                        </pojoClass>
-                                        <pojoImplements>com.ke.bella.openapi.db.repo.Timed</pojoImplements>
-                                        <recordImplements>com.ke.bella.openapi.db.repo.Timed</recordImplements>
-                                        <expression>apikey_month_cost</expression>
-                                    </table>
-                                    <table>
-                                        <daoClass>
-                                            <transform>PASCAL</transform>
-                                            <expression>$0_D_B_Dao</expression>
-                                        </daoClass>
-                                        <pojoClass>
-                                            <transform>PASCAL</transform>
-                                            <expression>$0_D_B</expression>
-                                        </pojoClass>
-                                        <pojoImplements>com.ke.bella.openapi.db.repo.Timed</pojoImplements>
-                                        <recordImplements>com.ke.bella.openapi.db.repo.Timed</recordImplements>
-                                        <expression>space</expression>
-                                    </table>
-                                    <table>
-                                        <daoClass>
-                                            <transform>PASCAL</transform>
-                                            <expression>$0_D_B_Dao</expression>
-                                        </daoClass>
-                                        <pojoClass>
-                                            <transform>PASCAL</transform>
-                                            <expression>$0_D_B</expression>
-                                        </pojoClass>
-                                        <pojoImplements>com.ke.bella.openapi.db.repo.Timed</pojoImplements>
-                                        <recordImplements>com.ke.bella.openapi.db.repo.Timed</recordImplements>
-                                        <expression>space_role</expression>
-                                    </table>
-                                    <table>
-                                        <daoClass>
-                                            <transform>PASCAL</transform>
-                                            <expression>$0_D_B_Dao</expression>
-                                        </daoClass>
-                                        <pojoClass>
-                                            <transform>PASCAL</transform>
-                                            <expression>$0_D_B</expression>
-                                        </pojoClass>
-                                        <pojoImplements>com.ke.bella.openapi.db.repo.Timed</pojoImplements>
-                                        <recordImplements>com.ke.bella.openapi.db.repo.Timed</recordImplements>
-                                        <expression>space_member</expression>
-                                    </table>
-                                    <table>
-                                        <expression>instance</expression>
-                                        <daoClass>
-                                            <transform>PASCAL</transform>
-                                            <expression>$0_D_B_Dao</expression>
-                                        </daoClass>
-                                        <pojoClass>
-                                            <transform>PASCAL</transform>
-                                            <expression>$0_D_B</expression>
-                                        </pojoClass>
-                                        <pojoImplements>com.ke.bella.openapi.db.repo.Timed</pojoImplements>
-                                        <recordImplements>com.ke.bella.openapi.db.repo.Timed</recordImplements>
-                                    </table>
-                                    <table>
-                                        <expression>apikey_model_rel</expression>
-                                        <daoClass>
-                                            <transform>PASCAL</transform>
-                                            <expression>$0_D_B_Dao</expression>
-                                        </daoClass>
-                                        <pojoClass>
-                                            <transform>PASCAL</transform>
-                                            <expression>$0_D_B</expression>
-                                        </pojoClass>
-                                        <pojoImplements>java.io.Serializable</pojoImplements>
-                                        <recordImplements>java.io.Serializable</recordImplements>
-                                    </table>
-                                    <table>
-                                        <daoClass>
-                                            <transform>PASCAL</transform>
-                                            <expression>$0_D_B_Dao</expression>
-                                        </daoClass>
-                                        <pojoClass>
-                                            <transform>PASCAL</transform>
-                                            <expression>$0_D_B</expression>
-                                        </pojoClass>
-                                        <pojoImplements>com.ke.bella.openapi.db.repo.Operator</pojoImplements>
-                                        <recordImplements>com.ke.bella.openapi.db.repo.Operator</recordImplements>
-                                    </table>
-                                    <table>
-                                        <daoClass>
-                                            <transform>PASCAL</transform>
-                                            <expression>$0_D_B_Dao</expression>
-                                        </daoClass>
-                                        <pojoClass>
-                                            <transform>PASCAL</transform>
-                                            <expression>$0_D_B</expression>
-                                        </pojoClass>
-                                        <pojoImplements>com.ke.bella.openapi.db.repo.Timed</pojoImplements>
-                                        <recordImplements>com.ke.bella.openapi.db.repo.Timed</recordImplements>
-                                        <expression>video_job</expression>
-                                    </table>
-                                </tables>
-                            </matchers>
-                        </strategy>
                         <generate>
                             <deprecated>false</deprecated>
                             <records>true</records>
@@ -526,8 +307,8 @@
                             <daos>false</daos>
                         </generate>
                         <target>
-                            <packageName>com.ke.bella.openapi</packageName>
-                            <directory>src/codegen/java</directory>
+                            <packageName>com.ke.bella.openapi.generated</packageName>
+                            <directory>src/main/java</directory>
                             <encoding>UTF-8</encoding>
                         </target>
                     </generator>

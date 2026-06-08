@@ -1,12 +1,12 @@
 package com.ke.bella.openapi.db.repo;
 
-import com.ke.bella.openapi.tables.pojos.ApikeyRoleDB;
-import com.ke.bella.openapi.tables.records.ApikeyRoleRecord;
+import com.ke.bella.openapi.generated.tables.pojos.ApikeyRoleDB;
+import com.ke.bella.openapi.generated.tables.records.ApikeyRoleRecord;
 import org.jooq.TableField;
 import org.jooq.impl.TableImpl;
 import org.springframework.stereotype.Component;
 
-import static com.ke.bella.openapi.Tables.APIKEY_ROLE;
+import static com.ke.bella.openapi.generated.Tables.APIKEY_ROLE;
 
 @Component
 public class ApikeyRoleRepo extends UniqueKeyRepo<ApikeyRoleDB, ApikeyRoleRecord, String> implements AutogenCodeRepo<ApikeyRoleRecord> {

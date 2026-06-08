@@ -33,7 +33,7 @@ import com.ke.bella.openapi.protocol.tts.TtsAdaptor;
 import com.ke.bella.openapi.protocol.tts.TtsProperty;
 import com.ke.bella.openapi.protocol.tts.TtsRequest;
 import com.ke.bella.openapi.resource.endpoint.EndpointDataService;
-import com.ke.bella.openapi.tables.pojos.ChannelDB;
+import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
 import com.ke.bella.openapi.utils.JacksonUtils;
 import com.ke.bella.openapi.job.queue.QueueClient;
 import com.theokanning.openai.queue.Put;

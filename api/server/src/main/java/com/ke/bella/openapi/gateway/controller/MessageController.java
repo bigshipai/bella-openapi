@@ -14,7 +14,7 @@ import com.ke.bella.openapi.protocol.message.MessageAdaptor;
 import com.ke.bella.openapi.protocol.message.MessageRequest;
 import com.ke.bella.openapi.safety.ISafetyCheckService;
 import com.ke.bella.openapi.resource.endpoint.EndpointDataService;
-import com.ke.bella.openapi.tables.pojos.ChannelDB;
+import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
 import com.ke.bella.openapi.utils.JacksonUtils;
 import com.ke.bella.openapi.utils.SseHelper;
 import io.swagger.v3.oas.annotations.tags.Tag;

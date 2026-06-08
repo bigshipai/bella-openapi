@@ -12,7 +12,7 @@ import org.jooq.impl.DSL;
 
 import java.util.regex.Pattern;
 
-import static com.ke.bella.openapi.Tables.VIDEO_JOB;
+import static com.ke.bella.openapi.generated.Tables.VIDEO_JOB;
 
 public class DSLContextHolder {
     private static final Cache<String, DSLContext> configurations = CacheBuilder.newBuilder()

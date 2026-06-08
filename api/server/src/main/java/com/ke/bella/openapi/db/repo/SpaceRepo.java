@@ -1,11 +1,11 @@
 package com.ke.bella.openapi.db.repo;
 
-import com.ke.bella.openapi.Tables;
+import com.ke.bella.openapi.generated.Tables;
 import com.ke.bella.openapi.common.constant.StatusEnum;
 import com.ke.bella.openapi.common.exception.BizParamCheckException;
-import com.ke.bella.openapi.tables.records.SpaceMemberRecord;
-import com.ke.bella.openapi.tables.records.SpaceRecord;
-import com.ke.bella.openapi.tables.records.SpaceRoleRecord;
+import com.ke.bella.openapi.generated.tables.records.SpaceMemberRecord;
+import com.ke.bella.openapi.generated.tables.records.SpaceRecord;
+import com.ke.bella.openapi.generated.tables.records.SpaceRoleRecord;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jooq.DSLContext;

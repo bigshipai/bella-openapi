@@ -1,12 +1,12 @@
 package com.ke.bella.openapi.db.repo;
 
-import static com.ke.bella.openapi.Tables.USER;
+import static com.ke.bella.openapi.generated.Tables.USER;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.UUID;
 
-import com.ke.bella.openapi.tables.pojos.ApikeyDB;
+import com.ke.bella.openapi.generated.tables.pojos.ApikeyDB;
 import org.apache.commons.lang3.StringUtils;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +17,8 @@ import com.ke.bella.openapi.common.model.Operator;
 import com.ke.bella.openapi.apikey.ApikeyInfo;
 import com.ke.bella.openapi.common.constant.EntityConstants;
 import com.ke.bella.openapi.login.user.IUserRepo;
-import com.ke.bella.openapi.tables.pojos.UserDB;
-import com.ke.bella.openapi.tables.records.UserRecord;
+import com.ke.bella.openapi.generated.tables.pojos.UserDB;
+import com.ke.bella.openapi.generated.tables.records.UserRecord;
 import com.ke.bella.openapi.user.UserSearchResult;
 import com.ke.bella.openapi.utils.EncryptUtils;
 import com.ke.bella.openapi.utils.JacksonUtils;
@@ -206,7 +206,7 @@ public class UserRepo implements IUserRepo {
      * 根据用户ID查询用户
      *
      * @param id 用户ID
-     * 
+     *
      * @return 用户信息
      */
     public UserDB queryById(Long id) {
@@ -218,7 +218,7 @@ public class UserRepo implements IUserRepo {
      *
      * @param source   用户来源
      * @param sourceId 来源ID
-     * 
+     *
      * @return 用户信息
      */
     public UserDB queryBySourceAndSourceId(String source, String sourceId) {
@@ -232,7 +232,7 @@ public class UserRepo implements IUserRepo {
      *
      * @param source 用户来源
      * @param email  邮箱
-     * 
+     *
      * @return 用户信息
      */
     public UserDB queryBySourceAndEmail(String source, String email) {
@@ -243,10 +243,10 @@ public class UserRepo implements IUserRepo {
 
     /**
      * 模糊搜索用户
-     * 
+     *
      * @param keyword 搜索关键词
      * @param limit   返回数量限制
-     * 
+     *
      * @return 用户搜索结果列表
      */
     public List<UserSearchResult> searchUsers(String keyword, int limit) {
@@ -255,12 +255,12 @@ public class UserRepo implements IUserRepo {
 
     /**
      * 模糊搜索用户（支持排除指定用户）
-     * 
+     *
      * @param keyword             搜索关键词
      * @param limit               返回数量限制
      * @param excludeUserId       排除的用户ID，为null则不排除
      * @param excludeSourceUserId 排除的用户ID，为null则不排除
-     * 
+     *
      * @return 用户搜索结果列表
      */
     public List<UserSearchResult> searchUsers(String keyword, int limit, Long excludeUserId, String excludeSourceUserId) {

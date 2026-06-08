@@ -13,19 +13,23 @@ import static org.mockito.Mockito.when;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 
+import com.ke.bella.openapi.common.context.EndpointProcessData;
+import com.ke.bella.openapi.job.queue.QueueClient;
+import com.ke.bella.openapi.job.queue.TaskWrapper;
+import com.ke.bella.openapi.job.worker.WorkerStreamingCallback;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import com.ke.bella.openapi.EndpointProcessData;
+//import com.ke.bella.openapi.EndpointProcessData;EndpointProcessData
 import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.OpenapiResponse;
-import com.ke.bella.openapi.tables.pojos.ChannelDB;
-import com.ke.bella.openapi.worker.WorkerStreamingCallback;
-import com.ke.bella.openapi.queue.QueueClient;
-import com.ke.bella.openapi.queue.TaskWrapper;
+import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
+//import com.ke.bella.openapi.worker.WorkerStreamingCallback;
+//import com.ke.bella.openapi.queue.QueueClient;
+//import com.ke.bella.openapi.queue.TaskWrapper;
 
 @RunWith(MockitoJUnitRunner.class)
 public class QueueAdaptorChannelCodeTest {

@@ -9,7 +9,7 @@ import com.ke.bella.openapi.apikey.AkRelation;
 import com.ke.bella.openapi.apikey.ApikeyInfo;
 import com.ke.bella.openapi.common.exception.OneTokenException;
 import com.ke.bella.openapi.db.repo.ApikeyRepo;
-import com.ke.bella.openapi.tables.pojos.ApikeyDB;
+import com.ke.bella.openapi.generated.tables.pojos.ApikeyDB;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

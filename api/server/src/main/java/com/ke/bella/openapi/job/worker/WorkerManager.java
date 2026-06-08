@@ -10,7 +10,7 @@ import com.ke.bella.openapi.script.LuaScriptExecutor;
 import com.ke.bella.openapi.config.OpenAiServiceFactory;
 import com.ke.bella.openapi.config.OpenapiProperties;
 import com.ke.bella.openapi.resource.channel.ChannelService;
-import com.ke.bella.openapi.tables.pojos.ChannelDB;
+import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
 import com.theokanning.openai.service.OpenAiService;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;

@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.db.repo;
 
-import static com.ke.bella.openapi.Tables.VIDEO_JOB;
+import static com.ke.bella.openapi.generated.Tables.VIDEO_JOB;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -20,8 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ke.bella.openapi.db.IDGenerator;
 import com.ke.bella.openapi.db.VideoIdGenerator;
 import com.ke.bella.openapi.protocol.video.VideoJob.Status;
-import com.ke.bella.openapi.tables.pojos.VideoJobDB;
-import com.ke.bella.openapi.tables.records.VideoJobRecord;
+import com.ke.bella.openapi.generated.tables.pojos.VideoJobDB;
+import com.ke.bella.openapi.generated.tables.records.VideoJobRecord;
 
 @Component
 public class VideoRepo implements BaseRepo {

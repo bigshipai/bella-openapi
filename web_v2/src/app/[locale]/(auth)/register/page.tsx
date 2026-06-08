@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { getUserInfo } from "@/lib/api/auth"
-import { LoginLayout } from "../../login/components/login-layout"
+import { LoginLayout } from "../login/components/login-layout"
 import { RegisterForm } from "./components/register-form"
 
 /**

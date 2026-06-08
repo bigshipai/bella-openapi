@@ -4,7 +4,7 @@ import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.common.constant.EntityConstants;
 import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.OpenapiResponse;
-import com.ke.bella.openapi.tables.pojos.ChannelDB;
+import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
 import com.ke.bella.openapi.utils.JacksonUtils;
 import com.ke.bella.openapi.job.queue.QueueClient;
 import com.theokanning.openai.queue.Put;

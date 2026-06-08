@@ -26,9 +26,9 @@ else
     # 清理旧的构建产物
     rm -rf release/
 
-    # 执行 Maven 编译
+    # 执行 Maven 编译（pom.xml 在 server/ 目录下）
     echo "执行 Maven 编译..."
-    if ! mvn clean package -Dmaven.test.skip=true; then
+    if ! mvn -f server/pom.xml clean package -Dmaven.test.skip=true; then
         show_error_and_exit "Maven 编译失败"
     fi
 

@@ -11,7 +11,7 @@ import com.ke.bella.openapi.protocol.gemini.GeminiAdaptor;
 import com.ke.bella.openapi.protocol.completion.gemini.GeminiRequest;
 import com.ke.bella.openapi.protocol.limiter.LimiterManager;
 import com.ke.bella.openapi.resource.endpoint.EndpointDataService;
-import com.ke.bella.openapi.tables.pojos.ChannelDB;
+import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
 import com.ke.bella.openapi.utils.JacksonUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

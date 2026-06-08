@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <define name="INSTANCE_IDENTIFIER" class="com.ke.bella.openapi.server.InstanceIdentifierPropertyDefiner"/>
+    <define name="INSTANCE_IDENTIFIER" class="com.ke.bella.openapi.config.InstanceIdentifierPropertyDefiner"/>
     <property name="LOG_FILE_MAX_HISTORY" value="7"/>
     <property name="FILE_MAX_SIZE" value="300MB"/>
     <property name="LOG_TOTAL_FILE_SIZE" value="2GB"/>
@@ -8,7 +8,7 @@
     <property name="FULL_LOG_PATH" value="${FULL_LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}/}"/>
     <property name="FILE_LOG_PATTERN"
               value="%d{yyyy/MM/dd-HH:mm:ss:SSS} [%X{SW_TRACE_ID}] [%X{SW_TRACE_SEGMENT_ID}][%X{SW_TRACE_SPAN_ID}] %X{sessionTokenId} [%thread] %-5level %logger- %msg%n"/>
-    
+
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
 
@@ -16,7 +16,7 @@
     <logger name="druid" level="DEBUG"/>
     <logger name="executableSql" level="DEBUG"/>
     <logger name="com.alibaba.druid.filter.stat" level="INFO"/>
-    
+
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>${FILE_LOG_PATTERN}</pattern>
