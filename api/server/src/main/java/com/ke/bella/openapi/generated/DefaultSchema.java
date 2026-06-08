@@ -11,6 +11,7 @@ import com.ke.bella.openapi.generated.tables.ApikeyRole;
 import com.ke.bella.openapi.generated.tables.ApikeyTransferLog;
 import com.ke.bella.openapi.generated.tables.Category;
 import com.ke.bella.openapi.generated.tables.Channel;
+import com.ke.bella.openapi.generated.tables.ChannelBackup;
 import com.ke.bella.openapi.generated.tables.Endpoint;
 import com.ke.bella.openapi.generated.tables.EndpointCategoryRel;
 import com.ke.bella.openapi.generated.tables.Instance;
@@ -54,7 +55,6 @@ public class DefaultSchema extends SchemaImpl {
      */
     public final ApikeyChangeLog APIKEY_CHANGE_LOG = ApikeyChangeLog.APIKEY_CHANGE_LOG;
 
-
     /**
      * ak月花费
      */
@@ -79,6 +79,11 @@ public class DefaultSchema extends SchemaImpl {
      * 通道
      */
     public final Channel CHANNEL = Channel.CHANNEL;
+
+    /**
+     * The table <code>channel_backup</code>.
+     */
+    public final ChannelBackup CHANNEL_BACKUP = ChannelBackup.CHANNEL_BACKUP;
 
     /**
      * 能力点
@@ -150,7 +155,7 @@ public class DefaultSchema extends SchemaImpl {
 
     @Override
     public final List<Table<?>> getTables() {
-        return Arrays.<Table<?>>asList(
+        return Arrays.asList(
             Apikey.APIKEY,
             ApikeyChangeLog.APIKEY_CHANGE_LOG,
             ApikeyMonthCost.APIKEY_MONTH_COST,
@@ -158,6 +163,7 @@ public class DefaultSchema extends SchemaImpl {
             ApikeyTransferLog.APIKEY_TRANSFER_LOG,
             Category.CATEGORY,
             Channel.CHANNEL,
+            ChannelBackup.CHANNEL_BACKUP,
             Endpoint.ENDPOINT,
             EndpointCategoryRel.ENDPOINT_CATEGORY_REL,
             Instance.INSTANCE,
@@ -168,6 +174,7 @@ public class DefaultSchema extends SchemaImpl {
             SpaceMember.SPACE_MEMBER,
             SpaceRole.SPACE_ROLE,
             User.USER,
-            VideoJob.VIDEO_JOB);
+            VideoJob.VIDEO_JOB
+        );
     }
 }

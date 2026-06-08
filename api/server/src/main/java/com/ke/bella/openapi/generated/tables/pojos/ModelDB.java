@@ -4,8 +4,6 @@
 package com.ke.bella.openapi.generated.tables.pojos;
 
 
-import com.ke.bella.openapi.db.repo.Operator;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -14,26 +12,26 @@ import java.time.LocalDateTime;
  * 模型
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class ModelDB implements Operator, Serializable {
+public class ModelDB implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long          id;
-    private String        modelName;
-    private String        documentUrl;
-    private String        visibility;
-    private Byte          opennessType;
-    private String        ownerType;
-    private String        ownerCode;
-    private String        ownerName;
-    private String        status;
-    private String        properties;
-    private String        features;
-    private String        linkedTo;
-    private Long          cuid;
-    private String        cuName;
-    private Long          muid;
-    private String        muName;
+    private Long id;
+    private String modelName;
+    private String documentUrl;
+    private String visibility;
+    private Byte opennessType;
+    private String ownerType;
+    private String ownerCode;
+    private String ownerName;
+    private String status;
+    private String properties;
+    private String features;
+    private String linkedTo;
+    private Long cuid;
+    private String cuName;
+    private Long muid;
+    private String muName;
     private LocalDateTime ctime;
     private LocalDateTime mtime;
 
@@ -61,22 +59,22 @@ public class ModelDB implements Operator, Serializable {
     }
 
     public ModelDB(
-        Long          id,
-        String        modelName,
-        String        documentUrl,
-        String        visibility,
-        Byte          opennessType,
-        String        ownerType,
-        String        ownerCode,
-        String        ownerName,
-        String        status,
-        String        properties,
-        String        features,
-        String        linkedTo,
-        Long          cuid,
-        String        cuName,
-        Long          muid,
-        String        muName,
+        Long id,
+        String modelName,
+        String documentUrl,
+        String visibility,
+        Byte opennessType,
+        String ownerType,
+        String ownerCode,
+        String ownerName,
+        String status,
+        String properties,
+        String features,
+        String linkedTo,
+        Long cuid,
+        String cuName,
+        Long muid,
+        String muName,
         LocalDateTime ctime,
         LocalDateTime mtime
     ) {
@@ -350,6 +348,151 @@ public class ModelDB implements Operator, Serializable {
      */
     public void setMtime(LocalDateTime mtime) {
         this.mtime = mtime;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final ModelDB other = (ModelDB) obj;
+        if (this.id == null) {
+            if (other.id != null)
+                return false;
+        }
+        else if (!this.id.equals(other.id))
+            return false;
+        if (this.modelName == null) {
+            if (other.modelName != null)
+                return false;
+        }
+        else if (!this.modelName.equals(other.modelName))
+            return false;
+        if (this.documentUrl == null) {
+            if (other.documentUrl != null)
+                return false;
+        }
+        else if (!this.documentUrl.equals(other.documentUrl))
+            return false;
+        if (this.visibility == null) {
+            if (other.visibility != null)
+                return false;
+        }
+        else if (!this.visibility.equals(other.visibility))
+            return false;
+        if (this.opennessType == null) {
+            if (other.opennessType != null)
+                return false;
+        }
+        else if (!this.opennessType.equals(other.opennessType))
+            return false;
+        if (this.ownerType == null) {
+            if (other.ownerType != null)
+                return false;
+        }
+        else if (!this.ownerType.equals(other.ownerType))
+            return false;
+        if (this.ownerCode == null) {
+            if (other.ownerCode != null)
+                return false;
+        }
+        else if (!this.ownerCode.equals(other.ownerCode))
+            return false;
+        if (this.ownerName == null) {
+            if (other.ownerName != null)
+                return false;
+        }
+        else if (!this.ownerName.equals(other.ownerName))
+            return false;
+        if (this.status == null) {
+            if (other.status != null)
+                return false;
+        }
+        else if (!this.status.equals(other.status))
+            return false;
+        if (this.properties == null) {
+            if (other.properties != null)
+                return false;
+        }
+        else if (!this.properties.equals(other.properties))
+            return false;
+        if (this.features == null) {
+            if (other.features != null)
+                return false;
+        }
+        else if (!this.features.equals(other.features))
+            return false;
+        if (this.linkedTo == null) {
+            if (other.linkedTo != null)
+                return false;
+        }
+        else if (!this.linkedTo.equals(other.linkedTo))
+            return false;
+        if (this.cuid == null) {
+            if (other.cuid != null)
+                return false;
+        }
+        else if (!this.cuid.equals(other.cuid))
+            return false;
+        if (this.cuName == null) {
+            if (other.cuName != null)
+                return false;
+        }
+        else if (!this.cuName.equals(other.cuName))
+            return false;
+        if (this.muid == null) {
+            if (other.muid != null)
+                return false;
+        }
+        else if (!this.muid.equals(other.muid))
+            return false;
+        if (this.muName == null) {
+            if (other.muName != null)
+                return false;
+        }
+        else if (!this.muName.equals(other.muName))
+            return false;
+        if (this.ctime == null) {
+            if (other.ctime != null)
+                return false;
+        }
+        else if (!this.ctime.equals(other.ctime))
+            return false;
+        if (this.mtime == null) {
+            if (other.mtime != null)
+                return false;
+        }
+        else if (!this.mtime.equals(other.mtime))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
+        result = prime * result + ((this.modelName == null) ? 0 : this.modelName.hashCode());
+        result = prime * result + ((this.documentUrl == null) ? 0 : this.documentUrl.hashCode());
+        result = prime * result + ((this.visibility == null) ? 0 : this.visibility.hashCode());
+        result = prime * result + ((this.opennessType == null) ? 0 : this.opennessType.hashCode());
+        result = prime * result + ((this.ownerType == null) ? 0 : this.ownerType.hashCode());
+        result = prime * result + ((this.ownerCode == null) ? 0 : this.ownerCode.hashCode());
+        result = prime * result + ((this.ownerName == null) ? 0 : this.ownerName.hashCode());
+        result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
+        result = prime * result + ((this.properties == null) ? 0 : this.properties.hashCode());
+        result = prime * result + ((this.features == null) ? 0 : this.features.hashCode());
+        result = prime * result + ((this.linkedTo == null) ? 0 : this.linkedTo.hashCode());
+        result = prime * result + ((this.cuid == null) ? 0 : this.cuid.hashCode());
+        result = prime * result + ((this.cuName == null) ? 0 : this.cuName.hashCode());
+        result = prime * result + ((this.muid == null) ? 0 : this.muid.hashCode());
+        result = prime * result + ((this.muName == null) ? 0 : this.muName.hashCode());
+        result = prime * result + ((this.ctime == null) ? 0 : this.ctime.hashCode());
+        result = prime * result + ((this.mtime == null) ? 0 : this.mtime.hashCode());
+        return result;
     }
 
     @Override

@@ -11,14 +11,18 @@ import com.ke.bella.openapi.generated.tables.records.ApikeyRoleRecord;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Function9;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
+import org.jooq.Records;
 import org.jooq.Row9;
 import org.jooq.Schema;
+import org.jooq.SelectField;
 import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.TableOptions;
@@ -87,12 +91,12 @@ public class ApikeyRole extends TableImpl<ApikeyRoleRecord> {
     /**
      * The column <code>apikey_role.ctime</code>.
      */
-    public final TableField<ApikeyRoleRecord, LocalDateTime> CTIME = createField(DSL.name("ctime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<ApikeyRoleRecord, LocalDateTime> CTIME = createField(DSL.name("ctime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>apikey_role.mtime</code>.
      */
-    public final TableField<ApikeyRoleRecord, LocalDateTime> MTIME = createField(DSL.name("mtime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<ApikeyRoleRecord, LocalDateTime> MTIME = createField(DSL.name("mtime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "");
 
     private ApikeyRole(Name alias, Table<ApikeyRoleRecord> aliased) {
         this(alias, aliased, null);
@@ -129,7 +133,7 @@ public class ApikeyRole extends TableImpl<ApikeyRoleRecord> {
 
     @Override
     public Schema getSchema() {
-        return DefaultSchema.DEFAULT_SCHEMA;
+        return aliased() ? null : DefaultSchema.DEFAULT_SCHEMA;
     }
 
     @Override
@@ -143,8 +147,8 @@ public class ApikeyRole extends TableImpl<ApikeyRoleRecord> {
     }
 
     @Override
-    public List<UniqueKey<ApikeyRoleRecord>> getKeys() {
-        return Arrays.<UniqueKey<ApikeyRoleRecord>>asList(Keys.KEY_APIKEY_ROLE_PRIMARY, Keys.KEY_APIKEY_ROLE_UNIQ_IDX_ROLE_CODE);
+    public List<UniqueKey<ApikeyRoleRecord>> getUniqueKeys() {
+        return Arrays.asList(Keys.KEY_APIKEY_ROLE_UNIQ_IDX_ROLE_CODE);
     }
 
     @Override
@@ -155,6 +159,11 @@ public class ApikeyRole extends TableImpl<ApikeyRoleRecord> {
     @Override
     public ApikeyRole as(Name alias) {
         return new ApikeyRole(alias, this);
+    }
+
+    @Override
+    public ApikeyRole as(Table<?> alias) {
+        return new ApikeyRole(alias.getQualifiedName(), this);
     }
 
     /**
@@ -173,6 +182,14 @@ public class ApikeyRole extends TableImpl<ApikeyRoleRecord> {
         return new ApikeyRole(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public ApikeyRole rename(Table<?> name) {
+        return new ApikeyRole(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
     // Row9 type methods
     // -------------------------------------------------------------------------
@@ -180,5 +197,20 @@ public class ApikeyRole extends TableImpl<ApikeyRoleRecord> {
     @Override
     public Row9<Long, String, String, Long, String, Long, String, LocalDateTime, LocalDateTime> fieldsRow() {
         return (Row9) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function9<? super Long, ? super String, ? super String, ? super Long, ? super String, ? super Long, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function9<? super Long, ? super String, ? super String, ? super Long, ? super String, ? super Long, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

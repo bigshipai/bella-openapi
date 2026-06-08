@@ -4,8 +4,8 @@
 package com.ke.bella.openapi.generated.tables.records;
 
 
-import com.ke.bella.openapi.db.repo.Operator;
 import com.ke.bella.openapi.generated.tables.Apikey;
+import com.ke.bella.openapi.generated.tables.pojos.ApikeyDB;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -18,7 +18,7 @@ import org.jooq.impl.UpdatableRecordImpl;
  * ak
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class ApikeyRecord extends UpdatableRecordImpl<ApikeyRecord> implements Operator {
+public class ApikeyRecord extends UpdatableRecordImpl<ApikeyRecord> {
 
     private static final long serialVersionUID = 1L;
 
@@ -453,5 +453,44 @@ public class ApikeyRecord extends UpdatableRecordImpl<ApikeyRecord> implements O
         setMuName(muName);
         setCtime(ctime);
         setMtime(mtime);
+        resetChangedOnNotNull();
+    }
+
+    /**
+     * Create a detached, initialised ApikeyRecord
+     */
+    public ApikeyRecord(ApikeyDB value) {
+        super(Apikey.APIKEY);
+
+        if (value != null) {
+            setId(value.getId());
+            setCode(value.getCode());
+            setAkSha(value.getAkSha());
+            setAkDisplay(value.getAkDisplay());
+            setName(value.getName());
+            setParentCode(value.getParentCode());
+            setOutEntityCode(value.getOutEntityCode());
+            setServiceId(value.getServiceId());
+            setOwnerType(value.getOwnerType());
+            setOwnerCode(value.getOwnerCode());
+            setOwnerName(value.getOwnerName());
+            setManagerCode(value.getManagerCode());
+            setManagerName(value.getManagerName());
+            setRoleCode(value.getRoleCode());
+            setCertifyCode(value.getCertifyCode());
+            setSafetySceneCode(value.getSafetySceneCode());
+            setSafetyLevel(value.getSafetyLevel());
+            setMonthQuota(value.getMonthQuota());
+            setQpsLimit(value.getQpsLimit());
+            setStatus(value.getStatus());
+            setRemark(value.getRemark());
+            setCuid(value.getCuid());
+            setCuName(value.getCuName());
+            setMuid(value.getMuid());
+            setMuName(value.getMuName());
+            setCtime(value.getCtime());
+            setMtime(value.getMtime());
+            resetChangedOnNotNull();
+        }
     }
 }

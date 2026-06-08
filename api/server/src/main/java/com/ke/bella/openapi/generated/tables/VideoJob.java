@@ -86,7 +86,8 @@ public class VideoJob extends TableImpl<VideoJobRecord> {
     public final TableField<VideoJobRecord, String> PROMPT = createField(DSL.name("prompt"), SQLDataType.CLOB, this, "提示词");
 
     /**
-     * The column <code>video_job.input_reference_file_id</code>. 输入参考文件ID（用户上传的参考视频/图片）
+     * The column <code>video_job.input_reference_file_id</code>.
+     * 输入参考文件ID（用户上传的参考视频/图片）
      */
     public final TableField<VideoJobRecord, String> INPUT_REFERENCE_FILE_ID = createField(DSL.name("input_reference_file_id"), SQLDataType.VARCHAR(256).nullable(false).defaultValue(DSL.inline("", SQLDataType.VARCHAR)), this, "输入参考文件ID（用户上传的参考视频/图片）");
 
@@ -116,7 +117,8 @@ public class VideoJob extends TableImpl<VideoJobRecord> {
     public final TableField<VideoJobRecord, LocalDateTime> EXPIRES_AT = createField(DSL.name("expires_at"), SQLDataType.LOCALDATETIME(0), this, "视频任务下载过期时间");
 
     /**
-     * The column <code>video_job.status</code>. 任务状态(queued/submitting/processing/completed/failed/cancelled)
+     * The column <code>video_job.status</code>.
+     * 任务状态(queued/submitting/processing/completed/failed/cancelled)
      */
     public final TableField<VideoJobRecord, String> STATUS = createField(DSL.name("status"), SQLDataType.VARCHAR(32).nullable(false).defaultValue(DSL.inline("queued", SQLDataType.VARCHAR)), this, "任务状态(queued/submitting/processing/completed/failed/cancelled)");
 
@@ -131,7 +133,8 @@ public class VideoJob extends TableImpl<VideoJobRecord> {
     public final TableField<VideoJobRecord, String> CALLBACK_URL = createField(DSL.name("callback_url"), SQLDataType.VARCHAR(512).nullable(false).defaultValue(DSL.inline("", SQLDataType.VARCHAR)), this, "回调URL");
 
     /**
-     * The column <code>video_job.callback_status</code>. 回调状态(-1：回调失败；0：未回调；1：回调成功)
+     * The column <code>video_job.callback_status</code>.
+     * 回调状态(-1：回调失败；0：未回调；1：回调成功)
      */
     public final TableField<VideoJobRecord, Byte> CALLBACK_STATUS = createField(DSL.name("callback_status"), SQLDataType.TINYINT.nullable(false).defaultValue(DSL.inline("0", SQLDataType.TINYINT)), this, "回调状态(-1：回调失败；0：未回调；1：回调成功)");
 
@@ -173,12 +176,12 @@ public class VideoJob extends TableImpl<VideoJobRecord> {
     /**
      * The column <code>video_job.ctime</code>.
      */
-    public final TableField<VideoJobRecord, LocalDateTime> CTIME = createField(DSL.name("ctime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<VideoJobRecord, LocalDateTime> CTIME = createField(DSL.name("ctime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>video_job.mtime</code>.
      */
-    public final TableField<VideoJobRecord, LocalDateTime> MTIME = createField(DSL.name("mtime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<VideoJobRecord, LocalDateTime> MTIME = createField(DSL.name("mtime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "");
 
     private VideoJob(Name alias, Table<VideoJobRecord> aliased) {
         this(alias, aliased, null);
@@ -215,12 +218,12 @@ public class VideoJob extends TableImpl<VideoJobRecord> {
 
     @Override
     public Schema getSchema() {
-        return DefaultSchema.DEFAULT_SCHEMA;
+        return aliased() ? null : DefaultSchema.DEFAULT_SCHEMA;
     }
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.VIDEO_JOB_IDX_AK_CODE, Indexes.VIDEO_JOB_IDX_CHANNEL_VIDEO_ID, Indexes.VIDEO_JOB_IDX_MODEL, Indexes.VIDEO_JOB_IDX_SPACE_CODE, Indexes.VIDEO_JOB_IDX_STATUS);
+        return Arrays.asList(Indexes.VIDEO_JOB_IDX_AK_CODE, Indexes.VIDEO_JOB_IDX_CHANNEL_VIDEO_ID, Indexes.VIDEO_JOB_IDX_MODEL, Indexes.VIDEO_JOB_IDX_SPACE_CODE, Indexes.VIDEO_JOB_IDX_STATUS);
     }
 
     @Override
@@ -234,8 +237,8 @@ public class VideoJob extends TableImpl<VideoJobRecord> {
     }
 
     @Override
-    public List<UniqueKey<VideoJobRecord>> getKeys() {
-        return Arrays.<UniqueKey<VideoJobRecord>>asList(Keys.KEY_VIDEO_JOB_PRIMARY, Keys.KEY_VIDEO_JOB_UNIQ_IDX_JOB_ID);
+    public List<UniqueKey<VideoJobRecord>> getUniqueKeys() {
+        return Arrays.asList(Keys.KEY_VIDEO_JOB_UNIQ_IDX_JOB_ID);
     }
 
     @Override
@@ -246,6 +249,11 @@ public class VideoJob extends TableImpl<VideoJobRecord> {
     @Override
     public VideoJob as(Name alias) {
         return new VideoJob(alias, this);
+    }
+
+    @Override
+    public VideoJob as(Table<?> alias) {
+        return new VideoJob(alias.getQualifiedName(), this);
     }
 
     /**
@@ -262,5 +270,13 @@ public class VideoJob extends TableImpl<VideoJobRecord> {
     @Override
     public VideoJob rename(Name name) {
         return new VideoJob(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public VideoJob rename(Table<?> name) {
+        return new VideoJob(name.getQualifiedName(), null);
     }
 }

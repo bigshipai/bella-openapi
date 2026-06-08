@@ -12,15 +12,19 @@ import com.ke.bella.openapi.generated.tables.records.EndpointCategoryRelRecord;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Function10;
 import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
+import org.jooq.Records;
 import org.jooq.Row10;
 import org.jooq.Schema;
+import org.jooq.SelectField;
 import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.TableOptions;
@@ -94,12 +98,12 @@ public class EndpointCategoryRel extends TableImpl<EndpointCategoryRelRecord> {
     /**
      * The column <code>endpoint_category_rel.ctime</code>.
      */
-    public final TableField<EndpointCategoryRelRecord, LocalDateTime> CTIME = createField(DSL.name("ctime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<EndpointCategoryRelRecord, LocalDateTime> CTIME = createField(DSL.name("ctime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>endpoint_category_rel.mtime</code>.
      */
-    public final TableField<EndpointCategoryRelRecord, LocalDateTime> MTIME = createField(DSL.name("mtime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<EndpointCategoryRelRecord, LocalDateTime> MTIME = createField(DSL.name("mtime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "");
 
     private EndpointCategoryRel(Name alias, Table<EndpointCategoryRelRecord> aliased) {
         this(alias, aliased, null);
@@ -136,12 +140,12 @@ public class EndpointCategoryRel extends TableImpl<EndpointCategoryRelRecord> {
 
     @Override
     public Schema getSchema() {
-        return DefaultSchema.DEFAULT_SCHEMA;
+        return aliased() ? null : DefaultSchema.DEFAULT_SCHEMA;
     }
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.ENDPOINT_CATEGORY_REL_IDX_CATEGORY_CODE, Indexes.ENDPOINT_CATEGORY_REL_IDX_SORT);
+        return Arrays.asList(Indexes.ENDPOINT_CATEGORY_REL_IDX_CATEGORY_CODE, Indexes.ENDPOINT_CATEGORY_REL_IDX_SORT);
     }
 
     @Override
@@ -155,8 +159,8 @@ public class EndpointCategoryRel extends TableImpl<EndpointCategoryRelRecord> {
     }
 
     @Override
-    public List<UniqueKey<EndpointCategoryRelRecord>> getKeys() {
-        return Arrays.<UniqueKey<EndpointCategoryRelRecord>>asList(Keys.KEY_ENDPOINT_CATEGORY_REL_PRIMARY, Keys.KEY_ENDPOINT_CATEGORY_REL_UNIQ_IDX_UNI_ENDPOINT_CATEGORY_CODE);
+    public List<UniqueKey<EndpointCategoryRelRecord>> getUniqueKeys() {
+        return Arrays.asList(Keys.KEY_ENDPOINT_CATEGORY_REL_UNIQ_IDX_UNI_ENDPOINT_CATEGORY_CODE);
     }
 
     @Override
@@ -167,6 +171,11 @@ public class EndpointCategoryRel extends TableImpl<EndpointCategoryRelRecord> {
     @Override
     public EndpointCategoryRel as(Name alias) {
         return new EndpointCategoryRel(alias, this);
+    }
+
+    @Override
+    public EndpointCategoryRel as(Table<?> alias) {
+        return new EndpointCategoryRel(alias.getQualifiedName(), this);
     }
 
     /**
@@ -185,6 +194,14 @@ public class EndpointCategoryRel extends TableImpl<EndpointCategoryRelRecord> {
         return new EndpointCategoryRel(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public EndpointCategoryRel rename(Table<?> name) {
+        return new EndpointCategoryRel(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
     // Row10 type methods
     // -------------------------------------------------------------------------
@@ -192,5 +209,20 @@ public class EndpointCategoryRel extends TableImpl<EndpointCategoryRelRecord> {
     @Override
     public Row10<Long, String, String, Integer, Long, String, Long, String, LocalDateTime, LocalDateTime> fieldsRow() {
         return (Row10) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function10<? super Long, ? super String, ? super String, ? super Integer, ? super Long, ? super String, ? super Long, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function10<? super Long, ? super String, ? super String, ? super Integer, ? super Long, ? super String, ? super Long, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

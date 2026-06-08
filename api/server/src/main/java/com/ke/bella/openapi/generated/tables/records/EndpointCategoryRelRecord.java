@@ -4,8 +4,8 @@
 package com.ke.bella.openapi.generated.tables.records;
 
 
-import com.ke.bella.openapi.db.repo.Operator;
 import com.ke.bella.openapi.generated.tables.EndpointCategoryRel;
+import com.ke.bella.openapi.generated.tables.pojos.EndpointCategoryRelDB;
 
 import java.time.LocalDateTime;
 
@@ -20,7 +20,7 @@ import org.jooq.impl.UpdatableRecordImpl;
  * 能力点类目
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class EndpointCategoryRelRecord extends UpdatableRecordImpl<EndpointCategoryRelRecord> implements Operator, Record10<Long, String, String, Integer, Long, String, Long, String, LocalDateTime, LocalDateTime> {
+public class EndpointCategoryRelRecord extends UpdatableRecordImpl<EndpointCategoryRelRecord> implements Record10<Long, String, String, Integer, Long, String, Long, String, LocalDateTime, LocalDateTime> {
 
     private static final long serialVersionUID = 1L;
 
@@ -439,5 +439,27 @@ public class EndpointCategoryRelRecord extends UpdatableRecordImpl<EndpointCateg
         setMuName(muName);
         setCtime(ctime);
         setMtime(mtime);
+        resetChangedOnNotNull();
+    }
+
+    /**
+     * Create a detached, initialised EndpointCategoryRelRecord
+     */
+    public EndpointCategoryRelRecord(EndpointCategoryRelDB value) {
+        super(EndpointCategoryRel.ENDPOINT_CATEGORY_REL);
+
+        if (value != null) {
+            setId(value.getId());
+            setEndpoint(value.getEndpoint());
+            setCategoryCode(value.getCategoryCode());
+            setSort(value.getSort());
+            setCuid(value.getCuid());
+            setCuName(value.getCuName());
+            setMuid(value.getMuid());
+            setMuName(value.getMuName());
+            setCtime(value.getCtime());
+            setMtime(value.getMtime());
+            resetChangedOnNotNull();
+        }
     }
 }

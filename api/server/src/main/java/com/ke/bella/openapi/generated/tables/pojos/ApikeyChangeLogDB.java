@@ -4,8 +4,6 @@
 package com.ke.bella.openapi.generated.tables.pojos;
 
 
-import com.ke.bella.openapi.db.repo.Timed;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -14,30 +12,30 @@ import java.time.LocalDateTime;
  * API Key变更历史表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class ApikeyChangeLogDB implements Timed, Serializable {
+public class ApikeyChangeLogDB implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long          id;
-    private String        actionType;
-    private String        akCode;
-    private String        affectedCodes;
-    private String        fromOwnerType;
-    private String        fromOwnerCode;
-    private String        fromOwnerName;
-    private String        toOwnerType;
-    private String        toOwnerCode;
-    private String        toOwnerName;
-    private String        fromParentCode;
-    private String        toParentCode;
-    private String        fromManagerCode;
-    private String        fromManagerName;
-    private String        toManagerCode;
-    private String        toManagerName;
-    private String        reason;
-    private String        status;
-    private Long          operatorUid;
-    private String        operatorName;
+    private Long id;
+    private String actionType;
+    private String akCode;
+    private String affectedCodes;
+    private String fromOwnerType;
+    private String fromOwnerCode;
+    private String fromOwnerName;
+    private String toOwnerType;
+    private String toOwnerCode;
+    private String toOwnerName;
+    private String fromParentCode;
+    private String toParentCode;
+    private String fromManagerCode;
+    private String fromManagerName;
+    private String toManagerCode;
+    private String toManagerName;
+    private String reason;
+    private String status;
+    private Long operatorUid;
+    private String operatorName;
     private LocalDateTime ctime;
     private LocalDateTime mtime;
 
@@ -69,26 +67,26 @@ public class ApikeyChangeLogDB implements Timed, Serializable {
     }
 
     public ApikeyChangeLogDB(
-        Long          id,
-        String        actionType,
-        String        akCode,
-        String        affectedCodes,
-        String        fromOwnerType,
-        String        fromOwnerCode,
-        String        fromOwnerName,
-        String        toOwnerType,
-        String        toOwnerCode,
-        String        toOwnerName,
-        String        fromParentCode,
-        String        toParentCode,
-        String        fromManagerCode,
-        String        fromManagerName,
-        String        toManagerCode,
-        String        toManagerName,
-        String        reason,
-        String        status,
-        Long          operatorUid,
-        String        operatorName,
+        Long id,
+        String actionType,
+        String akCode,
+        String affectedCodes,
+        String fromOwnerType,
+        String fromOwnerCode,
+        String fromOwnerName,
+        String toOwnerType,
+        String toOwnerCode,
+        String toOwnerName,
+        String fromParentCode,
+        String toParentCode,
+        String fromManagerCode,
+        String fromManagerName,
+        String toManagerCode,
+        String toManagerName,
+        String reason,
+        String status,
+        Long operatorUid,
+        String operatorName,
         LocalDateTime ctime,
         LocalDateTime mtime
     ) {
@@ -131,14 +129,16 @@ public class ApikeyChangeLogDB implements Timed, Serializable {
     }
 
     /**
-     * Getter for <code>apikey_change_log.action_type</code>. 变更类型(owner_transfer/owner_change/parent_change)
+     * Getter for <code>apikey_change_log.action_type</code>.
+     * 变更类型(owner_transfer/owner_change/parent_change)
      */
     public String getActionType() {
         return this.actionType;
     }
 
     /**
-     * Setter for <code>apikey_change_log.action_type</code>. 变更类型(owner_transfer/owner_change/parent_change)
+     * Setter for <code>apikey_change_log.action_type</code>.
+     * 变更类型(owner_transfer/owner_change/parent_change)
      */
     public void setActionType(String actionType) {
         this.actionType = actionType;
@@ -422,6 +422,179 @@ public class ApikeyChangeLogDB implements Timed, Serializable {
      */
     public void setMtime(LocalDateTime mtime) {
         this.mtime = mtime;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final ApikeyChangeLogDB other = (ApikeyChangeLogDB) obj;
+        if (this.id == null) {
+            if (other.id != null)
+                return false;
+        }
+        else if (!this.id.equals(other.id))
+            return false;
+        if (this.actionType == null) {
+            if (other.actionType != null)
+                return false;
+        }
+        else if (!this.actionType.equals(other.actionType))
+            return false;
+        if (this.akCode == null) {
+            if (other.akCode != null)
+                return false;
+        }
+        else if (!this.akCode.equals(other.akCode))
+            return false;
+        if (this.affectedCodes == null) {
+            if (other.affectedCodes != null)
+                return false;
+        }
+        else if (!this.affectedCodes.equals(other.affectedCodes))
+            return false;
+        if (this.fromOwnerType == null) {
+            if (other.fromOwnerType != null)
+                return false;
+        }
+        else if (!this.fromOwnerType.equals(other.fromOwnerType))
+            return false;
+        if (this.fromOwnerCode == null) {
+            if (other.fromOwnerCode != null)
+                return false;
+        }
+        else if (!this.fromOwnerCode.equals(other.fromOwnerCode))
+            return false;
+        if (this.fromOwnerName == null) {
+            if (other.fromOwnerName != null)
+                return false;
+        }
+        else if (!this.fromOwnerName.equals(other.fromOwnerName))
+            return false;
+        if (this.toOwnerType == null) {
+            if (other.toOwnerType != null)
+                return false;
+        }
+        else if (!this.toOwnerType.equals(other.toOwnerType))
+            return false;
+        if (this.toOwnerCode == null) {
+            if (other.toOwnerCode != null)
+                return false;
+        }
+        else if (!this.toOwnerCode.equals(other.toOwnerCode))
+            return false;
+        if (this.toOwnerName == null) {
+            if (other.toOwnerName != null)
+                return false;
+        }
+        else if (!this.toOwnerName.equals(other.toOwnerName))
+            return false;
+        if (this.fromParentCode == null) {
+            if (other.fromParentCode != null)
+                return false;
+        }
+        else if (!this.fromParentCode.equals(other.fromParentCode))
+            return false;
+        if (this.toParentCode == null) {
+            if (other.toParentCode != null)
+                return false;
+        }
+        else if (!this.toParentCode.equals(other.toParentCode))
+            return false;
+        if (this.fromManagerCode == null) {
+            if (other.fromManagerCode != null)
+                return false;
+        }
+        else if (!this.fromManagerCode.equals(other.fromManagerCode))
+            return false;
+        if (this.fromManagerName == null) {
+            if (other.fromManagerName != null)
+                return false;
+        }
+        else if (!this.fromManagerName.equals(other.fromManagerName))
+            return false;
+        if (this.toManagerCode == null) {
+            if (other.toManagerCode != null)
+                return false;
+        }
+        else if (!this.toManagerCode.equals(other.toManagerCode))
+            return false;
+        if (this.toManagerName == null) {
+            if (other.toManagerName != null)
+                return false;
+        }
+        else if (!this.toManagerName.equals(other.toManagerName))
+            return false;
+        if (this.reason == null) {
+            if (other.reason != null)
+                return false;
+        }
+        else if (!this.reason.equals(other.reason))
+            return false;
+        if (this.status == null) {
+            if (other.status != null)
+                return false;
+        }
+        else if (!this.status.equals(other.status))
+            return false;
+        if (this.operatorUid == null) {
+            if (other.operatorUid != null)
+                return false;
+        }
+        else if (!this.operatorUid.equals(other.operatorUid))
+            return false;
+        if (this.operatorName == null) {
+            if (other.operatorName != null)
+                return false;
+        }
+        else if (!this.operatorName.equals(other.operatorName))
+            return false;
+        if (this.ctime == null) {
+            if (other.ctime != null)
+                return false;
+        }
+        else if (!this.ctime.equals(other.ctime))
+            return false;
+        if (this.mtime == null) {
+            if (other.mtime != null)
+                return false;
+        }
+        else if (!this.mtime.equals(other.mtime))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
+        result = prime * result + ((this.actionType == null) ? 0 : this.actionType.hashCode());
+        result = prime * result + ((this.akCode == null) ? 0 : this.akCode.hashCode());
+        result = prime * result + ((this.affectedCodes == null) ? 0 : this.affectedCodes.hashCode());
+        result = prime * result + ((this.fromOwnerType == null) ? 0 : this.fromOwnerType.hashCode());
+        result = prime * result + ((this.fromOwnerCode == null) ? 0 : this.fromOwnerCode.hashCode());
+        result = prime * result + ((this.fromOwnerName == null) ? 0 : this.fromOwnerName.hashCode());
+        result = prime * result + ((this.toOwnerType == null) ? 0 : this.toOwnerType.hashCode());
+        result = prime * result + ((this.toOwnerCode == null) ? 0 : this.toOwnerCode.hashCode());
+        result = prime * result + ((this.toOwnerName == null) ? 0 : this.toOwnerName.hashCode());
+        result = prime * result + ((this.fromParentCode == null) ? 0 : this.fromParentCode.hashCode());
+        result = prime * result + ((this.toParentCode == null) ? 0 : this.toParentCode.hashCode());
+        result = prime * result + ((this.fromManagerCode == null) ? 0 : this.fromManagerCode.hashCode());
+        result = prime * result + ((this.fromManagerName == null) ? 0 : this.fromManagerName.hashCode());
+        result = prime * result + ((this.toManagerCode == null) ? 0 : this.toManagerCode.hashCode());
+        result = prime * result + ((this.toManagerName == null) ? 0 : this.toManagerName.hashCode());
+        result = prime * result + ((this.reason == null) ? 0 : this.reason.hashCode());
+        result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
+        result = prime * result + ((this.operatorUid == null) ? 0 : this.operatorUid.hashCode());
+        result = prime * result + ((this.operatorName == null) ? 0 : this.operatorName.hashCode());
+        result = prime * result + ((this.ctime == null) ? 0 : this.ctime.hashCode());
+        result = prime * result + ((this.mtime == null) ? 0 : this.mtime.hashCode());
+        return result;
     }
 
     @Override

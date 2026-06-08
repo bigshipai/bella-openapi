@@ -12,15 +12,19 @@ import com.ke.bella.openapi.generated.tables.records.ApikeyChangeLogRecord;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Function22;
 import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
+import org.jooq.Records;
 import org.jooq.Row22;
 import org.jooq.Schema;
+import org.jooq.SelectField;
 import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.TableOptions;
@@ -57,7 +61,8 @@ public class ApikeyChangeLog extends TableImpl<ApikeyChangeLogRecord> {
     public final TableField<ApikeyChangeLogRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false).identity(true), this, "主键ID");
 
     /**
-     * The column <code>apikey_change_log.action_type</code>. 变更类型(owner_transfer/owner_change/parent_change)
+     * The column <code>apikey_change_log.action_type</code>.
+     * 变更类型(owner_transfer/owner_change/parent_change)
      */
     public final TableField<ApikeyChangeLogRecord, String> ACTION_TYPE = createField(DSL.name("action_type"), SQLDataType.VARCHAR(32).nullable(false).defaultValue(DSL.inline("", SQLDataType.VARCHAR)), this, "变更类型(owner_transfer/owner_change/parent_change)");
 
@@ -154,12 +159,12 @@ public class ApikeyChangeLog extends TableImpl<ApikeyChangeLogRecord> {
     /**
      * The column <code>apikey_change_log.ctime</code>. 创建时间
      */
-    public final TableField<ApikeyChangeLogRecord, LocalDateTime> CTIME = createField(DSL.name("ctime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "创建时间");
+    public final TableField<ApikeyChangeLogRecord, LocalDateTime> CTIME = createField(DSL.name("ctime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "创建时间");
 
     /**
      * The column <code>apikey_change_log.mtime</code>. 更新时间
      */
-    public final TableField<ApikeyChangeLogRecord, LocalDateTime> MTIME = createField(DSL.name("mtime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "更新时间");
+    public final TableField<ApikeyChangeLogRecord, LocalDateTime> MTIME = createField(DSL.name("mtime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "更新时间");
 
     private ApikeyChangeLog(Name alias, Table<ApikeyChangeLogRecord> aliased) {
         this(alias, aliased, null);
@@ -196,12 +201,12 @@ public class ApikeyChangeLog extends TableImpl<ApikeyChangeLogRecord> {
 
     @Override
     public Schema getSchema() {
-        return DefaultSchema.DEFAULT_SCHEMA;
+        return aliased() ? null : DefaultSchema.DEFAULT_SCHEMA;
     }
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.APIKEY_CHANGE_LOG_IDX_ACTION_TYPE, Indexes.APIKEY_CHANGE_LOG_IDX_AK_CODE, Indexes.APIKEY_CHANGE_LOG_IDX_CTIME);
+        return Arrays.asList(Indexes.APIKEY_CHANGE_LOG_IDX_ACTION_TYPE, Indexes.APIKEY_CHANGE_LOG_IDX_AK_CODE, Indexes.APIKEY_CHANGE_LOG_IDX_CTIME);
     }
 
     @Override
@@ -215,11 +220,6 @@ public class ApikeyChangeLog extends TableImpl<ApikeyChangeLogRecord> {
     }
 
     @Override
-    public List<UniqueKey<ApikeyChangeLogRecord>> getKeys() {
-        return Arrays.<UniqueKey<ApikeyChangeLogRecord>>asList(Keys.KEY_APIKEY_CHANGE_LOG_PRIMARY);
-    }
-
-    @Override
     public ApikeyChangeLog as(String alias) {
         return new ApikeyChangeLog(DSL.name(alias), this);
     }
@@ -227,6 +227,11 @@ public class ApikeyChangeLog extends TableImpl<ApikeyChangeLogRecord> {
     @Override
     public ApikeyChangeLog as(Name alias) {
         return new ApikeyChangeLog(alias, this);
+    }
+
+    @Override
+    public ApikeyChangeLog as(Table<?> alias) {
+        return new ApikeyChangeLog(alias.getQualifiedName(), this);
     }
 
     /**
@@ -245,6 +250,14 @@ public class ApikeyChangeLog extends TableImpl<ApikeyChangeLogRecord> {
         return new ApikeyChangeLog(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public ApikeyChangeLog rename(Table<?> name) {
+        return new ApikeyChangeLog(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
     // Row22 type methods
     // -------------------------------------------------------------------------
@@ -252,5 +265,20 @@ public class ApikeyChangeLog extends TableImpl<ApikeyChangeLogRecord> {
     @Override
     public Row22<Long, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, Long, String, LocalDateTime, LocalDateTime> fieldsRow() {
         return (Row22) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function22<? super Long, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Long, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function22<? super Long, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Long, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

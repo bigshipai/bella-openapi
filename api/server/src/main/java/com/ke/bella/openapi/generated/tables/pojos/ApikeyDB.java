@@ -4,8 +4,6 @@
 package com.ke.bella.openapi.generated.tables.pojos;
 
 
-import com.ke.bella.openapi.db.repo.Operator;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -15,35 +13,35 @@ import java.time.LocalDateTime;
  * ak
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class ApikeyDB implements Operator, Serializable {
+public class ApikeyDB implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long          id;
-    private String        code;
-    private String        akSha;
-    private String        akDisplay;
-    private String        name;
-    private String        parentCode;
-    private String        outEntityCode;
-    private String        serviceId;
-    private String        ownerType;
-    private String        ownerCode;
-    private String        ownerName;
-    private String        managerCode;
-    private String        managerName;
-    private String        roleCode;
-    private String        certifyCode;
-    private String        safetySceneCode;
-    private Byte          safetyLevel;
-    private BigDecimal    monthQuota;
-    private Integer       qpsLimit;
-    private String        status;
-    private String        remark;
-    private Long          cuid;
-    private String        cuName;
-    private Long          muid;
-    private String        muName;
+    private Long id;
+    private String code;
+    private String akSha;
+    private String akDisplay;
+    private String name;
+    private String parentCode;
+    private String outEntityCode;
+    private String serviceId;
+    private String ownerType;
+    private String ownerCode;
+    private String ownerName;
+    private String managerCode;
+    private String managerName;
+    private String roleCode;
+    private String certifyCode;
+    private String safetySceneCode;
+    private Byte safetyLevel;
+    private BigDecimal monthQuota;
+    private Integer qpsLimit;
+    private String status;
+    private String remark;
+    private Long cuid;
+    private String cuName;
+    private Long muid;
+    private String muName;
     private LocalDateTime ctime;
     private LocalDateTime mtime;
 
@@ -80,31 +78,31 @@ public class ApikeyDB implements Operator, Serializable {
     }
 
     public ApikeyDB(
-        Long          id,
-        String        code,
-        String        akSha,
-        String        akDisplay,
-        String        name,
-        String        parentCode,
-        String        outEntityCode,
-        String        serviceId,
-        String        ownerType,
-        String        ownerCode,
-        String        ownerName,
-        String        managerCode,
-        String        managerName,
-        String        roleCode,
-        String        certifyCode,
-        String        safetySceneCode,
-        Byte          safetyLevel,
-        BigDecimal    monthQuota,
-        Integer       qpsLimit,
-        String        status,
-        String        remark,
-        Long          cuid,
-        String        cuName,
-        Long          muid,
-        String        muName,
+        Long id,
+        String code,
+        String akSha,
+        String akDisplay,
+        String name,
+        String parentCode,
+        String outEntityCode,
+        String serviceId,
+        String ownerType,
+        String ownerCode,
+        String ownerName,
+        String managerCode,
+        String managerName,
+        String roleCode,
+        String certifyCode,
+        String safetySceneCode,
+        Byte safetyLevel,
+        BigDecimal monthQuota,
+        Integer qpsLimit,
+        String status,
+        String remark,
+        Long cuid,
+        String cuName,
+        Long muid,
+        String muName,
         LocalDateTime ctime,
         LocalDateTime mtime
     ) {
@@ -513,6 +511,214 @@ public class ApikeyDB implements Operator, Serializable {
      */
     public void setMtime(LocalDateTime mtime) {
         this.mtime = mtime;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final ApikeyDB other = (ApikeyDB) obj;
+        if (this.id == null) {
+            if (other.id != null)
+                return false;
+        }
+        else if (!this.id.equals(other.id))
+            return false;
+        if (this.code == null) {
+            if (other.code != null)
+                return false;
+        }
+        else if (!this.code.equals(other.code))
+            return false;
+        if (this.akSha == null) {
+            if (other.akSha != null)
+                return false;
+        }
+        else if (!this.akSha.equals(other.akSha))
+            return false;
+        if (this.akDisplay == null) {
+            if (other.akDisplay != null)
+                return false;
+        }
+        else if (!this.akDisplay.equals(other.akDisplay))
+            return false;
+        if (this.name == null) {
+            if (other.name != null)
+                return false;
+        }
+        else if (!this.name.equals(other.name))
+            return false;
+        if (this.parentCode == null) {
+            if (other.parentCode != null)
+                return false;
+        }
+        else if (!this.parentCode.equals(other.parentCode))
+            return false;
+        if (this.outEntityCode == null) {
+            if (other.outEntityCode != null)
+                return false;
+        }
+        else if (!this.outEntityCode.equals(other.outEntityCode))
+            return false;
+        if (this.serviceId == null) {
+            if (other.serviceId != null)
+                return false;
+        }
+        else if (!this.serviceId.equals(other.serviceId))
+            return false;
+        if (this.ownerType == null) {
+            if (other.ownerType != null)
+                return false;
+        }
+        else if (!this.ownerType.equals(other.ownerType))
+            return false;
+        if (this.ownerCode == null) {
+            if (other.ownerCode != null)
+                return false;
+        }
+        else if (!this.ownerCode.equals(other.ownerCode))
+            return false;
+        if (this.ownerName == null) {
+            if (other.ownerName != null)
+                return false;
+        }
+        else if (!this.ownerName.equals(other.ownerName))
+            return false;
+        if (this.managerCode == null) {
+            if (other.managerCode != null)
+                return false;
+        }
+        else if (!this.managerCode.equals(other.managerCode))
+            return false;
+        if (this.managerName == null) {
+            if (other.managerName != null)
+                return false;
+        }
+        else if (!this.managerName.equals(other.managerName))
+            return false;
+        if (this.roleCode == null) {
+            if (other.roleCode != null)
+                return false;
+        }
+        else if (!this.roleCode.equals(other.roleCode))
+            return false;
+        if (this.certifyCode == null) {
+            if (other.certifyCode != null)
+                return false;
+        }
+        else if (!this.certifyCode.equals(other.certifyCode))
+            return false;
+        if (this.safetySceneCode == null) {
+            if (other.safetySceneCode != null)
+                return false;
+        }
+        else if (!this.safetySceneCode.equals(other.safetySceneCode))
+            return false;
+        if (this.safetyLevel == null) {
+            if (other.safetyLevel != null)
+                return false;
+        }
+        else if (!this.safetyLevel.equals(other.safetyLevel))
+            return false;
+        if (this.monthQuota == null) {
+            if (other.monthQuota != null)
+                return false;
+        }
+        else if (!this.monthQuota.equals(other.monthQuota))
+            return false;
+        if (this.qpsLimit == null) {
+            if (other.qpsLimit != null)
+                return false;
+        }
+        else if (!this.qpsLimit.equals(other.qpsLimit))
+            return false;
+        if (this.status == null) {
+            if (other.status != null)
+                return false;
+        }
+        else if (!this.status.equals(other.status))
+            return false;
+        if (this.remark == null) {
+            if (other.remark != null)
+                return false;
+        }
+        else if (!this.remark.equals(other.remark))
+            return false;
+        if (this.cuid == null) {
+            if (other.cuid != null)
+                return false;
+        }
+        else if (!this.cuid.equals(other.cuid))
+            return false;
+        if (this.cuName == null) {
+            if (other.cuName != null)
+                return false;
+        }
+        else if (!this.cuName.equals(other.cuName))
+            return false;
+        if (this.muid == null) {
+            if (other.muid != null)
+                return false;
+        }
+        else if (!this.muid.equals(other.muid))
+            return false;
+        if (this.muName == null) {
+            if (other.muName != null)
+                return false;
+        }
+        else if (!this.muName.equals(other.muName))
+            return false;
+        if (this.ctime == null) {
+            if (other.ctime != null)
+                return false;
+        }
+        else if (!this.ctime.equals(other.ctime))
+            return false;
+        if (this.mtime == null) {
+            if (other.mtime != null)
+                return false;
+        }
+        else if (!this.mtime.equals(other.mtime))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
+        result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
+        result = prime * result + ((this.akSha == null) ? 0 : this.akSha.hashCode());
+        result = prime * result + ((this.akDisplay == null) ? 0 : this.akDisplay.hashCode());
+        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + ((this.parentCode == null) ? 0 : this.parentCode.hashCode());
+        result = prime * result + ((this.outEntityCode == null) ? 0 : this.outEntityCode.hashCode());
+        result = prime * result + ((this.serviceId == null) ? 0 : this.serviceId.hashCode());
+        result = prime * result + ((this.ownerType == null) ? 0 : this.ownerType.hashCode());
+        result = prime * result + ((this.ownerCode == null) ? 0 : this.ownerCode.hashCode());
+        result = prime * result + ((this.ownerName == null) ? 0 : this.ownerName.hashCode());
+        result = prime * result + ((this.managerCode == null) ? 0 : this.managerCode.hashCode());
+        result = prime * result + ((this.managerName == null) ? 0 : this.managerName.hashCode());
+        result = prime * result + ((this.roleCode == null) ? 0 : this.roleCode.hashCode());
+        result = prime * result + ((this.certifyCode == null) ? 0 : this.certifyCode.hashCode());
+        result = prime * result + ((this.safetySceneCode == null) ? 0 : this.safetySceneCode.hashCode());
+        result = prime * result + ((this.safetyLevel == null) ? 0 : this.safetyLevel.hashCode());
+        result = prime * result + ((this.monthQuota == null) ? 0 : this.monthQuota.hashCode());
+        result = prime * result + ((this.qpsLimit == null) ? 0 : this.qpsLimit.hashCode());
+        result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
+        result = prime * result + ((this.remark == null) ? 0 : this.remark.hashCode());
+        result = prime * result + ((this.cuid == null) ? 0 : this.cuid.hashCode());
+        result = prime * result + ((this.cuName == null) ? 0 : this.cuName.hashCode());
+        result = prime * result + ((this.muid == null) ? 0 : this.muid.hashCode());
+        result = prime * result + ((this.muName == null) ? 0 : this.muName.hashCode());
+        result = prime * result + ((this.ctime == null) ? 0 : this.ctime.hashCode());
+        result = prime * result + ((this.mtime == null) ? 0 : this.mtime.hashCode());
+        return result;
     }
 
     @Override

@@ -4,8 +4,6 @@
 package com.ke.bella.openapi.generated.tables.pojos;
 
 
-import com.ke.bella.openapi.db.repo.Timed;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -14,22 +12,22 @@ import java.time.LocalDateTime;
  * API Key所有权转移审计日志表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class ApikeyTransferLogDB implements Timed, Serializable {
+public class ApikeyTransferLogDB implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long          id;
-    private String        akCode;
-    private String        fromOwnerType;
-    private String        fromOwnerCode;
-    private String        fromOwnerName;
-    private String        toOwnerType;
-    private String        toOwnerCode;
-    private String        toOwnerName;
-    private String        transferReason;
-    private String        status;
-    private Long          operatorUid;
-    private String        operatorName;
+    private Long id;
+    private String akCode;
+    private String fromOwnerType;
+    private String fromOwnerCode;
+    private String fromOwnerName;
+    private String toOwnerType;
+    private String toOwnerCode;
+    private String toOwnerName;
+    private String transferReason;
+    private String status;
+    private Long operatorUid;
+    private String operatorName;
     private LocalDateTime ctime;
     private LocalDateTime mtime;
 
@@ -53,18 +51,18 @@ public class ApikeyTransferLogDB implements Timed, Serializable {
     }
 
     public ApikeyTransferLogDB(
-        Long          id,
-        String        akCode,
-        String        fromOwnerType,
-        String        fromOwnerCode,
-        String        fromOwnerName,
-        String        toOwnerType,
-        String        toOwnerCode,
-        String        toOwnerName,
-        String        transferReason,
-        String        status,
-        Long          operatorUid,
-        String        operatorName,
+        Long id,
+        String akCode,
+        String fromOwnerType,
+        String fromOwnerCode,
+        String fromOwnerName,
+        String toOwnerType,
+        String toOwnerCode,
+        String toOwnerName,
+        String transferReason,
+        String status,
+        Long operatorUid,
+        String operatorName,
         LocalDateTime ctime,
         LocalDateTime mtime
     ) {
@@ -211,14 +209,16 @@ public class ApikeyTransferLogDB implements Timed, Serializable {
     }
 
     /**
-     * Getter for <code>apikey_transfer_log.status</code>. 转移状态(pending/completed/failed)
+     * Getter for <code>apikey_transfer_log.status</code>.
+     * 转移状态(pending/completed/failed)
      */
     public String getStatus() {
         return this.status;
     }
 
     /**
-     * Setter for <code>apikey_transfer_log.status</code>. 转移状态(pending/completed/failed)
+     * Setter for <code>apikey_transfer_log.status</code>.
+     * 转移状态(pending/completed/failed)
      */
     public void setStatus(String status) {
         this.status = status;
@@ -278,6 +278,123 @@ public class ApikeyTransferLogDB implements Timed, Serializable {
      */
     public void setMtime(LocalDateTime mtime) {
         this.mtime = mtime;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final ApikeyTransferLogDB other = (ApikeyTransferLogDB) obj;
+        if (this.id == null) {
+            if (other.id != null)
+                return false;
+        }
+        else if (!this.id.equals(other.id))
+            return false;
+        if (this.akCode == null) {
+            if (other.akCode != null)
+                return false;
+        }
+        else if (!this.akCode.equals(other.akCode))
+            return false;
+        if (this.fromOwnerType == null) {
+            if (other.fromOwnerType != null)
+                return false;
+        }
+        else if (!this.fromOwnerType.equals(other.fromOwnerType))
+            return false;
+        if (this.fromOwnerCode == null) {
+            if (other.fromOwnerCode != null)
+                return false;
+        }
+        else if (!this.fromOwnerCode.equals(other.fromOwnerCode))
+            return false;
+        if (this.fromOwnerName == null) {
+            if (other.fromOwnerName != null)
+                return false;
+        }
+        else if (!this.fromOwnerName.equals(other.fromOwnerName))
+            return false;
+        if (this.toOwnerType == null) {
+            if (other.toOwnerType != null)
+                return false;
+        }
+        else if (!this.toOwnerType.equals(other.toOwnerType))
+            return false;
+        if (this.toOwnerCode == null) {
+            if (other.toOwnerCode != null)
+                return false;
+        }
+        else if (!this.toOwnerCode.equals(other.toOwnerCode))
+            return false;
+        if (this.toOwnerName == null) {
+            if (other.toOwnerName != null)
+                return false;
+        }
+        else if (!this.toOwnerName.equals(other.toOwnerName))
+            return false;
+        if (this.transferReason == null) {
+            if (other.transferReason != null)
+                return false;
+        }
+        else if (!this.transferReason.equals(other.transferReason))
+            return false;
+        if (this.status == null) {
+            if (other.status != null)
+                return false;
+        }
+        else if (!this.status.equals(other.status))
+            return false;
+        if (this.operatorUid == null) {
+            if (other.operatorUid != null)
+                return false;
+        }
+        else if (!this.operatorUid.equals(other.operatorUid))
+            return false;
+        if (this.operatorName == null) {
+            if (other.operatorName != null)
+                return false;
+        }
+        else if (!this.operatorName.equals(other.operatorName))
+            return false;
+        if (this.ctime == null) {
+            if (other.ctime != null)
+                return false;
+        }
+        else if (!this.ctime.equals(other.ctime))
+            return false;
+        if (this.mtime == null) {
+            if (other.mtime != null)
+                return false;
+        }
+        else if (!this.mtime.equals(other.mtime))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
+        result = prime * result + ((this.akCode == null) ? 0 : this.akCode.hashCode());
+        result = prime * result + ((this.fromOwnerType == null) ? 0 : this.fromOwnerType.hashCode());
+        result = prime * result + ((this.fromOwnerCode == null) ? 0 : this.fromOwnerCode.hashCode());
+        result = prime * result + ((this.fromOwnerName == null) ? 0 : this.fromOwnerName.hashCode());
+        result = prime * result + ((this.toOwnerType == null) ? 0 : this.toOwnerType.hashCode());
+        result = prime * result + ((this.toOwnerCode == null) ? 0 : this.toOwnerCode.hashCode());
+        result = prime * result + ((this.toOwnerName == null) ? 0 : this.toOwnerName.hashCode());
+        result = prime * result + ((this.transferReason == null) ? 0 : this.transferReason.hashCode());
+        result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
+        result = prime * result + ((this.operatorUid == null) ? 0 : this.operatorUid.hashCode());
+        result = prime * result + ((this.operatorName == null) ? 0 : this.operatorName.hashCode());
+        result = prime * result + ((this.ctime == null) ? 0 : this.ctime.hashCode());
+        result = prime * result + ((this.mtime == null) ? 0 : this.mtime.hashCode());
+        return result;
     }
 
     @Override

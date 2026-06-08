@@ -4,8 +4,8 @@
 package com.ke.bella.openapi.generated.tables.records;
 
 
-import com.ke.bella.openapi.db.repo.Operator;
 import com.ke.bella.openapi.generated.tables.ApikeyRole;
+import com.ke.bella.openapi.generated.tables.pojos.ApikeyRoleDB;
 
 import java.time.LocalDateTime;
 
@@ -20,7 +20,7 @@ import org.jooq.impl.UpdatableRecordImpl;
  * ak角色
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class ApikeyRoleRecord extends UpdatableRecordImpl<ApikeyRoleRecord> implements Operator, Record9<Long, String, String, Long, String, Long, String, LocalDateTime, LocalDateTime> {
+public class ApikeyRoleRecord extends UpdatableRecordImpl<ApikeyRoleRecord> implements Record9<Long, String, String, Long, String, Long, String, LocalDateTime, LocalDateTime> {
 
     private static final long serialVersionUID = 1L;
 
@@ -402,5 +402,26 @@ public class ApikeyRoleRecord extends UpdatableRecordImpl<ApikeyRoleRecord> impl
         setMuName(muName);
         setCtime(ctime);
         setMtime(mtime);
+        resetChangedOnNotNull();
+    }
+
+    /**
+     * Create a detached, initialised ApikeyRoleRecord
+     */
+    public ApikeyRoleRecord(ApikeyRoleDB value) {
+        super(ApikeyRole.APIKEY_ROLE);
+
+        if (value != null) {
+            setId(value.getId());
+            setRoleCode(value.getRoleCode());
+            setPath(value.getPath());
+            setCuid(value.getCuid());
+            setCuName(value.getCuName());
+            setMuid(value.getMuid());
+            setMuName(value.getMuName());
+            setCtime(value.getCtime());
+            setMtime(value.getMtime());
+            resetChangedOnNotNull();
+        }
     }
 }

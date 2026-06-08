@@ -4,8 +4,6 @@
 package com.ke.bella.openapi.generated.tables.pojos;
 
 
-import com.ke.bella.openapi.db.repo.Timed;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -14,21 +12,21 @@ import java.time.LocalDateTime;
  * 空间角色表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class SpaceRoleDB implements Timed, Serializable {
+public class SpaceRoleDB implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long          id;
-    private String        spaceCode;
-    private String        roleCode;
-    private String        roleName;
-    private String        roleDesc;
-    private Byte          roleType;
-    private Byte          status;
+    private Long id;
+    private String spaceCode;
+    private String roleCode;
+    private String roleName;
+    private String roleDesc;
+    private Byte roleType;
+    private Byte status;
     private LocalDateTime ctime;
     private LocalDateTime mtime;
-    private Long          cuid;
-    private Long          muid;
+    private Long cuid;
+    private Long muid;
 
     public SpaceRoleDB() {}
 
@@ -47,17 +45,17 @@ public class SpaceRoleDB implements Timed, Serializable {
     }
 
     public SpaceRoleDB(
-        Long          id,
-        String        spaceCode,
-        String        roleCode,
-        String        roleName,
-        String        roleDesc,
-        Byte          roleType,
-        Byte          status,
+        Long id,
+        String spaceCode,
+        String roleCode,
+        String roleName,
+        String roleDesc,
+        Byte roleType,
+        Byte status,
         LocalDateTime ctime,
         LocalDateTime mtime,
-        Long          cuid,
-        Long          muid
+        Long cuid,
+        Long muid
     ) {
         this.id = id;
         this.spaceCode = spaceCode;
@@ -224,6 +222,102 @@ public class SpaceRoleDB implements Timed, Serializable {
      */
     public void setMuid(Long muid) {
         this.muid = muid;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final SpaceRoleDB other = (SpaceRoleDB) obj;
+        if (this.id == null) {
+            if (other.id != null)
+                return false;
+        }
+        else if (!this.id.equals(other.id))
+            return false;
+        if (this.spaceCode == null) {
+            if (other.spaceCode != null)
+                return false;
+        }
+        else if (!this.spaceCode.equals(other.spaceCode))
+            return false;
+        if (this.roleCode == null) {
+            if (other.roleCode != null)
+                return false;
+        }
+        else if (!this.roleCode.equals(other.roleCode))
+            return false;
+        if (this.roleName == null) {
+            if (other.roleName != null)
+                return false;
+        }
+        else if (!this.roleName.equals(other.roleName))
+            return false;
+        if (this.roleDesc == null) {
+            if (other.roleDesc != null)
+                return false;
+        }
+        else if (!this.roleDesc.equals(other.roleDesc))
+            return false;
+        if (this.roleType == null) {
+            if (other.roleType != null)
+                return false;
+        }
+        else if (!this.roleType.equals(other.roleType))
+            return false;
+        if (this.status == null) {
+            if (other.status != null)
+                return false;
+        }
+        else if (!this.status.equals(other.status))
+            return false;
+        if (this.ctime == null) {
+            if (other.ctime != null)
+                return false;
+        }
+        else if (!this.ctime.equals(other.ctime))
+            return false;
+        if (this.mtime == null) {
+            if (other.mtime != null)
+                return false;
+        }
+        else if (!this.mtime.equals(other.mtime))
+            return false;
+        if (this.cuid == null) {
+            if (other.cuid != null)
+                return false;
+        }
+        else if (!this.cuid.equals(other.cuid))
+            return false;
+        if (this.muid == null) {
+            if (other.muid != null)
+                return false;
+        }
+        else if (!this.muid.equals(other.muid))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
+        result = prime * result + ((this.spaceCode == null) ? 0 : this.spaceCode.hashCode());
+        result = prime * result + ((this.roleCode == null) ? 0 : this.roleCode.hashCode());
+        result = prime * result + ((this.roleName == null) ? 0 : this.roleName.hashCode());
+        result = prime * result + ((this.roleDesc == null) ? 0 : this.roleDesc.hashCode());
+        result = prime * result + ((this.roleType == null) ? 0 : this.roleType.hashCode());
+        result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
+        result = prime * result + ((this.ctime == null) ? 0 : this.ctime.hashCode());
+        result = prime * result + ((this.mtime == null) ? 0 : this.mtime.hashCode());
+        result = prime * result + ((this.cuid == null) ? 0 : this.cuid.hashCode());
+        result = prime * result + ((this.muid == null) ? 0 : this.muid.hashCode());
+        return result;
     }
 
     @Override

@@ -4,8 +4,6 @@
 package com.ke.bella.openapi.generated.tables.pojos;
 
 
-import com.ke.bella.openapi.db.repo.Timed;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -14,20 +12,20 @@ import java.time.LocalDateTime;
  * 用户表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class UserDB implements Timed, Serializable {
+public class UserDB implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long          id;
-    private String        userName;
-    private String        email;
-    private String        source;
-    private String        sourceId;
-    private String        managerAk;
-    private String        password;
-    private String        optionalInfo;
+    private Long id;
+    private String userName;
+    private String email;
+    private String source;
+    private String sourceId;
+    private String managerAk;
+    private String optionalInfo;
     private LocalDateTime ctime;
     private LocalDateTime mtime;
+    private String password;
 
     public UserDB() {}
 
@@ -38,23 +36,23 @@ public class UserDB implements Timed, Serializable {
         this.source = value.source;
         this.sourceId = value.sourceId;
         this.managerAk = value.managerAk;
-        this.password = value.password;
         this.optionalInfo = value.optionalInfo;
         this.ctime = value.ctime;
         this.mtime = value.mtime;
+        this.password = value.password;
     }
 
     public UserDB(
-        Long          id,
-        String        userName,
-        String        email,
-        String        source,
-        String        sourceId,
-        String        managerAk,
-        String        password,
-        String        optionalInfo,
+        Long id,
+        String userName,
+        String email,
+        String source,
+        String sourceId,
+        String managerAk,
+        String optionalInfo,
         LocalDateTime ctime,
-        LocalDateTime mtime
+        LocalDateTime mtime,
+        String password
     ) {
         this.id = id;
         this.userName = userName;
@@ -62,10 +60,10 @@ public class UserDB implements Timed, Serializable {
         this.source = source;
         this.sourceId = sourceId;
         this.managerAk = managerAk;
-        this.password = password;
         this.optionalInfo = optionalInfo;
         this.ctime = ctime;
         this.mtime = mtime;
+        this.password = password;
     }
 
     /**
@@ -153,20 +151,6 @@ public class UserDB implements Timed, Serializable {
     }
 
     /**
-     * Getter for <code>user.password</code>. BCrypt密码哈希
-     */
-    public String getPassword() {
-        return this.password;
-    }
-
-    /**
-     * Setter for <code>user.password</code>. BCrypt密码哈希
-     */
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    /**
      * Getter for <code>user.optional_info</code>. 扩展信息
      */
     public String getOptionalInfo() {
@@ -208,6 +192,109 @@ public class UserDB implements Timed, Serializable {
         this.mtime = mtime;
     }
 
+    /**
+     * Getter for <code>user.password</code>. BCrypt密码哈希
+     */
+    public String getPassword() {
+        return this.password;
+    }
+
+    /**
+     * Setter for <code>user.password</code>. BCrypt密码哈希
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final UserDB other = (UserDB) obj;
+        if (this.id == null) {
+            if (other.id != null)
+                return false;
+        }
+        else if (!this.id.equals(other.id))
+            return false;
+        if (this.userName == null) {
+            if (other.userName != null)
+                return false;
+        }
+        else if (!this.userName.equals(other.userName))
+            return false;
+        if (this.email == null) {
+            if (other.email != null)
+                return false;
+        }
+        else if (!this.email.equals(other.email))
+            return false;
+        if (this.source == null) {
+            if (other.source != null)
+                return false;
+        }
+        else if (!this.source.equals(other.source))
+            return false;
+        if (this.sourceId == null) {
+            if (other.sourceId != null)
+                return false;
+        }
+        else if (!this.sourceId.equals(other.sourceId))
+            return false;
+        if (this.managerAk == null) {
+            if (other.managerAk != null)
+                return false;
+        }
+        else if (!this.managerAk.equals(other.managerAk))
+            return false;
+        if (this.optionalInfo == null) {
+            if (other.optionalInfo != null)
+                return false;
+        }
+        else if (!this.optionalInfo.equals(other.optionalInfo))
+            return false;
+        if (this.ctime == null) {
+            if (other.ctime != null)
+                return false;
+        }
+        else if (!this.ctime.equals(other.ctime))
+            return false;
+        if (this.mtime == null) {
+            if (other.mtime != null)
+                return false;
+        }
+        else if (!this.mtime.equals(other.mtime))
+            return false;
+        if (this.password == null) {
+            if (other.password != null)
+                return false;
+        }
+        else if (!this.password.equals(other.password))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
+        result = prime * result + ((this.userName == null) ? 0 : this.userName.hashCode());
+        result = prime * result + ((this.email == null) ? 0 : this.email.hashCode());
+        result = prime * result + ((this.source == null) ? 0 : this.source.hashCode());
+        result = prime * result + ((this.sourceId == null) ? 0 : this.sourceId.hashCode());
+        result = prime * result + ((this.managerAk == null) ? 0 : this.managerAk.hashCode());
+        result = prime * result + ((this.optionalInfo == null) ? 0 : this.optionalInfo.hashCode());
+        result = prime * result + ((this.ctime == null) ? 0 : this.ctime.hashCode());
+        result = prime * result + ((this.mtime == null) ? 0 : this.mtime.hashCode());
+        result = prime * result + ((this.password == null) ? 0 : this.password.hashCode());
+        return result;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("UserDB (");
@@ -218,10 +305,10 @@ public class UserDB implements Timed, Serializable {
         sb.append(", ").append(source);
         sb.append(", ").append(sourceId);
         sb.append(", ").append(managerAk);
-        sb.append(", ").append(password != null ? "***" : "null");
         sb.append(", ").append(optionalInfo);
         sb.append(", ").append(ctime);
         sb.append(", ").append(mtime);
+        sb.append(", ").append(password);
 
         sb.append(")");
         return sb.toString();

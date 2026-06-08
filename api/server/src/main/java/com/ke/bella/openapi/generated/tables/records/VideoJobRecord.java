@@ -4,8 +4,8 @@
 package com.ke.bella.openapi.generated.tables.records;
 
 
-import com.ke.bella.openapi.db.repo.Operator;
 import com.ke.bella.openapi.generated.tables.VideoJob;
+import com.ke.bella.openapi.generated.tables.pojos.VideoJobDB;
 
 import java.time.LocalDateTime;
 
@@ -17,7 +17,7 @@ import org.jooq.impl.UpdatableRecordImpl;
  * 视频任务表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class VideoJobRecord extends UpdatableRecordImpl<VideoJobRecord> implements Operator {
+public class VideoJobRecord extends UpdatableRecordImpl<VideoJobRecord> {
 
     private static final long serialVersionUID = 1L;
 
@@ -120,14 +120,16 @@ public class VideoJobRecord extends UpdatableRecordImpl<VideoJobRecord> implemen
     }
 
     /**
-     * Setter for <code>video_job.input_reference_file_id</code>. 输入参考文件ID（用户上传的参考视频/图片）
+     * Setter for <code>video_job.input_reference_file_id</code>.
+     * 输入参考文件ID（用户上传的参考视频/图片）
      */
     public void setInputReferenceFileId(String value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>video_job.input_reference_file_id</code>. 输入参考文件ID（用户上传的参考视频/图片）
+     * Getter for <code>video_job.input_reference_file_id</code>.
+     * 输入参考文件ID（用户上传的参考视频/图片）
      */
     public String getInputReferenceFileId() {
         return (String) get(7);
@@ -204,14 +206,16 @@ public class VideoJobRecord extends UpdatableRecordImpl<VideoJobRecord> implemen
     }
 
     /**
-     * Setter for <code>video_job.status</code>. 任务状态(queued/submitting/processing/completed/failed/cancelled)
+     * Setter for <code>video_job.status</code>.
+     * 任务状态(queued/submitting/processing/completed/failed/cancelled)
      */
     public void setStatus(String value) {
         set(13, value);
     }
 
     /**
-     * Getter for <code>video_job.status</code>. 任务状态(queued/submitting/processing/completed/failed/cancelled)
+     * Getter for <code>video_job.status</code>.
+     * 任务状态(queued/submitting/processing/completed/failed/cancelled)
      */
     public String getStatus() {
         return (String) get(13);
@@ -246,14 +250,16 @@ public class VideoJobRecord extends UpdatableRecordImpl<VideoJobRecord> implemen
     }
 
     /**
-     * Setter for <code>video_job.callback_status</code>. 回调状态(-1：回调失败；0：未回调；1：回调成功)
+     * Setter for <code>video_job.callback_status</code>.
+     * 回调状态(-1：回调失败；0：未回调；1：回调成功)
      */
     public void setCallbackStatus(Byte value) {
         set(16, value);
     }
 
     /**
-     * Getter for <code>video_job.callback_status</code>. 回调状态(-1：回调失败；0：未回调；1：回调成功)
+     * Getter for <code>video_job.callback_status</code>.
+     * 回调状态(-1：回调失败；0：未回调；1：回调成功)
      */
     public Byte getCallbackStatus() {
         return (Byte) get(16);
@@ -437,5 +443,43 @@ public class VideoJobRecord extends UpdatableRecordImpl<VideoJobRecord> implemen
         setMuName(muName);
         setCtime(ctime);
         setMtime(mtime);
+        resetChangedOnNotNull();
+    }
+
+    /**
+     * Create a detached, initialised VideoJobRecord
+     */
+    public VideoJobRecord(VideoJobDB value) {
+        super(VideoJob.VIDEO_JOB);
+
+        if (value != null) {
+            setId(value.getId());
+            setVideoId(value.getVideoId());
+            setSpaceCode(value.getSpaceCode());
+            setAkCode(value.getAkCode());
+            setModel(value.getModel());
+            setProgress(value.getProgress());
+            setPrompt(value.getPrompt());
+            setInputReferenceFileId(value.getInputReferenceFileId());
+            setSeconds(value.getSeconds());
+            setSize(value.getSize());
+            setRemixedFromVideoId(value.getRemixedFromVideoId());
+            setCompletedAt(value.getCompletedAt());
+            setExpiresAt(value.getExpiresAt());
+            setStatus(value.getStatus());
+            setBoundFileId(value.getBoundFileId());
+            setCallbackUrl(value.getCallbackUrl());
+            setCallbackStatus(value.getCallbackStatus());
+            setChannelCode(value.getChannelCode());
+            setChannelVideoId(value.getChannelVideoId());
+            setError(value.getError());
+            setCuid(value.getCuid());
+            setCuName(value.getCuName());
+            setMuid(value.getMuid());
+            setMuName(value.getMuName());
+            setCtime(value.getCtime());
+            setMtime(value.getMtime());
+            resetChangedOnNotNull();
+        }
     }
 }

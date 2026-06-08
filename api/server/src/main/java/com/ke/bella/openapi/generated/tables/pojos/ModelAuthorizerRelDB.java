@@ -4,8 +4,6 @@
 package com.ke.bella.openapi.generated.tables.pojos;
 
 
-import com.ke.bella.openapi.db.repo.Operator;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -14,19 +12,19 @@ import java.time.LocalDateTime;
  * 模型授权信息
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class ModelAuthorizerRelDB implements Operator, Serializable {
+public class ModelAuthorizerRelDB implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long          id;
-    private String        modelName;
-    private String        authorizerType;
-    private String        authorizerCode;
-    private String        authorizerName;
-    private Long          cuid;
-    private String        cuName;
-    private Long          muid;
-    private String        muName;
+    private Long id;
+    private String modelName;
+    private String authorizerType;
+    private String authorizerCode;
+    private String authorizerName;
+    private Long cuid;
+    private String cuName;
+    private Long muid;
+    private String muName;
     private LocalDateTime ctime;
     private LocalDateTime mtime;
 
@@ -47,15 +45,15 @@ public class ModelAuthorizerRelDB implements Operator, Serializable {
     }
 
     public ModelAuthorizerRelDB(
-        Long          id,
-        String        modelName,
-        String        authorizerType,
-        String        authorizerCode,
-        String        authorizerName,
-        Long          cuid,
-        String        cuName,
-        Long          muid,
-        String        muName,
+        Long id,
+        String modelName,
+        String authorizerType,
+        String authorizerCode,
+        String authorizerName,
+        Long cuid,
+        String cuName,
+        Long muid,
+        String muName,
         LocalDateTime ctime,
         LocalDateTime mtime
     ) {
@@ -101,14 +99,16 @@ public class ModelAuthorizerRelDB implements Operator, Serializable {
     }
 
     /**
-     * Getter for <code>model_authorizer_rel.authorizer_type</code>. 所有者类型（组织/个人）
+     * Getter for <code>model_authorizer_rel.authorizer_type</code>.
+     * 所有者类型（组织/个人）
      */
     public String getAuthorizerType() {
         return this.authorizerType;
     }
 
     /**
-     * Setter for <code>model_authorizer_rel.authorizer_type</code>. 所有者类型（组织/个人）
+     * Setter for <code>model_authorizer_rel.authorizer_type</code>.
+     * 所有者类型（组织/个人）
      */
     public void setAuthorizerType(String authorizerType) {
         this.authorizerType = authorizerType;
@@ -224,6 +224,102 @@ public class ModelAuthorizerRelDB implements Operator, Serializable {
      */
     public void setMtime(LocalDateTime mtime) {
         this.mtime = mtime;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final ModelAuthorizerRelDB other = (ModelAuthorizerRelDB) obj;
+        if (this.id == null) {
+            if (other.id != null)
+                return false;
+        }
+        else if (!this.id.equals(other.id))
+            return false;
+        if (this.modelName == null) {
+            if (other.modelName != null)
+                return false;
+        }
+        else if (!this.modelName.equals(other.modelName))
+            return false;
+        if (this.authorizerType == null) {
+            if (other.authorizerType != null)
+                return false;
+        }
+        else if (!this.authorizerType.equals(other.authorizerType))
+            return false;
+        if (this.authorizerCode == null) {
+            if (other.authorizerCode != null)
+                return false;
+        }
+        else if (!this.authorizerCode.equals(other.authorizerCode))
+            return false;
+        if (this.authorizerName == null) {
+            if (other.authorizerName != null)
+                return false;
+        }
+        else if (!this.authorizerName.equals(other.authorizerName))
+            return false;
+        if (this.cuid == null) {
+            if (other.cuid != null)
+                return false;
+        }
+        else if (!this.cuid.equals(other.cuid))
+            return false;
+        if (this.cuName == null) {
+            if (other.cuName != null)
+                return false;
+        }
+        else if (!this.cuName.equals(other.cuName))
+            return false;
+        if (this.muid == null) {
+            if (other.muid != null)
+                return false;
+        }
+        else if (!this.muid.equals(other.muid))
+            return false;
+        if (this.muName == null) {
+            if (other.muName != null)
+                return false;
+        }
+        else if (!this.muName.equals(other.muName))
+            return false;
+        if (this.ctime == null) {
+            if (other.ctime != null)
+                return false;
+        }
+        else if (!this.ctime.equals(other.ctime))
+            return false;
+        if (this.mtime == null) {
+            if (other.mtime != null)
+                return false;
+        }
+        else if (!this.mtime.equals(other.mtime))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
+        result = prime * result + ((this.modelName == null) ? 0 : this.modelName.hashCode());
+        result = prime * result + ((this.authorizerType == null) ? 0 : this.authorizerType.hashCode());
+        result = prime * result + ((this.authorizerCode == null) ? 0 : this.authorizerCode.hashCode());
+        result = prime * result + ((this.authorizerName == null) ? 0 : this.authorizerName.hashCode());
+        result = prime * result + ((this.cuid == null) ? 0 : this.cuid.hashCode());
+        result = prime * result + ((this.cuName == null) ? 0 : this.cuName.hashCode());
+        result = prime * result + ((this.muid == null) ? 0 : this.muid.hashCode());
+        result = prime * result + ((this.muName == null) ? 0 : this.muName.hashCode());
+        result = prime * result + ((this.ctime == null) ? 0 : this.ctime.hashCode());
+        result = prime * result + ((this.mtime == null) ? 0 : this.mtime.hashCode());
+        return result;
     }
 
     @Override

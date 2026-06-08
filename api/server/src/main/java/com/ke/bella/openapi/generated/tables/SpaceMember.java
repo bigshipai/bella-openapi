@@ -12,15 +12,19 @@ import com.ke.bella.openapi.generated.tables.records.SpaceMemberRecord;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Function10;
 import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
+import org.jooq.Records;
 import org.jooq.Row10;
 import org.jooq.Schema;
+import org.jooq.SelectField;
 import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.TableOptions;
@@ -84,12 +88,12 @@ public class SpaceMember extends TableImpl<SpaceMemberRecord> {
     /**
      * The column <code>space_member.ctime</code>. 创建时间
      */
-    public final TableField<SpaceMemberRecord, LocalDateTime> CTIME = createField(DSL.name("ctime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "创建时间");
+    public final TableField<SpaceMemberRecord, LocalDateTime> CTIME = createField(DSL.name("ctime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "创建时间");
 
     /**
      * The column <code>space_member.mtime</code>. 最后一次修改时间
      */
-    public final TableField<SpaceMemberRecord, LocalDateTime> MTIME = createField(DSL.name("mtime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "最后一次修改时间");
+    public final TableField<SpaceMemberRecord, LocalDateTime> MTIME = createField(DSL.name("mtime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "最后一次修改时间");
 
     /**
      * The column <code>space_member.cuid</code>. 创建人系统号
@@ -136,12 +140,12 @@ public class SpaceMember extends TableImpl<SpaceMemberRecord> {
 
     @Override
     public Schema getSchema() {
-        return DefaultSchema.DEFAULT_SCHEMA;
+        return aliased() ? null : DefaultSchema.DEFAULT_SCHEMA;
     }
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.SPACE_MEMBER_IDX_MEMBER_UID);
+        return Arrays.asList(Indexes.SPACE_MEMBER_IDX_MEMBER_UID);
     }
 
     @Override
@@ -155,11 +159,6 @@ public class SpaceMember extends TableImpl<SpaceMemberRecord> {
     }
 
     @Override
-    public List<UniqueKey<SpaceMemberRecord>> getKeys() {
-        return Arrays.<UniqueKey<SpaceMemberRecord>>asList(Keys.KEY_SPACE_MEMBER_PRIMARY);
-    }
-
-    @Override
     public SpaceMember as(String alias) {
         return new SpaceMember(DSL.name(alias), this);
     }
@@ -167,6 +166,11 @@ public class SpaceMember extends TableImpl<SpaceMemberRecord> {
     @Override
     public SpaceMember as(Name alias) {
         return new SpaceMember(alias, this);
+    }
+
+    @Override
+    public SpaceMember as(Table<?> alias) {
+        return new SpaceMember(alias.getQualifiedName(), this);
     }
 
     /**
@@ -185,6 +189,14 @@ public class SpaceMember extends TableImpl<SpaceMemberRecord> {
         return new SpaceMember(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public SpaceMember rename(Table<?> name) {
+        return new SpaceMember(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
     // Row10 type methods
     // -------------------------------------------------------------------------
@@ -192,5 +204,20 @@ public class SpaceMember extends TableImpl<SpaceMemberRecord> {
     @Override
     public Row10<Long, String, String, String, String, Byte, LocalDateTime, LocalDateTime, Long, Long> fieldsRow() {
         return (Row10) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function10<? super Long, ? super String, ? super String, ? super String, ? super String, ? super Byte, ? super LocalDateTime, ? super LocalDateTime, ? super Long, ? super Long, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function10<? super Long, ? super String, ? super String, ? super String, ? super String, ? super Byte, ? super LocalDateTime, ? super LocalDateTime, ? super Long, ? super Long, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

@@ -24,9 +24,9 @@
         <bella-openai.version>0.24.5</bella-openai.version>
         <!-- jooq数据库连接配置，jooq生成代码时替换为真实数据库配置 -->
         <db.driver>com.mysql.cj.jdbc.Driver</db.driver>
-        <db.url>jdbc:mysql://localhost:3306/bella_openapi?useSSL=false</db.url>
-        <db.username>bella_user</db.username>
-        <db.password>123456</db.password>
+        <db.url>jdbc:mysql://192.168.160.128:3306/bella_openapi?useSSL=false</db.url>
+        <db.username>root</db.username>
+        <db.password>mysql_2QA45f</db.password>
         <db.schema>bella_openapi</db.schema>
     </properties>
 
@@ -300,6 +300,23 @@
                             <excludes>video_job_\d+.*</excludes>
                             <unsignedTypes>false</unsignedTypes>
                         </database>
+                        <strategy>
+                            <name>org.jooq.codegen.DefaultGeneratorStrategy</name>
+                            <matchers>
+                                <tables>
+                                    <table>
+                                        <daoClass>
+                                            <transform>PASCAL</transform>
+                                            <expression>$0_D_B_Dao</expression>
+                                        </daoClass>
+                                        <pojoClass>
+                                            <transform>PASCAL</transform>
+                                            <expression>$0_D_B</expression>
+                                        </pojoClass>
+                                    </table>
+                                </tables>
+                            </matchers>
+                        </strategy>
                         <generate>
                             <deprecated>false</deprecated>
                             <records>true</records>

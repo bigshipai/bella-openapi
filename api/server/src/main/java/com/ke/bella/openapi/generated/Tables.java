@@ -11,6 +11,7 @@ import com.ke.bella.openapi.generated.tables.ApikeyRole;
 import com.ke.bella.openapi.generated.tables.ApikeyTransferLog;
 import com.ke.bella.openapi.generated.tables.Category;
 import com.ke.bella.openapi.generated.tables.Channel;
+import com.ke.bella.openapi.generated.tables.ChannelBackup;
 import com.ke.bella.openapi.generated.tables.Endpoint;
 import com.ke.bella.openapi.generated.tables.EndpointCategoryRel;
 import com.ke.bella.openapi.generated.tables.Instance;
@@ -40,7 +41,6 @@ public class Tables {
      */
     public static final ApikeyChangeLog APIKEY_CHANGE_LOG = ApikeyChangeLog.APIKEY_CHANGE_LOG;
 
-
     /**
      * ak月花费
      */
@@ -65,6 +65,11 @@ public class Tables {
      * 通道
      */
     public static final Channel CHANNEL = Channel.CHANNEL;
+
+    /**
+     * The table <code>channel_backup</code>.
+     */
+    public static final ChannelBackup CHANNEL_BACKUP = ChannelBackup.CHANNEL_BACKUP;
 
     /**
      * 能力点

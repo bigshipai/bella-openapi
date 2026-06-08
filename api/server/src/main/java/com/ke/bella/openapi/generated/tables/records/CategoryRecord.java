@@ -4,8 +4,8 @@
 package com.ke.bella.openapi.generated.tables.records;
 
 
-import com.ke.bella.openapi.db.repo.Operator;
 import com.ke.bella.openapi.generated.tables.Category;
+import com.ke.bella.openapi.generated.tables.pojos.CategoryDB;
 
 import java.time.LocalDateTime;
 
@@ -20,7 +20,7 @@ import org.jooq.impl.UpdatableRecordImpl;
  * 类目
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class CategoryRecord extends UpdatableRecordImpl<CategoryRecord> implements Operator, Record11<Long, String, String, String, String, Long, String, Long, String, LocalDateTime, LocalDateTime> {
+public class CategoryRecord extends UpdatableRecordImpl<CategoryRecord> implements Record11<Long, String, String, String, String, Long, String, Long, String, LocalDateTime, LocalDateTime> {
 
     private static final long serialVersionUID = 1L;
 
@@ -476,5 +476,28 @@ public class CategoryRecord extends UpdatableRecordImpl<CategoryRecord> implemen
         setMuName(muName);
         setCtime(ctime);
         setMtime(mtime);
+        resetChangedOnNotNull();
+    }
+
+    /**
+     * Create a detached, initialised CategoryRecord
+     */
+    public CategoryRecord(CategoryDB value) {
+        super(Category.CATEGORY);
+
+        if (value != null) {
+            setId(value.getId());
+            setCategoryCode(value.getCategoryCode());
+            setCategoryName(value.getCategoryName());
+            setParentCode(value.getParentCode());
+            setStatus(value.getStatus());
+            setCuid(value.getCuid());
+            setCuName(value.getCuName());
+            setMuid(value.getMuid());
+            setMuName(value.getMuName());
+            setCtime(value.getCtime());
+            setMtime(value.getMtime());
+            resetChangedOnNotNull();
+        }
     }
 }

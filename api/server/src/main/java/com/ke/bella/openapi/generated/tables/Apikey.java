@@ -179,12 +179,12 @@ public class Apikey extends TableImpl<ApikeyRecord> {
     /**
      * The column <code>apikey.ctime</code>.
      */
-    public final TableField<ApikeyRecord, LocalDateTime> CTIME = createField(DSL.name("ctime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<ApikeyRecord, LocalDateTime> CTIME = createField(DSL.name("ctime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>apikey.mtime</code>.
      */
-    public final TableField<ApikeyRecord, LocalDateTime> MTIME = createField(DSL.name("mtime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<ApikeyRecord, LocalDateTime> MTIME = createField(DSL.name("mtime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "");
 
     private Apikey(Name alias, Table<ApikeyRecord> aliased) {
         this(alias, aliased, null);
@@ -221,12 +221,12 @@ public class Apikey extends TableImpl<ApikeyRecord> {
 
     @Override
     public Schema getSchema() {
-        return DefaultSchema.DEFAULT_SCHEMA;
+        return aliased() ? null : DefaultSchema.DEFAULT_SCHEMA;
     }
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.APIKEY_IDX_MANAGER_CODE, Indexes.APIKEY_IDX_OWNER_TYPE_CODE, Indexes.APIKEY_IDX_PARENT_OUT_ENTITY_CODE);
+        return Arrays.asList(Indexes.APIKEY_IDX_MANAGER_CODE, Indexes.APIKEY_IDX_OWNER_TYPE_CODE, Indexes.APIKEY_IDX_PARENT_OUT_ENTITY_CODE);
     }
 
     @Override
@@ -240,8 +240,8 @@ public class Apikey extends TableImpl<ApikeyRecord> {
     }
 
     @Override
-    public List<UniqueKey<ApikeyRecord>> getKeys() {
-        return Arrays.<UniqueKey<ApikeyRecord>>asList(Keys.KEY_APIKEY_PRIMARY, Keys.KEY_APIKEY_UNIQ_IDX_CODE, Keys.KEY_APIKEY_UNIQ_IDX_AK_SHA);
+    public List<UniqueKey<ApikeyRecord>> getUniqueKeys() {
+        return Arrays.asList(Keys.KEY_APIKEY_UNIQ_IDX_AK_SHA, Keys.KEY_APIKEY_UNIQ_IDX_CODE);
     }
 
     @Override
@@ -252,6 +252,11 @@ public class Apikey extends TableImpl<ApikeyRecord> {
     @Override
     public Apikey as(Name alias) {
         return new Apikey(alias, this);
+    }
+
+    @Override
+    public Apikey as(Table<?> alias) {
+        return new Apikey(alias.getQualifiedName(), this);
     }
 
     /**
@@ -268,5 +273,13 @@ public class Apikey extends TableImpl<ApikeyRecord> {
     @Override
     public Apikey rename(Name name) {
         return new Apikey(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public Apikey rename(Table<?> name) {
+        return new Apikey(name.getQualifiedName(), null);
     }
 }

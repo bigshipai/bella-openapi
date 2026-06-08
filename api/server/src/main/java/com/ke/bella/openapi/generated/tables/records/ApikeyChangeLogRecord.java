@@ -4,8 +4,8 @@
 package com.ke.bella.openapi.generated.tables.records;
 
 
-import com.ke.bella.openapi.db.repo.Timed;
 import com.ke.bella.openapi.generated.tables.ApikeyChangeLog;
+import com.ke.bella.openapi.generated.tables.pojos.ApikeyChangeLogDB;
 
 import java.time.LocalDateTime;
 
@@ -20,7 +20,7 @@ import org.jooq.impl.UpdatableRecordImpl;
  * API Key变更历史表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class ApikeyChangeLogRecord extends UpdatableRecordImpl<ApikeyChangeLogRecord> implements Timed, Record22<Long, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, Long, String, LocalDateTime, LocalDateTime> {
+public class ApikeyChangeLogRecord extends UpdatableRecordImpl<ApikeyChangeLogRecord> implements Record22<Long, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, Long, String, LocalDateTime, LocalDateTime> {
 
     private static final long serialVersionUID = 1L;
 
@@ -39,14 +39,16 @@ public class ApikeyChangeLogRecord extends UpdatableRecordImpl<ApikeyChangeLogRe
     }
 
     /**
-     * Setter for <code>apikey_change_log.action_type</code>. 变更类型(owner_transfer/owner_change/parent_change)
+     * Setter for <code>apikey_change_log.action_type</code>.
+     * 变更类型(owner_transfer/owner_change/parent_change)
      */
     public void setActionType(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>apikey_change_log.action_type</code>. 变更类型(owner_transfer/owner_change/parent_change)
+     * Getter for <code>apikey_change_log.action_type</code>.
+     * 变更类型(owner_transfer/owner_change/parent_change)
      */
     public String getActionType() {
         return (String) get(1);
@@ -883,5 +885,39 @@ public class ApikeyChangeLogRecord extends UpdatableRecordImpl<ApikeyChangeLogRe
         setOperatorName(operatorName);
         setCtime(ctime);
         setMtime(mtime);
+        resetChangedOnNotNull();
+    }
+
+    /**
+     * Create a detached, initialised ApikeyChangeLogRecord
+     */
+    public ApikeyChangeLogRecord(ApikeyChangeLogDB value) {
+        super(ApikeyChangeLog.APIKEY_CHANGE_LOG);
+
+        if (value != null) {
+            setId(value.getId());
+            setActionType(value.getActionType());
+            setAkCode(value.getAkCode());
+            setAffectedCodes(value.getAffectedCodes());
+            setFromOwnerType(value.getFromOwnerType());
+            setFromOwnerCode(value.getFromOwnerCode());
+            setFromOwnerName(value.getFromOwnerName());
+            setToOwnerType(value.getToOwnerType());
+            setToOwnerCode(value.getToOwnerCode());
+            setToOwnerName(value.getToOwnerName());
+            setFromParentCode(value.getFromParentCode());
+            setToParentCode(value.getToParentCode());
+            setFromManagerCode(value.getFromManagerCode());
+            setFromManagerName(value.getFromManagerName());
+            setToManagerCode(value.getToManagerCode());
+            setToManagerName(value.getToManagerName());
+            setReason(value.getReason());
+            setStatus(value.getStatus());
+            setOperatorUid(value.getOperatorUid());
+            setOperatorName(value.getOperatorName());
+            setCtime(value.getCtime());
+            setMtime(value.getMtime());
+            resetChangedOnNotNull();
+        }
     }
 }

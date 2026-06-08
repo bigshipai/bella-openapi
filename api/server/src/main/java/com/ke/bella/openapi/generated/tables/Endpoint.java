@@ -12,15 +12,19 @@ import com.ke.bella.openapi.generated.tables.records.EndpointRecord;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Function17;
 import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row15;
+import org.jooq.Records;
+import org.jooq.Row17;
 import org.jooq.Schema;
+import org.jooq.SelectField;
 import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.TableOptions;
@@ -97,6 +101,16 @@ public class Endpoint extends TableImpl<EndpointRecord> {
     public final TableField<EndpointRecord, String> COST_SCRIPT = createField(DSL.name("cost_script"), SQLDataType.VARCHAR(1024).nullable(false).defaultValue(DSL.inline("", SQLDataType.VARCHAR)), this, "计费脚本");
 
     /**
+     * The column <code>endpoint.category_code</code>. 类别编码
+     */
+    public final TableField<EndpointRecord, String> CATEGORY_CODE = createField(DSL.name("category_code"), SQLDataType.VARCHAR(64), this, "类别编码");
+
+    /**
+     * The column <code>endpoint.sort</code>. 排序
+     */
+    public final TableField<EndpointRecord, Integer> SORT = createField(DSL.name("sort"), SQLDataType.INTEGER, this, "排序");
+
+    /**
      * The column <code>endpoint.cuid</code>. 创建人id
      */
     public final TableField<EndpointRecord, Long> CUID = createField(DSL.name("cuid"), SQLDataType.BIGINT.nullable(false).defaultValue(DSL.inline("0", SQLDataType.BIGINT)), this, "创建人id");
@@ -117,14 +131,14 @@ public class Endpoint extends TableImpl<EndpointRecord> {
     public final TableField<EndpointRecord, String> MU_NAME = createField(DSL.name("mu_name"), SQLDataType.VARCHAR(16).nullable(false).defaultValue(DSL.inline("", SQLDataType.VARCHAR)), this, "编辑人姓名");
 
     /**
-     * The column <code>endpoint.ctime</code>.
+     * The column <code>endpoint.ctime</code>. 创建时间
      */
-    public final TableField<EndpointRecord, LocalDateTime> CTIME = createField(DSL.name("ctime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<EndpointRecord, LocalDateTime> CTIME = createField(DSL.name("ctime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "创建时间");
 
     /**
-     * The column <code>endpoint.mtime</code>.
+     * The column <code>endpoint.mtime</code>. 更改时间
      */
-    public final TableField<EndpointRecord, LocalDateTime> MTIME = createField(DSL.name("mtime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<EndpointRecord, LocalDateTime> MTIME = createField(DSL.name("mtime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "更改时间");
 
     private Endpoint(Name alias, Table<EndpointRecord> aliased) {
         this(alias, aliased, null);
@@ -161,12 +175,12 @@ public class Endpoint extends TableImpl<EndpointRecord> {
 
     @Override
     public Schema getSchema() {
-        return DefaultSchema.DEFAULT_SCHEMA;
+        return aliased() ? null : DefaultSchema.DEFAULT_SCHEMA;
     }
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.ENDPOINT_UNIQ_IDX_UNI_ENDPOINT_NAME);
+        return Arrays.asList(Indexes.ENDPOINT_UNIQ_IDX_UNI_ENDPOINT_NAME);
     }
 
     @Override
@@ -180,8 +194,8 @@ public class Endpoint extends TableImpl<EndpointRecord> {
     }
 
     @Override
-    public List<UniqueKey<EndpointRecord>> getKeys() {
-        return Arrays.<UniqueKey<EndpointRecord>>asList(Keys.KEY_ENDPOINT_PRIMARY, Keys.KEY_ENDPOINT_UNIQ_IDX_UNI_ENDPOINT, Keys.KEY_ENDPOINT_UNIQ_IDX_UNI_ENDPOINT_CODE);
+    public List<UniqueKey<EndpointRecord>> getUniqueKeys() {
+        return Arrays.asList(Keys.KEY_ENDPOINT_UNIQ_IDX_UNI_ENDPOINT, Keys.KEY_ENDPOINT_UNIQ_IDX_UNI_ENDPOINT_CODE);
     }
 
     @Override
@@ -192,6 +206,11 @@ public class Endpoint extends TableImpl<EndpointRecord> {
     @Override
     public Endpoint as(Name alias) {
         return new Endpoint(alias, this);
+    }
+
+    @Override
+    public Endpoint as(Table<?> alias) {
+        return new Endpoint(alias.getQualifiedName(), this);
     }
 
     /**
@@ -210,12 +229,35 @@ public class Endpoint extends TableImpl<EndpointRecord> {
         return new Endpoint(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public Endpoint rename(Table<?> name) {
+        return new Endpoint(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
-    // Row15 type methods
+    // Row17 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row15<Long, String, String, String, String, String, String, String, String, Long, String, Long, String, LocalDateTime, LocalDateTime> fieldsRow() {
-        return (Row15) super.fieldsRow();
+    public Row17<Long, String, String, String, String, String, String, String, String, String, Integer, Long, String, Long, String, LocalDateTime, LocalDateTime> fieldsRow() {
+        return (Row17) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function17<? super Long, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Integer, ? super Long, ? super String, ? super Long, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function17<? super Long, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Integer, ? super Long, ? super String, ? super Long, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

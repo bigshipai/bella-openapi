@@ -4,8 +4,6 @@
 package com.ke.bella.openapi.generated.tables.pojos;
 
 
-import com.ke.bella.openapi.db.repo.Operator;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -14,19 +12,19 @@ import java.time.LocalDateTime;
  * 类目
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class CategoryDB implements Operator, Serializable {
+public class CategoryDB implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long          id;
-    private String        categoryCode;
-    private String        categoryName;
-    private String        parentCode;
-    private String        status;
-    private Long          cuid;
-    private String        cuName;
-    private Long          muid;
-    private String        muName;
+    private Long id;
+    private String categoryCode;
+    private String categoryName;
+    private String parentCode;
+    private String status;
+    private Long cuid;
+    private String cuName;
+    private Long muid;
+    private String muName;
     private LocalDateTime ctime;
     private LocalDateTime mtime;
 
@@ -47,15 +45,15 @@ public class CategoryDB implements Operator, Serializable {
     }
 
     public CategoryDB(
-        Long          id,
-        String        categoryCode,
-        String        categoryName,
-        String        parentCode,
-        String        status,
-        Long          cuid,
-        String        cuName,
-        Long          muid,
-        String        muName,
+        Long id,
+        String categoryCode,
+        String categoryName,
+        String parentCode,
+        String status,
+        Long cuid,
+        String cuName,
+        Long muid,
+        String muName,
         LocalDateTime ctime,
         LocalDateTime mtime
     ) {
@@ -224,6 +222,102 @@ public class CategoryDB implements Operator, Serializable {
      */
     public void setMtime(LocalDateTime mtime) {
         this.mtime = mtime;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final CategoryDB other = (CategoryDB) obj;
+        if (this.id == null) {
+            if (other.id != null)
+                return false;
+        }
+        else if (!this.id.equals(other.id))
+            return false;
+        if (this.categoryCode == null) {
+            if (other.categoryCode != null)
+                return false;
+        }
+        else if (!this.categoryCode.equals(other.categoryCode))
+            return false;
+        if (this.categoryName == null) {
+            if (other.categoryName != null)
+                return false;
+        }
+        else if (!this.categoryName.equals(other.categoryName))
+            return false;
+        if (this.parentCode == null) {
+            if (other.parentCode != null)
+                return false;
+        }
+        else if (!this.parentCode.equals(other.parentCode))
+            return false;
+        if (this.status == null) {
+            if (other.status != null)
+                return false;
+        }
+        else if (!this.status.equals(other.status))
+            return false;
+        if (this.cuid == null) {
+            if (other.cuid != null)
+                return false;
+        }
+        else if (!this.cuid.equals(other.cuid))
+            return false;
+        if (this.cuName == null) {
+            if (other.cuName != null)
+                return false;
+        }
+        else if (!this.cuName.equals(other.cuName))
+            return false;
+        if (this.muid == null) {
+            if (other.muid != null)
+                return false;
+        }
+        else if (!this.muid.equals(other.muid))
+            return false;
+        if (this.muName == null) {
+            if (other.muName != null)
+                return false;
+        }
+        else if (!this.muName.equals(other.muName))
+            return false;
+        if (this.ctime == null) {
+            if (other.ctime != null)
+                return false;
+        }
+        else if (!this.ctime.equals(other.ctime))
+            return false;
+        if (this.mtime == null) {
+            if (other.mtime != null)
+                return false;
+        }
+        else if (!this.mtime.equals(other.mtime))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
+        result = prime * result + ((this.categoryCode == null) ? 0 : this.categoryCode.hashCode());
+        result = prime * result + ((this.categoryName == null) ? 0 : this.categoryName.hashCode());
+        result = prime * result + ((this.parentCode == null) ? 0 : this.parentCode.hashCode());
+        result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
+        result = prime * result + ((this.cuid == null) ? 0 : this.cuid.hashCode());
+        result = prime * result + ((this.cuName == null) ? 0 : this.cuName.hashCode());
+        result = prime * result + ((this.muid == null) ? 0 : this.muid.hashCode());
+        result = prime * result + ((this.muName == null) ? 0 : this.muName.hashCode());
+        result = prime * result + ((this.ctime == null) ? 0 : this.ctime.hashCode());
+        result = prime * result + ((this.mtime == null) ? 0 : this.mtime.hashCode());
+        return result;
     }
 
     @Override

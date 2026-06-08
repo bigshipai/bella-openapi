@@ -4,8 +4,8 @@
 package com.ke.bella.openapi.generated.tables.records;
 
 
-import com.ke.bella.openapi.db.repo.Operator;
 import com.ke.bella.openapi.generated.tables.ModelAuthorizerRel;
+import com.ke.bella.openapi.generated.tables.pojos.ModelAuthorizerRelDB;
 
 import java.time.LocalDateTime;
 
@@ -20,7 +20,7 @@ import org.jooq.impl.UpdatableRecordImpl;
  * 模型授权信息
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class ModelAuthorizerRelRecord extends UpdatableRecordImpl<ModelAuthorizerRelRecord> implements Operator, Record11<Long, String, String, String, String, Long, String, Long, String, LocalDateTime, LocalDateTime> {
+public class ModelAuthorizerRelRecord extends UpdatableRecordImpl<ModelAuthorizerRelRecord> implements Record11<Long, String, String, String, String, Long, String, Long, String, LocalDateTime, LocalDateTime> {
 
     private static final long serialVersionUID = 1L;
 
@@ -53,14 +53,16 @@ public class ModelAuthorizerRelRecord extends UpdatableRecordImpl<ModelAuthorize
     }
 
     /**
-     * Setter for <code>model_authorizer_rel.authorizer_type</code>. 所有者类型（组织/个人）
+     * Setter for <code>model_authorizer_rel.authorizer_type</code>.
+     * 所有者类型（组织/个人）
      */
     public void setAuthorizerType(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>model_authorizer_rel.authorizer_type</code>. 所有者类型（组织/个人）
+     * Getter for <code>model_authorizer_rel.authorizer_type</code>.
+     * 所有者类型（组织/个人）
      */
     public String getAuthorizerType() {
         return (String) get(2);
@@ -476,5 +478,28 @@ public class ModelAuthorizerRelRecord extends UpdatableRecordImpl<ModelAuthorize
         setMuName(muName);
         setCtime(ctime);
         setMtime(mtime);
+        resetChangedOnNotNull();
+    }
+
+    /**
+     * Create a detached, initialised ModelAuthorizerRelRecord
+     */
+    public ModelAuthorizerRelRecord(ModelAuthorizerRelDB value) {
+        super(ModelAuthorizerRel.MODEL_AUTHORIZER_REL);
+
+        if (value != null) {
+            setId(value.getId());
+            setModelName(value.getModelName());
+            setAuthorizerType(value.getAuthorizerType());
+            setAuthorizerCode(value.getAuthorizerCode());
+            setAuthorizerName(value.getAuthorizerName());
+            setCuid(value.getCuid());
+            setCuName(value.getCuName());
+            setMuid(value.getMuid());
+            setMuName(value.getMuName());
+            setCtime(value.getCtime());
+            setMtime(value.getMtime());
+            resetChangedOnNotNull();
+        }
     }
 }

@@ -11,14 +11,18 @@ import com.ke.bella.openapi.generated.tables.records.UserRecord;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Function10;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
+import org.jooq.Records;
 import org.jooq.Row10;
 import org.jooq.Schema;
+import org.jooq.SelectField;
 import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.TableOptions;
@@ -57,32 +61,27 @@ public class User extends TableImpl<UserRecord> {
     /**
      * The column <code>user.user_name</code>. 用户名
      */
-    public final TableField<UserRecord, String> USER_NAME = createField(DSL.name("user_name"), SQLDataType.VARCHAR(255), this, "用户名");
+    public final TableField<UserRecord, String> USER_NAME = createField(DSL.name("user_name"), SQLDataType.VARCHAR(64), this, "用户名");
 
     /**
      * The column <code>user.email</code>. 邮箱
      */
-    public final TableField<UserRecord, String> EMAIL = createField(DSL.name("email"), SQLDataType.VARCHAR(255), this, "邮箱");
+    public final TableField<UserRecord, String> EMAIL = createField(DSL.name("email"), SQLDataType.VARCHAR(128), this, "邮箱");
 
     /**
      * The column <code>user.source</code>. 用户来源
      */
-    public final TableField<UserRecord, String> SOURCE = createField(DSL.name("source"), SQLDataType.VARCHAR(50).nullable(false), this, "用户来源");
+    public final TableField<UserRecord, String> SOURCE = createField(DSL.name("source"), SQLDataType.VARCHAR(32).nullable(false), this, "用户来源");
 
     /**
      * The column <code>user.source_id</code>. 来源ID
      */
-    public final TableField<UserRecord, String> SOURCE_ID = createField(DSL.name("source_id"), SQLDataType.VARCHAR(255).nullable(false), this, "来源ID");
+    public final TableField<UserRecord, String> SOURCE_ID = createField(DSL.name("source_id"), SQLDataType.VARCHAR(32).nullable(false), this, "来源ID");
 
     /**
      * The column <code>user.manager_ak</code>. 管理员ak-code
      */
     public final TableField<UserRecord, String> MANAGER_AK = createField(DSL.name("manager_ak"), SQLDataType.VARCHAR(255), this, "管理员ak-code");
-
-    /**
-     * The column <code>user.password</code>. BCrypt密码哈希
-     */
-    public final TableField<UserRecord, String> PASSWORD = createField(DSL.name("password"), SQLDataType.VARCHAR(255), this, "BCrypt密码哈希");
 
     /**
      * The column <code>user.optional_info</code>. 扩展信息
@@ -92,12 +91,17 @@ public class User extends TableImpl<UserRecord> {
     /**
      * The column <code>user.ctime</code>. 创建时间
      */
-    public final TableField<UserRecord, LocalDateTime> CTIME = createField(DSL.name("ctime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "创建时间");
+    public final TableField<UserRecord, LocalDateTime> CTIME = createField(DSL.name("ctime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "创建时间");
 
     /**
      * The column <code>user.mtime</code>. 最后一次更新时间
      */
-    public final TableField<UserRecord, LocalDateTime> MTIME = createField(DSL.name("mtime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "最后一次更新时间");
+    public final TableField<UserRecord, LocalDateTime> MTIME = createField(DSL.name("mtime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "最后一次更新时间");
+
+    /**
+     * The column <code>user.password</code>. BCrypt密码哈希
+     */
+    public final TableField<UserRecord, String> PASSWORD = createField(DSL.name("password"), SQLDataType.VARCHAR(255), this, "BCrypt密码哈希");
 
     private User(Name alias, Table<UserRecord> aliased) {
         this(alias, aliased, null);
@@ -134,7 +138,7 @@ public class User extends TableImpl<UserRecord> {
 
     @Override
     public Schema getSchema() {
-        return DefaultSchema.DEFAULT_SCHEMA;
+        return aliased() ? null : DefaultSchema.DEFAULT_SCHEMA;
     }
 
     @Override
@@ -148,8 +152,8 @@ public class User extends TableImpl<UserRecord> {
     }
 
     @Override
-    public List<UniqueKey<UserRecord>> getKeys() {
-        return Arrays.<UniqueKey<UserRecord>>asList(Keys.KEY_USER_PRIMARY, Keys.KEY_USER_UK_SOURCE_SOURCE_ID);
+    public List<UniqueKey<UserRecord>> getUniqueKeys() {
+        return Arrays.asList(Keys.KEY_USER_UK_SOURCE_SOURCE_ID);
     }
 
     @Override
@@ -160,6 +164,11 @@ public class User extends TableImpl<UserRecord> {
     @Override
     public User as(Name alias) {
         return new User(alias, this);
+    }
+
+    @Override
+    public User as(Table<?> alias) {
+        return new User(alias.getQualifiedName(), this);
     }
 
     /**
@@ -178,12 +187,35 @@ public class User extends TableImpl<UserRecord> {
         return new User(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public User rename(Table<?> name) {
+        return new User(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
     // Row10 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row10<Long, String, String, String, String, String, String, String, LocalDateTime, LocalDateTime> fieldsRow() {
+    public Row10<Long, String, String, String, String, String, String, LocalDateTime, LocalDateTime, String> fieldsRow() {
         return (Row10) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function10<? super Long, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? super String, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function10<? super Long, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? super String, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

@@ -4,8 +4,8 @@
 package com.ke.bella.openapi.generated.tables.records;
 
 
-import com.ke.bella.openapi.db.repo.Operator;
 import com.ke.bella.openapi.generated.tables.ModelEndpointRel;
+import com.ke.bella.openapi.generated.tables.pojos.ModelEndpointRelDB;
 
 import java.time.LocalDateTime;
 
@@ -20,7 +20,7 @@ import org.jooq.impl.UpdatableRecordImpl;
  * 模型能力点
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class ModelEndpointRelRecord extends UpdatableRecordImpl<ModelEndpointRelRecord> implements Operator, Record9<Long, String, String, Long, String, Long, String, LocalDateTime, LocalDateTime> {
+public class ModelEndpointRelRecord extends UpdatableRecordImpl<ModelEndpointRelRecord> implements Record9<Long, String, String, Long, String, Long, String, LocalDateTime, LocalDateTime> {
 
     private static final long serialVersionUID = 1L;
 
@@ -402,5 +402,26 @@ public class ModelEndpointRelRecord extends UpdatableRecordImpl<ModelEndpointRel
         setMuName(muName);
         setCtime(ctime);
         setMtime(mtime);
+        resetChangedOnNotNull();
+    }
+
+    /**
+     * Create a detached, initialised ModelEndpointRelRecord
+     */
+    public ModelEndpointRelRecord(ModelEndpointRelDB value) {
+        super(ModelEndpointRel.MODEL_ENDPOINT_REL);
+
+        if (value != null) {
+            setId(value.getId());
+            setModelName(value.getModelName());
+            setEndpoint(value.getEndpoint());
+            setCuid(value.getCuid());
+            setCuName(value.getCuName());
+            setMuid(value.getMuid());
+            setMuName(value.getMuName());
+            setCtime(value.getCtime());
+            setMtime(value.getMtime());
+            resetChangedOnNotNull();
+        }
     }
 }

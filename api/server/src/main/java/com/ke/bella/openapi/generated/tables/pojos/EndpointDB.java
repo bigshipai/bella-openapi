@@ -4,8 +4,6 @@
 package com.ke.bella.openapi.generated.tables.pojos;
 
 
-import com.ke.bella.openapi.db.repo.Operator;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -14,23 +12,25 @@ import java.time.LocalDateTime;
  * 能力点
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class EndpointDB implements Operator, Serializable {
+public class EndpointDB implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long          id;
-    private String        endpoint;
-    private String        endpointCode;
-    private String        endpointName;
-    private String        documentUrl;
-    private String        maintainerCode;
-    private String        maintainerName;
-    private String        status;
-    private String        costScript;
-    private Long          cuid;
-    private String        cuName;
-    private Long          muid;
-    private String        muName;
+    private Long id;
+    private String endpoint;
+    private String endpointCode;
+    private String endpointName;
+    private String documentUrl;
+    private String maintainerCode;
+    private String maintainerName;
+    private String status;
+    private String costScript;
+    private String categoryCode;
+    private Integer sort;
+    private Long cuid;
+    private String cuName;
+    private Long muid;
+    private String muName;
     private LocalDateTime ctime;
     private LocalDateTime mtime;
 
@@ -46,6 +46,8 @@ public class EndpointDB implements Operator, Serializable {
         this.maintainerName = value.maintainerName;
         this.status = value.status;
         this.costScript = value.costScript;
+        this.categoryCode = value.categoryCode;
+        this.sort = value.sort;
         this.cuid = value.cuid;
         this.cuName = value.cuName;
         this.muid = value.muid;
@@ -55,19 +57,21 @@ public class EndpointDB implements Operator, Serializable {
     }
 
     public EndpointDB(
-        Long          id,
-        String        endpoint,
-        String        endpointCode,
-        String        endpointName,
-        String        documentUrl,
-        String        maintainerCode,
-        String        maintainerName,
-        String        status,
-        String        costScript,
-        Long          cuid,
-        String        cuName,
-        Long          muid,
-        String        muName,
+        Long id,
+        String endpoint,
+        String endpointCode,
+        String endpointName,
+        String documentUrl,
+        String maintainerCode,
+        String maintainerName,
+        String status,
+        String costScript,
+        String categoryCode,
+        Integer sort,
+        Long cuid,
+        String cuName,
+        Long muid,
+        String muName,
         LocalDateTime ctime,
         LocalDateTime mtime
     ) {
@@ -80,6 +84,8 @@ public class EndpointDB implements Operator, Serializable {
         this.maintainerName = maintainerName;
         this.status = status;
         this.costScript = costScript;
+        this.categoryCode = categoryCode;
+        this.sort = sort;
         this.cuid = cuid;
         this.cuName = cuName;
         this.muid = muid;
@@ -215,6 +221,34 @@ public class EndpointDB implements Operator, Serializable {
     }
 
     /**
+     * Getter for <code>endpoint.category_code</code>. 类别编码
+     */
+    public String getCategoryCode() {
+        return this.categoryCode;
+    }
+
+    /**
+     * Setter for <code>endpoint.category_code</code>. 类别编码
+     */
+    public void setCategoryCode(String categoryCode) {
+        this.categoryCode = categoryCode;
+    }
+
+    /**
+     * Getter for <code>endpoint.sort</code>. 排序
+     */
+    public Integer getSort() {
+        return this.sort;
+    }
+
+    /**
+     * Setter for <code>endpoint.sort</code>. 排序
+     */
+    public void setSort(Integer sort) {
+        this.sort = sort;
+    }
+
+    /**
      * Getter for <code>endpoint.cuid</code>. 创建人id
      */
     public Long getCuid() {
@@ -271,31 +305,169 @@ public class EndpointDB implements Operator, Serializable {
     }
 
     /**
-     * Getter for <code>endpoint.ctime</code>.
+     * Getter for <code>endpoint.ctime</code>. 创建时间
      */
     public LocalDateTime getCtime() {
         return this.ctime;
     }
 
     /**
-     * Setter for <code>endpoint.ctime</code>.
+     * Setter for <code>endpoint.ctime</code>. 创建时间
      */
     public void setCtime(LocalDateTime ctime) {
         this.ctime = ctime;
     }
 
     /**
-     * Getter for <code>endpoint.mtime</code>.
+     * Getter for <code>endpoint.mtime</code>. 更改时间
      */
     public LocalDateTime getMtime() {
         return this.mtime;
     }
 
     /**
-     * Setter for <code>endpoint.mtime</code>.
+     * Setter for <code>endpoint.mtime</code>. 更改时间
      */
     public void setMtime(LocalDateTime mtime) {
         this.mtime = mtime;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final EndpointDB other = (EndpointDB) obj;
+        if (this.id == null) {
+            if (other.id != null)
+                return false;
+        }
+        else if (!this.id.equals(other.id))
+            return false;
+        if (this.endpoint == null) {
+            if (other.endpoint != null)
+                return false;
+        }
+        else if (!this.endpoint.equals(other.endpoint))
+            return false;
+        if (this.endpointCode == null) {
+            if (other.endpointCode != null)
+                return false;
+        }
+        else if (!this.endpointCode.equals(other.endpointCode))
+            return false;
+        if (this.endpointName == null) {
+            if (other.endpointName != null)
+                return false;
+        }
+        else if (!this.endpointName.equals(other.endpointName))
+            return false;
+        if (this.documentUrl == null) {
+            if (other.documentUrl != null)
+                return false;
+        }
+        else if (!this.documentUrl.equals(other.documentUrl))
+            return false;
+        if (this.maintainerCode == null) {
+            if (other.maintainerCode != null)
+                return false;
+        }
+        else if (!this.maintainerCode.equals(other.maintainerCode))
+            return false;
+        if (this.maintainerName == null) {
+            if (other.maintainerName != null)
+                return false;
+        }
+        else if (!this.maintainerName.equals(other.maintainerName))
+            return false;
+        if (this.status == null) {
+            if (other.status != null)
+                return false;
+        }
+        else if (!this.status.equals(other.status))
+            return false;
+        if (this.costScript == null) {
+            if (other.costScript != null)
+                return false;
+        }
+        else if (!this.costScript.equals(other.costScript))
+            return false;
+        if (this.categoryCode == null) {
+            if (other.categoryCode != null)
+                return false;
+        }
+        else if (!this.categoryCode.equals(other.categoryCode))
+            return false;
+        if (this.sort == null) {
+            if (other.sort != null)
+                return false;
+        }
+        else if (!this.sort.equals(other.sort))
+            return false;
+        if (this.cuid == null) {
+            if (other.cuid != null)
+                return false;
+        }
+        else if (!this.cuid.equals(other.cuid))
+            return false;
+        if (this.cuName == null) {
+            if (other.cuName != null)
+                return false;
+        }
+        else if (!this.cuName.equals(other.cuName))
+            return false;
+        if (this.muid == null) {
+            if (other.muid != null)
+                return false;
+        }
+        else if (!this.muid.equals(other.muid))
+            return false;
+        if (this.muName == null) {
+            if (other.muName != null)
+                return false;
+        }
+        else if (!this.muName.equals(other.muName))
+            return false;
+        if (this.ctime == null) {
+            if (other.ctime != null)
+                return false;
+        }
+        else if (!this.ctime.equals(other.ctime))
+            return false;
+        if (this.mtime == null) {
+            if (other.mtime != null)
+                return false;
+        }
+        else if (!this.mtime.equals(other.mtime))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
+        result = prime * result + ((this.endpoint == null) ? 0 : this.endpoint.hashCode());
+        result = prime * result + ((this.endpointCode == null) ? 0 : this.endpointCode.hashCode());
+        result = prime * result + ((this.endpointName == null) ? 0 : this.endpointName.hashCode());
+        result = prime * result + ((this.documentUrl == null) ? 0 : this.documentUrl.hashCode());
+        result = prime * result + ((this.maintainerCode == null) ? 0 : this.maintainerCode.hashCode());
+        result = prime * result + ((this.maintainerName == null) ? 0 : this.maintainerName.hashCode());
+        result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
+        result = prime * result + ((this.costScript == null) ? 0 : this.costScript.hashCode());
+        result = prime * result + ((this.categoryCode == null) ? 0 : this.categoryCode.hashCode());
+        result = prime * result + ((this.sort == null) ? 0 : this.sort.hashCode());
+        result = prime * result + ((this.cuid == null) ? 0 : this.cuid.hashCode());
+        result = prime * result + ((this.cuName == null) ? 0 : this.cuName.hashCode());
+        result = prime * result + ((this.muid == null) ? 0 : this.muid.hashCode());
+        result = prime * result + ((this.muName == null) ? 0 : this.muName.hashCode());
+        result = prime * result + ((this.ctime == null) ? 0 : this.ctime.hashCode());
+        result = prime * result + ((this.mtime == null) ? 0 : this.mtime.hashCode());
+        return result;
     }
 
     @Override
@@ -311,6 +483,8 @@ public class EndpointDB implements Operator, Serializable {
         sb.append(", ").append(maintainerName);
         sb.append(", ").append(status);
         sb.append(", ").append(costScript);
+        sb.append(", ").append(categoryCode);
+        sb.append(", ").append(sort);
         sb.append(", ").append(cuid);
         sb.append(", ").append(cuName);
         sb.append(", ").append(muid);

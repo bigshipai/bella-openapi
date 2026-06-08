@@ -4,8 +4,6 @@
 package com.ke.bella.openapi.generated.tables.pojos;
 
 
-import com.ke.bella.openapi.db.repo.Timed;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -15,14 +13,14 @@ import java.time.LocalDateTime;
  * ak月花费
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class ApikeyMonthCostDB implements Timed, Serializable {
+public class ApikeyMonthCostDB implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long          id;
-    private String        akCode;
-    private String        month;
-    private BigDecimal    amount;
+    private Long id;
+    private String akCode;
+    private String month;
+    private BigDecimal amount;
     private LocalDateTime ctime;
     private LocalDateTime mtime;
 
@@ -38,10 +36,10 @@ public class ApikeyMonthCostDB implements Timed, Serializable {
     }
 
     public ApikeyMonthCostDB(
-        Long          id,
-        String        akCode,
-        String        month,
-        BigDecimal    amount,
+        Long id,
+        String akCode,
+        String month,
+        BigDecimal amount,
         LocalDateTime ctime,
         LocalDateTime mtime
     ) {
@@ -135,6 +133,67 @@ public class ApikeyMonthCostDB implements Timed, Serializable {
      */
     public void setMtime(LocalDateTime mtime) {
         this.mtime = mtime;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final ApikeyMonthCostDB other = (ApikeyMonthCostDB) obj;
+        if (this.id == null) {
+            if (other.id != null)
+                return false;
+        }
+        else if (!this.id.equals(other.id))
+            return false;
+        if (this.akCode == null) {
+            if (other.akCode != null)
+                return false;
+        }
+        else if (!this.akCode.equals(other.akCode))
+            return false;
+        if (this.month == null) {
+            if (other.month != null)
+                return false;
+        }
+        else if (!this.month.equals(other.month))
+            return false;
+        if (this.amount == null) {
+            if (other.amount != null)
+                return false;
+        }
+        else if (!this.amount.equals(other.amount))
+            return false;
+        if (this.ctime == null) {
+            if (other.ctime != null)
+                return false;
+        }
+        else if (!this.ctime.equals(other.ctime))
+            return false;
+        if (this.mtime == null) {
+            if (other.mtime != null)
+                return false;
+        }
+        else if (!this.mtime.equals(other.mtime))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
+        result = prime * result + ((this.akCode == null) ? 0 : this.akCode.hashCode());
+        result = prime * result + ((this.month == null) ? 0 : this.month.hashCode());
+        result = prime * result + ((this.amount == null) ? 0 : this.amount.hashCode());
+        result = prime * result + ((this.ctime == null) ? 0 : this.ctime.hashCode());
+        result = prime * result + ((this.mtime == null) ? 0 : this.mtime.hashCode());
+        return result;
     }
 
     @Override

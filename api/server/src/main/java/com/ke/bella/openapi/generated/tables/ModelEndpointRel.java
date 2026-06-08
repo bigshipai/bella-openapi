@@ -12,15 +12,19 @@ import com.ke.bella.openapi.generated.tables.records.ModelEndpointRelRecord;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Function9;
 import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
+import org.jooq.Records;
 import org.jooq.Row9;
 import org.jooq.Schema;
+import org.jooq.SelectField;
 import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.TableOptions;
@@ -89,12 +93,12 @@ public class ModelEndpointRel extends TableImpl<ModelEndpointRelRecord> {
     /**
      * The column <code>model_endpoint_rel.ctime</code>.
      */
-    public final TableField<ModelEndpointRelRecord, LocalDateTime> CTIME = createField(DSL.name("ctime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<ModelEndpointRelRecord, LocalDateTime> CTIME = createField(DSL.name("ctime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>model_endpoint_rel.mtime</code>.
      */
-    public final TableField<ModelEndpointRelRecord, LocalDateTime> MTIME = createField(DSL.name("mtime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<ModelEndpointRelRecord, LocalDateTime> MTIME = createField(DSL.name("mtime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "");
 
     private ModelEndpointRel(Name alias, Table<ModelEndpointRelRecord> aliased) {
         this(alias, aliased, null);
@@ -131,12 +135,12 @@ public class ModelEndpointRel extends TableImpl<ModelEndpointRelRecord> {
 
     @Override
     public Schema getSchema() {
-        return DefaultSchema.DEFAULT_SCHEMA;
+        return aliased() ? null : DefaultSchema.DEFAULT_SCHEMA;
     }
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.MODEL_ENDPOINT_REL_IDX_MODEL_NAME);
+        return Arrays.asList(Indexes.MODEL_ENDPOINT_REL_IDX_MODEL_NAME);
     }
 
     @Override
@@ -150,8 +154,8 @@ public class ModelEndpointRel extends TableImpl<ModelEndpointRelRecord> {
     }
 
     @Override
-    public List<UniqueKey<ModelEndpointRelRecord>> getKeys() {
-        return Arrays.<UniqueKey<ModelEndpointRelRecord>>asList(Keys.KEY_MODEL_ENDPOINT_REL_PRIMARY, Keys.KEY_MODEL_ENDPOINT_REL_UNIQ_IDX_UNI_ENDPOINT_MODEL);
+    public List<UniqueKey<ModelEndpointRelRecord>> getUniqueKeys() {
+        return Arrays.asList(Keys.KEY_MODEL_ENDPOINT_REL_UNIQ_IDX_UNI_ENDPOINT_MODEL);
     }
 
     @Override
@@ -162,6 +166,11 @@ public class ModelEndpointRel extends TableImpl<ModelEndpointRelRecord> {
     @Override
     public ModelEndpointRel as(Name alias) {
         return new ModelEndpointRel(alias, this);
+    }
+
+    @Override
+    public ModelEndpointRel as(Table<?> alias) {
+        return new ModelEndpointRel(alias.getQualifiedName(), this);
     }
 
     /**
@@ -180,6 +189,14 @@ public class ModelEndpointRel extends TableImpl<ModelEndpointRelRecord> {
         return new ModelEndpointRel(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public ModelEndpointRel rename(Table<?> name) {
+        return new ModelEndpointRel(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
     // Row9 type methods
     // -------------------------------------------------------------------------
@@ -187,5 +204,20 @@ public class ModelEndpointRel extends TableImpl<ModelEndpointRelRecord> {
     @Override
     public Row9<Long, String, String, Long, String, Long, String, LocalDateTime, LocalDateTime> fieldsRow() {
         return (Row9) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function9<? super Long, ? super String, ? super String, ? super Long, ? super String, ? super Long, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function9<? super Long, ? super String, ? super String, ? super Long, ? super String, ? super Long, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

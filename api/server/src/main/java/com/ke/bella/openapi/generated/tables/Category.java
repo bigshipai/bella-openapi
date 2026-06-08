@@ -12,15 +12,19 @@ import com.ke.bella.openapi.generated.tables.records.CategoryRecord;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Function11;
 import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
+import org.jooq.Records;
 import org.jooq.Row11;
 import org.jooq.Schema;
+import org.jooq.SelectField;
 import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.TableOptions;
@@ -99,12 +103,12 @@ public class Category extends TableImpl<CategoryRecord> {
     /**
      * The column <code>category.ctime</code>.
      */
-    public final TableField<CategoryRecord, LocalDateTime> CTIME = createField(DSL.name("ctime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<CategoryRecord, LocalDateTime> CTIME = createField(DSL.name("ctime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>category.mtime</code>.
      */
-    public final TableField<CategoryRecord, LocalDateTime> MTIME = createField(DSL.name("mtime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<CategoryRecord, LocalDateTime> MTIME = createField(DSL.name("mtime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "");
 
     private Category(Name alias, Table<CategoryRecord> aliased) {
         this(alias, aliased, null);
@@ -141,12 +145,12 @@ public class Category extends TableImpl<CategoryRecord> {
 
     @Override
     public Schema getSchema() {
-        return DefaultSchema.DEFAULT_SCHEMA;
+        return aliased() ? null : DefaultSchema.DEFAULT_SCHEMA;
     }
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.CATEGORY_IDX_CATEGORY_NAME);
+        return Arrays.asList(Indexes.CATEGORY_IDX_CATEGORY_NAME);
     }
 
     @Override
@@ -160,8 +164,8 @@ public class Category extends TableImpl<CategoryRecord> {
     }
 
     @Override
-    public List<UniqueKey<CategoryRecord>> getKeys() {
-        return Arrays.<UniqueKey<CategoryRecord>>asList(Keys.KEY_CATEGORY_PRIMARY, Keys.KEY_CATEGORY_UNIQ_IDX_UNI_CATEGORY_CODE, Keys.KEY_CATEGORY_UNIQ_IDX_PARENT_CODE_CATEGORY_NAME);
+    public List<UniqueKey<CategoryRecord>> getUniqueKeys() {
+        return Arrays.asList(Keys.KEY_CATEGORY_UNIQ_IDX_PARENT_CODE_CATEGORY_NAME, Keys.KEY_CATEGORY_UNIQ_IDX_UNI_CATEGORY_CODE);
     }
 
     @Override
@@ -172,6 +176,11 @@ public class Category extends TableImpl<CategoryRecord> {
     @Override
     public Category as(Name alias) {
         return new Category(alias, this);
+    }
+
+    @Override
+    public Category as(Table<?> alias) {
+        return new Category(alias.getQualifiedName(), this);
     }
 
     /**
@@ -190,6 +199,14 @@ public class Category extends TableImpl<CategoryRecord> {
         return new Category(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public Category rename(Table<?> name) {
+        return new Category(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
     // Row11 type methods
     // -------------------------------------------------------------------------
@@ -197,5 +214,20 @@ public class Category extends TableImpl<CategoryRecord> {
     @Override
     public Row11<Long, String, String, String, String, Long, String, Long, String, LocalDateTime, LocalDateTime> fieldsRow() {
         return (Row11) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function11<? super Long, ? super String, ? super String, ? super String, ? super String, ? super Long, ? super String, ? super Long, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function11<? super Long, ? super String, ? super String, ? super String, ? super String, ? super Long, ? super String, ? super Long, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

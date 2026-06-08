@@ -12,15 +12,19 @@ import com.ke.bella.openapi.generated.tables.records.ApikeyTransferLogRecord;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Function14;
 import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
+import org.jooq.Records;
 import org.jooq.Row14;
 import org.jooq.Schema;
+import org.jooq.SelectField;
 import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.TableOptions;
@@ -97,7 +101,8 @@ public class ApikeyTransferLog extends TableImpl<ApikeyTransferLogRecord> {
     public final TableField<ApikeyTransferLogRecord, String> TRANSFER_REASON = createField(DSL.name("transfer_reason"), SQLDataType.VARCHAR(500).nullable(false).defaultValue(DSL.inline("", SQLDataType.VARCHAR)), this, "转移原因");
 
     /**
-     * The column <code>apikey_transfer_log.status</code>. 转移状态(pending/completed/failed)
+     * The column <code>apikey_transfer_log.status</code>.
+     * 转移状态(pending/completed/failed)
      */
     public final TableField<ApikeyTransferLogRecord, String> STATUS = createField(DSL.name("status"), SQLDataType.VARCHAR(16).nullable(false).defaultValue(DSL.inline("completed", SQLDataType.VARCHAR)), this, "转移状态(pending/completed/failed)");
 
@@ -114,12 +119,12 @@ public class ApikeyTransferLog extends TableImpl<ApikeyTransferLogRecord> {
     /**
      * The column <code>apikey_transfer_log.ctime</code>. 创建时间
      */
-    public final TableField<ApikeyTransferLogRecord, LocalDateTime> CTIME = createField(DSL.name("ctime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "创建时间");
+    public final TableField<ApikeyTransferLogRecord, LocalDateTime> CTIME = createField(DSL.name("ctime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "创建时间");
 
     /**
      * The column <code>apikey_transfer_log.mtime</code>. 更新时间
      */
-    public final TableField<ApikeyTransferLogRecord, LocalDateTime> MTIME = createField(DSL.name("mtime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "更新时间");
+    public final TableField<ApikeyTransferLogRecord, LocalDateTime> MTIME = createField(DSL.name("mtime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "更新时间");
 
     private ApikeyTransferLog(Name alias, Table<ApikeyTransferLogRecord> aliased) {
         this(alias, aliased, null);
@@ -156,12 +161,12 @@ public class ApikeyTransferLog extends TableImpl<ApikeyTransferLogRecord> {
 
     @Override
     public Schema getSchema() {
-        return DefaultSchema.DEFAULT_SCHEMA;
+        return aliased() ? null : DefaultSchema.DEFAULT_SCHEMA;
     }
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.APIKEY_TRANSFER_LOG_IDX_AK_CODE, Indexes.APIKEY_TRANSFER_LOG_IDX_CTIME, Indexes.APIKEY_TRANSFER_LOG_IDX_FROM_OWNER, Indexes.APIKEY_TRANSFER_LOG_IDX_TO_OWNER);
+        return Arrays.asList(Indexes.APIKEY_TRANSFER_LOG_IDX_AK_CODE, Indexes.APIKEY_TRANSFER_LOG_IDX_CTIME, Indexes.APIKEY_TRANSFER_LOG_IDX_FROM_OWNER, Indexes.APIKEY_TRANSFER_LOG_IDX_TO_OWNER);
     }
 
     @Override
@@ -175,11 +180,6 @@ public class ApikeyTransferLog extends TableImpl<ApikeyTransferLogRecord> {
     }
 
     @Override
-    public List<UniqueKey<ApikeyTransferLogRecord>> getKeys() {
-        return Arrays.<UniqueKey<ApikeyTransferLogRecord>>asList(Keys.KEY_APIKEY_TRANSFER_LOG_PRIMARY);
-    }
-
-    @Override
     public ApikeyTransferLog as(String alias) {
         return new ApikeyTransferLog(DSL.name(alias), this);
     }
@@ -187,6 +187,11 @@ public class ApikeyTransferLog extends TableImpl<ApikeyTransferLogRecord> {
     @Override
     public ApikeyTransferLog as(Name alias) {
         return new ApikeyTransferLog(alias, this);
+    }
+
+    @Override
+    public ApikeyTransferLog as(Table<?> alias) {
+        return new ApikeyTransferLog(alias.getQualifiedName(), this);
     }
 
     /**
@@ -205,6 +210,14 @@ public class ApikeyTransferLog extends TableImpl<ApikeyTransferLogRecord> {
         return new ApikeyTransferLog(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public ApikeyTransferLog rename(Table<?> name) {
+        return new ApikeyTransferLog(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
     // Row14 type methods
     // -------------------------------------------------------------------------
@@ -212,5 +225,20 @@ public class ApikeyTransferLog extends TableImpl<ApikeyTransferLogRecord> {
     @Override
     public Row14<Long, String, String, String, String, String, String, String, String, String, Long, String, LocalDateTime, LocalDateTime> fieldsRow() {
         return (Row14) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function14<? super Long, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Long, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function14<? super Long, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Long, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

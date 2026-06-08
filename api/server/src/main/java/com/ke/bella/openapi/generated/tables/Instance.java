@@ -11,14 +11,18 @@ import com.ke.bella.openapi.generated.tables.records.InstanceRecord;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Function6;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
+import org.jooq.Records;
 import org.jooq.Row6;
 import org.jooq.Schema;
+import org.jooq.SelectField;
 import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.TableOptions;
@@ -72,12 +76,12 @@ public class Instance extends TableImpl<InstanceRecord> {
     /**
      * The column <code>instance.ctime</code>.
      */
-    public final TableField<InstanceRecord, LocalDateTime> CTIME = createField(DSL.name("ctime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<InstanceRecord, LocalDateTime> CTIME = createField(DSL.name("ctime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>instance.mtime</code>.
      */
-    public final TableField<InstanceRecord, LocalDateTime> MTIME = createField(DSL.name("mtime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<InstanceRecord, LocalDateTime> MTIME = createField(DSL.name("mtime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "");
 
     private Instance(Name alias, Table<InstanceRecord> aliased) {
         this(alias, aliased, null);
@@ -114,7 +118,7 @@ public class Instance extends TableImpl<InstanceRecord> {
 
     @Override
     public Schema getSchema() {
-        return DefaultSchema.DEFAULT_SCHEMA;
+        return aliased() ? null : DefaultSchema.DEFAULT_SCHEMA;
     }
 
     @Override
@@ -128,8 +132,8 @@ public class Instance extends TableImpl<InstanceRecord> {
     }
 
     @Override
-    public List<UniqueKey<InstanceRecord>> getKeys() {
-        return Arrays.<UniqueKey<InstanceRecord>>asList(Keys.KEY_INSTANCE_PRIMARY, Keys.KEY_INSTANCE_IDX_IP_PORT);
+    public List<UniqueKey<InstanceRecord>> getUniqueKeys() {
+        return Arrays.asList(Keys.KEY_INSTANCE_IDX_IP_PORT);
     }
 
     @Override
@@ -140,6 +144,11 @@ public class Instance extends TableImpl<InstanceRecord> {
     @Override
     public Instance as(Name alias) {
         return new Instance(alias, this);
+    }
+
+    @Override
+    public Instance as(Table<?> alias) {
+        return new Instance(alias.getQualifiedName(), this);
     }
 
     /**
@@ -158,6 +167,14 @@ public class Instance extends TableImpl<InstanceRecord> {
         return new Instance(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public Instance rename(Table<?> name) {
+        return new Instance(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
     // Row6 type methods
     // -------------------------------------------------------------------------
@@ -165,5 +182,20 @@ public class Instance extends TableImpl<InstanceRecord> {
     @Override
     public Row6<Long, String, Integer, Integer, LocalDateTime, LocalDateTime> fieldsRow() {
         return (Row6) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function6<? super Long, ? super String, ? super Integer, ? super Integer, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function6<? super Long, ? super String, ? super Integer, ? super Integer, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

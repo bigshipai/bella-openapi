@@ -12,15 +12,19 @@ import com.ke.bella.openapi.generated.tables.records.ModelAuthorizerRelRecord;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Function11;
 import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
+import org.jooq.Records;
 import org.jooq.Row11;
 import org.jooq.Schema;
+import org.jooq.SelectField;
 import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.TableOptions;
@@ -62,7 +66,8 @@ public class ModelAuthorizerRel extends TableImpl<ModelAuthorizerRelRecord> {
     public final TableField<ModelAuthorizerRelRecord, String> MODEL_NAME = createField(DSL.name("model_name"), SQLDataType.VARCHAR(64).nullable(false).defaultValue(DSL.inline("", SQLDataType.VARCHAR)), this, "模型名称");
 
     /**
-     * The column <code>model_authorizer_rel.authorizer_type</code>. 所有者类型（组织/个人）
+     * The column <code>model_authorizer_rel.authorizer_type</code>.
+     * 所有者类型（组织/个人）
      */
     public final TableField<ModelAuthorizerRelRecord, String> AUTHORIZER_TYPE = createField(DSL.name("authorizer_type"), SQLDataType.VARCHAR(16).nullable(false).defaultValue(DSL.inline("", SQLDataType.VARCHAR)), this, "所有者类型（组织/个人）");
 
@@ -99,12 +104,12 @@ public class ModelAuthorizerRel extends TableImpl<ModelAuthorizerRelRecord> {
     /**
      * The column <code>model_authorizer_rel.ctime</code>.
      */
-    public final TableField<ModelAuthorizerRelRecord, LocalDateTime> CTIME = createField(DSL.name("ctime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<ModelAuthorizerRelRecord, LocalDateTime> CTIME = createField(DSL.name("ctime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>model_authorizer_rel.mtime</code>.
      */
-    public final TableField<ModelAuthorizerRelRecord, LocalDateTime> MTIME = createField(DSL.name("mtime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<ModelAuthorizerRelRecord, LocalDateTime> MTIME = createField(DSL.name("mtime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "");
 
     private ModelAuthorizerRel(Name alias, Table<ModelAuthorizerRelRecord> aliased) {
         this(alias, aliased, null);
@@ -141,12 +146,12 @@ public class ModelAuthorizerRel extends TableImpl<ModelAuthorizerRelRecord> {
 
     @Override
     public Schema getSchema() {
-        return DefaultSchema.DEFAULT_SCHEMA;
+        return aliased() ? null : DefaultSchema.DEFAULT_SCHEMA;
     }
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.MODEL_AUTHORIZER_REL_IDX_AUTHORIZER_CODE);
+        return Arrays.asList(Indexes.MODEL_AUTHORIZER_REL_IDX_AUTHORIZER_CODE);
     }
 
     @Override
@@ -160,8 +165,8 @@ public class ModelAuthorizerRel extends TableImpl<ModelAuthorizerRelRecord> {
     }
 
     @Override
-    public List<UniqueKey<ModelAuthorizerRelRecord>> getKeys() {
-        return Arrays.<UniqueKey<ModelAuthorizerRelRecord>>asList(Keys.KEY_MODEL_AUTHORIZER_REL_PRIMARY, Keys.KEY_MODEL_AUTHORIZER_REL_UNIQ_IDX_UNI_MODEL_NAME_AUTHORIZER_CODE);
+    public List<UniqueKey<ModelAuthorizerRelRecord>> getUniqueKeys() {
+        return Arrays.asList(Keys.KEY_MODEL_AUTHORIZER_REL_UNIQ_IDX_UNI_MODEL_NAME_AUTHORIZER_CODE);
     }
 
     @Override
@@ -172,6 +177,11 @@ public class ModelAuthorizerRel extends TableImpl<ModelAuthorizerRelRecord> {
     @Override
     public ModelAuthorizerRel as(Name alias) {
         return new ModelAuthorizerRel(alias, this);
+    }
+
+    @Override
+    public ModelAuthorizerRel as(Table<?> alias) {
+        return new ModelAuthorizerRel(alias.getQualifiedName(), this);
     }
 
     /**
@@ -190,6 +200,14 @@ public class ModelAuthorizerRel extends TableImpl<ModelAuthorizerRelRecord> {
         return new ModelAuthorizerRel(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public ModelAuthorizerRel rename(Table<?> name) {
+        return new ModelAuthorizerRel(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
     // Row11 type methods
     // -------------------------------------------------------------------------
@@ -197,5 +215,20 @@ public class ModelAuthorizerRel extends TableImpl<ModelAuthorizerRelRecord> {
     @Override
     public Row11<Long, String, String, String, String, Long, String, Long, String, LocalDateTime, LocalDateTime> fieldsRow() {
         return (Row11) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function11<? super Long, ? super String, ? super String, ? super String, ? super String, ? super Long, ? super String, ? super Long, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function11<? super Long, ? super String, ? super String, ? super String, ? super String, ? super Long, ? super String, ? super Long, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

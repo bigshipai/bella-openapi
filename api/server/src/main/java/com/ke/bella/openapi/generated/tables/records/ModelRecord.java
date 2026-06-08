@@ -4,8 +4,8 @@
 package com.ke.bella.openapi.generated.tables.records;
 
 
-import com.ke.bella.openapi.db.repo.Operator;
 import com.ke.bella.openapi.generated.tables.Model;
+import com.ke.bella.openapi.generated.tables.pojos.ModelDB;
 
 import java.time.LocalDateTime;
 
@@ -20,7 +20,7 @@ import org.jooq.impl.UpdatableRecordImpl;
  * 模型
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class ModelRecord extends UpdatableRecordImpl<ModelRecord> implements Operator, Record18<Long, String, String, String, Byte, String, String, String, String, String, String, String, Long, String, Long, String, LocalDateTime, LocalDateTime> {
+public class ModelRecord extends UpdatableRecordImpl<ModelRecord> implements Record18<Long, String, String, String, Byte, String, String, String, String, String, String, String, Long, String, Long, String, LocalDateTime, LocalDateTime> {
 
     private static final long serialVersionUID = 1L;
 
@@ -735,5 +735,35 @@ public class ModelRecord extends UpdatableRecordImpl<ModelRecord> implements Ope
         setMuName(muName);
         setCtime(ctime);
         setMtime(mtime);
+        resetChangedOnNotNull();
+    }
+
+    /**
+     * Create a detached, initialised ModelRecord
+     */
+    public ModelRecord(ModelDB value) {
+        super(Model.MODEL);
+
+        if (value != null) {
+            setId(value.getId());
+            setModelName(value.getModelName());
+            setDocumentUrl(value.getDocumentUrl());
+            setVisibility(value.getVisibility());
+            setOpennessType(value.getOpennessType());
+            setOwnerType(value.getOwnerType());
+            setOwnerCode(value.getOwnerCode());
+            setOwnerName(value.getOwnerName());
+            setStatus(value.getStatus());
+            setProperties(value.getProperties());
+            setFeatures(value.getFeatures());
+            setLinkedTo(value.getLinkedTo());
+            setCuid(value.getCuid());
+            setCuName(value.getCuName());
+            setMuid(value.getMuid());
+            setMuName(value.getMuName());
+            setCtime(value.getCtime());
+            setMtime(value.getMtime());
+            resetChangedOnNotNull();
+        }
     }
 }

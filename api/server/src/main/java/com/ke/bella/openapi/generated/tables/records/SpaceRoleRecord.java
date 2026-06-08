@@ -4,8 +4,8 @@
 package com.ke.bella.openapi.generated.tables.records;
 
 
-import com.ke.bella.openapi.db.repo.Timed;
 import com.ke.bella.openapi.generated.tables.SpaceRole;
+import com.ke.bella.openapi.generated.tables.pojos.SpaceRoleDB;
 
 import java.time.LocalDateTime;
 
@@ -20,7 +20,7 @@ import org.jooq.impl.UpdatableRecordImpl;
  * 空间角色表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class SpaceRoleRecord extends UpdatableRecordImpl<SpaceRoleRecord> implements Timed, Record11<Long, String, String, String, String, Byte, Byte, LocalDateTime, LocalDateTime, Long, Long> {
+public class SpaceRoleRecord extends UpdatableRecordImpl<SpaceRoleRecord> implements Record11<Long, String, String, String, String, Byte, Byte, LocalDateTime, LocalDateTime, Long, Long> {
 
     private static final long serialVersionUID = 1L;
 
@@ -476,5 +476,28 @@ public class SpaceRoleRecord extends UpdatableRecordImpl<SpaceRoleRecord> implem
         setMtime(mtime);
         setCuid(cuid);
         setMuid(muid);
+        resetChangedOnNotNull();
+    }
+
+    /**
+     * Create a detached, initialised SpaceRoleRecord
+     */
+    public SpaceRoleRecord(SpaceRoleDB value) {
+        super(SpaceRole.SPACE_ROLE);
+
+        if (value != null) {
+            setId(value.getId());
+            setSpaceCode(value.getSpaceCode());
+            setRoleCode(value.getRoleCode());
+            setRoleName(value.getRoleName());
+            setRoleDesc(value.getRoleDesc());
+            setRoleType(value.getRoleType());
+            setStatus(value.getStatus());
+            setCtime(value.getCtime());
+            setMtime(value.getMtime());
+            setCuid(value.getCuid());
+            setMuid(value.getMuid());
+            resetChangedOnNotNull();
+        }
     }
 }

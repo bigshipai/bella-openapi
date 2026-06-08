@@ -4,8 +4,6 @@
 package com.ke.bella.openapi.generated.tables.pojos;
 
 
-import com.ke.bella.openapi.db.repo.Timed;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -14,20 +12,20 @@ import java.time.LocalDateTime;
  * 空间成员信息表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class SpaceMemberDB implements Timed, Serializable {
+public class SpaceMemberDB implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long          id;
-    private String        spaceCode;
-    private String        roleCode;
-    private String        memberName;
-    private String        memberUid;
-    private Byte          status;
+    private Long id;
+    private String spaceCode;
+    private String roleCode;
+    private String memberName;
+    private String memberUid;
+    private Byte status;
     private LocalDateTime ctime;
     private LocalDateTime mtime;
-    private Long          cuid;
-    private Long          muid;
+    private Long cuid;
+    private Long muid;
 
     public SpaceMemberDB() {}
 
@@ -45,16 +43,16 @@ public class SpaceMemberDB implements Timed, Serializable {
     }
 
     public SpaceMemberDB(
-        Long          id,
-        String        spaceCode,
-        String        roleCode,
-        String        memberName,
-        String        memberUid,
-        Byte          status,
+        Long id,
+        String spaceCode,
+        String roleCode,
+        String memberName,
+        String memberUid,
+        Byte status,
         LocalDateTime ctime,
         LocalDateTime mtime,
-        Long          cuid,
-        Long          muid
+        Long cuid,
+        Long muid
     ) {
         this.id = id;
         this.spaceCode = spaceCode;
@@ -206,6 +204,95 @@ public class SpaceMemberDB implements Timed, Serializable {
      */
     public void setMuid(Long muid) {
         this.muid = muid;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final SpaceMemberDB other = (SpaceMemberDB) obj;
+        if (this.id == null) {
+            if (other.id != null)
+                return false;
+        }
+        else if (!this.id.equals(other.id))
+            return false;
+        if (this.spaceCode == null) {
+            if (other.spaceCode != null)
+                return false;
+        }
+        else if (!this.spaceCode.equals(other.spaceCode))
+            return false;
+        if (this.roleCode == null) {
+            if (other.roleCode != null)
+                return false;
+        }
+        else if (!this.roleCode.equals(other.roleCode))
+            return false;
+        if (this.memberName == null) {
+            if (other.memberName != null)
+                return false;
+        }
+        else if (!this.memberName.equals(other.memberName))
+            return false;
+        if (this.memberUid == null) {
+            if (other.memberUid != null)
+                return false;
+        }
+        else if (!this.memberUid.equals(other.memberUid))
+            return false;
+        if (this.status == null) {
+            if (other.status != null)
+                return false;
+        }
+        else if (!this.status.equals(other.status))
+            return false;
+        if (this.ctime == null) {
+            if (other.ctime != null)
+                return false;
+        }
+        else if (!this.ctime.equals(other.ctime))
+            return false;
+        if (this.mtime == null) {
+            if (other.mtime != null)
+                return false;
+        }
+        else if (!this.mtime.equals(other.mtime))
+            return false;
+        if (this.cuid == null) {
+            if (other.cuid != null)
+                return false;
+        }
+        else if (!this.cuid.equals(other.cuid))
+            return false;
+        if (this.muid == null) {
+            if (other.muid != null)
+                return false;
+        }
+        else if (!this.muid.equals(other.muid))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
+        result = prime * result + ((this.spaceCode == null) ? 0 : this.spaceCode.hashCode());
+        result = prime * result + ((this.roleCode == null) ? 0 : this.roleCode.hashCode());
+        result = prime * result + ((this.memberName == null) ? 0 : this.memberName.hashCode());
+        result = prime * result + ((this.memberUid == null) ? 0 : this.memberUid.hashCode());
+        result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
+        result = prime * result + ((this.ctime == null) ? 0 : this.ctime.hashCode());
+        result = prime * result + ((this.mtime == null) ? 0 : this.mtime.hashCode());
+        result = prime * result + ((this.cuid == null) ? 0 : this.cuid.hashCode());
+        result = prime * result + ((this.muid == null) ? 0 : this.muid.hashCode());
+        return result;
     }
 
     @Override

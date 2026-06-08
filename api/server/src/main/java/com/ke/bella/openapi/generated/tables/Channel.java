@@ -101,7 +101,8 @@ public class Channel extends TableImpl<ChannelRecord> {
     public final TableField<ChannelRecord, Byte> TRIAL_ENABLED = createField(DSL.name("trial_enabled"), SQLDataType.TINYINT.nullable(false).defaultValue(DSL.inline("1", SQLDataType.TINYINT)), this, "是否支持试用");
 
     /**
-     * The column <code>channel.data_destination</code>. 数据流向(inner/mainland/overseas)
+     * The column <code>channel.data_destination</code>.
+     * 数据流向(inner/mainland/overseas)
      */
     public final TableField<ChannelRecord, String> DATA_DESTINATION = createField(DSL.name("data_destination"), SQLDataType.VARCHAR(64).nullable(false).defaultValue(DSL.inline("inner", SQLDataType.VARCHAR)), this, "数据流向(inner/mainland/overseas)");
 
@@ -136,7 +137,8 @@ public class Channel extends TableImpl<ChannelRecord> {
     public final TableField<ChannelRecord, String> PRICE_INFO = createField(DSL.name("price_info"), SQLDataType.VARCHAR(8192).nullable(false).defaultValue(DSL.inline("{}", SQLDataType.VARCHAR)), this, "单价");
 
     /**
-     * The column <code>channel.queue_mode</code>. 队列模式(0:无队列;1:pull模式;2:route模式;3:pull+route模式)
+     * The column <code>channel.queue_mode</code>.
+     * 队列模式(0:无队列;1:pull模式;2:route模式;3:pull+route模式)
      */
     public final TableField<ChannelRecord, Byte> QUEUE_MODE = createField(DSL.name("queue_mode"), SQLDataType.TINYINT.nullable(false).defaultValue(DSL.inline("0", SQLDataType.TINYINT)), this, "队列模式(0:无队列;1:pull模式;2:route模式;3:pull+route模式)");
 
@@ -168,12 +170,12 @@ public class Channel extends TableImpl<ChannelRecord> {
     /**
      * The column <code>channel.ctime</code>.
      */
-    public final TableField<ChannelRecord, LocalDateTime> CTIME = createField(DSL.name("ctime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<ChannelRecord, LocalDateTime> CTIME = createField(DSL.name("ctime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>channel.mtime</code>.
      */
-    public final TableField<ChannelRecord, LocalDateTime> MTIME = createField(DSL.name("mtime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<ChannelRecord, LocalDateTime> MTIME = createField(DSL.name("mtime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "");
 
     private Channel(Name alias, Table<ChannelRecord> aliased) {
         this(alias, aliased, null);
@@ -210,12 +212,12 @@ public class Channel extends TableImpl<ChannelRecord> {
 
     @Override
     public Schema getSchema() {
-        return DefaultSchema.DEFAULT_SCHEMA;
+        return aliased() ? null : DefaultSchema.DEFAULT_SCHEMA;
     }
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.CHANNEL_IDX_ENTITY_TYPE_CODE, Indexes.CHANNEL_IDX_PROTOCOL, Indexes.CHANNEL_IDX_SUPPLIER);
+        return Arrays.asList(Indexes.CHANNEL_IDX_ENTITY_TYPE_CODE, Indexes.CHANNEL_IDX_PROTOCOL, Indexes.CHANNEL_IDX_QUEUE_NAME, Indexes.CHANNEL_IDX_SUPPLIER);
     }
 
     @Override
@@ -229,8 +231,8 @@ public class Channel extends TableImpl<ChannelRecord> {
     }
 
     @Override
-    public List<UniqueKey<ChannelRecord>> getKeys() {
-        return Arrays.<UniqueKey<ChannelRecord>>asList(Keys.KEY_CHANNEL_PRIMARY, Keys.KEY_CHANNEL_UNIQ_IDX_UNI_CHANNEL_CODE);
+    public List<UniqueKey<ChannelRecord>> getUniqueKeys() {
+        return Arrays.asList(Keys.KEY_CHANNEL_UNIQ_IDX_UNI_CHANNEL_CODE);
     }
 
     @Override
@@ -241,6 +243,11 @@ public class Channel extends TableImpl<ChannelRecord> {
     @Override
     public Channel as(Name alias) {
         return new Channel(alias, this);
+    }
+
+    @Override
+    public Channel as(Table<?> alias) {
+        return new Channel(alias.getQualifiedName(), this);
     }
 
     /**
@@ -257,5 +264,13 @@ public class Channel extends TableImpl<ChannelRecord> {
     @Override
     public Channel rename(Name name) {
         return new Channel(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    public Channel rename(Table<?> name) {
+        return new Channel(name.getQualifiedName(), null);
     }
 }

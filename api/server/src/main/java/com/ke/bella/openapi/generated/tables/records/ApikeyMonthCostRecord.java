@@ -4,8 +4,8 @@
 package com.ke.bella.openapi.generated.tables.records;
 
 
-import com.ke.bella.openapi.db.repo.Timed;
 import com.ke.bella.openapi.generated.tables.ApikeyMonthCost;
+import com.ke.bella.openapi.generated.tables.pojos.ApikeyMonthCostDB;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -21,7 +21,7 @@ import org.jooq.impl.UpdatableRecordImpl;
  * ak月花费
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class ApikeyMonthCostRecord extends UpdatableRecordImpl<ApikeyMonthCostRecord> implements Timed, Record6<Long, String, String, BigDecimal, LocalDateTime, LocalDateTime> {
+public class ApikeyMonthCostRecord extends UpdatableRecordImpl<ApikeyMonthCostRecord> implements Record6<Long, String, String, BigDecimal, LocalDateTime, LocalDateTime> {
 
     private static final long serialVersionUID = 1L;
 
@@ -292,5 +292,23 @@ public class ApikeyMonthCostRecord extends UpdatableRecordImpl<ApikeyMonthCostRe
         setAmount(amount);
         setCtime(ctime);
         setMtime(mtime);
+        resetChangedOnNotNull();
+    }
+
+    /**
+     * Create a detached, initialised ApikeyMonthCostRecord
+     */
+    public ApikeyMonthCostRecord(ApikeyMonthCostDB value) {
+        super(ApikeyMonthCost.APIKEY_MONTH_COST);
+
+        if (value != null) {
+            setId(value.getId());
+            setAkCode(value.getAkCode());
+            setMonth(value.getMonth());
+            setAmount(value.getAmount());
+            setCtime(value.getCtime());
+            setMtime(value.getMtime());
+            resetChangedOnNotNull();
+        }
     }
 }

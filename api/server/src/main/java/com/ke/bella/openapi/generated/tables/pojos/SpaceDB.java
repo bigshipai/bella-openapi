@@ -4,8 +4,6 @@
 package com.ke.bella.openapi.generated.tables.pojos;
 
 
-import com.ke.bella.openapi.db.repo.Timed;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -14,20 +12,20 @@ import java.time.LocalDateTime;
  * 空间表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class SpaceDB implements Timed, Serializable {
+public class SpaceDB implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long          id;
-    private String        spaceCode;
-    private String        spaceName;
-    private String        spaceDescription;
-    private Byte          status;
+    private Long id;
+    private String spaceCode;
+    private String spaceName;
+    private String spaceDescription;
+    private Byte status;
     private LocalDateTime ctime;
     private LocalDateTime mtime;
-    private String        ownerUid;
-    private Long          cuid;
-    private Long          muid;
+    private String ownerUid;
+    private Long cuid;
+    private Long muid;
 
     public SpaceDB() {}
 
@@ -45,16 +43,16 @@ public class SpaceDB implements Timed, Serializable {
     }
 
     public SpaceDB(
-        Long          id,
-        String        spaceCode,
-        String        spaceName,
-        String        spaceDescription,
-        Byte          status,
+        Long id,
+        String spaceCode,
+        String spaceName,
+        String spaceDescription,
+        Byte status,
         LocalDateTime ctime,
         LocalDateTime mtime,
-        String        ownerUid,
-        Long          cuid,
-        Long          muid
+        String ownerUid,
+        Long cuid,
+        Long muid
     ) {
         this.id = id;
         this.spaceCode = spaceCode;
@@ -206,6 +204,95 @@ public class SpaceDB implements Timed, Serializable {
      */
     public void setMuid(Long muid) {
         this.muid = muid;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final SpaceDB other = (SpaceDB) obj;
+        if (this.id == null) {
+            if (other.id != null)
+                return false;
+        }
+        else if (!this.id.equals(other.id))
+            return false;
+        if (this.spaceCode == null) {
+            if (other.spaceCode != null)
+                return false;
+        }
+        else if (!this.spaceCode.equals(other.spaceCode))
+            return false;
+        if (this.spaceName == null) {
+            if (other.spaceName != null)
+                return false;
+        }
+        else if (!this.spaceName.equals(other.spaceName))
+            return false;
+        if (this.spaceDescription == null) {
+            if (other.spaceDescription != null)
+                return false;
+        }
+        else if (!this.spaceDescription.equals(other.spaceDescription))
+            return false;
+        if (this.status == null) {
+            if (other.status != null)
+                return false;
+        }
+        else if (!this.status.equals(other.status))
+            return false;
+        if (this.ctime == null) {
+            if (other.ctime != null)
+                return false;
+        }
+        else if (!this.ctime.equals(other.ctime))
+            return false;
+        if (this.mtime == null) {
+            if (other.mtime != null)
+                return false;
+        }
+        else if (!this.mtime.equals(other.mtime))
+            return false;
+        if (this.ownerUid == null) {
+            if (other.ownerUid != null)
+                return false;
+        }
+        else if (!this.ownerUid.equals(other.ownerUid))
+            return false;
+        if (this.cuid == null) {
+            if (other.cuid != null)
+                return false;
+        }
+        else if (!this.cuid.equals(other.cuid))
+            return false;
+        if (this.muid == null) {
+            if (other.muid != null)
+                return false;
+        }
+        else if (!this.muid.equals(other.muid))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
+        result = prime * result + ((this.spaceCode == null) ? 0 : this.spaceCode.hashCode());
+        result = prime * result + ((this.spaceName == null) ? 0 : this.spaceName.hashCode());
+        result = prime * result + ((this.spaceDescription == null) ? 0 : this.spaceDescription.hashCode());
+        result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
+        result = prime * result + ((this.ctime == null) ? 0 : this.ctime.hashCode());
+        result = prime * result + ((this.mtime == null) ? 0 : this.mtime.hashCode());
+        result = prime * result + ((this.ownerUid == null) ? 0 : this.ownerUid.hashCode());
+        result = prime * result + ((this.cuid == null) ? 0 : this.cuid.hashCode());
+        result = prime * result + ((this.muid == null) ? 0 : this.muid.hashCode());
+        return result;
     }
 
     @Override

@@ -4,8 +4,8 @@
 package com.ke.bella.openapi.generated.tables.records;
 
 
-import com.ke.bella.openapi.db.repo.Timed;
 import com.ke.bella.openapi.generated.tables.ApikeyTransferLog;
+import com.ke.bella.openapi.generated.tables.pojos.ApikeyTransferLogDB;
 
 import java.time.LocalDateTime;
 
@@ -20,7 +20,7 @@ import org.jooq.impl.UpdatableRecordImpl;
  * API Key所有权转移审计日志表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class ApikeyTransferLogRecord extends UpdatableRecordImpl<ApikeyTransferLogRecord> implements Timed, Record14<Long, String, String, String, String, String, String, String, String, String, Long, String, LocalDateTime, LocalDateTime> {
+public class ApikeyTransferLogRecord extends UpdatableRecordImpl<ApikeyTransferLogRecord> implements Record14<Long, String, String, String, String, String, String, String, String, String, Long, String, LocalDateTime, LocalDateTime> {
 
     private static final long serialVersionUID = 1L;
 
@@ -151,14 +151,16 @@ public class ApikeyTransferLogRecord extends UpdatableRecordImpl<ApikeyTransferL
     }
 
     /**
-     * Setter for <code>apikey_transfer_log.status</code>. 转移状态(pending/completed/failed)
+     * Setter for <code>apikey_transfer_log.status</code>.
+     * 转移状态(pending/completed/failed)
      */
     public void setStatus(String value) {
         set(9, value);
     }
 
     /**
-     * Getter for <code>apikey_transfer_log.status</code>. 转移状态(pending/completed/failed)
+     * Getter for <code>apikey_transfer_log.status</code>.
+     * 转移状态(pending/completed/failed)
      */
     public String getStatus() {
         return (String) get(9);
@@ -587,5 +589,31 @@ public class ApikeyTransferLogRecord extends UpdatableRecordImpl<ApikeyTransferL
         setOperatorName(operatorName);
         setCtime(ctime);
         setMtime(mtime);
+        resetChangedOnNotNull();
+    }
+
+    /**
+     * Create a detached, initialised ApikeyTransferLogRecord
+     */
+    public ApikeyTransferLogRecord(ApikeyTransferLogDB value) {
+        super(ApikeyTransferLog.APIKEY_TRANSFER_LOG);
+
+        if (value != null) {
+            setId(value.getId());
+            setAkCode(value.getAkCode());
+            setFromOwnerType(value.getFromOwnerType());
+            setFromOwnerCode(value.getFromOwnerCode());
+            setFromOwnerName(value.getFromOwnerName());
+            setToOwnerType(value.getToOwnerType());
+            setToOwnerCode(value.getToOwnerCode());
+            setToOwnerName(value.getToOwnerName());
+            setTransferReason(value.getTransferReason());
+            setStatus(value.getStatus());
+            setOperatorUid(value.getOperatorUid());
+            setOperatorName(value.getOperatorName());
+            setCtime(value.getCtime());
+            setMtime(value.getMtime());
+            resetChangedOnNotNull();
+        }
     }
 }

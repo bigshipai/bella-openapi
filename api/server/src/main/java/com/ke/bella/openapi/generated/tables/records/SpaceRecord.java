@@ -4,8 +4,8 @@
 package com.ke.bella.openapi.generated.tables.records;
 
 
-import com.ke.bella.openapi.db.repo.Timed;
 import com.ke.bella.openapi.generated.tables.Space;
+import com.ke.bella.openapi.generated.tables.pojos.SpaceDB;
 
 import java.time.LocalDateTime;
 
@@ -20,7 +20,7 @@ import org.jooq.impl.UpdatableRecordImpl;
  * 空间表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class SpaceRecord extends UpdatableRecordImpl<SpaceRecord> implements Timed, Record10<Long, String, String, String, Byte, LocalDateTime, LocalDateTime, String, Long, Long> {
+public class SpaceRecord extends UpdatableRecordImpl<SpaceRecord> implements Record10<Long, String, String, String, Byte, LocalDateTime, LocalDateTime, String, Long, Long> {
 
     private static final long serialVersionUID = 1L;
 
@@ -439,5 +439,27 @@ public class SpaceRecord extends UpdatableRecordImpl<SpaceRecord> implements Tim
         setOwnerUid(ownerUid);
         setCuid(cuid);
         setMuid(muid);
+        resetChangedOnNotNull();
+    }
+
+    /**
+     * Create a detached, initialised SpaceRecord
+     */
+    public SpaceRecord(SpaceDB value) {
+        super(Space.SPACE);
+
+        if (value != null) {
+            setId(value.getId());
+            setSpaceCode(value.getSpaceCode());
+            setSpaceName(value.getSpaceName());
+            setSpaceDescription(value.getSpaceDescription());
+            setStatus(value.getStatus());
+            setCtime(value.getCtime());
+            setMtime(value.getMtime());
+            setOwnerUid(value.getOwnerUid());
+            setCuid(value.getCuid());
+            setMuid(value.getMuid());
+            resetChangedOnNotNull();
+        }
     }
 }

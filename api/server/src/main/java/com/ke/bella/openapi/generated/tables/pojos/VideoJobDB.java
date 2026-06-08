@@ -4,8 +4,6 @@
 package com.ke.bella.openapi.generated.tables.pojos;
 
 
-import com.ke.bella.openapi.db.repo.Operator;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -14,34 +12,34 @@ import java.time.LocalDateTime;
  * 视频任务表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class VideoJobDB implements Operator, Serializable {
+public class VideoJobDB implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long          id;
-    private String        videoId;
-    private String        spaceCode;
-    private String        akCode;
-    private String        model;
-    private Integer       progress;
-    private String        prompt;
-    private String        inputReferenceFileId;
-    private Long          seconds;
-    private String        size;
-    private String        remixedFromVideoId;
+    private Long id;
+    private String videoId;
+    private String spaceCode;
+    private String akCode;
+    private String model;
+    private Integer progress;
+    private String prompt;
+    private String inputReferenceFileId;
+    private Long seconds;
+    private String size;
+    private String remixedFromVideoId;
     private LocalDateTime completedAt;
     private LocalDateTime expiresAt;
-    private String        status;
-    private String        boundFileId;
-    private String        callbackUrl;
-    private Byte          callbackStatus;
-    private String        channelCode;
-    private String        channelVideoId;
-    private String        error;
-    private Long          cuid;
-    private String        cuName;
-    private Long          muid;
-    private String        muName;
+    private String status;
+    private String boundFileId;
+    private String callbackUrl;
+    private Byte callbackStatus;
+    private String channelCode;
+    private String channelVideoId;
+    private String error;
+    private Long cuid;
+    private String cuName;
+    private Long muid;
+    private String muName;
     private LocalDateTime ctime;
     private LocalDateTime mtime;
 
@@ -77,30 +75,30 @@ public class VideoJobDB implements Operator, Serializable {
     }
 
     public VideoJobDB(
-        Long          id,
-        String        videoId,
-        String        spaceCode,
-        String        akCode,
-        String        model,
-        Integer       progress,
-        String        prompt,
-        String        inputReferenceFileId,
-        Long          seconds,
-        String        size,
-        String        remixedFromVideoId,
+        Long id,
+        String videoId,
+        String spaceCode,
+        String akCode,
+        String model,
+        Integer progress,
+        String prompt,
+        String inputReferenceFileId,
+        Long seconds,
+        String size,
+        String remixedFromVideoId,
         LocalDateTime completedAt,
         LocalDateTime expiresAt,
-        String        status,
-        String        boundFileId,
-        String        callbackUrl,
-        Byte          callbackStatus,
-        String        channelCode,
-        String        channelVideoId,
-        String        error,
-        Long          cuid,
-        String        cuName,
-        Long          muid,
-        String        muName,
+        String status,
+        String boundFileId,
+        String callbackUrl,
+        Byte callbackStatus,
+        String channelCode,
+        String channelVideoId,
+        String error,
+        Long cuid,
+        String cuName,
+        Long muid,
+        String muName,
         LocalDateTime ctime,
         LocalDateTime mtime
     ) {
@@ -231,14 +229,16 @@ public class VideoJobDB implements Operator, Serializable {
     }
 
     /**
-     * Getter for <code>video_job.input_reference_file_id</code>. 输入参考文件ID（用户上传的参考视频/图片）
+     * Getter for <code>video_job.input_reference_file_id</code>.
+     * 输入参考文件ID（用户上传的参考视频/图片）
      */
     public String getInputReferenceFileId() {
         return this.inputReferenceFileId;
     }
 
     /**
-     * Setter for <code>video_job.input_reference_file_id</code>. 输入参考文件ID（用户上传的参考视频/图片）
+     * Setter for <code>video_job.input_reference_file_id</code>.
+     * 输入参考文件ID（用户上传的参考视频/图片）
      */
     public void setInputReferenceFileId(String inputReferenceFileId) {
         this.inputReferenceFileId = inputReferenceFileId;
@@ -315,14 +315,16 @@ public class VideoJobDB implements Operator, Serializable {
     }
 
     /**
-     * Getter for <code>video_job.status</code>. 任务状态(queued/submitting/processing/completed/failed/cancelled)
+     * Getter for <code>video_job.status</code>.
+     * 任务状态(queued/submitting/processing/completed/failed/cancelled)
      */
     public String getStatus() {
         return this.status;
     }
 
     /**
-     * Setter for <code>video_job.status</code>. 任务状态(queued/submitting/processing/completed/failed/cancelled)
+     * Setter for <code>video_job.status</code>.
+     * 任务状态(queued/submitting/processing/completed/failed/cancelled)
      */
     public void setStatus(String status) {
         this.status = status;
@@ -357,14 +359,16 @@ public class VideoJobDB implements Operator, Serializable {
     }
 
     /**
-     * Getter for <code>video_job.callback_status</code>. 回调状态(-1：回调失败；0：未回调；1：回调成功)
+     * Getter for <code>video_job.callback_status</code>.
+     * 回调状态(-1：回调失败；0：未回调；1：回调成功)
      */
     public Byte getCallbackStatus() {
         return this.callbackStatus;
     }
 
     /**
-     * Setter for <code>video_job.callback_status</code>. 回调状态(-1：回调失败；0：未回调；1：回调成功)
+     * Setter for <code>video_job.callback_status</code>.
+     * 回调状态(-1：回调失败；0：未回调；1：回调成功)
      */
     public void setCallbackStatus(Byte callbackStatus) {
         this.callbackStatus = callbackStatus;
@@ -494,6 +498,207 @@ public class VideoJobDB implements Operator, Serializable {
      */
     public void setMtime(LocalDateTime mtime) {
         this.mtime = mtime;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final VideoJobDB other = (VideoJobDB) obj;
+        if (this.id == null) {
+            if (other.id != null)
+                return false;
+        }
+        else if (!this.id.equals(other.id))
+            return false;
+        if (this.videoId == null) {
+            if (other.videoId != null)
+                return false;
+        }
+        else if (!this.videoId.equals(other.videoId))
+            return false;
+        if (this.spaceCode == null) {
+            if (other.spaceCode != null)
+                return false;
+        }
+        else if (!this.spaceCode.equals(other.spaceCode))
+            return false;
+        if (this.akCode == null) {
+            if (other.akCode != null)
+                return false;
+        }
+        else if (!this.akCode.equals(other.akCode))
+            return false;
+        if (this.model == null) {
+            if (other.model != null)
+                return false;
+        }
+        else if (!this.model.equals(other.model))
+            return false;
+        if (this.progress == null) {
+            if (other.progress != null)
+                return false;
+        }
+        else if (!this.progress.equals(other.progress))
+            return false;
+        if (this.prompt == null) {
+            if (other.prompt != null)
+                return false;
+        }
+        else if (!this.prompt.equals(other.prompt))
+            return false;
+        if (this.inputReferenceFileId == null) {
+            if (other.inputReferenceFileId != null)
+                return false;
+        }
+        else if (!this.inputReferenceFileId.equals(other.inputReferenceFileId))
+            return false;
+        if (this.seconds == null) {
+            if (other.seconds != null)
+                return false;
+        }
+        else if (!this.seconds.equals(other.seconds))
+            return false;
+        if (this.size == null) {
+            if (other.size != null)
+                return false;
+        }
+        else if (!this.size.equals(other.size))
+            return false;
+        if (this.remixedFromVideoId == null) {
+            if (other.remixedFromVideoId != null)
+                return false;
+        }
+        else if (!this.remixedFromVideoId.equals(other.remixedFromVideoId))
+            return false;
+        if (this.completedAt == null) {
+            if (other.completedAt != null)
+                return false;
+        }
+        else if (!this.completedAt.equals(other.completedAt))
+            return false;
+        if (this.expiresAt == null) {
+            if (other.expiresAt != null)
+                return false;
+        }
+        else if (!this.expiresAt.equals(other.expiresAt))
+            return false;
+        if (this.status == null) {
+            if (other.status != null)
+                return false;
+        }
+        else if (!this.status.equals(other.status))
+            return false;
+        if (this.boundFileId == null) {
+            if (other.boundFileId != null)
+                return false;
+        }
+        else if (!this.boundFileId.equals(other.boundFileId))
+            return false;
+        if (this.callbackUrl == null) {
+            if (other.callbackUrl != null)
+                return false;
+        }
+        else if (!this.callbackUrl.equals(other.callbackUrl))
+            return false;
+        if (this.callbackStatus == null) {
+            if (other.callbackStatus != null)
+                return false;
+        }
+        else if (!this.callbackStatus.equals(other.callbackStatus))
+            return false;
+        if (this.channelCode == null) {
+            if (other.channelCode != null)
+                return false;
+        }
+        else if (!this.channelCode.equals(other.channelCode))
+            return false;
+        if (this.channelVideoId == null) {
+            if (other.channelVideoId != null)
+                return false;
+        }
+        else if (!this.channelVideoId.equals(other.channelVideoId))
+            return false;
+        if (this.error == null) {
+            if (other.error != null)
+                return false;
+        }
+        else if (!this.error.equals(other.error))
+            return false;
+        if (this.cuid == null) {
+            if (other.cuid != null)
+                return false;
+        }
+        else if (!this.cuid.equals(other.cuid))
+            return false;
+        if (this.cuName == null) {
+            if (other.cuName != null)
+                return false;
+        }
+        else if (!this.cuName.equals(other.cuName))
+            return false;
+        if (this.muid == null) {
+            if (other.muid != null)
+                return false;
+        }
+        else if (!this.muid.equals(other.muid))
+            return false;
+        if (this.muName == null) {
+            if (other.muName != null)
+                return false;
+        }
+        else if (!this.muName.equals(other.muName))
+            return false;
+        if (this.ctime == null) {
+            if (other.ctime != null)
+                return false;
+        }
+        else if (!this.ctime.equals(other.ctime))
+            return false;
+        if (this.mtime == null) {
+            if (other.mtime != null)
+                return false;
+        }
+        else if (!this.mtime.equals(other.mtime))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
+        result = prime * result + ((this.videoId == null) ? 0 : this.videoId.hashCode());
+        result = prime * result + ((this.spaceCode == null) ? 0 : this.spaceCode.hashCode());
+        result = prime * result + ((this.akCode == null) ? 0 : this.akCode.hashCode());
+        result = prime * result + ((this.model == null) ? 0 : this.model.hashCode());
+        result = prime * result + ((this.progress == null) ? 0 : this.progress.hashCode());
+        result = prime * result + ((this.prompt == null) ? 0 : this.prompt.hashCode());
+        result = prime * result + ((this.inputReferenceFileId == null) ? 0 : this.inputReferenceFileId.hashCode());
+        result = prime * result + ((this.seconds == null) ? 0 : this.seconds.hashCode());
+        result = prime * result + ((this.size == null) ? 0 : this.size.hashCode());
+        result = prime * result + ((this.remixedFromVideoId == null) ? 0 : this.remixedFromVideoId.hashCode());
+        result = prime * result + ((this.completedAt == null) ? 0 : this.completedAt.hashCode());
+        result = prime * result + ((this.expiresAt == null) ? 0 : this.expiresAt.hashCode());
+        result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
+        result = prime * result + ((this.boundFileId == null) ? 0 : this.boundFileId.hashCode());
+        result = prime * result + ((this.callbackUrl == null) ? 0 : this.callbackUrl.hashCode());
+        result = prime * result + ((this.callbackStatus == null) ? 0 : this.callbackStatus.hashCode());
+        result = prime * result + ((this.channelCode == null) ? 0 : this.channelCode.hashCode());
+        result = prime * result + ((this.channelVideoId == null) ? 0 : this.channelVideoId.hashCode());
+        result = prime * result + ((this.error == null) ? 0 : this.error.hashCode());
+        result = prime * result + ((this.cuid == null) ? 0 : this.cuid.hashCode());
+        result = prime * result + ((this.cuName == null) ? 0 : this.cuName.hashCode());
+        result = prime * result + ((this.muid == null) ? 0 : this.muid.hashCode());
+        result = prime * result + ((this.muName == null) ? 0 : this.muName.hashCode());
+        result = prime * result + ((this.ctime == null) ? 0 : this.ctime.hashCode());
+        result = prime * result + ((this.mtime == null) ? 0 : this.mtime.hashCode());
+        return result;
     }
 
     @Override

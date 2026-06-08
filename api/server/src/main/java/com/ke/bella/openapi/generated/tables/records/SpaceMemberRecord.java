@@ -4,8 +4,8 @@
 package com.ke.bella.openapi.generated.tables.records;
 
 
-import com.ke.bella.openapi.db.repo.Timed;
 import com.ke.bella.openapi.generated.tables.SpaceMember;
+import com.ke.bella.openapi.generated.tables.pojos.SpaceMemberDB;
 
 import java.time.LocalDateTime;
 
@@ -20,7 +20,7 @@ import org.jooq.impl.UpdatableRecordImpl;
  * 空间成员信息表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class SpaceMemberRecord extends UpdatableRecordImpl<SpaceMemberRecord> implements Timed, Record10<Long, String, String, String, String, Byte, LocalDateTime, LocalDateTime, Long, Long> {
+public class SpaceMemberRecord extends UpdatableRecordImpl<SpaceMemberRecord> implements Record10<Long, String, String, String, String, Byte, LocalDateTime, LocalDateTime, Long, Long> {
 
     private static final long serialVersionUID = 1L;
 
@@ -439,5 +439,27 @@ public class SpaceMemberRecord extends UpdatableRecordImpl<SpaceMemberRecord> im
         setMtime(mtime);
         setCuid(cuid);
         setMuid(muid);
+        resetChangedOnNotNull();
+    }
+
+    /**
+     * Create a detached, initialised SpaceMemberRecord
+     */
+    public SpaceMemberRecord(SpaceMemberDB value) {
+        super(SpaceMember.SPACE_MEMBER);
+
+        if (value != null) {
+            setId(value.getId());
+            setSpaceCode(value.getSpaceCode());
+            setRoleCode(value.getRoleCode());
+            setMemberName(value.getMemberName());
+            setMemberUid(value.getMemberUid());
+            setStatus(value.getStatus());
+            setCtime(value.getCtime());
+            setMtime(value.getMtime());
+            setCuid(value.getCuid());
+            setMuid(value.getMuid());
+            resetChangedOnNotNull();
+        }
     }
 }

@@ -13,15 +13,19 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Function6;
 import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
+import org.jooq.Records;
 import org.jooq.Row6;
 import org.jooq.Schema;
+import org.jooq.SelectField;
 import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.TableOptions;
@@ -75,12 +79,12 @@ public class ApikeyMonthCost extends TableImpl<ApikeyMonthCostRecord> {
     /**
      * The column <code>apikey_month_cost.ctime</code>.
      */
-    public final TableField<ApikeyMonthCostRecord, LocalDateTime> CTIME = createField(DSL.name("ctime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<ApikeyMonthCostRecord, LocalDateTime> CTIME = createField(DSL.name("ctime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>apikey_month_cost.mtime</code>.
      */
-    public final TableField<ApikeyMonthCostRecord, LocalDateTime> MTIME = createField(DSL.name("mtime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<ApikeyMonthCostRecord, LocalDateTime> MTIME = createField(DSL.name("mtime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "");
 
     private ApikeyMonthCost(Name alias, Table<ApikeyMonthCostRecord> aliased) {
         this(alias, aliased, null);
@@ -117,12 +121,12 @@ public class ApikeyMonthCost extends TableImpl<ApikeyMonthCostRecord> {
 
     @Override
     public Schema getSchema() {
-        return DefaultSchema.DEFAULT_SCHEMA;
+        return aliased() ? null : DefaultSchema.DEFAULT_SCHEMA;
     }
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.APIKEY_MONTH_COST_IDX_MONTH);
+        return Arrays.asList(Indexes.APIKEY_MONTH_COST_IDX_MONTH);
     }
 
     @Override
@@ -136,8 +140,8 @@ public class ApikeyMonthCost extends TableImpl<ApikeyMonthCostRecord> {
     }
 
     @Override
-    public List<UniqueKey<ApikeyMonthCostRecord>> getKeys() {
-        return Arrays.<UniqueKey<ApikeyMonthCostRecord>>asList(Keys.KEY_APIKEY_MONTH_COST_PRIMARY, Keys.KEY_APIKEY_MONTH_COST_UNIQ_IDX_AK_CODE_MONTH);
+    public List<UniqueKey<ApikeyMonthCostRecord>> getUniqueKeys() {
+        return Arrays.asList(Keys.KEY_APIKEY_MONTH_COST_UNIQ_IDX_AK_CODE_MONTH);
     }
 
     @Override
@@ -148,6 +152,11 @@ public class ApikeyMonthCost extends TableImpl<ApikeyMonthCostRecord> {
     @Override
     public ApikeyMonthCost as(Name alias) {
         return new ApikeyMonthCost(alias, this);
+    }
+
+    @Override
+    public ApikeyMonthCost as(Table<?> alias) {
+        return new ApikeyMonthCost(alias.getQualifiedName(), this);
     }
 
     /**
@@ -166,6 +175,14 @@ public class ApikeyMonthCost extends TableImpl<ApikeyMonthCostRecord> {
         return new ApikeyMonthCost(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public ApikeyMonthCost rename(Table<?> name) {
+        return new ApikeyMonthCost(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
     // Row6 type methods
     // -------------------------------------------------------------------------
@@ -173,5 +190,20 @@ public class ApikeyMonthCost extends TableImpl<ApikeyMonthCostRecord> {
     @Override
     public Row6<Long, String, String, BigDecimal, LocalDateTime, LocalDateTime> fieldsRow() {
         return (Row6) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function6<? super Long, ? super String, ? super String, ? super BigDecimal, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function6<? super Long, ? super String, ? super String, ? super BigDecimal, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }
