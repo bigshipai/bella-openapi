@@ -1,13 +1,12 @@
-package com.ke.bella.queue.worker;
+package com.ke.bella.openapi.queue.worker;
 
 import com.github.rholder.retry.Retryer;
 import com.github.rholder.retry.RetryerBuilder;
 import com.github.rholder.retry.StopStrategies;
-import com.github.rholder.retry.WaitStrategies;
 import com.github.rholder.retry.WaitStrategy;
 import com.google.common.collect.Maps;
-import com.ke.bella.queue.TaskEvent;
-import com.ke.bella.queue.TaskWrapper;
+import com.ke.bella.openapi.queue.TaskEvent;
+import com.ke.bella.openapi.queue.TaskWrapper;
 import com.theokanning.openai.queue.EventbusConfig;
 import com.theokanning.openai.queue.Take;
 import com.theokanning.openai.queue.Task;

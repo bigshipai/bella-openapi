@@ -1,4 +1,4 @@
-package com.ke.bella.queue.worker;
+package com.ke.bella.openapi.queue.worker;
 
 import com.theokanning.openai.service.OpenAiService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;

@@ -19,7 +19,7 @@ import com.ke.bella.openapi.tables.pojos.ChannelDB;
 import com.ke.bella.openapi.tables.pojos.EndpointDB;
 import com.ke.bella.openapi.tables.pojos.ModelDB;
 import com.ke.bella.openapi.utils.JacksonUtils;
-import com.ke.bella.queue.QueueMode;
+import com.ke.bella.openapi.queue.QueueMode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -1,6 +1,6 @@
-package com.ke.bella.queue.worker;
+package com.ke.bella.openapi.queue.worker;
 
-import com.ke.bella.queue.TaskWrapper;
+import com.ke.bella.openapi.queue.TaskWrapper;
 
 public interface TaskExecutor {
     void submit(TaskWrapper task);

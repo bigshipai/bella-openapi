@@ -4,11 +4,12 @@ import com.ke.bella.openapi.TaskExecutor;
 import com.ke.bella.openapi.client.OpenapiClient;
 import com.ke.bella.openapi.protocol.AdaptorManager;
 import com.ke.bella.openapi.protocol.limiter.LimiterManager;
+import com.ke.bella.openapi.queue.TaskWrapper;
 import com.ke.bella.openapi.safety.ISafetyCheckService;
 import com.ke.bella.openapi.safety.SafetyCheckRequest;
 import com.ke.bella.openapi.script.LuaScriptExecutor;
 import com.ke.bella.openapi.tables.pojos.ChannelDB;
-import com.ke.bella.queue.worker.Worker;
+import com.ke.bella.openapi.queue.worker.Worker;
 import com.theokanning.openai.queue.Take;
 import com.theokanning.openai.service.OpenAiService;
 import lombok.Builder;
@@ -54,9 +55,9 @@ public class WorkerContext {
         int channelMaxConcurrency = MapUtils.getInteger(channelInfoMap, "maxWorkerConcurrency", 0);
         int maxConcurrency = channelMaxConcurrency > 0 ? channelMaxConcurrency : workerManager.getMaxConcurrency();
         Semaphore semaphore = new Semaphore(maxConcurrency);
-        com.ke.bella.queue.worker.TaskExecutor parallelExecutor = new com.ke.bella.queue.worker.TaskExecutor() {
+        com.ke.bella.openapi.queue.worker.TaskExecutor parallelExecutor = new com.ke.bella.openapi.queue.worker.TaskExecutor() {
             @Override
-            public void submit(com.ke.bella.queue.TaskWrapper task) {
+            public void submit(TaskWrapper task) {
                 semaphore.acquireUninterruptibly();
                 TaskExecutor.submit(() -> taskProcessor.executeTask(task, semaphore::release));
             }

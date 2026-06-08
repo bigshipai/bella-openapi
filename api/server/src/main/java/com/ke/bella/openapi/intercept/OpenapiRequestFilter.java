@@ -8,7 +8,6 @@ import com.ke.bella.openapi.service.ApikeyService;
 import com.ke.bella.openapi.utils.DateTimeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import jakarta.servlet.FilterChain;
@@ -17,14 +16,19 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * OpenAPI 请求过滤器，负责 API Key 认证和请求/响应日志记录。
+ * 构造函数注入 ApikeyService，消除 HTTP 自调用。
+ */
 @Slf4j
 @Component
 public class OpenapiRequestFilter extends BellaRequestFilter {
-    @Autowired
-    private ApikeyService apikeyService;
 
-    public OpenapiRequestFilter() {
+    private final ApikeyService apikeyService;
+
+    public OpenapiRequestFilter(ApikeyService apikeyService) {
         super("openapi");
+        this.apikeyService = apikeyService;
     }
 
     @Override
@@ -34,9 +38,9 @@ public class OpenapiRequestFilter extends BellaRequestFilter {
         try {
             // 直接验证 API Key，不走 HTTP 自调用
             String auth = request.getHeader("Authorization");
-            if(auth != null && StringUtils.isNotBlank(auth)) {
+            if (auth != null && StringUtils.isNotBlank(auth)) {
                 ApikeyInfo apikeyInfo = verifyAuthHeader(auth);
-                if(apikeyInfo != null) {
+                if (apikeyInfo != null) {
                     BellaContext.setApikey(apikeyInfo);
                 }
             }
@@ -57,7 +61,7 @@ public class OpenapiRequestFilter extends BellaRequestFilter {
                     request.getRequestURI(),
                     response.getStatus(),
                     cost);
-            BellaContext.clearAll();
+            // EndpointContext.clearAll() 内部会调用 BellaContext.clearAll()，统一清理所有 ThreadLocal
             EndpointContext.clearAll();
         }
     }
@@ -67,9 +71,9 @@ public class OpenapiRequestFilter extends BellaRequestFilter {
      */
     private ApikeyInfo verifyAuthHeader(String auth) {
         String ak;
-        if(auth.startsWith("Bearer ")) {
+        if (auth.startsWith("Bearer ")) {
             ak = auth.substring(7);
-        } else if(!auth.contains(" ")) {
+        } else if (!auth.contains(" ")) {
             ak = auth;
         } else {
             return null;

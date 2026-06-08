@@ -1,4 +1,4 @@
-package com.ke.bella.job.api.entity.param;
+package com.ke.bella.openapi.job.api.entity.param;
 
 import lombok.Data;
 

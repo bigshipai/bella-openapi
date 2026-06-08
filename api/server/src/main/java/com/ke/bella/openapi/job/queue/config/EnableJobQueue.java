@@ -1,4 +1,4 @@
-package com.ke.bella.job.queue.config;
+package com.ke.bella.openapi.job.queue.config;
 
 import org.springframework.context.annotation.Import;
 

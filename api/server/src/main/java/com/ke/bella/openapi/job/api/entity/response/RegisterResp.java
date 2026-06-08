@@ -1,4 +1,4 @@
-package com.ke.bella.job.api.entity.response;
+package com.ke.bella.openapi.job.api.entity.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

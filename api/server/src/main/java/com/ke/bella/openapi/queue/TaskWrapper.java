@@ -1,7 +1,7 @@
-package com.ke.bella.queue;
+package com.ke.bella.openapi.queue;
 
 import com.ke.bella.openapi.utils.JacksonUtils;
-import com.ke.bella.queue.worker.Worker;
+import com.ke.bella.openapi.queue.worker.Worker;
 import com.theokanning.openai.queue.Task;
 import lombok.AllArgsConstructor;
 import lombok.Data;

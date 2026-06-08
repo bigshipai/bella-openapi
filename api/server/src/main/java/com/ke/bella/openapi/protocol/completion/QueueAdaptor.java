@@ -6,7 +6,7 @@ import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.OpenapiResponse;
 import com.ke.bella.openapi.tables.pojos.ChannelDB;
 import com.ke.bella.openapi.utils.JacksonUtils;
-import com.ke.bella.queue.QueueClient;
+import com.ke.bella.openapi.queue.QueueClient;
 import com.theokanning.openai.queue.Put;
 import org.apache.commons.lang3.StringUtils;
 

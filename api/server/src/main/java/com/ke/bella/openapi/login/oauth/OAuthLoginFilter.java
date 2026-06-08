@@ -8,12 +8,10 @@ import com.ke.bella.openapi.utils.JacksonUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.filter.OncePerRequestFilter;
 
-import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -23,7 +21,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class OAuthLoginFilter implements Filter {
+/**
+ * OAuth 登录过滤器，基于 OncePerRequestFilter 确保每次请求只执行一次。
+ * 仅处理 /openapi/oauth/callback/* 和 /openapi/oauth/config 路径。
+ */
+public class OAuthLoginFilter extends OncePerRequestFilter {
     private static final Logger LOGGER = LoggerFactory.getLogger(OAuthLoginFilter.class);
 
     private final Map<String, OAuthService> oauthServices;
@@ -31,7 +33,8 @@ public class OAuthLoginFilter implements Filter {
     private final TicketManager ticketManager;
     private final OAuthProperties properties;
 
-    public OAuthLoginFilter(List<OAuthService> services, SessionManager sessionManager, TicketManager ticketManager, OAuthProperties properties) {
+    public OAuthLoginFilter(List<OAuthService> services, SessionManager sessionManager,
+                            TicketManager ticketManager, OAuthProperties properties) {
         this.ticketManager = ticketManager;
         this.oauthServices = new HashMap<>();
         for (OAuthService service : services) {
@@ -42,23 +45,27 @@ public class OAuthLoginFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String uri = request.getRequestURI();
+        return !uri.startsWith("/openapi/oauth/");
+    }
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-        String requestUri = httpRequest.getRequestURI();
+        String requestUri = request.getRequestURI();
 
-        // Handle OAuth callback
-        if(requestUri.startsWith("/openapi/oauth/callback/")) {
+        // OAuth 回调
+        if (requestUri.startsWith("/openapi/oauth/callback/")) {
             String provider = requestUri.substring("/openapi/oauth/callback/".length());
-            handleCallback(provider, httpRequest, httpResponse);
+            handleCallback(provider, request, response);
             return;
         }
 
-        // Handle OAuth config request
-        if(requestUri.equals("/openapi/oauth/config")) {
-            handleOAuthConfig(httpRequest, httpResponse);
+        // OAuth 配置
+        if ("/openapi/oauth/config".equals(requestUri)) {
+            handleOAuthConfig(request, response);
             return;
         }
 
@@ -91,13 +98,13 @@ public class OAuthLoginFilter implements Filter {
 
     private void handleCallback(String provider, HttpServletRequest request, HttpServletResponse response) throws IOException {
         OAuthService service = oauthServices.get(provider);
-        if(service == null) {
+        if (service == null) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid provider");
             return;
         }
 
         String error = request.getParameter("error");
-        if(StringUtils.isNotBlank(error)) {
+        if (StringUtils.isNotBlank(error)) {
             LOGGER.error("{} OAuth error: {}", provider, error);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authentication failed");
             return;
@@ -106,7 +113,7 @@ public class OAuthLoginFilter implements Filter {
         String code = request.getParameter("code");
         String state = request.getParameter("state");
 
-        if(!ticketManager.isValidTicket(state)) {
+        if (!ticketManager.isValidTicket(state)) {
             LOGGER.error("OAuth validation failed - code: {}, state: {}", code, state);
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid state");
             return;
@@ -114,19 +121,19 @@ public class OAuthLoginFilter implements Filter {
 
         // 从 state 中解析出 redirect 参数
         String redirect = null;
-        if(state.contains(":")) {
+        if (state.contains(":")) {
             redirect = state.substring(state.indexOf(":") + 1);
         }
 
         Operator operator = service.handleCallback(code, state);
-        if(operator == null) {
+        if (operator == null) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Failed to get user info");
             return;
         }
         String token = sessionManager.create(operator, request);
         ticketManager.removeTicket(state);
         String redirectUrl = StringUtils.isNotBlank(redirect) ? redirect : properties.getClientIndex();
-        if(StringUtils.isNotBlank(token)) {
+        if (StringUtils.isNotBlank(token)) {
             redirectUrl = redirectUrl + (redirectUrl.contains("?") ? "&" : "?") + "token=" + token;
         }
         response.sendRedirect(redirectUrl);

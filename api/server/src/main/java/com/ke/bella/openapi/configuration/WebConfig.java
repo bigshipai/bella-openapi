@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -21,11 +20,14 @@ import com.ke.bella.openapi.intercept.QpsRateLimitInterceptor;
 public class WebConfig implements WebMvcConfigurer {
     public static final List<String> endpointPathPatterns = Arrays.stream(EntityConstants.SystemBasicEndpoint.values())
             .map(EntityConstants.SystemBasicEndpoint::getEndpoint).collect(Collectors.toList());
-    @Autowired
-    private MonthQuotaInterceptor monthQuotaInterceptor;
 
-    @Autowired
-    private QpsRateLimitInterceptor qpsRateLimitInterceptor;
+    private final MonthQuotaInterceptor monthQuotaInterceptor;
+    private final QpsRateLimitInterceptor qpsRateLimitInterceptor;
+
+    public WebConfig(MonthQuotaInterceptor monthQuotaInterceptor, QpsRateLimitInterceptor qpsRateLimitInterceptor) {
+        this.monthQuotaInterceptor = monthQuotaInterceptor;
+        this.qpsRateLimitInterceptor = qpsRateLimitInterceptor;
+    }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {

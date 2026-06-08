@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
@@ -21,11 +20,15 @@ import com.ke.bella.openapi.service.ApikeyService;
 
 @Component
 public class AuthorizationInterceptor extends com.ke.bella.openapi.server.intercept.AuthorizationInterceptor {
-    @Autowired
-    private ApikeyService apikeyService;
 
-    @Value("${bella.console.user-quota-edit-enabled:false}")
-    private boolean userQuotaEditEnabled;
+    private final ApikeyService apikeyService;
+    private final boolean userQuotaEditEnabled;
+
+    public AuthorizationInterceptor(ApikeyService apikeyService,
+                                    @Value("${bella.console.user-quota-edit-enabled:false}") boolean userQuotaEditEnabled) {
+        this.apikeyService = apikeyService;
+        this.userQuotaEditEnabled = userQuotaEditEnabled;
+    }
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {

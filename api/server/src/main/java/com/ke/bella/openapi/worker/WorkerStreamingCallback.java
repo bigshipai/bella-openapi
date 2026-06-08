@@ -8,7 +8,7 @@ import com.ke.bella.openapi.protocol.completion.StreamCompletionResponse;
 import com.ke.bella.openapi.protocol.completion.callback.StreamCompletionCallback;
 import com.ke.bella.openapi.safety.ISafetyCheckService;
 import com.ke.bella.openapi.safety.SafetyCheckRequest;
-import com.ke.bella.queue.TaskWrapper;
+import com.ke.bella.openapi.queue.TaskWrapper;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;

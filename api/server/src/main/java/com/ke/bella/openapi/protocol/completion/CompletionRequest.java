@@ -188,7 +188,7 @@ public class CompletionRequest implements UserRequest, Serializable, IMemoryClea
      * <br/>
      * type properties Defaults to text Must be one of text or json_object.
      */
-    @javax.annotation.Nullable
+    @Nullable
     private Object response_format;
 
     /**

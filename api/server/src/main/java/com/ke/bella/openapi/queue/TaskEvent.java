@@ -1,4 +1,4 @@
-package com.ke.bella.queue;
+package com.ke.bella.openapi.queue;
 
 import com.google.common.collect.Maps;
 import com.ke.bella.openapi.utils.JacksonUtils;

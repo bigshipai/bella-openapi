@@ -1,4 +1,4 @@
-package com.ke.bella.queue.worker;
+package com.ke.bella.openapi.queue.worker;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.theokanning.openai.queue.Take;

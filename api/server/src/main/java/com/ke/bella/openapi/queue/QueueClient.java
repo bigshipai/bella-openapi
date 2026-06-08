@@ -1,4 +1,4 @@
-package com.ke.bella.queue;
+package com.ke.bella.openapi.queue;
 
 import com.ke.bella.openapi.protocol.BellaEventSourceListener;
 import com.ke.bella.openapi.protocol.Callbacks;

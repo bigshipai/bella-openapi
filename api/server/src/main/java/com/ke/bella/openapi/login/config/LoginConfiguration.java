@@ -24,7 +24,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -36,13 +35,15 @@ public class LoginConfiguration {
 
     public static final String redirectParameter = "redirect";
 
-    @Autowired(required = false)
-    private RedisConnectionFactory redisConnectionFactory;
+    private final RedisConnectionFactory redisConnectionFactory;
 
-	/**
-	 * 跨域的设置
-	 * @return
-	 */
+    public LoginConfiguration(@Autowired(required = false) RedisConnectionFactory redisConnectionFactory) {
+        this.redisConnectionFactory = redisConnectionFactory;
+    }
+
+    /**
+     * 跨域设置 — 确保跨域过滤器在最前面执行，避免其他过滤器阻断跨域预检请求。
+     */
     @Bean
     public FilterRegistrationBean<CorsFilter> corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -56,8 +57,7 @@ public class LoginConfiguration {
         source.registerCorsConfiguration("/**", config);
 
         FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
-		//确保跨域过滤器在最前面执行，避免其他过滤器（如登录拦截器）阻断跨域预检请求
-		bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return bean;
     }
 
@@ -79,22 +79,17 @@ public class LoginConfiguration {
     }
 
     @Bean
-    public RestTemplate bellaLoginRestTemplate() { // Added RestTemplate Bean
-        return new RestTemplate();
-    }
-
-    @Bean
     public SessionManager sessionManager(
             SessionProperty sessionProperty,
             @Autowired(required = false) IUserRepo userRepo) {
-        if(redisConnectionFactory == null) {
+        if (redisConnectionFactory == null) {
             throw new IllegalStateException("missing redisConnectionFactory");
         }
         RedisSessionManager redisManager = new RedisSessionManager(
                 sessionProperty,
                 operatorRedisTemplate(redisConnectionFactory),
                 new StringRedisTemplate(redisConnectionFactory));
-        if(userRepo != null) {
+        if (userRepo != null) {
             redisManager.setUserRepo(userRepo);
         }
         return redisManager;

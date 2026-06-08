@@ -5,7 +5,6 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.ke.bella.openapi.metadata.MetaDataOps;
 import com.ke.bella.openapi.utils.JacksonUtils;
-import com.ke.bella.queue.QueueMode;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;

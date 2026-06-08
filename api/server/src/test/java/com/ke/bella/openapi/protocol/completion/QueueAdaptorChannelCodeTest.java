@@ -24,8 +24,8 @@ import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.OpenapiResponse;
 import com.ke.bella.openapi.tables.pojos.ChannelDB;
 import com.ke.bella.openapi.worker.WorkerStreamingCallback;
-import com.ke.bella.queue.QueueClient;
-import com.ke.bella.queue.TaskWrapper;
+import com.ke.bella.openapi.queue.QueueClient;
+import com.ke.bella.openapi.queue.TaskWrapper;
 
 @RunWith(MockitoJUnitRunner.class)
 public class QueueAdaptorChannelCodeTest {

@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import com.alicp.jetcache.anno.config.EnableMethodCache;
-import com.ke.bella.job.queue.config.EnableJobQueue;
+import com.ke.bella.openapi.job.queue.config.EnableJobQueue;
 
 @SpringBootApplication
 @EnableMethodCache(basePackages = "com.ke.bella.openapi")

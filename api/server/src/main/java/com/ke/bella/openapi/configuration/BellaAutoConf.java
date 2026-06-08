@@ -5,8 +5,7 @@ import java.util.List;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 
-import com.ke.bella.queue.QueueClient;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.ke.bella.openapi.queue.QueueClient;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,15 +38,19 @@ import com.lmax.disruptor.util.DaemonThreadFactory;
 @EnableConfigurationProperties(OpenapiProperties.class)
 @Configuration
 public class BellaAutoConf {
-    @Autowired
-    private InstanceRepo instanceRepo;
+
+    private final InstanceRepo instanceRepo;
+    private final MetricsManager metricsManager;
+    private final LimiterManager limiterManager;
     private final SleepingWaitStrategy sleepingWaitStrategy = new SleepingWaitStrategy();
     private Disruptor<LogEvent> logDisruptor;
     private CostCounter costCounter;
-    @Autowired
-    private MetricsManager metricsManager;
-    @Autowired
-    private LimiterManager limiterManager;
+
+    public BellaAutoConf(InstanceRepo instanceRepo, MetricsManager metricsManager, LimiterManager limiterManager) {
+        this.instanceRepo = instanceRepo;
+        this.metricsManager = metricsManager;
+        this.limiterManager = limiterManager;
+    }
 
     @PostConstruct
     public void registerInstance() {
@@ -56,19 +59,19 @@ public class BellaAutoConf {
     }
 
     @Bean
-    public AdaptorManager adaptorManager(@Autowired List<IProtocolAdaptor> adaptors) {
+    public AdaptorManager adaptorManager(List<IProtocolAdaptor> adaptors) {
         AdaptorManager manager = AdaptorManager.getInstance();
         adaptors.forEach(adaptor -> manager.register(adaptor.endpoint(), adaptor));
         return manager;
     }
 
     @Bean
-    public CostCounter.CostRecorder costRecorder(@Autowired ApikeyService service) {
+    public CostCounter.CostRecorder costRecorder(ApikeyService service) {
         return service::recordCost;
     }
 
     @Bean
-    public CostLogHandler.CostScripFetcher costScripFetcher(@Autowired EndpointService service) {
+    public CostLogHandler.CostScripFetcher costScripFetcher(EndpointService service) {
         return service::fetchCostScript;
     }
 
@@ -91,7 +94,7 @@ public class BellaAutoConf {
     }
 
     @Bean
-    public QueueClient queueClient(@Autowired OpenapiProperties openapiProperties) {
+    public QueueClient queueClient(OpenapiProperties openapiProperties) {
         return QueueClient.getInstance(openapiProperties.getHost());
     }
 

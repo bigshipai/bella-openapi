@@ -2,7 +2,6 @@ package com.ke.bella.openapi.server;
 
 import jakarta.annotation.PostConstruct;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -23,16 +22,18 @@ import com.ke.bella.openapi.utils.HttpUtils;
 @EnableConfigurationProperties(OpenapiProperties.class)
 public class BellaServiceConfiguration implements WebMvcConfigurer {
 
-    @Autowired
-    @Lazy
-    private ConcurrentStartInterceptor concurrentStartInterceptor;
-    @Autowired
-    @Lazy
-    private AuthorizationInterceptor authorizationInterceptor;
+    private final ConcurrentStartInterceptor concurrentStartInterceptor;
+    private final AuthorizationInterceptor authorizationInterceptor;
+    private final OpenapiProperties openapiProperties;
 
-    @Autowired
-    @Lazy
-    private OpenapiProperties openapiProperties;
+    public BellaServiceConfiguration(
+            @Lazy ConcurrentStartInterceptor concurrentStartInterceptor,
+            @Lazy AuthorizationInterceptor authorizationInterceptor,
+            @Lazy OpenapiProperties openapiProperties) {
+        this.concurrentStartInterceptor = concurrentStartInterceptor;
+        this.authorizationInterceptor = authorizationInterceptor;
+        this.openapiProperties = openapiProperties;
+    }
 
     @PostConstruct
     public void postConstruct() {
@@ -51,9 +52,9 @@ public class BellaServiceConfiguration implements WebMvcConfigurer {
 
     @Bean
     @ConditionalOnMissingBean(BellaRequestFilter.class)
-    public FilterRegistrationBean<BellaRequestFilter> bellaRequestFilter(OpenapiClient openapiClient, OpenapiProperties properties) {
+    public FilterRegistrationBean<BellaRequestFilter> bellaRequestFilter(OpenapiProperties properties) {
         FilterRegistrationBean<BellaRequestFilter> filterRegistrationBean = new FilterRegistrationBean<>();
-        BellaRequestFilter bellaRequestFilter = new BellaRequestFilter(properties.getService(), openapiClient);
+        BellaRequestFilter bellaRequestFilter = new BellaRequestFilter(properties.getService());
         filterRegistrationBean.setFilter(bellaRequestFilter);
         filterRegistrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return filterRegistrationBean;

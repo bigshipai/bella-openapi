@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.endpoints;
 
-import com.ke.bella.job.queue.config.JobQueueProperties;
+import com.ke.bella.openapi.job.queue.config.JobQueueProperties;
 import com.ke.bella.openapi.EndpointContext;
 import com.ke.bella.openapi.EndpointProcessData;
 import com.ke.bella.openapi.annotations.EndpointAPI;
@@ -35,7 +35,7 @@ import com.ke.bella.openapi.protocol.tts.TtsRequest;
 import com.ke.bella.openapi.service.EndpointDataService;
 import com.ke.bella.openapi.tables.pojos.ChannelDB;
 import com.ke.bella.openapi.utils.JacksonUtils;
-import com.ke.bella.queue.QueueClient;
+import com.ke.bella.openapi.queue.QueueClient;
 import com.theokanning.openai.queue.Put;
 import com.theokanning.openai.queue.Task;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -52,9 +52,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.socket.server.support.WebSocketHttpRequestHandler;
 
 import jakarta.servlet.AsyncContext;
