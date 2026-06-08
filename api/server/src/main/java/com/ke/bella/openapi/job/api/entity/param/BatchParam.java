@@ -46,7 +46,7 @@ public class BatchParam {
 	@AllArgsConstructor
 	public enum CompletionWindowUnit {
 
-		MINUTE("m", "分钟"), HOUR("h", "小时"), DAY("d", "天");
+		MINUTE("m", "minute"), HOUR("h", "hour"), DAY("d", "day");
 
 		private final String code;
 		private final String description;
@@ -62,7 +62,7 @@ public class BatchParam {
 				case "d":
 					return localDateTime.plusDays(value);
 				default:
-					return localDateTime.plusHours(24); // 默认加24小时
+					return localDateTime.plusHours(24); // Default add 24 hours
 			}
 		}
 

@@ -20,7 +20,7 @@ public class TavilySearchAdaptor implements WebSearchAdaptor<WebSearchProperty> 
 
     @Override
     public String getDescription() {
-        return "Tavily网络搜索协议";
+        return "Tavily Web Search Protocol";
     }
 
     @Override

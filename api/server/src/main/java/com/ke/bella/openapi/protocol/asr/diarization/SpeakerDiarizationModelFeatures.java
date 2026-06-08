@@ -45,12 +45,12 @@ public class SpeakerDiarizationModelFeatures implements IModelFeatures {
     @Override
     public Map<String, String> description() {
         return ImmutableMap.<String, String>builder()
-                .put("maxSpeakers", "支持的最大说话人数量")
-                .put("minDurationSeconds", "支持的最小音频时长（秒）")
-                .put("maxDurationSeconds", "支持的最大音频时长（秒）")
-                .put("embeddingSupported", "是否支持说话人嵌入向量输出")
-                .put("confidenceSupported", "是否支持说话人置信度评分")
-                .put("supportedFormats", "支持的音频格式列表")
+                .put("maxSpeakers", "Max supported speakers")
+                .put("minDurationSeconds", "Min audio duration (seconds)")
+                .put("maxDurationSeconds", "Max audio duration (seconds)")
+                .put("embeddingSupported", "Support speaker embedding output")
+                .put("confidenceSupported", "Support speaker confidence scoring")
+                .put("supportedFormats", "Supported audio format list")
                 .build();
     }
 }

@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.space;
 
-import com.ke.bella.openapi.Operator;
+import com.ke.bella.openapi.common.model.Operator;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 import jakarta.validation.constraints.NotEmpty;
 
 /**
- * function: 移除团队成员
+ * function: Remove team member
  *
  * @author chenhongliang001
  */
@@ -20,15 +20,15 @@ import jakarta.validation.constraints.NotEmpty;
 public class RemoveMemberOp extends Operator {
 
     /**
-     * 成员id
+     * Member UID
      */
-    @NotEmpty(message = "memberUid不能为空")
+    @NotEmpty(message = "memberUid cannot be empty")
     private String memberUid;
 
     /**
-     * 编码
+     * Code
      */
-    @NotEmpty(message = "spaceCode不能为空")
+    @NotEmpty(message = "spaceCode cannot be empty")
     private String spaceCode;
 
 }

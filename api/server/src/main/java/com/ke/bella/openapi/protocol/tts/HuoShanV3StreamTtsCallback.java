@@ -5,8 +5,8 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import com.ke.bella.openapi.EndpointProcessData;
-import com.ke.bella.openapi.common.exception.BellaException;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
+import com.ke.bella.openapi.common.exception.OneTokenException;
 import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.OpenapiResponse;
 import com.ke.bella.openapi.protocol.log.EndpointLogger;
@@ -86,7 +86,7 @@ public class HuoShanV3StreamTtsCallback implements Callbacks.HttpStreamTtsCallba
                 log.warn("HuoShanV3 stream error: code={}, message={}", response.getCode(), response.getMessage());
                 HttpStatus status = HuoShanV3Adaptor.mapErrorCode(response.getCode());
                 lineBuffer.reset();
-                finish(new BellaException.ChannelException(status.value(), status.getReasonPhrase(), response.getMessage()));
+                finish(new OneTokenException.ChannelException(status.value(), status.getReasonPhrase(), response.getMessage()));
                 return;
             }
             if (response.getData() != null && !response.getData().isEmpty()) {
@@ -130,7 +130,7 @@ public class HuoShanV3StreamTtsCallback implements Callbacks.HttpStreamTtsCallba
     }
 
     @Override
-    public void finish(BellaException exception) {
+    public void finish(OneTokenException exception) {
         if (finished.get()) {
             return;
         }

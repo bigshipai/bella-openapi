@@ -84,8 +84,8 @@ public class GroovyExecutor {
             long usedMemory = getUsedMemory() - initialMemory;
             if(usedMemory > memoryLimitBytes) {
                 throw new MemoryLimitExceededException(
-                        "脚本超出内存限制: 使用了 " + usedMemory + " 字节, 限制为 " +
-                                memoryLimitBytes + " 字节");
+                        "Script exceeded memory limit: used " + usedMemory + " bytes, limit is " +
+                                memoryLimitBytes + " bytes");
             }
 
             return result;
@@ -99,7 +99,7 @@ public class GroovyExecutor {
         } catch (TimeoutException e) {
             // 超时后取消任务
             future.cancel(true);
-            throw new RuntimeException("脚本执行超时，超过 " + timeoutMs + " 毫秒");
+            throw new RuntimeException("Script execution timed out, exceeded " + timeoutMs + " ms");
         } catch (ExecutionException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {

@@ -21,7 +21,7 @@ public class DateFormatter {
             LocalDate date = LocalDate.parse(dateStr.trim(), inputFormatter);
             return date.format(outputFormatter);
         } catch (DateTimeParseException e) {
-            log.error("日期格式转换失败: {} (inputPattern: {}, outputPattern: {})", dateStr, inputPattern, outputPattern, e);
+            log.error("Date format conversion failed: {} (inputPattern: {}, outputPattern: {})", dateStr, inputPattern, outputPattern, e);
             return "";
         }
     }

@@ -38,7 +38,7 @@ public class GoogleAdaptor implements CompletionAdaptor<OpenAIProperty> {
 
     @Override
     public String getDescription() {
-        return "Google扩展OpenAI协议";
+        return "Google Extended OpenAI Protocol";
     }
 
     @Override

@@ -3,7 +3,7 @@ package com.ke.bella.openapi.protocol.realtime;
 import com.ke.bella.openapi.utils.DateTimeUtils;
 import org.springframework.stereotype.Component;
 
-import com.ke.bella.openapi.EndpointProcessData;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.protocol.log.EndpointLogHandler;
 
 @Component

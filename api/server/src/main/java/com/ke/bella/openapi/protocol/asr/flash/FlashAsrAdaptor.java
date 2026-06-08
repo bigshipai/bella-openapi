@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.protocol.asr.flash;
 
-import com.ke.bella.openapi.EndpointProcessData;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.protocol.IProtocolAdaptor;
 import com.ke.bella.openapi.protocol.asr.AsrProperty;
 import com.ke.bella.openapi.protocol.asr.AsrRequest;

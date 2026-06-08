@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.apikey;
 
-import com.ke.bella.openapi.Operator;
+import com.ke.bella.openapi.common.model.Operator;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

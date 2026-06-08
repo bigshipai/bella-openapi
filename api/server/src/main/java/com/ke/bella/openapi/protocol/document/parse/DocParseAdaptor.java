@@ -1,7 +1,7 @@
 package com.ke.bella.openapi.protocol.document.parse;
 
 import com.ke.bella.openapi.TaskExecutor;
-import com.ke.bella.openapi.common.exception.BellaException;
+import com.ke.bella.openapi.common.exception.OneTokenException;
 import com.ke.bella.openapi.protocol.IProtocolAdaptor;
 import com.ke.bella.openapi.utils.JacksonUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -33,12 +33,12 @@ public interface DocParseAdaptor<T extends DocParseProperty> extends IProtocolAd
 
     /**
      * 等待任务完成（阻塞模式）
-     * 
+     *
      * @param taskId           任务ID
      * @param url              服务URL
      * @param property         渠道属性
      * @param maxTimeoutMillis 最大超时时间（毫秒）
-     * 
+     *
      * @return 任务完成后的结果或超时异常
      */
     default Object waitForCompletion(String taskId, String url, T property, int maxTimeoutMillis) {
@@ -66,7 +66,7 @@ public interface DocParseAdaptor<T extends DocParseProperty> extends IProtocolAd
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 log.error("Task waiting was interrupted - taskId: {}", taskId, e);
-                throw BellaException.fromResponse(500, "Task waiting was interrupted for taskId: " + taskId);
+                throw OneTokenException.fromResponse(500, "Task waiting was interrupted for taskId: " + taskId);
             } catch (Exception e) {
                 log.warn("Error during task completion check - taskId: {}, error: {}", taskId, e.getMessage());
             }
@@ -75,7 +75,7 @@ public interface DocParseAdaptor<T extends DocParseProperty> extends IProtocolAd
         // 超时处理
         long elapsedTime = System.currentTimeMillis() - startTime;
         log.error("Task completion timeout in block mode - taskId: {}, elapsed time: {}ms", taskId, elapsedTime);
-        throw BellaException.fromResponse(408, "Task completion timeout after " + maxTimeoutMillis + "ms for taskId: " + taskId);
+        throw OneTokenException.fromResponse(408, "Task completion timeout after " + maxTimeoutMillis + "ms for taskId: " + taskId);
     }
 
     default String endpoint() {

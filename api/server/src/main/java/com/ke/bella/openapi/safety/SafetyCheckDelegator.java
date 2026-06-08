@@ -1,33 +1,33 @@
 package com.ke.bella.openapi.safety;
 
 import com.ke.bella.openapi.TaskExecutor;
-import com.ke.bella.openapi.common.exception.BellaException;
+import com.ke.bella.openapi.common.exception.OneTokenException;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 安全检查代理实现
- * 通过适配器模式根据不同的 mode 执行不同的安全检查策略
+ * Safety check delegator implementation
+ * Execute different safety check strategies based on different modes through adapter pattern
  *
- * @param <T> 安全检查请求类型
+ * @param <T> Safety check request type
  */
 @Slf4j
 @AllArgsConstructor
 public class SafetyCheckDelegator<T extends SafetyCheckRequest> implements ISafetyCheckService<T>, ISafetyResultStorageDelegator {
 
     /**
-     * 实际的安全检查服务（单例）
+     * Actual safety check service (singleton)
      */
     private final ISafetyCheckService<T> delegate;
 
     /**
-     * 安全检查上下文（包含mode等配置信息）
+     * Safety check mode context
      */
     private final SafetyCheckMode mode;
 
     /**
-     * 结果存储服务
+     * Result storage service
      */
     private final ISafetyResultStorage storage;
 
@@ -54,15 +54,15 @@ public class SafetyCheckDelegator<T extends SafetyCheckRequest> implements ISafe
                 addRiskData(result, request.isRequest());
             }
             return result;
-        } catch (BellaException.SafetyCheckException e) {
-            log.warn("异步安全检测发现敏感数据: requestId={}, sensitiveData={}",
+        } catch (OneTokenException.SafetyCheckException e) {
+            log.warn("Async safety check found sensitive data: requestId={}, sensitiveData={}",
                     request.getRequestId(), e.getSensitive());
             if(e.getSensitive() != null) {
                 addRiskData(e.getSensitive(), request.isRequest());
             }
             return e.getSensitive();
         } catch (Exception e) {
-            log.warn("异步安全检测异常: requestId={}, error={}",
+            log.warn("Async safety check error: requestId={}, error={}",
                     request.getRequestId(), e.getMessage(), e);
             return null;
         }

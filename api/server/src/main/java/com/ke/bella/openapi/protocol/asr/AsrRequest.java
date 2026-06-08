@@ -1,7 +1,7 @@
 package com.ke.bella.openapi.protocol.asr;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ke.bella.openapi.ISummary;
+import com.ke.bella.openapi.common.contract.ISummary;
 import com.ke.bella.openapi.protocol.IMemoryClearable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

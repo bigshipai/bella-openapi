@@ -1,9 +1,10 @@
 package com.ke.bella.openapi.protocol.images;
 
-import com.ke.bella.openapi.ComponentList;
+import com.ke.bella.openapi.common.dto.ComponentList;
 import com.ke.bella.openapi.protocol.IPriceInfo;
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -12,20 +13,22 @@ import java.util.Map;
 
 @Data
 public class ImagesPriceInfo implements IPriceInfo, Serializable {
-    private static final long serialVersionUID = 1L;
+
+    @Serial
+	private static final long serialVersionUID = 1L;
     ImagesPriceInfoDetailsList details;
     private double batchDiscount = 1.0;
     private double supplierDiscount = 1.0;
 
     @Override
     public String getUnit() {
-        return "元/张";
+        return "CNY/image";
     }
 
     @Override
     public Map<String, String> description() {
         Map<String, String> map = new LinkedHashMap<>();
-        map.put("details", "价格详情");
+        map.put("details", "Price details");
         return map;
     }
 
@@ -64,24 +67,24 @@ public class ImagesPriceInfo implements IPriceInfo, Serializable {
 
         @Override
         public String getUnit() {
-            return "元/张";
+            return "CNY/image";
         }
 
         @Override
         public Map<String, String> description() {
             Map<String, String> map = new LinkedHashMap<>();
-            map.put("size", "图片尺寸");
-            map.put("ldPricePerImage", "每张图片价格（低质量）");
-            map.put("mdPricePerImage", "每张图片价格（中等质量）");
-            map.put("hdPricePerImage", "每张图片价格（高清质量）");
-            map.put("textTokenPrice", "文字token（/千token）");
-            map.put("imageTokenPrice", "图片token（/千token）");
+            map.put("size", "Image size");
+            map.put("ldPricePerImage", "Price per image (low quality)");
+            map.put("mdPricePerImage", "Price per image (medium quality)");
+            map.put("hdPricePerImage", "Price per image (high quality)");
+            map.put("textTokenPrice", "Text token (/1k tokens)");
+            map.put("imageTokenPrice", "Image token (/1k tokens)");
             return map;
         }
 
         @Override
         public String toString() {
-            return "尺寸：" + size + "\n" + "低清：" + ldPricePerImage + "\n" + "中清：" + mdPricePerImage + "\n" + "高清：" + hdPricePerImage;
+            return "Size: " + size + "\n" + "Low: " + ldPricePerImage + "\n" + "Medium: " + mdPricePerImage + "\n" + "High: " + hdPricePerImage;
         }
     }
 }

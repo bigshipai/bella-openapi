@@ -2,8 +2,8 @@ package com.ke.bella.openapi.protocol.tts;
 
 import java.util.HashMap;
 
-import com.ke.bella.openapi.EndpointProcessData;
-import com.ke.bella.openapi.common.exception.BellaException;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
+import com.ke.bella.openapi.common.exception.OneTokenException;
 import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.OpenapiResponse;
 import com.ke.bella.openapi.protocol.log.EndpointLogger;
@@ -47,7 +47,7 @@ public class OpenAIStreamTtsCallback implements Callbacks.HttpStreamTtsCallback 
     }
 
     @Override
-    public void finish(BellaException exception) {
+    public void finish(OneTokenException exception) {
         processData.setResponse(OpenapiResponse.errorResponse(exception.convertToOpenapiError()));
         finish();
     }

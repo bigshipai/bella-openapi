@@ -9,7 +9,7 @@ import com.ke.bella.openapi.protocol.realtime.RealTimeMessage;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;
 
-import com.ke.bella.openapi.EndpointProcessData;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.protocol.BellaWebSocketListener;
 import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.asr.HuoshanProperty;
@@ -65,7 +65,7 @@ public class HuoshanAdaptor implements RealTimeAsrAdaptor<HuoshanProperty> {
 
     @Override
     public String getDescription() {
-        return "火山协议";
+        return "Huoshan Protocol";
     }
 
     @Override

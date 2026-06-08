@@ -1,7 +1,7 @@
 package com.ke.bella.openapi.protocol.realtime;
 
-import com.ke.bella.openapi.EndpointProcessData;
-import com.ke.bella.openapi.common.exception.BellaException;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
+import com.ke.bella.openapi.common.exception.OneTokenException;
 import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.log.EndpointLogger;
 import com.ke.bella.openapi.utils.DateTimeUtils;
@@ -59,7 +59,7 @@ public class KeRealtimeCallback implements Callbacks.WebSocketCallback {
 
         RealTimeMessage message = JacksonUtils.deserialize(text, RealTimeMessage.class);
         if(message == null || message.getHeader() == null || message.getHeader().getName() == null) {
-            log.warn("无效的ASR响应消息格式:{}", text);
+            log.warn("Invalid ASR response message format:{}", text);
             return;
         }
 
@@ -86,13 +86,13 @@ public class KeRealtimeCallback implements Callbacks.WebSocketCallback {
             break;
 
         case TASK_FAILED:
-            log.warn("转录失败: {}",
-                    message.getHeader().getStatusMessage() != null ? message.getHeader().getStatusMessage() : "未知原因");
+            log.warn("Transcription failed: {}",
+                    message.getHeader().getStatusMessage() != null ? message.getHeader().getStatusMessage() : "Unknown reason");
             complete();
             break;
 
         case UNKNOWN:
-            log.warn("收到未知事件类型: {}", eventName);
+            log.warn("Received unknown event type: {}", eventName);
             break;
         }
     }
@@ -111,9 +111,9 @@ public class KeRealtimeCallback implements Callbacks.WebSocketCallback {
     @Override
     public void onFailure(WebSocket webSocket, Throwable t, Response response) {
         if(t != null) {
-            onError(BellaException.fromException(t));
+            onError(OneTokenException.fromException(t));
         } else {
-            onError(new BellaException.ChannelException(response.code(), response.message()));
+            onError(new OneTokenException.ChannelException(response.code(), response.message()));
         }
     }
 
@@ -124,14 +124,14 @@ public class KeRealtimeCallback implements Callbacks.WebSocketCallback {
             return true;
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            throw BellaException.fromException(e);
+            throw OneTokenException.fromException(e);
         } catch (ExecutionException | TimeoutException e) {
             log.warn(e.getMessage(), e);
-            throw BellaException.fromException(e);
+            throw OneTokenException.fromException(e);
         }
     }
 
-    private void onError(BellaException exception) {
+    private void onError(OneTokenException exception) {
         log.warn("realtime error: {}", exception.getMessage(), exception);
         sender.onError(exception);
         complete();

@@ -5,9 +5,9 @@ import java.io.IOException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import com.ke.bella.openapi.EndpointProcessData;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.apikey.ApikeyInfo;
-import com.ke.bella.openapi.common.exception.BellaException;
+import com.ke.bella.openapi.common.exception.OneTokenException;
 import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.completion.ResponsesApiResponse;
 import com.ke.bella.openapi.protocol.completion.ResponsesApiStreamEvent;
@@ -68,7 +68,7 @@ public class ResponsesApiSseCallback implements Callbacks.ResponsesApiSseCallbac
     }
 
     @Override
-    public void onError(BellaException exception) {
+    public void onError(OneTokenException exception) {
         if(completed) {
             return;
         }

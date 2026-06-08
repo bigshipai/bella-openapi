@@ -14,13 +14,13 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.ke.bella.openapi.BellaContext;
-import com.ke.bella.openapi.common.exception.BellaException;
+import com.ke.bella.openapi.common.context.OneTokenContext;
+import com.ke.bella.openapi.common.exception.OneTokenException;
 import com.ke.bella.openapi.protocol.BellaEventSourceListener;
 import com.ke.bella.openapi.protocol.BellaStreamCallback;
 import com.ke.bella.openapi.protocol.BellaWebSocketListener;
 import com.ke.bella.openapi.protocol.Callbacks;
-import com.ke.bella.openapi.request.BellaInterceptor;
+import com.ke.bella.openapi.gateway.interceptor.BellaInterceptor;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -44,7 +44,7 @@ public class HttpUtils {
 
     /**
      * -- GETTER --
-     * 获取连接池实例，用于监控
+     * Get connection pool instance, for monitoring
      */
     @Getter
     private static final ConnectionPool connectionPool = new ConnectionPool(200, 5, TimeUnit.MINUTES);
@@ -80,7 +80,7 @@ public class HttpUtils {
                 .connectionPool(connectionPool)
                 .dispatcher(dispatcher);
 
-        builder.addInterceptor(new BellaInterceptor(openapiHost, BellaContext.snapshot()));
+        builder.addInterceptor(new BellaInterceptor(openapiHost, OneTokenContext.snapshot()));
 
         return builder;
     }
@@ -260,15 +260,15 @@ public class HttpUtils {
                     errorCallback.callback(result, response);
                 } else {
                     if(response.code() > 499 && response.code() < 600) {
-                        String message = "供应商返回：code: " + response.code() + " message: " + response.message();
-                        throw new BellaException.ChannelException(503, message);
+                        String message = "Provider returned: code: " + response.code() + " message: " + response.message();
+                        throw new OneTokenException.ChannelException(503, message);
                     }
-                    throw new BellaException.ChannelException(response.code(), response.message());
+                    throw new OneTokenException.ChannelException(response.code(), response.message());
                 }
             }
             return result;
         } catch (IOException e) {
-            throw BellaException.fromException(e);
+            throw OneTokenException.fromException(e);
         }
     }
 
@@ -325,7 +325,7 @@ public class HttpUtils {
     }
 
     /**
-     * 当且仅当http code为2xx时进行反序列化
+     * Deserialize only when HTTP code is 2xx
      *
      * @param request
      * @param reference

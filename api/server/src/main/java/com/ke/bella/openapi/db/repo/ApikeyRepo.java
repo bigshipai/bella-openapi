@@ -2,7 +2,7 @@ package com.ke.bella.openapi.db.repo;
 
 import com.ke.bella.openapi.apikey.ApikeyInfo;
 import com.ke.bella.openapi.apikey.ApikeyOps;
-import com.ke.bella.openapi.common.EntityConstants;
+import com.ke.bella.openapi.common.constant.EntityConstants;
 import com.ke.bella.openapi.tables.pojos.ApikeyDB;
 import com.ke.bella.openapi.tables.records.ApikeyRecord;
 import org.apache.commons.lang3.StringUtils;
@@ -144,7 +144,7 @@ public class ApikeyRepo extends StatusRepo<ApikeyDB, ApikeyRecord, String> imple
                 .set(APIKEY.MU_NAME, muName)
                 .where(APIKEY.CODE.eq(code))
                 .execute();
-        Assert.isTrue(num == 1, "更新AK父子关系失败，请刷新后重试");
+        Assert.isTrue(num == 1, "Failed to update AK parent-child relationship, please refresh and retry");
     }
 
     @Transactional

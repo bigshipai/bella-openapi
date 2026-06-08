@@ -6,11 +6,11 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import com.ke.bella.openapi.common.exception.BellaException;
+import com.ke.bella.openapi.common.exception.OneTokenException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
-import com.ke.bella.openapi.EndpointProcessData;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.protocol.BellaStreamCallback;
 import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.log.EndpointLogger;
@@ -56,7 +56,7 @@ public class HuoShanV3Adaptor implements TtsAdaptor<HuoShanV3Property> {
 
 	@Override
 	public String getDescription() {
-		return "火山V3协议";
+		return "Huoshan V3 Protocol";
 	}
 
 	@Override
@@ -94,7 +94,7 @@ public class HuoShanV3Adaptor implements TtsAdaptor<HuoShanV3Property> {
 	private static class AudioCollector {
 		private final ByteArrayOutputStream audioBuffer = new ByteArrayOutputStream();
 		private final CompletableFuture<Void> doneFuture = new CompletableFuture<>();
-		private volatile BellaException error;
+		private volatile OneTokenException error;
 
 		private final Callbacks.Sender bufferSender = new Callbacks.Sender() {
 			@Override
@@ -108,7 +108,7 @@ public class HuoShanV3Adaptor implements TtsAdaptor<HuoShanV3Property> {
 
 			@Override
 			public void onError(Throwable e) {
-				error = BellaException.fromException(e);
+				error = OneTokenException.fromException(e);
 			}
 
 			@Override
@@ -119,7 +119,7 @@ public class HuoShanV3Adaptor implements TtsAdaptor<HuoShanV3Property> {
 
 		private final HuoShanV3StreamTtsCallback delegate = new HuoShanV3StreamTtsCallback(bufferSender, null, null) {
 			@Override
-			public void finish(BellaException exception) {
+			public void finish(OneTokenException exception) {
 				error = exception;
 				super.finish(exception);
 			}
@@ -133,17 +133,17 @@ public class HuoShanV3Adaptor implements TtsAdaptor<HuoShanV3Property> {
 			try {
 				doneFuture.get(30, TimeUnit.SECONDS);
 			} catch (TimeoutException e) {
-				throw new BellaException.ChannelException(HttpStatus.GATEWAY_TIMEOUT.value(),
+				throw new OneTokenException.ChannelException(HttpStatus.GATEWAY_TIMEOUT.value(),
 					HttpStatus.GATEWAY_TIMEOUT.getReasonPhrase(), "TTS request timed out after 30s");
 			} catch (Exception e) {
-				throw BellaException.fromException(e);
+				throw OneTokenException.fromException(e);
 			}
 			if (error != null) {
 				throw error;
 			}
 			byte[] result = audioBuffer.toByteArray();
 			if (result.length == 0) {
-				throw new BellaException.ChannelException(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+				throw new OneTokenException.ChannelException(HttpStatus.INTERNAL_SERVER_ERROR.value(),
 					HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), "No audio data in response");
 			}
 			return result;

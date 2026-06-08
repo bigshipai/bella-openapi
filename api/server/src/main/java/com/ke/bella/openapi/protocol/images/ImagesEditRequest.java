@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.ke.bella.openapi.ISummary;
+import com.ke.bella.openapi.common.contract.ISummary;
 import com.ke.bella.openapi.protocol.IMemoryClearable;
 import com.ke.bella.openapi.protocol.UserRequest;
 import lombok.Data;

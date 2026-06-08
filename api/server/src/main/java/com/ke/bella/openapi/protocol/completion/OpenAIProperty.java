@@ -20,9 +20,9 @@ public class OpenAIProperty extends CompletionProperty {
     @Override
     public Map<String, String> description() {
         Map<String, String> map = super.description();
-        map.put("apiVersion", "API版本(url中需要拼接时填写)");
-        map.put("supportStreamOptions", "是否支持StreamOptions参数");
-        map.put("abandonFields", "禁用参数");
+        map.put("apiVersion", "API version (fill when URL needs version)");
+        map.put("supportStreamOptions", "Support StreamOptions parameter");
+        map.put("abandonFields", "Disabled parameters");
         return map;
     }
 }

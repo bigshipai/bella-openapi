@@ -26,7 +26,7 @@ public class HuoshanAdaptor implements CompletionAdaptor<OpenAIProperty> {
 
     @Override
     public String getDescription() {
-        return "火山扩展OpenAI协议";
+        return "Huoshan Extended OpenAI Protocol";
     }
 
     @Override

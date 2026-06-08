@@ -17,19 +17,19 @@ public class ImagesEditsPriceInfo implements IPriceInfo, Serializable {
 
     @Override
     public String getUnit() {
-        return "元/张";
+        return "CNY/image";
     }
 
     @Override
     public Map<String, String> description() {
         Map<String, String> map = new LinkedHashMap<>();
-        map.put("pricePerEdit", "单张图像价格");
-        map.put("imageTokenPrice", "图片token价格（/千token）");
+        map.put("pricePerEdit", "Price per image");
+        map.put("imageTokenPrice", "Image token price (/1k tokens)");
         return map;
     }
 
     @Override
     public String toString() {
-        return "单张图像价格：" + pricePerEdit;
+        return "Price per image: " + pricePerEdit;
     }
 }

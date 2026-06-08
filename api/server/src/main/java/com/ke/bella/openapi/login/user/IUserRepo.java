@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.login.user;
 
-import com.ke.bella.openapi.Operator;
+import com.ke.bella.openapi.common.model.Operator;
 
 public interface IUserRepo {
     Operator persist(Operator operator);

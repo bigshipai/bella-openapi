@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.protocol.completion;
 
-import com.ke.bella.openapi.EndpointContext;
+import com.ke.bella.openapi.common.context.EndpointContext;
 import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.message.MessageRequest;
 import com.ke.bella.openapi.protocol.message.TransferToCompletionsUtils;
@@ -17,7 +17,7 @@ public class AwsMessageAdaptor implements CompletionAdaptor<AwsMessageProperty> 
 
     @Override
     public String getDescription() {
-        return "亚马逊Message API协议版本";
+        return "AWS Message API Protocol";
     }
 
     @Override

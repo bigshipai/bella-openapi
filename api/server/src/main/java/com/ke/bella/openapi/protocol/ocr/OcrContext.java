@@ -1,10 +1,10 @@
 package com.ke.bella.openapi.protocol.ocr;
 
-import com.ke.bella.openapi.EndpointContext;
-import com.ke.bella.openapi.EndpointProcessData;
-import com.ke.bella.openapi.protocol.ChannelRouter;
+import com.ke.bella.openapi.common.context.EndpointContext;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
+import com.ke.bella.openapi.gateway.route.ChannelRouter;
 import com.ke.bella.openapi.protocol.limiter.LimiterManager;
-import com.ke.bella.openapi.service.EndpointDataService;
+import com.ke.bella.openapi.resource.endpoint.EndpointDataService;
 import com.ke.bella.openapi.tables.pojos.ChannelDB;
 
 import lombok.AllArgsConstructor;

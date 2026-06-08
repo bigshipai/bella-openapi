@@ -1,8 +1,8 @@
 package com.ke.bella.openapi.console;
 
-import com.ke.bella.openapi.BellaContext;
-import com.ke.bella.openapi.Operator;
-import com.ke.bella.openapi.annotations.BellaAPI;
+import com.ke.bella.openapi.common.context.OneTokenContext;
+import com.ke.bella.openapi.common.model.Operator;
+import com.ke.bella.openapi.common.annotation.OneTokenAPI;
 import com.ke.bella.openapi.common.exception.BizParamCheckException;
 import com.ke.bella.openapi.db.repo.UserRepo;
 import com.ke.bella.openapi.tables.pojos.UserDB;
@@ -16,17 +16,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@BellaAPI
+@OneTokenAPI
 @RestController
 @RequestMapping("/console/userInfo")
-@Tag(name = "用户信息管理")
+@Tag(name = "User Info Management")
 public class UserInfoConsoleController {
     @Autowired
     private UserRepo userRepo;
 
     @GetMapping
     public Operator whoami() {
-        return BellaContext.getOperator();
+        return OneTokenContext.getOperator();
     }
 
     @PostMapping("/manager")
@@ -44,7 +44,7 @@ public class UserInfoConsoleController {
             user = userRepo.addManagerBySourceAndEmail(op.getSource(), op.getEmail());
         }
         if(user == null) {
-            throw new BizParamCheckException("用户不存在");
+            throw new BizParamCheckException("User does not exist");
         }
         return user;
     }

@@ -22,8 +22,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import com.google.common.collect.Lists;
-import com.ke.bella.openapi.BellaContext;
-import com.ke.bella.openapi.EndpointContext;
+import com.ke.bella.openapi.common.context.OneTokenContext;
+import com.ke.bella.openapi.common.context.EndpointContext;
 import com.ke.bella.openapi.common.exception.BizParamCheckException;
 import com.ke.bella.openapi.mock.ContentGenerator;
 import com.ke.bella.openapi.mock.FunctionCallGenerator;
@@ -48,7 +48,7 @@ public class MockAdaptor implements CompletionAdaptorDelegator<CompletionPropert
 
     @Override
     public String getDescription() {
-        return "mock协议";
+        return "Mock Protocol";
     }
 
     @Override
@@ -59,7 +59,7 @@ public class MockAdaptor implements CompletionAdaptorDelegator<CompletionPropert
     @Override
     public CompletionResponse completion(CompletionRequest request, String url, CompletionProperty property) {
         MockCompletionRequest mockCompletionRequest = new MockCompletionRequest((CompletionRequest) EndpointContext.getProcessData().getRequest(),
-                BellaContext.getHeaders(), property);
+                OneTokenContext.getHeaders(), property);
         CompletionResponse response = new CompletionResponse();
         response.setCreated(DateTimeUtils.getCurrentSeconds());
         response.setModel("mock-model");
@@ -83,7 +83,7 @@ public class MockAdaptor implements CompletionAdaptorDelegator<CompletionPropert
     @Override
     public void streamCompletion(CompletionRequest request, String url, CompletionProperty property, Callbacks.StreamCompletionCallback callback) {
         MockCompletionRequest mockCompletionRequest = new MockCompletionRequest((CompletionRequest) EndpointContext.getProcessData().getRequest(),
-                BellaContext.getHeaders(), property);
+                OneTokenContext.getHeaders(), property);
         CompletionSseListener sseListener = new CompletionSseListener(callback, new Callbacks.DefaultSseConverter());
         List<StreamCompletionResponse> chunks = mockCompletionRequest.getChunks();
         CompletableFuture<?> future = new CompletableFuture<>();

@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.protocol.completion;
 
-import com.ke.bella.openapi.EndpointContext;
+import com.ke.bella.openapi.common.context.EndpointContext;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -101,7 +101,7 @@ public class OpenAIAdaptor implements CompletionAdaptorDelegator<OpenAIProperty>
 
     @Override
     public String getDescription() {
-        return "OpenAI协议";
+        return "OpenAI Protocol";
     }
 
     @Override

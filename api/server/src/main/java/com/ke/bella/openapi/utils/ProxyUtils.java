@@ -15,45 +15,45 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 代理工具类，用于配置和管理全局代理设置
+ * Proxy utility class for configuring and managing global proxy settings
  */
 public class ProxyUtils {
     private static final Logger logger = LoggerFactory.getLogger(ProxyUtils.class);
 
-    // 代理配置相关常量
+    // Proxy config related constants
     private static String proxyHost = null;
     private static int proxyPort = 0;
     private static Proxy.Type proxyType = Proxy.Type.DIRECT;
     private static final Set<String> proxyDomains = new HashSet<>();
 
-    // 系统属性名称
+    // System property names
     private static final String PROP_PROXY_HOST = "bella.proxy.host";
     private static final String PROP_PROXY_PORT = "bella.proxy.port";
-    private static final String PROP_PROXY_TYPE = "bella.proxy.type"; // 值为
+    private static final String PROP_PROXY_TYPE = "bella.proxy.type"; // value is
                                                                       // "socks"
-                                                                      // 或
+                                                                      // or
                                                                       // "http"
-    private static final String PROP_PROXY_DOMAINS = "bella.proxy.domains"; // 多个域名用逗号分隔
+    private static final String PROP_PROXY_DOMAINS = "bella.proxy.domains"; // Multiple domains separated by commas
 
-    // 静态初始化块，从环境变量和系统属性读取代理配置
+    // Static initializer, reads proxy config from environment variables and system properties
     static {
-        logger.info("ProxyUtils 静态初始化块开始执行...");
+        logger.info("ProxyUtils static initializer started...");
         try {
             initProxyFromSystemProperties();
 
             if(proxyHost != null && proxyPort > 0) {
-                logger.info("代理初始化成功: {}:{} ({}), 代理域名: {}",
+                logger.info("Proxy initialized successfully: {}:{} ({}), proxy domains: {}",
                         proxyHost, proxyPort, proxyType,
-                        proxyDomains.isEmpty() ? "所有域名" : proxyDomains);
+                        proxyDomains.isEmpty() ? "All domains" : proxyDomains);
             }
         } catch (Exception e) {
-            logger.warn("初始化代理配置失败: {}", e.getMessage());
+            logger.warn("Failed to initialize proxy config: {}", e.getMessage());
         }
-        logger.info("ProxyUtils 静态初始化块执行完成");
+        logger.info("ProxyUtils static initializer completed");
     }
 
     /**
-     * 从系统属性初始化代理配置
+     * Initialize proxy config from system properties
      */
     private static void initProxyFromSystemProperties() {
         String host = System.getProperty(PROP_PROXY_HOST);
@@ -78,22 +78,22 @@ public class ProxyUtils {
                 }
 
                 setProxyConfig(host, port, type, domains);
-                logger.info("从系统属性配置代理: {}:{} ({})", host, port, type);
+                logger.info("Configured proxy from system properties: {}:{} ({})", host, port, type);
             } catch (NumberFormatException e) {
-                logger.warn("代理端口配置错误: {}", portStr);
+                logger.warn("Proxy port config error: {}", portStr);
             }
         }
     }
 
     /**
-     * 设置代理配置
+     * Set proxy configuration
      */
     private static void setProxyConfig(String host, int port, Proxy.Type type, String[] domains) {
         proxyHost = host;
         proxyPort = port;
         proxyType = (type == Proxy.Type.HTTP || type == Proxy.Type.SOCKS) ? type : Proxy.Type.DIRECT;
 
-        // 清除并重新设置需要代理的域名
+        // Clear and reset domains that need proxy
         proxyDomains.clear();
         if(domains != null && domains.length > 0) {
             for (String domain : domains) {
@@ -105,24 +105,24 @@ public class ProxyUtils {
     }
 
     /**
-     * 检查指定URL是否需要使用代理
-     * 
-     * @param url 请求URL
-     * 
-     * @return 如果需要代理返回true，否则返回false
+     * Check whether the specified URL needs to use proxy
+     *
+     * @param url request URL
+     *
+     * @return true if proxy is needed, false otherwise
      */
     public static boolean shouldUseProxy(String url) {
-        // 如果没有配置代理或URL为空，则不使用代理
+        // If no proxy configured or URL is empty, do not use proxy
         if(proxyHost == null || proxyPort <= 0 || url == null || url.isEmpty()) {
             return false;
         }
 
-        // 如果没有指定特定域名，则代理所有请求
+        // If no specific domain is specified, proxy all requests
         if(proxyDomains.isEmpty()) {
             return true;
         }
 
-        // 检查URL是否包含需要代理的域名
+        // Check if URL contains a domain that needs proxy
         for (String domain : proxyDomains) {
             if(url.contains(domain)) {
                 return true;
@@ -133,9 +133,9 @@ public class ProxyUtils {
     }
 
     /**
-     * 获取代理选择器
-     * 
-     * @return ProxySelector 实例
+     * Get proxy selector
+     *
+     * @return ProxySelector instance
      */
     public static ProxySelector getProxySelector() {
         if(proxyHost == null || proxyPort <= 0 || proxyType == Proxy.Type.DIRECT) {
@@ -157,7 +157,7 @@ public class ProxyUtils {
 
             @Override
             public void connectFailed(URI uri, SocketAddress sa, IOException ioe) {
-                logger.warn("代理连接失败: {} 到 {}, 错误: {}", uri, sa, ioe.getMessage());
+                logger.warn("Proxy connection failed: {} to {}, error: {}", uri, sa, ioe.getMessage());
             }
         };
     }

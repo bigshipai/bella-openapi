@@ -13,9 +13,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import com.ke.bella.openapi.BellaContext;
-import com.ke.bella.openapi.BellaResponse;
-import com.ke.bella.openapi.Operator;
+import com.ke.bella.openapi.common.context.OneTokenContext;
+import com.ke.bella.openapi.common.response.OneTokenResponse;
+import com.ke.bella.openapi.common.model.Operator;
 import com.ke.bella.openapi.login.session.SessionManager;
 import com.ke.bella.openapi.utils.JacksonUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -88,7 +88,7 @@ public class LoginFilter extends OncePerRequestFilter {
 
             Operator operator = sessionManager.getSession(request);
             if (operator != null) {
-                BellaContext.setOperator(operator);
+                OneTokenContext.setOperator(operator);
                 chain.doFilter(request, response);
                 return;
             }
@@ -103,7 +103,7 @@ public class LoginFilter extends OncePerRequestFilter {
             // 未认证但非控制台请求，继续放行（公开端点由 Interceptor 处理）
             chain.doFilter(request, response);
         } finally {
-            BellaContext.clearAll();
+            OneTokenContext.clearAll();
             sessionManager.renew(request);
         }
     }
@@ -112,12 +112,12 @@ public class LoginFilter extends OncePerRequestFilter {
 
     private void handleLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (!sessionManager.userRepoInitialized()) {
-            writeJsonResponse(response, 503, "登录功能未初始化");
+            writeJsonResponse(response, 503, "Login feature not initialized");
             return;
         }
         String jsonBody = readRequestBody(request);
         if (jsonBody == null) {
-            writeJsonResponse(response, 400, "缺少登录参数");
+            writeJsonResponse(response, 400, "Missing login parameters");
             return;
         }
         Map<String, Object> map = JacksonUtils.toMap(jsonBody);
@@ -130,7 +130,7 @@ public class LoginFilter extends OncePerRequestFilter {
                 writeTokenResponse(response, id);
                 return;
             }
-            writeJsonResponse(response, 400, "邮箱或密码错误");
+            writeJsonResponse(response, 400, "Incorrect email or password");
             return;
         }
 
@@ -143,17 +143,17 @@ public class LoginFilter extends OncePerRequestFilter {
             }
         }
 
-        writeJsonResponse(response, 400, "缺少登录参数");
+        writeJsonResponse(response, 400, "Missing login parameters");
     }
 
     private void handleRegister(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (!sessionManager.userRepoInitialized()) {
-            writeJsonResponse(response, 503, "注册功能未初始化");
+            writeJsonResponse(response, 503, "Registration feature not initialized");
             return;
         }
         String jsonBody = readRequestBody(request);
         if (jsonBody == null) {
-            writeJsonResponse(response, 400, "缺少注册参数（email, password）");
+            writeJsonResponse(response, 400, "Missing registration parameters (email, password)");
             return;
         }
         Map<String, Object> map = JacksonUtils.toMap(jsonBody);
@@ -172,10 +172,10 @@ public class LoginFilter extends OncePerRequestFilter {
                 writeJsonResponse(response, 200, data);
                 return;
             }
-            writeJsonResponse(response, 400, "注册失败，邮箱可能已被使用");
+            writeJsonResponse(response, 400, "Registration failed, email may already be in use");
             return;
         }
-        writeJsonResponse(response, 400, "缺少注册参数（email, password）");
+        writeJsonResponse(response, 400, "Missing registration parameters (email, password)");
     }
 
     private void handleUserInfo(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -205,14 +205,14 @@ public class LoginFilter extends OncePerRequestFilter {
 
     @SuppressWarnings("rawtypes")
     private void writeJsonResponse(HttpServletResponse response, int code, Object data) throws IOException {
-        BellaResponse<Object> bellaResponse = new BellaResponse<>();
-        bellaResponse.setCode(code);
+        OneTokenResponse<Object> oneTokenResponse = new OneTokenResponse<>();
+        oneTokenResponse.setCode(code);
         if (data instanceof String) {
-            bellaResponse.setMessage((String) data);
+            oneTokenResponse.setMessage((String) data);
         } else {
-            bellaResponse.setData(data);
+            oneTokenResponse.setData(data);
         }
         response.setContentType("application/json; charset=utf-8");
-        response.getWriter().write(JacksonUtils.serialize(bellaResponse));
+        response.getWriter().write(JacksonUtils.serialize(oneTokenResponse));
     }
 }

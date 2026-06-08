@@ -35,8 +35,8 @@ public class OcrIdcardResponse extends OpenapiResponse {
     @Getter
     @AllArgsConstructor
     public enum IdCardSide {
-        PORTRAIT("portrait", "人像面"),
-        NATIONAL_EMBLEM("national_emblem", "国徽面");
+        PORTRAIT("portrait", "Portrait side"),
+        NATIONAL_EMBLEM("national_emblem", "National emblem side");
 
         @JsonValue
         private final String code;

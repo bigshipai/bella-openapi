@@ -19,12 +19,12 @@ public class OcrPriceInfo implements IPriceInfo, Serializable {
     private static final long serialVersionUID = 1L;
 
     private BigDecimal pricePerRequest;     // 每次请求价格
-    private String unit = "元/次";           // 计费单位
+    private String unit = "CNY/request";           // 计费单位
     private double batchDiscount = 1.0;
     private double supplierDiscount = 1.0;
 
     @Override
     public Map<String, String> description() {
-        return ImmutableSortedMap.of("pricePerRequest", "请求价格");
+        return ImmutableSortedMap.of("pricePerRequest", "Price per request");
     }
 }

@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.protocol.completion;
 
-import com.ke.bella.openapi.EndpointContext;
+import com.ke.bella.openapi.common.context.EndpointContext;
 import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.utils.DateTimeUtils;
 import com.ke.bella.openapi.utils.HttpUtils;
@@ -23,7 +23,7 @@ public class ResponsesApiAdaptor implements CompletionAdaptor<ResponsesApiProper
 
     @Override
     public String getDescription() {
-        return "OpenAI Responses API协议";
+        return "OpenAI Responses API Protocol";
     }
 
     @Override

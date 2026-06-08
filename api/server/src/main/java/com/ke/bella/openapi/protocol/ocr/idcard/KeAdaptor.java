@@ -41,7 +41,7 @@ public class KeAdaptor implements IdcardAdaptor<KeOcrProperty> {
 
     @Override
     public String getDescription() {
-        return "Ke OCR身份证识别协议";
+        return "Ke OCR ID Card Recognition Protocol";
     }
 
     @Override

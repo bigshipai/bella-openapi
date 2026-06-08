@@ -32,7 +32,7 @@ public interface ImagesEditorAdaptor<T extends ImagesEditorProperty> extends IPr
 
             return doEditImages(request, url, property, dataType);
         } catch (IOException e) {
-            throw new BizParamCheckException("图片编辑请求处理失败: " + e.getMessage());
+            throw new BizParamCheckException("Image editing request failed: " + e.getMessage());
         }
     }
 
@@ -79,15 +79,15 @@ public interface ImagesEditorAdaptor<T extends ImagesEditorProperty> extends IPr
             }
         }
 
-        StringBuilder errorMessage = new StringBuilder("请求参数格式错误，请使用以下支持的图像上传方式");
+        StringBuilder errorMessage = new StringBuilder("Invalid request parameter format, please use the following supported image upload methods");
         if(property.isSupportFile()) {
-            errorMessage.append("文件上传 ");
+            errorMessage.append(": file upload");
         }
         if(property.isSupportUrl()) {
-            errorMessage.append("URL链接 ");
+            errorMessage.append(", URL link");
         }
         if(property.isSupportBase64()) {
-            errorMessage.append("Base64编码");
+            errorMessage.append(", Base64 encoding");
         }
 
         throw new BizParamCheckException(errorMessage.toString());

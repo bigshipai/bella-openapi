@@ -36,7 +36,7 @@ public class QwenAdaptor implements CompletionAdaptorDelegator<OpenAIProperty> {
 
     @Override
     public String getDescription() {
-        return "通义千问扩展OpenAI协议";
+        return "Qwen Extended OpenAI Protocol";
     }
 
     @Override

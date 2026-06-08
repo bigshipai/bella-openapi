@@ -1,7 +1,7 @@
 package com.ke.bella.openapi.protocol.completion;
 
 import com.google.common.collect.ImmutableMap;
-import com.ke.bella.openapi.EndpointProcessData;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.protocol.log.EndpointLogHandler;
 import com.ke.bella.openapi.utils.DateTimeUtils;
 import com.ke.bella.openapi.utils.JacksonUtils;

@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.space;
 
-import com.ke.bella.openapi.Operator;
+import com.ke.bella.openapi.common.model.Operator;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +11,7 @@ import jakarta.validation.constraints.Size;
 import java.util.List;
 
 /**
- * function: 创建角色
+ * function: Create role
  *
  * @author chenhongliang001
  */
@@ -22,16 +22,16 @@ import java.util.List;
 public class CreateRoleOp extends Operator {
 
     /**
-     * 空间编码
+     * Space code
      */
-    @NotEmpty(message = "spaceCode不能为空")
-    @Size(max = 64, message = "spaceCode不能超过64个字符")
+    @NotEmpty(message = "spaceCode cannot be empty")
+    @Size(max = 64, message = "spaceCode cannot exceed 64 characters")
     private String spaceCode;
 
     /**
-     * 角色集合
+     * Role list
      */
-    @NotEmpty(message = "roles不能为空")
+    @NotEmpty(message = "roles cannot be empty")
     private List<CreateRoleDetail> roles;
 
 }

@@ -1,8 +1,8 @@
 package com.ke.bella.openapi.protocol.document.parse;
 
 import com.ke.bella.openapi.common.exception.BizParamCheckException;
-import com.ke.bella.openapi.common.exception.BellaException;
-import com.ke.bella.openapi.server.OpenAiServiceFactory;
+import com.ke.bella.openapi.common.exception.OneTokenException;
+import com.ke.bella.openapi.config.OpenAiServiceFactory;
 import com.lark.oapi.Client;
 import com.lark.oapi.service.docx.v1.model.Block;
 import com.lark.oapi.service.docx.v1.model.Image;
@@ -54,14 +54,14 @@ public class LarkAdaptor implements DocParseAdaptor<LarkProperty> {
             String fileToken = uploadFile(client, sourceFile.getName(), property.getUploadDirToken(), tempFile);
             String ticket = importTask(client, fileToken, property.getCloudDirToken(), sourceFile.getName(), fileType);
 
-            // 注册文件清理任务
+            // Register file cleanup task
             cleanupService.addCleanupTask(fileToken, ticket, property);
 
             return DocParseTaskInfo.builder()
                     .taskId(TaskIdUtils.buildTaskId(channelCode, ticket))
                     .build();
         } catch (Exception e) {
-            throw BellaException.fromException(e);
+            throw OneTokenException.fromException(e);
         }
     }
 
@@ -86,7 +86,7 @@ public class LarkAdaptor implements DocParseAdaptor<LarkProperty> {
 
     @Override
     public String getDescription() {
-        return "lark文档解析";
+        return "Lark document parsing";
     }
 
     @Override
@@ -149,7 +149,7 @@ public class LarkAdaptor implements DocParseAdaptor<LarkProperty> {
         try {
             ListDocumentBlockResp resp = client.docx().v1().documentBlock().list(req);
             if(resp.getCode() != 0) {
-                throw new BellaException.ChannelException(502, resp.getMsg());
+                throw new OneTokenException.ChannelException(502, resp.getMsg());
             }
             ListDocumentBlockRespBody body = resp.getData();
             List<Block> blocks = new ArrayList<>(Arrays.asList(body.getItems()));
@@ -158,24 +158,24 @@ public class LarkAdaptor implements DocParseAdaptor<LarkProperty> {
             }
             return blocks;
         } catch (Exception e) {
-            throw BellaException.fromException(e);
+            throw OneTokenException.fromException(e);
         }
     }
 
     /**
-     * 将飞书Block列表转换为DocParseResult格式
-     * 
-     * @param blocks 飞书返回的Block列表
+     * Convert Lark Block list to DocParseResult format
+     *
+     * @param blocks Block list returned by Lark
      * @param client LarkClient
-     * 
-     * @return 转换后的DocParseResult对象
+     *
+     * @return Converted DocParseResult object
      */
     private static DocParseResult convertTo(List<Block> blocks, Client client) {
         if(blocks == null || blocks.isEmpty()) {
             return null;
         }
 
-        // 找到根节点（parent_id为空的节点）
+        // Find root node (node with empty parent_id)
         Block rootBlock = blocks.stream()
                 .filter(block -> block.getParentId() == null || block.getParentId().isEmpty())
                 .findFirst()
@@ -183,30 +183,30 @@ public class LarkAdaptor implements DocParseAdaptor<LarkProperty> {
 
         DocParseResult result = new DocParseResult();
 
-        // 设置根节点信息
+        // Set root node info
         result.setSummary("");
-        result.setPath(null); // 根节点path为null
-        result.setElement(null); // 根节点element为null
+        result.setPath(null); // Root node path is null
+        result.setElement(null); // Root node element is null
 
-        // 获取所有属于根节点的直接子节点
+        // Get all direct child nodes belonging to root
         List<Block> rootChildren = blocks.stream()
                 .filter(block -> rootBlock.getBlockId().equals(block.getParentId()))
                 .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
 
-        // 按标题层级构建树形结构
+        // Build tree structure by heading levels
         result.setChildren(buildHierarchicalStructure(rootChildren, blocks, client));
 
         return result;
     }
 
     /**
-     * 按标题层级构建树形结构
-     * 
-     * @param blocks    要处理的Block列表
-     * @param allBlocks 所有Block列表（用于查找子节点）
+     * Build tree structure by heading levels
+     *
+     * @param blocks    Block list to process
+     * @param allBlocks All blocks list (for finding child nodes)
      * @param client    LarkClient
-     * 
-     * @return 构建好的DocParseResult列表
+     *
+     * @return Built DocParseResult list
      */
     private static List<DocParseResult> buildHierarchicalStructure(List<Block> blocks, List<Block> allBlocks, Client client) {
         List<DocParseResult> results = new ArrayList<>();
@@ -215,22 +215,22 @@ public class LarkAdaptor implements DocParseAdaptor<LarkProperty> {
             Block currentBlock = blocks.get(i);
             int currentLevel = getHeadingLevel(currentBlock);
 
-            // 创建当前节点
+            // Create current node
             DocParseResult current = new DocParseResult();
             current.setSummary("");
-            current.setPath(Arrays.asList(results.size() + 1)); // 路径从1开始
+            current.setPath(Arrays.asList(results.size() + 1)); // Path starts from 1
             current.setElement(createElement(currentBlock, allBlocks, client));
 
-            // 如果是标题，查找属于该标题的内容
+            // If heading, find content belonging to this heading
             if(currentLevel > 0) {
                 List<Block> childBlocks = new ArrayList<>();
 
-                // 找到下一个同级或更高级标题之前的所有内容
+                // Find all content before next same-level or higher-level heading
                 for (int j = i + 1; j < blocks.size(); j++) {
                     Block nextBlock = blocks.get(j);
                     int nextLevel = getHeadingLevel(nextBlock);
 
-                    // 如果遇到同级或更高级标题，停止
+                    // Stop when encountering same-level or higher-level heading
                     if(nextLevel > 0 && nextLevel <= currentLevel) {
                         break;
                     }
@@ -238,20 +238,20 @@ public class LarkAdaptor implements DocParseAdaptor<LarkProperty> {
                     childBlocks.add(nextBlock);
                 }
 
-                // 递归构建子结构
+                // Recursively build child structure
                 current.setChildren(buildHierarchicalStructure(childBlocks, allBlocks, client));
 
-                // 更新路径
+                // Update paths
                 updateChildrenPaths(current.getChildren(), current.getPath());
 
-                // 跳过已处理的子节点
+                // Skip already processed child nodes
                 i += childBlocks.size();
             } else {
-                // 非标题节点，查找其直接子节点（基于parent_id）
-                // 排除表格相关的block类型，因为它们已经在表格的rows中处理
+                // Non-heading node, find direct child nodes (based on parent_id)
+                // Exclude table-related block types as they are already processed in table rows
                 List<Block> directChildren = allBlocks.stream()
                         .filter(block -> currentBlock.getBlockId().equals(block.getParentId()))
-                        .filter(block -> !isTableRelatedBlock(block)) // 排除表格相关block
+                        .filter(block -> !isTableRelatedBlock(block)) // Exclude table-related blocks
                         .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
 
                 if(!directChildren.isEmpty()) {
@@ -267,11 +267,11 @@ public class LarkAdaptor implements DocParseAdaptor<LarkProperty> {
     }
 
     /**
-     * 判断是否为表格相关的block类型
-     * 
-     * @param block Block对象
-     * 
-     * @return 是否为表格相关block
+     * Check if block is table-related type
+     *
+     * @param block Block object
+     *
+     * @return true if table-related
      */
     private static boolean isTableRelatedBlock(Block block) {
         if(block == null)
@@ -280,25 +280,25 @@ public class LarkAdaptor implements DocParseAdaptor<LarkProperty> {
     }
 
     /**
-     * 判断Block是否包含复杂内容（非纯文本）
-     * 
-     * @param block Block对象
-     * 
-     * @return 是否为复杂内容
+     * Check if Block contains complex content (non-plain-text)
+     *
+     * @param block Block object
+     *
+     * @return true if complex content
      */
     private static boolean isComplexBlock(Block block) {
         if(block == null)
             return false;
 
         switch (block.getBlockType()) {
-        case 2: // text - 纯文本，不是复杂内容
+        case 2: // text - plain text, not complex
             return false;
-        case 27: // image - 图片是复杂内容
-        case 23: // equation - 公式是复杂内容
-        case 15: // code - 代码块是复杂内容
-        case 31: // table - 嵌套表格是复杂内容
-        case 12: // bullet - 列表项是复杂内容
-        case 13: // ordered - 有序列表项是复杂内容
+        case 27: // image - image is complex
+        case 23: // equation - equation is complex
+        case 15: // code - code block is complex
+        case 31: // table - nested table is complex
+        case 12: // bullet - list item is complex
+        case 13: // ordered - ordered list item is complex
             return true;
         case 3:
         case 4:
@@ -308,19 +308,19 @@ public class LarkAdaptor implements DocParseAdaptor<LarkProperty> {
         case 8:
         case 9:
         case 10:
-        case 11: // 各级标题
-            return true; // 标题在单元格中也算复杂内容
+        case 11: // Various heading levels
+            return true; // Headings are also complex in cells
         default:
             return false;
         }
     }
 
     /**
-     * 获取标题级别
-     * 
-     * @param block Block对象
-     * 
-     * @return 标题级别（1-9），非标题返回0
+     * Get heading level
+     *
+     * @param block Block object
+     *
+     * @return Heading level (1-9), 0 for non-heading
      */
     private static int getHeadingLevel(Block block) {
         if(block == null)
@@ -346,15 +346,15 @@ public class LarkAdaptor implements DocParseAdaptor<LarkProperty> {
         case 11:
             return 9; // heading9
         default:
-            return 0; // 非标题
+            return 0; // Non-heading
         }
     }
 
     /**
-     * 更新子节点的路径
-     * 
-     * @param children   子节点列表
-     * @param parentPath 父节点路径
+     * Update child node paths
+     *
+     * @param children   Child node list
+     * @param parentPath Parent node path
      */
     private static void updateChildrenPaths(List<DocParseResult> children, List<Integer> parentPath) {
         if(children == null || children.isEmpty())
@@ -366,27 +366,27 @@ public class LarkAdaptor implements DocParseAdaptor<LarkProperty> {
             if(parentPath != null) {
                 childPath.addAll(parentPath);
             }
-            childPath.add(i + 1); // 路径从1开始
+            childPath.add(i + 1); // Path starts from 1
             child.setPath(childPath);
 
-            // 递归更新孙子节点
+            // Recursively update grandchild nodes
             updateChildrenPaths(child.getChildren(), childPath);
         }
     }
 
     /**
-     * 根据Block创建Element对象
-     * 
-     * @param block     飞书Block对象
-     * @param allBlocks 所有Block列表（用于查找表格子节点）
+     * Create Element object from Block
+     *
+     * @param block     Lark Block object
+     * @param allBlocks All blocks list (for finding table child nodes)
      * @param client    LarkClient
-     * 
-     * @return Element对象
+     *
+     * @return Element object
      */
     private static DocParseResult.Element createElement(Block block, List<Block> allBlocks, Client client) {
         DocParseResult.Element element = new DocParseResult.Element();
 
-        // 根据block_type设置类型和内容
+        // Set type and content based on block_type
         switch (block.getBlockType()) {
         case 1: // page
             element.setType("Text");
@@ -492,8 +492,8 @@ public class LarkAdaptor implements DocParseAdaptor<LarkProperty> {
             }
             break;
         case 32: // table_cell
-            element.setType("Text"); // 表格单元格作为文本处理
-            // 表格单元格的内容通过children处理
+            element.setType("Text"); // Table cell treated as text
+            // Table cell content handled through children
             break;
         default:
             element.setType("Text");
@@ -504,11 +504,11 @@ public class LarkAdaptor implements DocParseAdaptor<LarkProperty> {
     }
 
     /**
-     * 从elements数组中提取文本内容
-     * 
-     * @param elements 文本元素数组
-     * 
-     * @return 提取的文本
+     * Extract text content from elements array
+     *
+     * @param elements Text element array
+     *
+     * @return Extracted text
      */
     private static String extractElementsText(TextElement[] elements) {
         if(elements == null || elements.length == 0) {
@@ -530,48 +530,48 @@ public class LarkAdaptor implements DocParseAdaptor<LarkProperty> {
     }
 
     /**
-     * 从单个TextElement中提取文本内容
-     * 
-     * @param element TextElement对象
-     * 
-     * @return 提取的文本内容
+     * Extract text content from a single TextElement
+     *
+     * @param element TextElement object
+     *
+     * @return Extracted text content
      */
     private static String extractTextFromElement(TextElement element) {
         if(element == null) {
             return "";
         }
 
-        // 根据TextElement的不同类型提取文本
+        // Extract text based on different TextElement types
         if(element.getTextRun() != null && element.getTextRun().getContent() != null) {
-            // 普通文本
+            // Plain text
             return element.getTextRun().getContent();
         } else if(element.getMentionUser() != null) {
-            // @用户
+            // @user
             return "@" + (element.getMentionUser().getUserId() != null ? element.getMentionUser().getUserId() : "user");
         } else if(element.getMentionDoc() != null) {
-            // @文档
+            // @doc
             return "@doc:" + element.getMentionDoc().getTitle();
         } else if(element.getReminder() != null) {
-            // 日期提醒
-            return "[提醒]" + element.getReminder().getNotifyTime();
+            // Date reminder
+            return "[Reminder] " + element.getReminder().getNotifyTime();
         } else if(element.getFile() != null) {
-            // 内联附件
-            return "[文件] " + element.getMentionDoc().getTitle();
+            // Inline attachment
+            return "[File] " + element.getMentionDoc().getTitle();
         } else if(element.getEquation() != null) {
-            // 公式
+            // Equation
             return element.getEquation().getContent();
         }
         return "";
     }
 
     /**
-     * 转换表格行数据
-     * 
-     * @param block     表格Block
-     * @param allBlocks 所有Block列表
+     * Convert table row data
+     *
+     * @param block     Table block
+     * @param allBlocks All blocks list
      * @param client    LarkClient
-     * 
-     * @return 行数据列表
+     *
+     * @return Row data list
      */
     private static List<DocParseResult.Row> convertTableRows(Block block, List<Block> allBlocks, Client client) {
         List<DocParseResult.Row> rows = new ArrayList<>();
@@ -582,7 +582,7 @@ public class LarkAdaptor implements DocParseAdaptor<LarkProperty> {
         }
 
         try {
-            // 获取表格属性
+            // Get table properties
             Integer columnSize = block.getTable().getProperty().getColumnSize();
             Integer rowSize = block.getTable().getProperty().getRowSize();
             String[] cellIds = block.getTable().getCells();
@@ -593,7 +593,7 @@ public class LarkAdaptor implements DocParseAdaptor<LarkProperty> {
 
             int[][] position = new int[rowSize][columnSize];
 
-            // 构建cellId到Block的映射
+            // Build cellId to Block mapping
             Map<String, Block> cellBlockMap = allBlocks.stream()
                     .filter(b -> b.getTableCell() != null)
                     .collect(Collectors.toMap(
@@ -601,13 +601,13 @@ public class LarkAdaptor implements DocParseAdaptor<LarkProperty> {
                             java.util.function.Function.identity(),
                             (existing, replacement) -> existing));
 
-            // 按行构建表格
+            // Build table by rows
             for (int row = 0; row < rowSize; row++) {
                 DocParseResult.Row rowData = new DocParseResult.Row();
                 List<DocParseResult.Cell> cells = new ArrayList<>();
                 boolean hasValidCells = false;
 
-                // 按列构建单元格
+                // Build cells by columns
                 for (int col = 0; col < columnSize; col++) {
 
                     int cellIndex = row * columnSize + col;
@@ -617,11 +617,11 @@ public class LarkAdaptor implements DocParseAdaptor<LarkProperty> {
 
                         DocParseResult.Cell cell = new DocParseResult.Cell();
 
-                        // 计算单元格的合并信息
+                        // Calculate cell merge info
                         int rowSpan = 1;
                         int colSpan = 1;
 
-                        // 从表格的merge_info中获取合并信息
+                        // Get merge info from table's merge_info
                         if(block.getTable().getProperty().getMergeInfo() != null &&
                                 cellIndex < block.getTable().getProperty().getMergeInfo().length) {
                             TableMergeInfo mergeInfo = block.getTable().getProperty().getMergeInfo()[cellIndex];
@@ -631,8 +631,8 @@ public class LarkAdaptor implements DocParseAdaptor<LarkProperty> {
                             }
                         }
 
-                        // 记录单元格坐标信息
-                        // 计算单元格坐标范围（从1开始）
+                        // Record cell coordinate info
+                        // Calculate cell coordinate range (starting from 1)
                         int startRow = row + 1;
                         int endRow = row + rowSpan;
                         int startCol = col + 1;
@@ -641,12 +641,12 @@ public class LarkAdaptor implements DocParseAdaptor<LarkProperty> {
                         List<Integer> cellCoords = Arrays.asList(startRow, endRow, startCol, endCol);
                         cell.setPath(cellCoords);
 
-                        // 处理复杂单元格：如果不是纯文本，解析为node
+                        // Handle complex cells: if not plain text, parse as node
                         if(cellBlock != null && cellBlock.getChildren() != null) {
                             List<Block> childBlocks = new ArrayList<>();
                             boolean hasComplexContent = false;
 
-                            // 收集所有子块并检查是否包含复杂内容
+                            // Collect all child blocks and check for complex content
                             for (String childId : cellBlock.getChildren()) {
                                 Block childBlock = allBlocks.stream()
                                         .filter(b -> childId.equals(b.getBlockId()))
@@ -655,7 +655,7 @@ public class LarkAdaptor implements DocParseAdaptor<LarkProperty> {
 
                                 if(childBlock != null) {
                                     childBlocks.add(childBlock);
-                                    // 检查是否为复杂内容（非纯文本）
+                                    // Check if complex content (non-plain-text)
                                     if(isComplexBlock(childBlock)) {
                                         hasComplexContent = true;
                                     }
@@ -663,12 +663,12 @@ public class LarkAdaptor implements DocParseAdaptor<LarkProperty> {
                             }
 
                             if(hasComplexContent) {
-                                // 包含复杂内容，转换为节点结构
+                                // Contains complex content, convert to node structure
                                 List<DocParseResult> cellNodes = buildHierarchicalStructure(childBlocks, allBlocks, client);
                                 cell.setNodes(cellNodes);
-                                cell.setText(""); // 复杂单元格不设置文本
+                                cell.setText(""); // Complex cell does not set text
                             } else {
-                                // 纯文本内容，提取文本
+                                // Plain text content, extract text
                                 StringBuilder cellContent = new StringBuilder();
                                 for (Block childBlock : childBlocks) {
                                     if(childBlock.getText() != null) {
@@ -687,16 +687,16 @@ public class LarkAdaptor implements DocParseAdaptor<LarkProperty> {
                             cell.setText("");
                         }
 
-                        // 如果单元格有内容，标记该行有有效单元格
+                        // If cell has content, mark the row as having valid cells
                         if(StringUtils.isNotBlank(cell.getText()) || (cell.getNodes() != null && !cell.getNodes().isEmpty())) {
                             hasValidCells = true;
                         } else if(position[row][col] == 1) {
-                            continue; // 如果当前单元格内容为空，且已经被占用则跳过
+                            continue; // Skip if current cell is empty and already occupied
                         }
 
                         cells.add(cell);
 
-                        // 标记当前单元格占用的所有位置
+                        // Mark all positions occupied by current cell
                         for (int r = row; r < Math.min(endRow, rowSize); r++) {
                             for (int c = col; c < Math.min(endCol, columnSize); c++) {
                                 position[r][c] = 1;
@@ -711,20 +711,20 @@ public class LarkAdaptor implements DocParseAdaptor<LarkProperty> {
                 }
             }
         } catch (Exception e) {
-            // 如果转换失败，返回空列表
-            log.warn("转换表格时出错: " + e.getMessage(), e);
+            // If conversion fails, return empty list
+            log.warn("Error converting table: " + e.getMessage(), e);
         }
 
         return rows;
     }
 
     /**
-     * 转换图片信息
-     * 
-     * @param imageBlock 图片Block对象
+     * Convert image info
+     *
+     * @param imageBlock Image block object
      * @param client     LarkClient
-     * 
-     * @return Image对象
+     *
+     * @return Image object
      */
     private static DocParseResult.Image convertImage(Image imageBlock, Client client) {
         DocParseResult.Image image = new DocParseResult.Image();

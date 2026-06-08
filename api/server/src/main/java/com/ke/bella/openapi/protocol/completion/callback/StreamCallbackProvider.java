@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.protocol.completion.callback;
 
-import com.ke.bella.openapi.EndpointProcessData;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.apikey.ApikeyInfo;
 import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.completion.CompletionProperty;

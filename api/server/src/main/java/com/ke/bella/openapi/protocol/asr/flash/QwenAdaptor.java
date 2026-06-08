@@ -1,10 +1,10 @@
 package com.ke.bella.openapi.protocol.asr.flash;
 
-import com.ke.bella.openapi.EndpointProcessData;
-import com.ke.bella.openapi.server.OpenAiServiceFactory;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
+import com.ke.bella.openapi.config.OpenAiServiceFactory;
 import com.theokanning.openai.file.FileUrl;
 import com.theokanning.openai.service.OpenAiService;
-import com.ke.bella.openapi.common.exception.BellaException;
+import com.ke.bella.openapi.common.exception.OneTokenException;
 import com.ke.bella.openapi.protocol.asr.QwenProperty;
 import com.ke.bella.openapi.protocol.asr.AsrRequest;
 import com.theokanning.openai.file.File;
@@ -46,7 +46,7 @@ public class QwenAdaptor implements FlashAsrAdaptor<QwenProperty> {
             return convertToFlashAsrResponse(aliResponse, processData);
 
         } catch (Exception e) {
-            throw BellaException.fromException(e);
+            throw OneTokenException.fromException(e);
         }
     }
 
@@ -171,7 +171,7 @@ public class QwenAdaptor implements FlashAsrAdaptor<QwenProperty> {
 
     @Override
     public String getDescription() {
-        return "通义千问协议";
+        return "Qwen Protocol";
     }
 
     @Override

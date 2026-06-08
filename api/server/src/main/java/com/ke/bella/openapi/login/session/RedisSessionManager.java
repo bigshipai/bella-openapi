@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.login.session;
 
-import com.ke.bella.openapi.Operator;
+import com.ke.bella.openapi.common.model.Operator;
 import com.ke.bella.openapi.login.user.IUserRepo;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;

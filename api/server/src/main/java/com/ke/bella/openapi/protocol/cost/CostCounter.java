@@ -10,7 +10,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import com.ke.bella.openapi.utils.DateTimeUtils;
 
 public class CostCounter {
+
     private final CostRecorder costRecorder;
+
     private final ConcurrentHashMap<String, AtomicReference<BigDecimal>> costCache = new ConcurrentHashMap<>();
 
     public CostCounter(CostRecorder costRecorder) {
@@ -22,6 +24,9 @@ public class CostCounter {
         amount.accumulateAndGet(cost, BigDecimal::add);
     }
 
+	/**
+	 * 每隔60s定时刷盘一次性写入,这里有个问题如果是集群模式会出现什么问题.
+	 */
     @Scheduled(fixedRate = 60000)
     public synchronized void flush() {
         if(!costCache.isEmpty()) {

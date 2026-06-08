@@ -41,7 +41,7 @@ public class BaiduAdaptor implements IdcardAdaptor<BaiduOcrProperty> {
 
     @Override
     public String getDescription() {
-        return "百度OCR身份证识别协议";
+        return "Baidu OCR ID Card Recognition Protocol";
     }
 
     @Override

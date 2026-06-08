@@ -1,7 +1,7 @@
 package com.ke.bella.openapi.protocol.completion;
 
 import com.google.common.collect.ImmutableSet;
-import com.ke.bella.openapi.common.exception.BellaException;
+import com.ke.bella.openapi.common.exception.OneTokenException;
 import com.ke.bella.openapi.protocol.BellaEventSourceListener;
 import com.ke.bella.openapi.protocol.Callbacks;
 import lombok.extern.slf4j.Slf4j;
@@ -49,15 +49,15 @@ public class CompletionSseListener extends BellaEventSourceListener {
 
     @Override
     public void onFailure(EventSource eventSource, Throwable t, Response response) {
-        BellaException exception = null;
+        OneTokenException exception = null;
         try {
             if(t == null) {
                 exception = convertToException(response);
             } else {
-                exception = BellaException.fromException(t);
+                exception = OneTokenException.fromException(t);
             }
         } catch (Exception e) {
-            exception = BellaException.fromException(e);
+            exception = OneTokenException.fromException(e);
         } finally {
             if(connectionInitFuture.isDone()) {
                 callback.finish(exception);
@@ -67,20 +67,20 @@ public class CompletionSseListener extends BellaEventSourceListener {
         }
     }
 
-    public BellaException convertToException(Response response) throws IOException {
+    public OneTokenException convertToException(Response response) throws IOException {
         String msg;
         try {
             msg = response.body().string();
             StreamCompletionResponse streamCompletionResponse = sseConverter.convert(null, null, msg);
             if(streamCompletionResponse != null && streamCompletionResponse.getError() != null) {
-                return new BellaException.ChannelException(response.code(), streamCompletionResponse.getError().getType(),
+                return new OneTokenException.ChannelException(response.code(), streamCompletionResponse.getError().getType(),
                         streamCompletionResponse.getError().getMessage(), streamCompletionResponse.getError());
             } else {
-                return new BellaException.ChannelException(response.code(), HttpStatus.valueOf(response.code()).getReasonPhrase(), msg);
+                return new OneTokenException.ChannelException(response.code(), HttpStatus.valueOf(response.code()).getReasonPhrase(), msg);
             }
         } catch (Exception e) {
             log.warn(e.getMessage(), e);
-            return BellaException.fromResponse(response.code(), response.message());
+            return OneTokenException.fromResponse(response.code(), response.message());
         }
     }
 }

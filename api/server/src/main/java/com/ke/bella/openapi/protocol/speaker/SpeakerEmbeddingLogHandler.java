@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.protocol.speaker;
 
-import com.ke.bella.openapi.EndpointProcessData;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.protocol.OpenapiResponse;
 import com.ke.bella.openapi.protocol.log.EndpointLogHandler;
 import com.ke.bella.openapi.utils.DateTimeUtils;

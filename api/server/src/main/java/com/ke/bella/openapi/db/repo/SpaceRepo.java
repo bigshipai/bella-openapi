@@ -1,7 +1,7 @@
 package com.ke.bella.openapi.db.repo;
 
 import com.ke.bella.openapi.Tables;
-import com.ke.bella.openapi.common.StatusEnum;
+import com.ke.bella.openapi.common.constant.StatusEnum;
 import com.ke.bella.openapi.common.exception.BizParamCheckException;
 import com.ke.bella.openapi.tables.records.SpaceMemberRecord;
 import com.ke.bella.openapi.tables.records.SpaceRecord;
@@ -68,7 +68,7 @@ public class SpaceRepo implements BaseRepo {
             String duplicateRoles = rolesFromDb.stream()
                     .map(SpaceRoleRecord::getRoleCode)
                     .collect(Collectors.joining(","));
-            throw new BizParamCheckException(String.format("保存角色失败，部分角色编码已经存在:%s", duplicateRoles));
+            throw new BizParamCheckException(String.format("Failed to save roles, some role codes already exist: %s", duplicateRoles));
         }
 
         // 设置角色描述为空字符串（如果原本为空）

@@ -18,7 +18,7 @@ import java.util.List;
 public class AliAdaptor implements CompletionAdaptor<AliProperty> {
     @Override
     public String getDescription() {
-        return "阿里协议";
+        return "Alibaba Protocol";
     }
 
     @Override

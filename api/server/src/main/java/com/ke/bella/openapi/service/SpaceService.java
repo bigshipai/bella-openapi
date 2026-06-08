@@ -2,7 +2,7 @@ package com.ke.bella.openapi.service;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.ke.bella.openapi.common.RoleCodeEnum;
+import com.ke.bella.openapi.common.constant.RoleCodeEnum;
 import com.ke.bella.openapi.db.repo.SpaceRepo;
 import com.ke.bella.openapi.common.exception.BizParamCheckException;
 import com.ke.bella.openapi.space.ChangeSpaceOwnerOp;
@@ -57,7 +57,7 @@ public class SpaceService {
         SpaceRecord space = spaceRepo.querySpaceBySpaceCode(op.getSpaceCode());
         // 判断空间是否已经存在
         if(space != null) {
-            throw new BizParamCheckException(String.format("空间编码:%s已经存在", op.getSpaceCode()));
+            throw new BizParamCheckException(String.format("Space code already exists: %s", op.getSpaceCode()));
         }
         // 保存
         spaceRepo.createSpace(buildSpace(op));
@@ -119,16 +119,16 @@ public class SpaceService {
         // 只有空间拥有者才能将自己的空间转给其它人
         SpaceRecord space = spaceRepo.querySpaceBySpaceCode(op.getSpaceCode());
         if(space == null) {
-            throw new BizParamCheckException(String.format("转让空间失败，空间:%s不存在", op.getSpaceCode()));
+            throw new BizParamCheckException(String.format("Failed to transfer space, space does not exist: %s", op.getSpaceCode()));
         }
         if(!Objects.equals(space.getOwnerUid(), String.valueOf(op.getUserId()))) {
-            throw new BizParamCheckException("只有空间拥有者有权限将团队转让给其他人");
+            throw new BizParamCheckException("Only the space owner can transfer the space to others");
         }
 
         // 转让人必须在空间内
         SpaceMemberRecord member = spaceRepo.queryBySpaceCodeAndMemberUid(op.getSpaceCode(), op.getOwnerUid());
         if(member == null) {
-            throw new BizParamCheckException("新的拥有者必须在空间内，请先将心的拥有者添加到空间中");
+            throw new BizParamCheckException("The new owner must be in the space, please add them first");
         }
         // 空间转让
         spaceRepo.changeSpaceOwner(op.getSpaceCode(), op.getOwnerUid(), op.getUserId());
@@ -149,7 +149,7 @@ public class SpaceService {
 
         SpaceRecord space = spaceRepo.querySpaceBySpaceCode(op.getSpaceCode());
         if(space == null) {
-            throw new BizParamCheckException(String.format("空间不存在:%s", op.getSpaceCode()));
+            throw new BizParamCheckException(String.format("Space does not exist: %s", op.getSpaceCode()));
         }
 
         List<String> memberUids = op.getMembers().stream()
@@ -166,7 +166,7 @@ public class SpaceService {
                 .collect(Collectors.toSet());
 
         if(!duplicates.isEmpty()) {
-            throw new BizParamCheckException(String.format("重复添加成员: %s", duplicates));
+            throw new BizParamCheckException(String.format("Duplicate members: %s", duplicates));
         }
 
         List<SpaceMemberRecord> newMembers = op.getMembers().stream()
@@ -189,7 +189,7 @@ public class SpaceService {
 
         SpaceMemberRecord member = spaceRepo.queryMemberBySpaceCodeAndMemberUid(op.getSpaceCode(), op.getMemberUid());
         if(member == null) {
-            throw new BizParamCheckException("成员不存在无法删除");
+            throw new BizParamCheckException("Member does not exist and cannot be removed");
         }
 
         spaceRepo.removeMember(op.getUserId(), op.getMemberUid(), op.getSpaceCode());
@@ -205,7 +205,7 @@ public class SpaceService {
     public Boolean exitSpace(ExitSpaceOp op) {
         SpaceMemberRecord member = spaceRepo.queryBySpaceCodeAndMemberUid(op.getSpaceCode(), op.getMemberUid());
         if(member == null) {
-            throw new BizParamCheckException(String.format("退出空间失败，用户:%s不在此空间中", op.getMemberUid()));
+            throw new BizParamCheckException(String.format("Failed to exit space, user not in this space: %s", op.getMemberUid()));
         }
         spaceRepo.removeMember(op.getUserId(), op.getMemberUid(), op.getSpaceCode());
         return true;
@@ -264,7 +264,7 @@ public class SpaceService {
         rolesAll.add(RoleWithSpace.builder()
                 .roleCode(RoleCodeEnum.OWNER.getCode())
                 .spaceCode(memberUid)
-                .spaceName("个人空间").build());
+                .spaceName("Personal Space").build());
 
         List<SpaceMemberRecord> members = spaceRepo.listMemberByMemberUid(memberUid);
         if(CollectionUtils.isEmpty(members)) {
@@ -304,7 +304,7 @@ public class SpaceService {
             return RoleWithSpace.builder()
                     .roleCode(RoleCodeEnum.OWNER.getCode())
                     .spaceCode(spaceCode)
-                    .spaceName("个人空间")
+                    .spaceName("Personal Space")
                     .build();
         }
 

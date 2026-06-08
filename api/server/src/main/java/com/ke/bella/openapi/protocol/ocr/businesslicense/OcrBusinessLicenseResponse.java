@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 /**
- * OCR营业执照识别响应
+ * OCR business license recognition response
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @EqualsAndHashCode(callSuper = true)
@@ -23,8 +23,8 @@ import lombok.experimental.SuperBuilder;
 public class OcrBusinessLicenseResponse extends OpenapiResponse {
     private static final long serialVersionUID = 1L;
 
-    private String request_id;                  // 请求唯一标识
-    private BusinessLicenseData data;           // 识别结果数据
+    private String request_id;                  // Request unique identifier
+    private BusinessLicenseData data;           // Recognition result data
 
     @Data
     @Builder
@@ -34,22 +34,22 @@ public class OcrBusinessLicenseResponse extends OpenapiResponse {
     public static class BusinessLicenseData implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        private String unified_social_credit_code;  // 统一社会信用代码
-        private String license_number;              // 证照编号
-        private String name;                        // 名称
-        private String entity_type;                 // 类型
-        private String legal_representative;        // 法定代表人
-        private String business_scope;              // 经营范围
-        private String registered_capital;          // 注册资本
-        private String paid_in_capital;             // 实收资本（可选）
-        private String establishment_date;          // 成立日期（格式：yyyy年MM月dd日）
-        private String business_term_start;         // 营业期限开始日期（格式：yyyy年MM月dd日）
-        private String business_term_end;           // 营业期限结束日期（格式：yyyy年MM月dd日，长期则为"长期"）
-        private String address;                     // 住所
-        private String issue_date;                  // 颁发日期（格式：yyyy年MM月dd日）
-        private String issue_authority;             // 登记机关
-        private String taxpayer_id;                 // 税务登记号
-        private String composition_form;            // 组成形式
+        private String unified_social_credit_code;  // Unified social credit code
+        private String license_number;              // License number
+        private String name;                        // Name
+        private String entity_type;                 // Entity type
+        private String legal_representative;        // Legal representative
+        private String business_scope;              // Business scope
+        private String registered_capital;          // Registered capital
+        private String paid_in_capital;             // Paid-in capital (optional)
+        private String establishment_date;          // Establishment date (format: yyyy/MM/dd)
+        private String business_term_start;         // Business term start (format: yyyy/MM/dd)
+        private String business_term_end;           // Business term end (format: yyyy/MM/dd, "permanent" for lifetime)
+        private String address;                     // Address
+        private String issue_date;                  // Issue date (format: yyyy/MM/dd)
+        private String issue_authority;             // Issue authority
+        private String taxpayer_id;                 // Taxpayer ID
+        private String composition_form;            // Composition form
 
     }
 }

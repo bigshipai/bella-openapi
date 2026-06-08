@@ -1,0 +1,146 @@
+package com.ke.bella.openapi.common.context;
+
+import com.ke.bella.openapi.apikey.ApikeyInfo;
+import com.ke.bella.openapi.common.constant.EntityConstants;
+import com.ke.bella.openapi.tables.pojos.ChannelDB;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.util.Strings;
+import org.springframework.util.Assert;
+
+import jakarta.servlet.http.HttpServletRequest;
+
+import java.util.Map;
+
+/**
+ * 这个类记录了接口端点的上下问信息
+ * 包括了请求信息,处理信息等
+ */
+public class EndpointContext {
+
+    private static final ThreadLocal<EndpointProcessData> endpointRequestInfo = new ThreadLocal<>();
+
+    private static final ThreadLocal<HttpServletRequest> requestCache = new ThreadLocal<>();
+
+    private static final ThreadLocal<Boolean> isLastRequest = new ThreadLocal<>();
+
+    private static final ThreadLocal<Integer> requestSize = new ThreadLocal<>();
+
+    public static EndpointProcessData getProcessData() {
+		//先判断threadlocal这个上下文中是否存在,如果不存在则创建一个
+        if(endpointRequestInfo.get() == null) {
+            EndpointProcessData endpointProcessData = new EndpointProcessData();
+            endpointProcessData.setInnerLog(true);
+            endpointProcessData.setBellaTraceId(OneTokenContext.getTraceId());
+            endpointProcessData.setRequestId(OneTokenContext.getRequestId());
+            endpointProcessData.setMock(OneTokenContext.isMock());
+            endpointRequestInfo.set(endpointProcessData);
+        }
+        return endpointRequestInfo.get();
+    }
+
+    public static HttpServletRequest getRequest() {
+        Assert.notNull(requestCache.get(), "requestCache is empty");
+        return requestCache.get();
+    }
+
+    public static HttpServletRequest getRequestIgnoreNull() {
+        return requestCache.get();
+    }
+
+    public static void setRequest(HttpServletRequest request) {
+        requestCache.set(request);
+
+        // 从原始请求获取大小
+        int contentLength = request.getContentLength();
+        if(contentLength > 0) {
+            requestSize.set(contentLength);
+        }
+
+        // 提取客户端IP
+        String ip = request.getHeader("X-Forwarded-For");
+        if(StringUtils.isNotBlank(ip) && !"unknown".equalsIgnoreCase(ip)) {
+            ip = ip.split(",")[0].trim();
+        } else {
+            ip = request.getHeader("X-Real-IP");
+            if(StringUtils.isBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
+                ip = request.getRemoteAddr();
+            }
+        }
+        getProcessData().setClientIp(ip);
+    }
+
+    public static ApikeyInfo getApikey() {
+        return OneTokenContext.getApikey();
+    }
+
+    public static ApikeyInfo getApikeyIgnoreNull() {
+        return OneTokenContext.getApikeyIgnoreNull();
+    }
+
+    public static void setApikey(ApikeyInfo ak) {
+        OneTokenContext.setApikey(ak);
+        EndpointContext.getProcessData().setApikeyInfo(ak);
+    }
+
+    public static void setEndpointData(String endpoint, String model, ChannelDB channel, Object request) {
+        EndpointContext.getProcessData().setRequest(request);
+        EndpointContext.getProcessData().setEndpoint(endpoint);
+        EndpointContext.getProcessData().setModel(model);
+        EndpointContext.getProcessData().setChannelCode(channel.getChannelCode());
+        EndpointContext.getProcessData().setForwardUrl(channel.getUrl());
+        EndpointContext.getProcessData().setProtocol(channel.getProtocol());
+        EndpointContext.getProcessData().setPriceInfo(channel.getPriceInfo());
+        EndpointContext.getProcessData().setSupplier(channel.getSupplier());
+    }
+
+    public static void setEndpointData(String endpoint, String model, Object request) {
+        EndpointContext.getProcessData().setRequest(request);
+        EndpointContext.getProcessData().setEndpoint(endpoint);
+        EndpointContext.getProcessData().setModel(model);
+    }
+
+    public static void setEndpointData(ChannelDB channel) {
+        EndpointContext.getProcessData().setChannelCode(channel.getChannelCode());
+        EndpointContext.getProcessData().setPrivate(EntityConstants.PRIVATE.equals(channel.getVisibility()));
+        EndpointContext.getProcessData().setForwardUrl(channel.getUrl());
+        EndpointContext.getProcessData().setProtocol(channel.getProtocol());
+        EndpointContext.getProcessData().setPriceInfo(channel.getPriceInfo());
+        EndpointContext.getProcessData().setSupplier(channel.getSupplier());
+    }
+
+    public static void setEncodingType(String encodingType) {
+        getProcessData().setEncodingType(encodingType);
+    }
+
+    public static void setHeaderInfo(Map<String, String> headers) {
+        String maxWait = headers.get("X-BELLA-MAX-WAIT");
+        if(StringUtils.isNumeric(maxWait)) {
+            EndpointContext.getProcessData().setMaxWaitSec(Integer.parseInt(maxWait));
+        }
+    }
+
+    public static void setEndpointData(String endpoint, ChannelDB channel, Object request) {
+        setEndpointData(endpoint, Strings.EMPTY, channel, request);
+    }
+
+    public static void markLargeRequest() {
+        isLastRequest.set(true);
+    }
+
+    public static boolean isLargeRequest() {
+        return Boolean.TRUE.equals(isLastRequest.get());
+    }
+
+    public static Integer getRequestSize() {
+        return requestSize.get();
+    }
+
+    public static void clearAll() {
+        endpointRequestInfo.remove();
+        requestCache.remove();
+        isLastRequest.remove();
+        requestSize.remove();
+        OneTokenContext.clearAll();
+    }
+
+}

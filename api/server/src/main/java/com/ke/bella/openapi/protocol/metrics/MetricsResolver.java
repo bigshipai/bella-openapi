@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.protocol.metrics;
 
-import com.ke.bella.openapi.EndpointProcessData;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
 
 import java.util.List;
 

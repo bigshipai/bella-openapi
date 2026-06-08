@@ -37,7 +37,7 @@ public class BaiduAdaptor implements OverseasPassportAdaptor<BaiduOcrProperty> {
 
     @Override
     public String getDescription() {
-        return "百度OCR海外护照识别协议";
+        return "Baidu OCR Overseas Passport Recognition Protocol";
     }
 
     @Override

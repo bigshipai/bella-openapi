@@ -1,7 +1,7 @@
 package com.ke.bella.openapi.protocol.log;
 
 import com.google.common.collect.Maps;
-import com.ke.bella.openapi.EndpointProcessData;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.protocol.cost.CostCalculator;
 import com.ke.bella.openapi.protocol.cost.CostCounter;
 import com.ke.bella.openapi.protocol.cost.CostDetails;

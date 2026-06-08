@@ -20,6 +20,6 @@ public abstract class StatusRepo<T extends Operator, R extends UpdatableRecordIm
                 .set(rec)
                 .where(uniqueKey().eq(categoryCode))
                 .execute();
-        Assert.isTrue(num == 1, "类目实体更新失败，请检查分类实体是否存在");
+        Assert.isTrue(num == 1, "Category entity update failed, please verify category entity exists");
     }
 }

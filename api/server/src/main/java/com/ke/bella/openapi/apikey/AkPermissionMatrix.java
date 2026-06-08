@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.apikey;
 
-import com.ke.bella.openapi.common.EntityConstants;
+import com.ke.bella.openapi.common.constant.EntityConstants;
 
 import java.util.Collections;
 import java.util.EnumMap;

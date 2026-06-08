@@ -25,7 +25,7 @@ public class OpenAIAdaptor implements ImagesGeneratorAdaptor<ImagesProperty> {
 
     @Override
     public String getDescription() {
-        return "OpenAI文生图协议";
+        return "OpenAI Text-to-Image Protocol";
     }
 
     @Override

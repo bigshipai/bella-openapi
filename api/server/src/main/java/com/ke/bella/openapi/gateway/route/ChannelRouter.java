@@ -1,0 +1,281 @@
+package com.ke.bella.openapi.gateway.route;
+
+import com.ke.bella.openapi.common.context.EndpointContext;
+import com.ke.bella.openapi.apikey.ApikeyInfo;
+import com.ke.bella.openapi.protocol.AdaptorManager;
+import com.ke.bella.openapi.common.constant.EntityConstants;
+import com.ke.bella.openapi.common.exception.BizParamCheckException;
+import com.ke.bella.openapi.common.exception.OneTokenException;
+import com.ke.bella.openapi.protocol.limiter.LimiterManager;
+import com.ke.bella.openapi.protocol.metrics.MetricsManager;
+import com.ke.bella.openapi.resource.channel.ChannelService;
+import com.ke.bella.openapi.resource.model.ModelService;
+import com.ke.bella.openapi.tables.pojos.ChannelDB;
+import com.ke.bella.openapi.job.queue.QueueMode;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import static com.ke.bella.openapi.common.constant.EntityConstants.LOWEST_SAFETY_LEVEL;
+
+@Component
+public class ChannelRouter {
+    private final Random random = new Random();
+    @Autowired
+    private ChannelService channelService;
+    @Autowired
+    private ModelService modelService;
+    @Autowired
+    private MetricsManager metricsManager;
+    @Autowired
+    private LimiterManager limiterManager;
+    @Value("${bella.openapi.free.rpm:5}")
+    private Integer freeRpm;
+    @Value("${bella.openapi.free.concurrent:1}")
+    private Integer freeConcurrent;
+
+    public ChannelDB route(String endpoint, String model, ApikeyInfo apikeyInfo, boolean isMock) {
+        return route(endpoint, model, apikeyInfo, isMock, false);
+    }
+
+    /**
+     * Route to channel with optional direct mode
+     *
+     * @param isDirectMode if true, skips availability checks (no Redis queries)
+     */
+    public ChannelDB route(String endpoint, String model, ApikeyInfo apikeyInfo, boolean isMock, boolean isDirectMode) {
+        if(StringUtils.isBlank(endpoint) && StringUtils.isBlank(model)) {
+            throw new BizParamCheckException("No available channels");
+        }
+        List<ChannelDB> channels;
+        String entityCode;
+        if(StringUtils.isNotEmpty(model)) {
+            String terminal = modelService.fetchTerminalModelName(model);
+            entityCode = terminal;
+            channels = channelService.listActives(EntityConstants.MODEL, terminal);
+        } else {
+            entityCode = endpoint;
+            channels = channelService.listActives(EntityConstants.ENDPOINT, endpoint);
+        }
+        if(CollectionUtils.isEmpty(channels)) {
+            if(isMock) {
+                return mockChannel(null);
+            } else {
+                throw new BizParamCheckException("No available channels");
+            }
+        }
+        if(!isMock) {
+            channels = filter(endpoint, channels, entityCode, apikeyInfo, isDirectMode);
+        }
+        channels = pickMaxPriority(channels);
+        ChannelDB channel = random(channels);
+        return isMock ? mockChannel(channel) : channel;
+    }
+
+    public ChannelDB route(String channelCode) {
+        ChannelDB channelDB = channelService.getOne(channelCode);
+        if(channelDB == null) {
+            throw new BizParamCheckException("Channel code does not exist");
+        }
+        return channelDB;
+    }
+
+    /**
+     * 1、筛选账户支持的数据流向（风控） 2、筛选可用的渠道
+     *
+     * @param channels
+     * @param isDirectMode if true, skips availability checks (no Redis queries)
+     *
+     * @return
+     */
+    private List<ChannelDB> filter(String endpoint, List<ChannelDB> channels, String entityCode, ApikeyInfo apikeyInfo) {
+        return filter(endpoint, channels, entityCode, apikeyInfo, false);
+    }
+
+    private List<ChannelDB> filter(String endpoint, List<ChannelDB> channels, String entityCode, ApikeyInfo apikeyInfo, boolean isDirectMode) {
+        List<ChannelDB> endpointMatched = channels.stream()
+                .filter(channel -> AdaptorManager.getInstance().support(endpoint, channel.getProtocol()))
+                .collect(Collectors.toList());
+
+        if(CollectionUtils.isEmpty(endpointMatched)) {
+            throw new BizParamCheckException("No available channels supporting current endpoint: " + endpoint);
+        }
+
+        Byte safetyLevel = apikeyInfo.getSafetyLevel();
+        String accountType = apikeyInfo.getOwnerType();
+        String accountCode = apikeyInfo.getOwnerCode();
+        List<ChannelDB> filtered = endpointMatched.stream()
+                .filter(channel -> !EntityConstants.PRIVATE.equals(channel.getVisibility()) ||
+                        (accountType.equals(channel.getOwnerType()) && accountCode.equals(channel.getOwnerCode())))
+                .filter(channel -> getSafetyLevelLimit(channel.getDataDestination()) <= safetyLevel)
+                .collect(Collectors.toList());
+        if(CollectionUtils.isEmpty(filtered)) {
+            if(LOWEST_SAFETY_LEVEL.equals(safetyLevel)) {
+                filtered = endpointMatched.stream().filter(this::isTestUsed)
+                        .collect(Collectors.toList());
+            }
+            if(CollectionUtils.isEmpty(filtered)) {
+                throw new OneTokenException.AuthorizationException("Not approved by security compliance review, no access permission");
+            }
+            if(freeAkOverload(EndpointContext.getProcessData().getAkCode(), entityCode)) {
+                throw new OneTokenException.RateLimitException("Currently using trial quota, maximum requests per minute: " + freeRpm + ", and concurrent requests cannot exceed " + freeConcurrent);
+            }
+        }
+
+        // Direct mode: skip availability checks (no Redis queries)
+        if(!isDirectMode) {
+            Set<String> unavailableSet = metricsManager.getAllUnavailableChannels(
+                    filtered.stream().map(ChannelDB::getChannelCode).collect(Collectors.toList()));
+            filtered = filtered.stream()
+                    .filter(channel -> channel.getDataDestination().equals(EntityConstants.PROTECTED) ||
+                            channel.getDataDestination().equals(EntityConstants.INNER) ||
+                            !unavailableSet.contains(channel.getChannelCode()))
+                    .collect(Collectors.toList());
+        }
+        if(CollectionUtils.isEmpty(filtered)) {
+            throw new OneTokenException.RateLimitException("Channel is overloaded, please retry later");
+        }
+        return filtered;
+    }
+
+    private boolean isTestUsed(ChannelDB channel) {
+        return 1 == channel.getTrialEnabled() && !EntityConstants.PRIVATE.equals(channel.getVisibility());
+    }
+
+    private boolean freeAkOverload(String akCode, String entityCode) {
+        return limiterManager.getRequestCountPerMinute(akCode, entityCode) >= freeRpm
+                || limiterManager.getCurrentConcurrentCount(akCode, entityCode) >= freeConcurrent;
+    }
+
+    private Byte getSafetyLevelLimit(String dataDestination) {
+        switch (dataDestination) {
+        case EntityConstants.PROTECTED:
+            return 10;
+        case EntityConstants.INNER:
+            return 20;
+        case EntityConstants.MAINLAND:
+            return 30;
+        case EntityConstants.OVERSEAS:
+            return 40;
+        }
+        return 40;
+    }
+
+    private List<ChannelDB> pickMaxPriority(List<ChannelDB> channels) {
+        List<ChannelDB> highest = new ArrayList<>();
+        String curVisibility = EntityConstants.PUBLIC;
+        String curPriority = EntityConstants.LOW;
+        for (ChannelDB channel : channels) {
+            String priority = channel.getPriority();
+            String visibility = StringUtils.isNotBlank(channel.getVisibility()) ? channel.getVisibility() : EntityConstants.PUBLIC;
+            int compare = compare(priority, curPriority, visibility, curVisibility);
+            if(compare < 0) {
+                continue;
+            }
+            if(compare > 0) {
+                highest.clear();
+                curPriority = priority;
+                curVisibility = visibility;
+            }
+            highest.add(channel);
+        }
+        return highest;
+    }
+
+    private int compare(String priority, String curPriority, String visibility, String curVisibility) {
+        if(visibility.equals(curVisibility)) {
+            if(priority.equals(curPriority)) {
+                return 0;
+            }
+            if(priority.equals(EntityConstants.LOW)) {
+                return -1;
+            }
+            if(priority.equals(EntityConstants.NORMAL)) {
+                if(curPriority.equals(EntityConstants.HIGH)) {
+                    return -1;
+                }
+            }
+            return 1;
+        } else {
+            return visibility.equals(EntityConstants.PRIVATE) ? 1 : -1;
+        }
+    }
+
+    private ChannelDB random(List<ChannelDB> list) {
+        if(list.size() == 1) {
+            return list.get(0);
+        }
+        int rand = random.nextInt(list.size());
+        return list.get(rand);
+    }
+
+    private ChannelDB mockChannel(ChannelDB origin) {
+        ChannelDB channel = new ChannelDB();
+        channel.setChannelCode("ch-mock");
+        channel.setProtocol("MockAdaptor");
+        channel.setEntityType(EntityConstants.ENDPOINT);
+        channel.setEntityCode("mock");
+        channel.setPriceInfo("{}");
+        channel.setChannelInfo(origin != null ? origin.getChannelInfo() : "{}");
+        channel.setSupplier("system");
+        channel.setUrl("");
+        return channel;
+    }
+
+    public ChannelDB route(String endpoint, String model, ApikeyInfo apikey, Integer queueMode) {
+        List<ChannelDB> channels = listAvailableChannels(endpoint, model, apikey, queueMode);
+        if(CollectionUtils.isEmpty(channels)) {
+            throw new BizParamCheckException("No available channels");
+        }
+        return channels.get(0);
+    }
+
+    public List<ChannelDB> listAvailableChannels(String endpoint, String model, ApikeyInfo apikey, Integer queueMode) {
+        if(StringUtils.isBlank(endpoint)) {
+            throw new BizParamCheckException("Endpoint cannot be empty");
+        }
+
+        List<ChannelDB> channels;
+        if(StringUtils.isBlank(model)) {
+            channels = channelService.listActives(EntityConstants.ENDPOINT, endpoint);
+        } else {
+            String terminalName = modelService.fetchTerminalModelName(model);
+            channels = channelService.listActives(EntityConstants.MODEL, terminalName);
+        }
+
+        if(CollectionUtils.isEmpty(channels)) {
+            return Collections.emptyList();
+        }
+
+        return channels.stream()
+                .filter(channel -> queueMode == null
+                        || QueueMode.of(channel.getQueueMode()).supports(queueMode))
+                .filter(channel -> isAccessible(channel, apikey))
+                .filter(channel -> isSafetyCompliant(channel, apikey)).sorted((c1, c2) -> {
+                    String v1 = StringUtils.isNotBlank(c1.getVisibility()) ? c1.getVisibility() : EntityConstants.PUBLIC;
+                    String v2 = StringUtils.isNotBlank(c2.getVisibility()) ? c2.getVisibility() : EntityConstants.PUBLIC;
+                    return -compare(c1.getPriority(), c2.getPriority(), v1, v2);
+                }).collect(Collectors.toList());
+    }
+
+    private boolean isAccessible(ChannelDB channel, ApikeyInfo apikeyInfo) {
+        if(!EntityConstants.PRIVATE.equals(channel.getVisibility())) {
+            return true;
+        }
+        return apikeyInfo.getOwnerType().equals(channel.getOwnerType())
+                && apikeyInfo.getOwnerCode().equals(channel.getOwnerCode());
+    }
+
+    private boolean isSafetyCompliant(ChannelDB channel, ApikeyInfo apikeyInfo) {
+        return getSafetyLevelLimit(channel.getDataDestination()) <= apikeyInfo.getSafetyLevel();
+    }
+}

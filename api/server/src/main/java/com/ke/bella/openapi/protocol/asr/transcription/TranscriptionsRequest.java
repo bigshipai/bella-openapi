@@ -2,7 +2,7 @@ package com.ke.bella.openapi.protocol.asr.transcription;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ke.bella.openapi.ISummary;
+import com.ke.bella.openapi.common.contract.ISummary;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

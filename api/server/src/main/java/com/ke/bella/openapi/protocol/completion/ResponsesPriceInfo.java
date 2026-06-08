@@ -25,7 +25,7 @@ public class ResponsesPriceInfo implements IProtocolProperty {
     /**
      * 价格单位：分/千token
      */
-    private String unit = "分/千token";
+    private String unit = "cents/1k tokens";
 
     /**
      * 阶梯价格列表（用于token计费）
@@ -46,8 +46,8 @@ public class ResponsesPriceInfo implements IProtocolProperty {
     @Override
     public Map<String, String> description() {
         return ImmutableSortedMap.of(
-                "tiers", "阶梯价格列表(用于token计费,单位:分/千token)",
-                "toolPrices", "工具调用价格配置(Map<工具名,单价(分/次)>,可选)");
+                "tiers", "Tier price list (for token billing, unit: cents/1k tokens)",
+                "toolPrices", "Tool call price config (Map<tool name, unit price (cents/call)>, optional)");
     }
 
     @Data
@@ -121,7 +121,7 @@ public class ResponsesPriceInfo implements IProtocolProperty {
 
     public RangePrice matchRangePrice(int inputToken, int outputToken) {
         if(tiers == null || tiers.isEmpty()) {
-            throw new IllegalStateException("tiers列表为空，无法匹配价格区间");
+            throw new IllegalStateException("Tiers list is empty, cannot match price tier");
         }
 
         for (Tier tier : tiers) {
@@ -142,7 +142,7 @@ public class ResponsesPriceInfo implements IProtocolProperty {
             }
         }
 
-        throw new IllegalStateException("未匹配到任何价格区间，inputToken=" + inputToken + ", outputToken=" + outputToken);
+        throw new IllegalStateException("No matching price tier found, inputToken=" + inputToken + ", outputToken=" + outputToken);
     }
 
     public boolean validate() {

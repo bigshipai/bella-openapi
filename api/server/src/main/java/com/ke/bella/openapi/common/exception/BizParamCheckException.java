@@ -7,19 +7,19 @@ import org.springframework.http.HttpStatus;
  *
  * @author chenhongliang001
  */
-public class BizParamCheckException extends BellaException {
+public class BizParamCheckException extends OneTokenException {
 
-    public BizParamCheckException(String message) {
-        super(message);
-    }
+	public BizParamCheckException(String message) {
+		super(message);
+	}
 
-    @Override
-    public Integer getHttpCode() {
-        return HttpStatus.BAD_REQUEST.value();
-    }
+	@Override
+	public Integer getHttpCode() {
+		return HttpStatus.BAD_REQUEST.value();
+	}
 
-    @Override
-    public String getType() {
-        return "Illegal Argument";
-    }
+	@Override
+	public String getType() {
+		return "Illegal Argument";
+	}
 }

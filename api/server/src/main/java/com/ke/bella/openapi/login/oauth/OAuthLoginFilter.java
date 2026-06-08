@@ -1,7 +1,7 @@
 package com.ke.bella.openapi.login.oauth;
 
-import com.ke.bella.openapi.BellaResponse;
-import com.ke.bella.openapi.Operator;
+import com.ke.bella.openapi.common.response.OneTokenResponse;
+import com.ke.bella.openapi.common.model.Operator;
 import com.ke.bella.openapi.login.session.SessionManager;
 import com.ke.bella.openapi.login.session.TicketManager;
 import com.ke.bella.openapi.utils.JacksonUtils;
@@ -89,11 +89,11 @@ public class OAuthLoginFilter extends OncePerRequestFilter {
             providers.add(provider);
         }
 
-        BellaResponse<List<Map<String, Object>>> bellaResponse = new BellaResponse<>();
-        bellaResponse.setCode(200);
-        bellaResponse.setData(providers);
+        OneTokenResponse<List<Map<String, Object>>> oneTokenResponse = new OneTokenResponse<>();
+        oneTokenResponse.setCode(200);
+        oneTokenResponse.setData(providers);
         response.setContentType("application/json");
-        response.getWriter().write(JacksonUtils.serialize(bellaResponse));
+        response.getWriter().write(JacksonUtils.serialize(oneTokenResponse));
     }
 
     private void handleCallback(String provider, HttpServletRequest request, HttpServletResponse response) throws IOException {

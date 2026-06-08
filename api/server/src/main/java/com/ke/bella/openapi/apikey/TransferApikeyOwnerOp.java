@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.apikey;
 
-import com.ke.bella.openapi.Operator;
+import com.ke.bella.openapi.common.model.Operator;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 import jakarta.validation.constraints.NotEmpty;
 
 /**
- * API Key所有权转移操作请求
+ * API Key ownership transfer operation request
  *
  * @author claude
  */
@@ -20,33 +20,33 @@ import jakarta.validation.constraints.NotEmpty;
 public class TransferApikeyOwnerOp extends Operator {
 
     /**
-     * API Key编码
+     * API Key code
      */
-    @NotEmpty(message = "API Key编码不能为空")
+    @NotEmpty(message = "API Key code cannot be empty")
     private String akCode;
 
     /**
-     * 目标用户ID (可选，与其他字段二选一)
+     * Target user ID (optional, alternative to other fields)
      */
     private Long targetUserId;
 
     /**
-     * 目标用户来源 (如: github, google, cas等)
+     * Target user source (e.g.: github, google, cas, etc.)
      */
     private String targetUserSource;
 
     /**
-     * 目标用户来源ID (即source_id，也就是owner_code)
+     * Target user source ID (i.e. source_id, which is owner_code)
      */
     private String targetUserSourceId;
 
     /**
-     * 目标用户邮箱 (与targetUserSource配合使用)
+     * Target user email (used together with targetUserSource)
      */
     private String targetUserEmail;
 
     /**
-     * 转移原因
+     * Transfer reason
      */
     private String transferReason;
 }

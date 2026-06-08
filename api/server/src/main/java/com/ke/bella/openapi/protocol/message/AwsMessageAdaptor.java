@@ -1,8 +1,8 @@
 package com.ke.bella.openapi.protocol.message;
 
-import com.ke.bella.openapi.EndpointContext;
-import com.ke.bella.openapi.EndpointProcessData;
-import com.ke.bella.openapi.common.exception.BellaException;
+import com.ke.bella.openapi.common.context.EndpointContext;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
+import com.ke.bella.openapi.common.exception.OneTokenException;
 import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.completion.AwsClientManager;
 import com.ke.bella.openapi.protocol.completion.AwsMessageProperty;
@@ -30,7 +30,7 @@ public class AwsMessageAdaptor implements MessageAdaptor<AwsMessageProperty> {
 
     @Override
     public String getDescription() {
-        return "亚马逊Message API协议版本";
+        return "AWS Message API Protocol";
     }
 
     @Override
@@ -67,7 +67,7 @@ public class AwsMessageAdaptor implements MessageAdaptor<AwsMessageProperty> {
             EndpointContext.getProcessData().setResponse(TransferToCompletionsUtils.convertResponse(messageResponse));
             return messageResponse;
         } catch (BedrockRuntimeException bedrockException) {
-            throw new BellaException.ChannelException(bedrockException.statusCode(), bedrockException.getMessage());
+            throw new OneTokenException.ChannelException(bedrockException.statusCode(), bedrockException.getMessage());
         }
     }
 
@@ -104,7 +104,7 @@ public class AwsMessageAdaptor implements MessageAdaptor<AwsMessageProperty> {
         try {
             client.invokeModelWithResponseStream(streamRequest, handler);
         } catch (BedrockRuntimeException bedrockException) {
-            throw new BellaException.ChannelException(bedrockException.statusCode(), bedrockException.getMessage());
+            throw new OneTokenException.ChannelException(bedrockException.statusCode(), bedrockException.getMessage());
         }
     }
 
@@ -191,10 +191,10 @@ public class AwsMessageAdaptor implements MessageAdaptor<AwsMessageProperty> {
                     ? throwable.getCause() : throwable;
             if(cause instanceof BedrockRuntimeException) {
                 BedrockRuntimeException bedrockException = (BedrockRuntimeException) cause;
-                callback.finish(new BellaException.ChannelException(bedrockException.statusCode(), bedrockException.getMessage()));
+                callback.finish(new OneTokenException.ChannelException(bedrockException.statusCode(), bedrockException.getMessage()));
                 return;
             }
-            callback.finish(BellaException.fromException(cause));
+            callback.finish(OneTokenException.fromException(cause));
         }
     }
 }

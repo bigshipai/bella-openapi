@@ -1,7 +1,7 @@
 package com.ke.bella.openapi.login.oauth.providers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.ke.bella.openapi.Operator;
+import com.ke.bella.openapi.common.model.Operator;
 import com.ke.bella.openapi.login.oauth.AbstractOAuthService;
 import com.ke.bella.openapi.login.oauth.OAuthProperties;
 import com.ke.bella.openapi.utils.JacksonUtils;

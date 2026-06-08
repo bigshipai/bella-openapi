@@ -1,7 +1,7 @@
 package com.ke.bella.openapi.protocol.tts;
 
-import com.ke.bella.openapi.EndpointProcessData;
-import com.ke.bella.openapi.RequestMetrics;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
+import com.ke.bella.openapi.common.response.RequestMetrics;
 import com.ke.bella.openapi.protocol.OpenapiResponse;
 import com.ke.bella.openapi.protocol.embedding.EmbeddingRequest;
 import com.ke.bella.openapi.protocol.tts.TtsRequest;

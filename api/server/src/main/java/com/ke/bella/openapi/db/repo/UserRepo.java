@@ -13,9 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ke.bella.openapi.Operator;
+import com.ke.bella.openapi.common.model.Operator;
 import com.ke.bella.openapi.apikey.ApikeyInfo;
-import com.ke.bella.openapi.common.EntityConstants;
+import com.ke.bella.openapi.common.constant.EntityConstants;
 import com.ke.bella.openapi.login.user.IUserRepo;
 import com.ke.bella.openapi.tables.pojos.UserDB;
 import com.ke.bella.openapi.tables.records.UserRecord;
@@ -188,7 +188,7 @@ public class UserRepo implements IUserRepo {
         db.setRoleCode(EntityConstants.BASIC_ROLE);
         db.setSafetyLevel(EntityConstants.HIGHEST_SAFETY_LEVEL);
         db.setMonthQuota(BigDecimal.valueOf(20));
-        db.setName("控制台AK");
+        db.setName("Console AK");
         db.setCuid(0L);
         db.setCuName(EntityConstants.SYSTEM);
         db.setMuid(0L);

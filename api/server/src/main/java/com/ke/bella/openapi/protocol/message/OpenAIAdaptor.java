@@ -30,6 +30,6 @@ public class OpenAIAdaptor implements MessageDelegatorAdaptor<OpenAIProperty> {
 
     @Override
     public String getDescription() {
-        return "Openai协议模型服务适配/v1/message能力点";
+        return "OpenAI Protocol Adapter for /v1/messages endpoint";
     }
 }

@@ -3,7 +3,7 @@ package com.ke.bella.openapi.protocol;
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 
-import com.ke.bella.openapi.common.exception.BellaException;
+import com.ke.bella.openapi.common.exception.OneTokenException;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -32,8 +32,8 @@ public class BellaStreamCallback implements Callback {
 
 	@Override
 	public void onFailure(Call call, IOException e) {
-		log.error("流式请求失败", e);
-		BellaException exception = BellaException.fromException(e);
+		log.error("Streaming request failed", e);
+		OneTokenException exception = OneTokenException.fromException(e);
 		if (!connectionInitFuture.isDone()) {
 			connectionInitFuture.completeExceptionally(exception);
 		} else {
@@ -45,9 +45,9 @@ public class BellaStreamCallback implements Callback {
 	public void onResponse(Call call, Response response) {
 		log.info("{}", response);
 		if (!response.isSuccessful()) {
-			String errorMsg = "流式请求返回错误状态码: " + response.code() + ", message: " + response.message();
+			String errorMsg = "Streaming request returned error status code: " + response.code() + ", message: " + response.message();
 			log.error(errorMsg);
-			BellaException exception = new BellaException.ChannelException(response.code(), response.message());
+			OneTokenException exception = new OneTokenException.ChannelException(response.code(), response.message());
 			if (connectionInitFuture.isDone()) {
 				callback.finish(exception);
 			} else {
@@ -60,7 +60,7 @@ public class BellaStreamCallback implements Callback {
 
 		ResponseBody body = response.body();
 		if (body == null) {
-			log.warn("流式响应体为空");
+			log.warn("Streaming response body is empty");
 			callback.finish();
 			return;
 		}
@@ -78,8 +78,8 @@ public class BellaStreamCallback implements Callback {
 				callback.finish();
 			}
 		} catch (IOException e) {
-			log.error("读取流式数据失败", e);
-			BellaException exception = BellaException.fromException(e);
+			log.error("Failed to read streaming data", e);
+			OneTokenException exception = OneTokenException.fromException(e);
 			callback.finish(exception);
 		} finally {
 			if (body != null) {

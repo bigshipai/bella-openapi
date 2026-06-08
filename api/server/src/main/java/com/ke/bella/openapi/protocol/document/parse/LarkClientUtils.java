@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.protocol.document.parse;
 
-import com.ke.bella.openapi.common.exception.BellaException;
+import com.ke.bella.openapi.common.exception.OneTokenException;
 import com.lark.oapi.Client;
 import com.lark.oapi.service.docx.v1.model.Image;
 import com.lark.oapi.service.drive.v1.model.CreateImportTaskReq;
@@ -40,11 +40,11 @@ public class LarkClientUtils {
                     .build();
             UploadAllFileResp resp = client.drive().v1().file().uploadAll(req);
             if(resp.getCode() != 0) {
-                throw new BellaException.ChannelException(502, resp.getMsg());
+                throw new OneTokenException.ChannelException(502, resp.getMsg());
             }
             return resp.getData().getFileToken();
         } catch (Exception e) {
-            throw BellaException.fromException(e);
+            throw OneTokenException.fromException(e);
         }
     }
 
@@ -64,11 +64,11 @@ public class LarkClientUtils {
         try {
             CreateImportTaskResp resp = client.drive().v1().importTask().create(req);
             if(resp.getCode() != 0) {
-                throw new BellaException.ChannelException(502, resp.getMsg());
+                throw new OneTokenException.ChannelException(502, resp.getMsg());
             }
             return resp.getData().getTicket();
         } catch (Exception e) {
-            throw BellaException.fromException(e);
+            throw OneTokenException.fromException(e);
         }
     }
 
@@ -79,7 +79,7 @@ public class LarkClientUtils {
         try {
             GetImportTaskResp resp = client.drive().v1().importTask().get(req);
             if(resp.getCode() != 0) {
-                throw new BellaException.ChannelException(502, resp.getMsg());
+                throw new OneTokenException.ChannelException(502, resp.getMsg());
             }
             DocParseResponse response = new DocParseResponse();
             switch (resp.getData().getResult().getJobStatus()) {
@@ -96,17 +96,17 @@ public class LarkClientUtils {
             }
             return response;
         } catch (Exception e) {
-            throw BellaException.fromException(e);
+            throw OneTokenException.fromException(e);
         }
     }
 
     /**
      * 删除文件
-     * 
+     *
      * @param client    Lark客户端
      * @param fileToken 文件token
      * @param fileType  文件类型
-     * 
+     *
      * @return 删除是否成功
      */
     public static boolean deleteFile(Client client, String fileToken, String fileType) {
@@ -131,10 +131,10 @@ public class LarkClientUtils {
 
     /**
      * 获取图片
-     * 
+     *
      * @param imageBlock 图片Block对象
      * @param client     LarkClient
-     * 
+     *
      * @return 图片Base64String
      */
     public static String getImageUrl(Image imageBlock, Client client) {

@@ -40,7 +40,7 @@ public class BaiduAdaptor implements BusinessLicenseAdaptor<BaiduOcrProperty> {
 
     @Override
     public String getDescription() {
-        return "百度OCR营业执照识别协议";
+        return "Baidu OCR Business License Recognition Protocol";
     }
 
     @Override

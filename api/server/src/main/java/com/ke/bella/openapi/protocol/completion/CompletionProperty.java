@@ -27,17 +27,17 @@ public class CompletionProperty implements IProtocolProperty {
     @Override
     public Map<String, String> description() {
         Map<String, String> map = new LinkedHashMap<>();
-        map.put("encodingType", "编码类型");
-        map.put("mergeReasoningContent", "是否合并推理内容");
-        map.put("splitReasoningFromContent", "是否需要拆分推理内容");
-        map.put("functionCallSimulate", "是否需要强制支持function call");
-        map.put("extraHeaders", "额外的请求头");
-        map.put("queueName", "队列（配置后请求被bella-job-queue服务代理）");
-        map.put("anthropicVersion", "Anthropic API版本（如2023-06-01，用于原生代理）");
-        map.put("messageEndpointUrl", "Message API端点URL（配置后启用Anthropic原生代理）");
-        map.put("defaultMaxToken", "默认最大输出token");
-        map.put("deployName", "部署名称/模型名称");
-        map.put("auth", "鉴权配置");
+        map.put("encodingType", "Encoding type");
+        map.put("mergeReasoningContent", "Merge reasoning content");
+        map.put("splitReasoningFromContent", "Split reasoning from content");
+        map.put("functionCallSimulate", "Force support function call");
+        map.put("extraHeaders", "Extra request headers");
+        map.put("queueName", "Queue (requests proxied by bella-job-queue service when configured)");
+        map.put("anthropicVersion", "Anthropic API version (e.g. 2023-06-01, for native proxy)");
+        map.put("messageEndpointUrl", "Message API endpoint URL (enables Anthropic native proxy when configured)");
+        map.put("defaultMaxToken", "Default max output tokens");
+        map.put("deployName", "Deployment name / Model name");
+        map.put("auth", "Auth config");
         return map;
     }
 }

@@ -36,9 +36,9 @@ public class SpeakerDiarizationProperty implements IProtocolProperty {
     @Override
     public Map<String, String> description() {
         return ImmutableMap.of(
-                "deployName", "服务部署名称",
-                "auth", "认证配置",
-                "priceInfo", "计费配置",
-                "encodingType", "编码类型");
+                "deployName", "Service deployment name",
+                "auth", "Auth config",
+                "priceInfo", "Billing config",
+                "encodingType", "Encoding type");
     }
 }

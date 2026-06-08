@@ -39,6 +39,6 @@ public class KeAdaptor extends OpenAIAdaptor {
 
     @Override
     public String getDescription() {
-        return "贝壳私有协议（未实现OpenAI协议）";
+        return "Ke Private Protocol (OpenAI protocol not implemented)";
     }
 }

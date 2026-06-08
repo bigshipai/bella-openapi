@@ -1,8 +1,8 @@
 package com.ke.bella.openapi.apikey;
 
-import com.ke.bella.openapi.Operator;
-import com.ke.bella.openapi.PageCondition;
-import com.ke.bella.openapi.PermissionCondition;
+import com.ke.bella.openapi.common.model.Operator;
+import com.ke.bella.openapi.common.model.PageCondition;
+import com.ke.bella.openapi.common.model.PermissionCondition;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +20,7 @@ public class ApikeyOps {
     public static class ApplyOp extends Operator {
         private String name;
         private String ownerType;
-        private Long ownerUserId;  // 通过 userId 查用户，后端自动计算正确的 ownerCode（person 类型时使用）
+        private Long ownerUserId;  // Look up user by userId, backend auto-calculates correct ownerCode (used for person type)
         private String ownerCode;
         private String ownerName;
         private String roleCode;
@@ -36,7 +36,7 @@ public class ApikeyOps {
     @NoArgsConstructor
     public static class ManagerOp extends Operator {
         private String code;
-        private Long managerUserId;  // 通过 userId 查用户，后端自动计算正确的 managerCode
+        private Long managerUserId;  // Look up user by userId, backend auto-calculates correct managerCode
         private String managerCode;
         private String managerName;
         private String reason;
@@ -48,9 +48,9 @@ public class ApikeyOps {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class ChangeOwnerOp extends Operator {
-        @NotBlank(message = "code不可为空")
+        @NotBlank(message = "code cannot be empty")
         private String code;
-        @NotBlank(message = "targetOwnerType不可为空")
+        @NotBlank(message = "targetOwnerType cannot be empty")
         private String targetOwnerType;
         private String targetOwnerCode;
         private String targetOwnerName;
@@ -62,9 +62,9 @@ public class ApikeyOps {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class ChangeParentOp extends Operator {
-        @NotBlank(message = "code不可为空")
+        @NotBlank(message = "code cannot be empty")
         private String code;
-        @NotBlank(message = "targetParentCode不可为空")
+        @NotBlank(message = "targetParentCode cannot be empty")
         private String targetParentCode;
         private String reason;
     }
@@ -84,7 +84,7 @@ public class ApikeyOps {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class OwnerInheritanceOp extends Operator {
-        @NotBlank(message = "parentCode不可为空")
+        @NotBlank(message = "parentCode cannot be empty")
         private String parentCode;
     }
 
@@ -172,10 +172,10 @@ public class ApikeyOps {
     public static class QpsLimitOp extends Operator {
         private String code;
         /**
-         * QPS 限制值
-         * null 或 0：使用系统默认值
-         * 正数：具体的 QPS 限制
-         * 负数：不限制
+         * QPS limit value
+         * null or 0: use system default
+         * positive number: specific QPS limit
+         * negative number: unlimited
          */
         private Integer qpsLimit;
     }
@@ -191,18 +191,18 @@ public class ApikeyOps {
     @Data
     public static class ApikeyCondition extends PermissionCondition {
         private String ownerType;
-        private String excludeOwnerType; // 排除指定所有者类型，如传 person 则过滤个人AK
+        private String excludeOwnerType; // Exclude specified owner type, e.g. filter personal AK if "person"
         private String ownerCode;
         private String parentCode;
         private String name;
         private String serviceId;
-        private String searchParam; // name / serviceId的模糊搜索
-        private String ownerSearch; // ownerName / ownerCode的模糊搜索
-        private String managerCode; // 精确匹配管理人
-        private String managerSearch; // managerName / managerCode的模糊搜索
+        private String searchParam; // Fuzzy search for name / serviceId
+        private String ownerSearch; // Fuzzy search for ownerName / ownerCode
+        private String managerCode; // Exact match manager
+        private String managerSearch; // Fuzzy search for managerName / managerCode
         private String outEntityCode;
         private boolean includeChild;
-        private boolean onlyChild; // true：仅返回子AK（parent_code != ''），用于管理者视角分页查询子AK
+        private boolean onlyChild; // true: only return child AKs (parent_code != ''), used for manager perspective pagination of sub AKs
         private String status;
     }
 }

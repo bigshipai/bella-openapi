@@ -1,9 +1,9 @@
 package com.ke.bella.openapi.console;
 
-import com.ke.bella.openapi.annotations.BellaAPI;
+import com.ke.bella.openapi.common.annotation.OneTokenAPI;
 import com.ke.bella.openapi.script.LuaScriptManager;
 import com.ke.bella.openapi.script.ScriptInfo;
-import com.ke.bella.openapi.service.ModelService;
+import com.ke.bella.openapi.resource.model.ModelService;
 import com.ke.bella.openapi.tables.pojos.ModelDB;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.util.Map;
 
-@BellaAPI
+@OneTokenAPI
 @RestController
 @RequestMapping("/console/script")
 public class ScriptConsoleController {

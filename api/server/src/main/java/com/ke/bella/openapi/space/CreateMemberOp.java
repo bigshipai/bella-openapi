@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.space;
 
-import com.ke.bella.openapi.Operator;
+import com.ke.bella.openapi.common.model.Operator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,19 +22,19 @@ import java.util.List;
 @NoArgsConstructor
 public class CreateMemberOp extends Operator {
 
-    @NotEmpty(message = "spaceCode不能为空")
-    @Size(max = 64, message = "spaceCode不能超过64个字符")
+    @NotEmpty(message = "spaceCode cannot be empty")
+    @Size(max = 64, message = "spaceCode cannot exceed 64 characters")
     private String spaceCode;
 
     /**
-     * 角色编码
+     * Role code
      */
-    @NotEmpty(message = "roleCode不能为空")
-    @Size(max = 64, message = "roleCode不能超过64个字符")
+    @NotEmpty(message = "roleCode cannot be empty")
+    @Size(max = 64, message = "roleCode cannot exceed 64 characters")
     private String roleCode;
 
     /**
-     * 成员集合
+     * Member list
      */
     private List<Member> members;
 
@@ -45,12 +45,12 @@ public class CreateMemberOp extends Operator {
     public static class Member {
 
         /**
-         * 成员id
+         * Member UID
          */
         private String memberUid;
 
         /**
-         * 成员姓名
+         * Member name
          */
         private String memberName;
     }

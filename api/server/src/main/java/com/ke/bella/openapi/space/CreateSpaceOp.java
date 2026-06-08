@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.space;
 
-import com.ke.bella.openapi.Operator;
+import com.ke.bella.openapi.common.model.Operator;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +10,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
 /**
- * function: 创建团队参数
+ * function: Create space parameters
  *
  * @author chenhongliang001
  */
@@ -21,36 +21,36 @@ import jakarta.validation.constraints.Size;
 public class CreateSpaceOp extends Operator {
 
     /**
-     * 空间名称
+     * Space name
      */
-    @NotEmpty(message = "spaceName不能为空")
-    @Size(max = 128, message = "spaceName不能超过128个字符")
+    @NotEmpty(message = "spaceName cannot be empty")
+    @Size(max = 128, message = "spaceName cannot exceed 128 characters")
     private String spaceName;
 
     /**
-     * 空间描述
+     * Space description
      */
-    @Size(max = 255, message = "spaceDescription不能超过255个字符")
+    @Size(max = 255, message = "spaceDescription cannot exceed 255 characters")
     private String spaceDescription;
 
     /**
-     * 空间编码
+     * Space code
      */
-    @Size(max = 64, message = "spaceCode不能超过64个字符")
+    @Size(max = 64, message = "spaceCode cannot exceed 64 characters")
     private String spaceCode;
 
     /**
-     * 空间拥有者id
+     * Space owner UID
      */
-    @NotEmpty(message = "ownerUid不能为空")
-    @Size(max = 64, message = "ownerUid不能超过64个字符")
+    @NotEmpty(message = "ownerUid cannot be empty")
+    @Size(max = 64, message = "ownerUid cannot exceed 64 characters")
     private String ownerUid;
 
     /**
-     * 空间拥有者姓名
+     * Space owner name
      */
-    @NotEmpty(message = "ownerName不能为空")
-    @Size(max = 64, message = "ownerName不能超过64个字符")
+    @NotEmpty(message = "ownerName cannot be empty")
+    @Size(max = 64, message = "ownerName cannot exceed 64 characters")
     private String ownerName;
 
 }

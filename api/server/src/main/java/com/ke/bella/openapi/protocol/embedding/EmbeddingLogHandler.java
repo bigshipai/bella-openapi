@@ -1,7 +1,7 @@
 package com.ke.bella.openapi.protocol.embedding;
 
-import com.ke.bella.openapi.EndpointProcessData;
-import com.ke.bella.openapi.RequestMetrics;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
+import com.ke.bella.openapi.common.response.RequestMetrics;
 import com.ke.bella.openapi.protocol.OpenapiResponse;
 import com.ke.bella.openapi.protocol.completion.CompletionRequest;
 import com.ke.bella.openapi.protocol.completion.CompletionResponse;

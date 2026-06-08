@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.protocol.log;
 
-import com.ke.bella.openapi.EndpointProcessData;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.protocol.limiter.LimiterManager;
 import com.lmax.disruptor.EventHandler;
 import lombok.extern.slf4j.Slf4j;

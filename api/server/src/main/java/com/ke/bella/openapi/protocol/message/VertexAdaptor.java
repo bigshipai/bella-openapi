@@ -30,6 +30,6 @@ public class VertexAdaptor implements MessageDelegatorAdaptor<VertexProperty> {
 
     @Override
     public String getDescription() {
-        return "Google Vertex AI (Gemini) Message API协议适配";
+        return "Google Vertex AI (Gemini) Message API Protocol Adapter";
     }
 }

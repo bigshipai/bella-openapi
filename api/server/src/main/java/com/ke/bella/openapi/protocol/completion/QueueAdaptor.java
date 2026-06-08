@@ -1,12 +1,12 @@
 package com.ke.bella.openapi.protocol.completion;
 
-import com.ke.bella.openapi.EndpointProcessData;
-import com.ke.bella.openapi.common.EntityConstants;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
+import com.ke.bella.openapi.common.constant.EntityConstants;
 import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.OpenapiResponse;
 import com.ke.bella.openapi.tables.pojos.ChannelDB;
 import com.ke.bella.openapi.utils.JacksonUtils;
-import com.ke.bella.openapi.queue.QueueClient;
+import com.ke.bella.openapi.job.queue.QueueClient;
 import com.theokanning.openai.queue.Put;
 import org.apache.commons.lang3.StringUtils;
 
@@ -114,7 +114,7 @@ public class QueueAdaptor<T extends CompletionProperty> implements CompletionAda
 
     @Override
     public String getDescription() {
-        return "jobQueue协议";
+        return "jobQueue Protocol";
     }
 
     @Override

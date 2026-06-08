@@ -58,7 +58,7 @@ public abstract class UniqueKeyRepo<T extends Operator, R extends UpdatableRecor
                 .set(rec)
                 .where(uniqueKey().eq(uniqueKey))
                 .execute();
-        Assert.isTrue(num == 1, "实体更新失败，请检查实体是否存在");
+        Assert.isTrue(num == 1, "Entity update failed, please verify entity exists");
     }
 
     public T queryByUniqueKey(K uniqueKey) {
@@ -101,7 +101,7 @@ public abstract class UniqueKeyRepo<T extends Operator, R extends UpdatableRecor
 
     public void checkExist(K uniqueKey, boolean exist) {
         Assert.isTrue((queryByUniqueKey(uniqueKey) != null) == exist,
-                exist ? "实体不存在" : "实体已存在");
+                exist ? "Entity does not exist" : "Entity already exists");
     }
 
     private Class<T> entityClass() {

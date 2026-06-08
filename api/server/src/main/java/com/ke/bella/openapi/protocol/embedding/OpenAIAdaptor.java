@@ -23,7 +23,7 @@ public class OpenAIAdaptor implements EmbeddingAdaptor<OpenAIProperty> {
         } else {
             inputs = (List<?>) request.getInput();
             Assert.isTrue(inputs.size() <= property.getBatchSize(),
-                    "input 长度不能超过" + property.getBatchSize());
+                    "input length cannot exceed " + property.getBatchSize());
         }
         if(StringUtils.isNotEmpty(property.getApiVersion())) {
             url += property.getApiVersion();
@@ -48,7 +48,7 @@ public class OpenAIAdaptor implements EmbeddingAdaptor<OpenAIProperty> {
 
     @Override
     public String getDescription() {
-        return "openAI协议";
+        return "OpenAI Protocol";
     }
 
     @Override

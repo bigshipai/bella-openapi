@@ -21,7 +21,7 @@ public class TavilyExtractAdaptor implements WebExtractAdaptor<WebExtractPropert
 
     @Override
     public String getDescription() {
-        return "Tavily网络内容提取协议";
+        return "Tavily Web Content Extraction Protocol";
     }
 
     @Override

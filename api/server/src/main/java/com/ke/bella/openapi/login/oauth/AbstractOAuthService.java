@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.login.oauth;
 
-import com.ke.bella.openapi.Operator;
+import com.ke.bella.openapi.common.model.Operator;
 import com.ke.bella.openapi.utils.HttpUtils;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;

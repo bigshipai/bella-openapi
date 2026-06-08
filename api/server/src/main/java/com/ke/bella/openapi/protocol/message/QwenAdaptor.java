@@ -30,6 +30,6 @@ public class QwenAdaptor implements MessageDelegatorAdaptor<OpenAIProperty> {
 
     @Override
     public String getDescription() {
-        return "通义千问扩展Openai协议模型服务适配/v1/message能力点";
+        return "Qwen Extended OpenAI Protocol Adapter for /v1/messages endpoint";
     }
 }

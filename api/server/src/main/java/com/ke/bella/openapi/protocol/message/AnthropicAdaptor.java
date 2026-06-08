@@ -6,9 +6,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.stereotype.Component;
 
-import com.ke.bella.openapi.EndpointContext;
-import com.ke.bella.openapi.EndpointProcessData;
-import com.ke.bella.openapi.common.exception.BellaException;
+import com.ke.bella.openapi.common.context.EndpointContext;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
+import com.ke.bella.openapi.common.exception.OneTokenException;
 import com.ke.bella.openapi.protocol.BellaEventSourceListener;
 import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.completion.AnthropicProperty;
@@ -29,14 +29,14 @@ public class AnthropicAdaptor implements MessageAdaptor<AnthropicProperty> {
 
     private final Callbacks.ChannelErrorCallback<MessageResponse> errorCallback = (errorResponse, res) -> {
         if(errorResponse != null && errorResponse.getError() != null) {
-            throw new BellaException.ChannelException(res.code(), errorResponse.getError().getMessage());
+            throw new OneTokenException.ChannelException(res.code(), errorResponse.getError().getMessage());
         }
-        throw new BellaException.ChannelException(res.code(), res.message());
+        throw new OneTokenException.ChannelException(res.code(), res.message());
     };
 
     @Override
     public String getDescription() {
-        return "Anthropic协议适配器";
+        return "Anthropic Protocol Adapter";
     }
 
     @Override
@@ -182,15 +182,15 @@ public class AnthropicAdaptor implements MessageAdaptor<AnthropicProperty> {
 
         @Override
         public void onFailure(EventSource eventSource, Throwable t, Response response) {
-            BellaException exception;
+            OneTokenException exception;
             try {
                 if(t == null) {
                     exception = convertToException(response);
                 } else {
-                    exception = BellaException.fromException(t);
+                    exception = OneTokenException.fromException(t);
                 }
             } catch (Exception e) {
-                exception = BellaException.fromException(e);
+                exception = OneTokenException.fromException(e);
             }
 
             if(connectionInitFuture.isDone()) {
@@ -200,13 +200,13 @@ public class AnthropicAdaptor implements MessageAdaptor<AnthropicProperty> {
             }
         }
 
-        private BellaException convertToException(Response response) {
+        private OneTokenException convertToException(Response response) {
             try {
                 String msg = response.body().string();
-                return new BellaException.ChannelException(response.code(), msg);
+                return new OneTokenException.ChannelException(response.code(), msg);
             } catch (Exception e) {
                 log.warn(e.getMessage(), e);
-                return new BellaException.ChannelException(response.code(), response.message());
+                return new OneTokenException.ChannelException(response.code(), response.message());
             }
         }
     }

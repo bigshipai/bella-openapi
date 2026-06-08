@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.protocol.asr.realtime;
 
-import com.ke.bella.openapi.EndpointProcessData;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.common.exception.BizParamCheckException;
 import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.asr.TencentProperty;
@@ -80,7 +80,7 @@ public class TencentAdaptor implements RealTimeAsrAdaptor<TencentProperty> {
 
     @Override
     public String getDescription() {
-        return "腾讯协议";
+        return "Tencent Protocol";
     }
 
     @Override

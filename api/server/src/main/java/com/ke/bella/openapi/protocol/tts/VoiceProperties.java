@@ -15,8 +15,8 @@ public class VoiceProperties implements IModelProperties {
     @Override
     public Map<String, String> description() {
         Map<String, String> desc = new LinkedHashMap<>();
-        desc.put("voiceTypes", "声音类型");
-        desc.put("input_state", "补充说明");
+        desc.put("voiceTypes", "Voice types");
+        desc.put("input_state", "Additional notes");
         return desc;
     }
 }

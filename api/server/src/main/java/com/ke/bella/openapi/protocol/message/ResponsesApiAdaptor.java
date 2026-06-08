@@ -30,6 +30,6 @@ public class ResponsesApiAdaptor implements MessageDelegatorAdaptor<ResponsesApi
 
     @Override
     public String getDescription() {
-        return "OpenAI Responses API协议模型服务适配/v1/messages能力点";
+        return "OpenAI Responses API Protocol Adapter for /v1/messages endpoint";
     }
 }

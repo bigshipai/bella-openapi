@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.protocol.images.variation;
 
-import com.ke.bella.openapi.common.exception.BellaException;
+import com.ke.bella.openapi.common.exception.OneTokenException;
 import com.ke.bella.openapi.protocol.images.ImagesVariationRequest;
 import com.ke.bella.openapi.protocol.images.ImagesProperty;
 import com.ke.bella.openapi.protocol.images.ImagesResponse;
@@ -24,7 +24,7 @@ public class OpenAIVariationAdaptor implements ImagesVariationAdaptor<ImagesProp
 
     @Override
     public String getDescription() {
-        return "OpenAI图片变化协议";
+        return "OpenAI Image Variation Protocol";
     }
 
     @Override
@@ -81,7 +81,7 @@ public class OpenAIVariationAdaptor implements ImagesVariationAdaptor<ImagesProp
             return HttpUtils.httpRequest(httpRequest, ImagesResponse.class);
 
         } catch (IOException e) {
-            throw new BellaException.ChannelException(502, "图片变化请求处理失败: " + e.getMessage());
+            throw new OneTokenException.ChannelException(502, "Image variation request failed: " + e.getMessage());
         }
     }
 }

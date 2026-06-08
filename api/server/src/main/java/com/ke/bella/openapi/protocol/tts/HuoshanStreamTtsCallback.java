@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ke.bella.openapi.EndpointProcessData;
-import com.ke.bella.openapi.common.exception.BellaException;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
+import com.ke.bella.openapi.common.exception.OneTokenException;
 import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.OpenapiResponse;
 import com.ke.bella.openapi.protocol.log.EndpointLogger;
@@ -106,7 +106,7 @@ public class HuoshanStreamTtsCallback implements Callbacks.WebSocketCallback {
         case EVENT_SessionFailed: {
             String errorStr = response.optional.response_meta_json;
             Map<String, Object> map = JacksonUtils.toMap(errorStr);
-            BellaException exception = new BellaException.ChannelException(convertCode((Integer) map.get("status_code")), (String) map.get("message"));
+            OneTokenException exception = new OneTokenException.ChannelException(convertCode((Integer) map.get("status_code")), (String) map.get("message"));
             onError(exception);
             break;
         }
@@ -154,13 +154,13 @@ public class HuoshanStreamTtsCallback implements Callbacks.WebSocketCallback {
 
     @Override
     public void onFailure(WebSocket webSocket, Throwable t, Response response) {
-        BellaException exception;
+        OneTokenException exception;
         if(response != null) {
             int code = response.code();
             String msg = response.message();
-            exception = new BellaException.ChannelException(code, msg);
+            exception = new OneTokenException.ChannelException(code, msg);
         } else {
-            exception = BellaException.fromException(t);
+            exception = OneTokenException.fromException(t);
         }
         onError(exception);
     }
@@ -184,7 +184,7 @@ public class HuoshanStreamTtsCallback implements Callbacks.WebSocketCallback {
         }
     }
 
-    void onError(BellaException exception) {
+    void onError(OneTokenException exception) {
         complete();
         processData.setResponse(OpenapiResponse.errorResponse(exception.convertToOpenapiError()));
         log();
@@ -428,7 +428,7 @@ public class HuoshanStreamTtsCallback implements Callbacks.WebSocketCallback {
      * 解析响应包
      *
      * @param res
-     * 
+     *
      * @return
      */
     TTSResponse parserResponse(byte[] res) {
@@ -604,7 +604,7 @@ public class HuoshanStreamTtsCallback implements Callbacks.WebSocketCallback {
      * @param webSocket
      * @param request
      * @param sessionId
-     * 
+     *
      * @return
      */
     boolean sendMessage(WebSocket webSocket, TtsRequest request, String sessionId) {

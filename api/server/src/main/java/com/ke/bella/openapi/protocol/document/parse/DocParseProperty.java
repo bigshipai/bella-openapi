@@ -13,7 +13,7 @@ public class DocParseProperty implements IProtocolProperty {
     @Override
     public Map<String, String> description() {
         Map<String, String> map = new LinkedHashMap<>();
-        map.put("supportTypes", "支持的类型");
+        map.put("supportTypes", "Supported types");
         return map;
     }
 }

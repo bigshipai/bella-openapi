@@ -25,11 +25,11 @@ public class SpeakerDiarizationPriceInfo implements IPriceInfo, Serializable {
 
     @Override
     public String getUnit() {
-        return "元/小时";
+        return "CNY/hour";
     }
 
     @Override
     public Map<String, String> description() {
-        return ImmutableMap.of("price", "说话人识别每小时价格（元）");
+        return ImmutableMap.of("price", "Speaker recognition price per hour (CNY)");
     }
 }

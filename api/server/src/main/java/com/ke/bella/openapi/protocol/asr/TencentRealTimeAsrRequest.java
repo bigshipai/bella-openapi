@@ -7,22 +7,22 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Data
 public class TencentRealTimeAsrRequest {
-    private String voiceId; 			// 音频流全局唯一标识
+    private String voiceId; 			// Globally unique identifier for audio stream
 
     private String appid;
     private String secretid;
     private String secretkey;
 
-    private String engineModelType; 	// 引擎模型类型
-    private Integer voiceFormat; 		// 音频格式编码：1-pcm
-    private Integer inputSampleRate; 	// 采样率
+    private String engineModelType; 	// Engine model type
+    private Integer voiceFormat; 		// Audio format code: 1-PCM
+    private Integer inputSampleRate; 	// Sample rate
 
-    private Integer wordInfo;    		// 是否显示词级别时间戳
-    private String hotwordList; 		// 临时热词表,
-                                		// 格式："腾讯云|10,语音识别|5,ASR|11"，优先值高于
+    private Integer wordInfo;    		// Whether to show word-level timestamps
+    private String hotwordList; 		// Temporary hotwords list,
+                                		// Format: "hotword1|10,hotword2|5,hotword3|11", priority higher than
                                 		// hotwordId
-    private String hotwordId;    		// 热词表 ID
-    private String replaceTextId; 		// 替换词汇表 ID, 适用于热词和自学习场景也无法解决的极端 case 词组
+    private String hotwordId;    		// Hotwords table ID
+    private String replaceTextId; 		// Replacement vocabulary ID, suitable for extreme case phrases that hotwords and self-learning scenarios cannot solve
 
     public TencentRealTimeAsrRequest(RealTimeMessage request, TencentProperty property) {
         this.voiceId = java.util.UUID.randomUUID().toString();
@@ -57,6 +57,6 @@ public class TencentRealTimeAsrRequest {
         } else if("aac".equalsIgnoreCase(format)) {
             return 8;
         }
-        return 1; // 默认pcm
+        return 1; // Default PCM
     }
 }

@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ke.bella.openapi.server.OpenAiServiceFactory;
+import com.ke.bella.openapi.config.OpenAiServiceFactory;
 import com.theokanning.openai.service.OpenAiService;
 
 import lombok.extern.slf4j.Slf4j;

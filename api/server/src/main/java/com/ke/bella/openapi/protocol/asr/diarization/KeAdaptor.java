@@ -38,7 +38,7 @@ public class KeAdaptor implements SpeakerDiarizationAdaptor<SpeakerDiarizationPr
 
     @Override
     public String getDescription() {
-        return "贝壳私有协议";
+        return "Ke Private Protocol";
     }
 
     @Override

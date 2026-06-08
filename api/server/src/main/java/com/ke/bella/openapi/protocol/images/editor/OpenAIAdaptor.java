@@ -24,7 +24,7 @@ public class OpenAIAdaptor implements ImagesEditorAdaptor<ImagesEditorProperty> 
 
     @Override
     public String getDescription() {
-        return "OpenAI图片编辑协议";
+        return "OpenAI Image Editing Protocol";
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.ke.bella.openapi.protocol;
 
-import com.ke.bella.openapi.EndpointContext;
-import com.ke.bella.openapi.ISummary;
+import com.ke.bella.openapi.common.context.EndpointContext;
+import com.ke.bella.openapi.common.contract.ISummary;
 import okhttp3.Request;
 import java.util.Arrays;
 

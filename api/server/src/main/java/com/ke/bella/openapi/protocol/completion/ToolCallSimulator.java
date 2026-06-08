@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.protocol.completion;
 
-import com.ke.bella.openapi.EndpointProcessData;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.protocol.Callbacks.StreamCompletionCallback;
 import com.ke.bella.openapi.protocol.completion.CompletionResponse.Choice;
 import com.ke.bella.openapi.simulation.SimulationHepler;

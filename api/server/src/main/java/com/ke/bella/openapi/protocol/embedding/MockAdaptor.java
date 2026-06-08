@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 public class MockAdaptor implements EmbeddingAdaptor<EmbeddingProperty> {
     @Override
     public String getDescription() {
-        return "mock协议";
+        return "Mock Protocol";
     }
 
     @Override
@@ -17,6 +17,6 @@ public class MockAdaptor implements EmbeddingAdaptor<EmbeddingProperty> {
 
     @Override
     public EmbeddingResponse embedding(EmbeddingRequest request, String url, EmbeddingProperty property) {
-        throw new BizParamCheckException("尚未支持embedding mock");
+        throw new BizParamCheckException("Embedding mock is not yet supported");
     }
 }

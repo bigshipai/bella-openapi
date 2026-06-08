@@ -23,14 +23,14 @@ public class VideoPriceInfo implements IPriceInfo, Serializable {
 
     @Override
     public String getUnit() {
-        return "分/千token";
+        return "cents/1k tokens";
     }
 
     @Override
     public Map<String, String> description() {
         Map<String, String> map = new LinkedHashMap<>();
-        map.put("input", "输入token单价（分/千token）");
-        map.put("output", "输出token单价（分/千token）");
+        map.put("input", "Input token unit price (cents/1k tokens)");
+        map.put("output", "Output token unit price (cents/1k tokens)");
         return map;
     }
 }

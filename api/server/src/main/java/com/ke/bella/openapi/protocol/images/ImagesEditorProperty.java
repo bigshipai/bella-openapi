@@ -32,9 +32,9 @@ public class ImagesEditorProperty extends ImagesProperty {
     @Override
     public Map<String, String> description() {
         Map<String, String> desc = super.description();
-        desc.put("supportFile", "是否支持文件上传方式（默认true）");
-        desc.put("supportUrl", "是否支持URL输入方式（默认false）");
-        desc.put("supportBase64", "是否支持Base64输入方式（默认false）");
+        desc.put("supportFile", "Support file upload (default: true)");
+        desc.put("supportUrl", "Support URL input (default: false)");
+        desc.put("supportBase64", "Support Base64 input (default: false)");
         return desc;
     }
 }

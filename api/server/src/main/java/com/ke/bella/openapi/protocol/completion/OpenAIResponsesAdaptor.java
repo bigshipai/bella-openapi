@@ -4,7 +4,7 @@ import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
-import com.ke.bella.openapi.common.exception.BellaException;
+import com.ke.bella.openapi.common.exception.OneTokenException;
 import com.ke.bella.openapi.protocol.BellaEventSourceListener;
 import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.utils.HttpUtils;
@@ -31,7 +31,7 @@ public class OpenAIResponsesAdaptor implements ResponsesAdaptor<ResponsesApiProp
 
     @Override
     public String getDescription() {
-        return "OpenAI Responses API原生协议";
+        return "OpenAI Responses API Native Protocol";
     }
 
     @Override
@@ -147,7 +147,7 @@ public class OpenAIResponsesAdaptor implements ResponsesAdaptor<ResponsesApiProp
                     }
                 } catch (Exception e) {
                     log.error("Error processing SSE event: type={}, data={}", type, data, e);
-                    callback.onError(BellaException.fromException(e));
+                    callback.onError(OneTokenException.fromException(e));
                     eventSource.cancel();
                 }
             }
@@ -160,20 +160,20 @@ public class OpenAIResponsesAdaptor implements ResponsesAdaptor<ResponsesApiProp
 
             @Override
             public void onFailure(EventSource eventSource, Throwable t, Response response) {
-                BellaException exception;
+                OneTokenException exception;
                 try {
                     if(t == null) {
                         exception = convertToException(response);
                     } else {
-                        if(t instanceof BellaException) {
-                            exception = (BellaException) t;
+                        if(t instanceof OneTokenException) {
+                            exception = (OneTokenException) t;
                         } else {
-                            exception = BellaException.fromException(t);
+                            exception = OneTokenException.fromException(t);
                         }
                     }
                 } catch (Exception e) {
                     log.error("Error converting failure to exception", e);
-                    exception = BellaException.fromException(e);
+                    exception = OneTokenException.fromException(e);
                 }
 
                 if(connectionInitFuture != null && connectionInitFuture.isDone()) {
@@ -192,25 +192,25 @@ public class OpenAIResponsesAdaptor implements ResponsesAdaptor<ResponsesApiProp
     /**
      * 将 HTTP 错误响应转换为 ChannelException
      */
-    private BellaException convertToException(Response response) {
+    private OneTokenException convertToException(Response response) {
         try {
             if(response.body() == null) {
-                return new BellaException.ChannelException(response.code(), response.message());
+                return new OneTokenException.ChannelException(response.code(), response.message());
             }
             String msg = response.body().string();
             ResponsesApiResponse errorResponse = JacksonUtils.deserialize(msg, ResponsesApiResponse.class);
             if(errorResponse != null && errorResponse.getError() != null) {
-                return new BellaException.ChannelException(
+                return new OneTokenException.ChannelException(
                         response.code(),
                         errorResponse.getError().getType(),
                         errorResponse.getError().getMessage(),
                         errorResponse.getError());
             } else {
-                return new BellaException.ChannelException(response.code(), msg);
+                return new OneTokenException.ChannelException(response.code(), msg);
             }
         } catch (Exception e) {
             log.warn("Failed to parse error response", e);
-            return new BellaException.ChannelException(response.code(), response.message());
+            return new OneTokenException.ChannelException(response.code(), response.message());
         } finally {
             response.close();
         }

@@ -1,7 +1,7 @@
 package com.ke.bella.openapi.protocol.asr.flash;
 
-import com.ke.bella.openapi.EndpointProcessData;
-import com.ke.bella.openapi.common.AudioFormat;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
+import com.ke.bella.openapi.common.constant.AudioFormatEnum;
 import com.ke.bella.openapi.protocol.asr.AsrProperty;
 import com.ke.bella.openapi.protocol.asr.AsrRequest;
 import com.ke.bella.openapi.utils.HttpUtils;
@@ -24,7 +24,7 @@ public class KeAdaptor implements FlashAsrAdaptor<AsrProperty> {
                 .header("sample_rate", request.getSampleRate().toString())
                 .header("hot_words", UriUtils.encode(request.getHotWords(), StandardCharsets.UTF_8))
                 .header("convert_numbers", request.getConvertNumbers().toString())
-                .post(RequestBody.create(MediaType.parse(AudioFormat.getContentType(request.getFormat())), request.getContent()))
+                .post(RequestBody.create(MediaType.parse(AudioFormatEnum.getContentType(request.getFormat())), request.getContent()))
                 .build();
         clearLargeData(request);
         return HttpUtils.httpRequest(httpRequest, FlashAsrResponse.class);
@@ -32,7 +32,7 @@ public class KeAdaptor implements FlashAsrAdaptor<AsrProperty> {
 
     @Override
     public String getDescription() {
-        return "贝壳协议";
+        return "Ke Protocol";
     }
 
     @Override

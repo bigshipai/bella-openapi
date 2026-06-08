@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.protocol.asr.realtime;
 
-import com.ke.bella.openapi.EndpointProcessData;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.asr.HuoshanLMRealTimeAsrResponse;
 import com.ke.bella.openapi.protocol.asr.HuoshanProperty;
@@ -60,7 +60,7 @@ public class HuoshanLMAdaptor extends HuoshanAdaptor {
 
     @Override
     public String getDescription() {
-        return "火山大模型协议";
+        return "Huoshan LLM Protocol";
     }
 
     private static class Converter implements Function<HuoshanLMRealTimeAsrResponse, List<String>> {

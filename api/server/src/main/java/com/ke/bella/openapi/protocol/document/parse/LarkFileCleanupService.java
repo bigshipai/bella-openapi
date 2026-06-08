@@ -1,8 +1,8 @@
 package com.ke.bella.openapi.protocol.document.parse;
 
-import com.ke.bella.openapi.task.CallbackTaskService;
-import com.ke.bella.openapi.task.TaskCompletionCallback;
-import com.ke.bella.openapi.task.TaskData;
+import com.ke.bella.openapi.job.callback.CallbackTaskService;
+import com.ke.bella.openapi.job.callback.TaskCompletionCallback;
+import com.ke.bella.openapi.job.callback.TaskData;
 import com.lark.oapi.Client;
 import lombok.AllArgsConstructor;
 import lombok.Data;

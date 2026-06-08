@@ -7,12 +7,12 @@ import java.io.OutputStream;
 
 import jakarta.servlet.http.HttpServletResponse;
 
-import com.ke.bella.openapi.BellaContext;
-import com.ke.bella.openapi.EndpointContext;
-import com.ke.bella.openapi.EndpointProcessData;
+import com.ke.bella.openapi.common.context.OneTokenContext;
+import com.ke.bella.openapi.common.context.EndpointContext;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.TaskExecutor;
 import com.ke.bella.openapi.apikey.ApikeyInfo;
-import com.ke.bella.openapi.common.exception.BellaException;
+import com.ke.bella.openapi.common.exception.OneTokenException;
 import com.ke.bella.openapi.protocol.AuthorizationProperty;
 import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.completion.callback.StreamCompletionCallback;
@@ -66,7 +66,7 @@ public class DirectPassthroughAdaptor implements CompletionAdaptor<CompletionPro
             // Execute request
             Response response = HttpUtils.httpRequest(httpRequest);
             EndpointProcessData processData = EndpointContext.getProcessData();
-            ApikeyInfo apikeyInfo = BellaContext.getApikey();
+            ApikeyInfo apikeyInfo = OneTokenContext.getApikey();
 
             // Check if response is SSE format (text/event-stream)
             String contentType = response.header("Content-Type");
@@ -143,7 +143,7 @@ public class DirectPassthroughAdaptor implements CompletionAdaptor<CompletionPro
 
         } catch (IOException e) {
             log.error("Direct passthrough error", e);
-            throw new BellaException.ChannelException(502, "Direct passthrough error: " + e.getMessage());
+            throw new OneTokenException.ChannelException(502, "Direct passthrough error: " + e.getMessage());
         }
 
         return null;

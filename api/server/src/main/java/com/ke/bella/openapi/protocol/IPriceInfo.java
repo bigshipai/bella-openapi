@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.protocol;
 
-import com.ke.bella.openapi.IDescription;
+import com.ke.bella.openapi.common.contract.IDescription;
 import com.ke.bella.openapi.protocol.asr.diarization.SpeakerDiarizationPriceInfo;
 import com.ke.bella.openapi.protocol.asr.flash.FlashAsrPriceInfo;
 import com.ke.bella.openapi.protocol.asr.transcription.TranscriptionsAsrPriceInfo;

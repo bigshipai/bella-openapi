@@ -24,7 +24,7 @@ public class BaiduAdaptor implements BankcardAdaptor<BaiduOcrProperty> {
 
     @Override
     public String getDescription() {
-        return "百度OCR银行卡识别协议";
+        return "Baidu OCR Bank Card Recognition Protocol";
     }
 
     @Override
@@ -93,22 +93,22 @@ public class BaiduAdaptor implements BankcardAdaptor<BaiduOcrProperty> {
      */
     private String convertCardType(Integer bankCardType) {
         if(bankCardType == null) {
-            return "未知";
+            return "Unknown";
         }
 
         switch (bankCardType) {
         case 0:
-            return "不能识别";
+            return "Unrecognizable";
         case 1:
-            return "借记卡";
+            return "Debit Card";
         case 2:
-            return "贷记卡";
+            return "Credit Card";
         case 3:
-            return "准贷记卡";
+            return "Semi-credit Card";
         case 4:
-            return "预付费卡";
+            return "Prepaid Card";
         default:
-            return "未知";
+            return "Unknown";
         }
     }
 

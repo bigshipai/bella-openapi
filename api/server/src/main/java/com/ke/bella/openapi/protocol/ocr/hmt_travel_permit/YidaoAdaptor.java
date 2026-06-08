@@ -22,7 +22,7 @@ public class YidaoAdaptor implements HmtTravelPermitAdaptor<YidaoOcrProperty> {
 
     @Override
     public String getDescription() {
-        return "易道OCR港澳台居民往来内地通行证识别协议";
+        return "Yidao OCR HK-Macau-Taiwan Travel Permit Recognition Protocol";
     }
 
     @Override

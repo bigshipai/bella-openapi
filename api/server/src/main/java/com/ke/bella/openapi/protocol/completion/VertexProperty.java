@@ -18,8 +18,8 @@ public class VertexProperty extends CompletionProperty {
     @Override
     public Map<String, String> description() {
         Map<String, String> map = super.description();
-        map.put("supportSystemInstruction", "是否支持系统指令");
-        map.put("supportThinkConfig", "是否支持开启思考");
+        map.put("supportSystemInstruction", "Support system instruction");
+        map.put("supportThinkConfig", "Support thinking config");
         return map;
     }
 }

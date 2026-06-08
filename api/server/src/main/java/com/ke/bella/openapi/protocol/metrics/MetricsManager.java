@@ -3,7 +3,7 @@ package com.ke.bella.openapi.protocol.metrics;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.ke.bella.openapi.EndpointProcessData;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.protocol.OpenapiResponse;
 import com.ke.bella.openapi.script.LuaScriptExecutor;
 import com.ke.bella.openapi.script.ScriptType;

@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.space;
 
-import com.ke.bella.openapi.Operator;
+import com.ke.bella.openapi.common.model.Operator;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 import jakarta.validation.constraints.NotEmpty;
 
 /**
- * function: 更新团队成员角色
+ * function: Update team member role
  *
  * @author chenhongliang001
  */
@@ -20,21 +20,21 @@ import jakarta.validation.constraints.NotEmpty;
 public class UpdateMemberRoleOp extends Operator {
 
     /**
-     * 成员id
+     * Member UID
      */
-    @NotEmpty(message = "memberUid不能为空")
+    @NotEmpty(message = "memberUid cannot be empty")
     private String memberUid;
 
     /**
-     * 空间编码
+     * Space code
      */
-    @NotEmpty(message = "spaceCode不能为空")
+    @NotEmpty(message = "spaceCode cannot be empty")
     private String spaceCode;
 
     /**
-     * 角色编码
+     * Role code
      */
-    @NotEmpty(message = "roleCode不能为空")
+    @NotEmpty(message = "roleCode cannot be empty")
     private String roleCode;
 
 }

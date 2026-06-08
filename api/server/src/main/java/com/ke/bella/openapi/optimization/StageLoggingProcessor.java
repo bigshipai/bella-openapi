@@ -1,8 +1,8 @@
 package com.ke.bella.openapi.optimization;
 
-import com.ke.bella.openapi.EndpointProcessData;
-import com.ke.bella.openapi.RequestMetrics;
-import com.ke.bella.openapi.configuration.RequestOptimizationConfig;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
+import com.ke.bella.openapi.common.response.RequestMetrics;
+import com.ke.bella.openapi.config.RequestOptimizationConfig;
 import com.ke.bella.openapi.protocol.completion.CompletionRequest;
 import com.ke.bella.openapi.protocol.embedding.EmbeddingRequest;
 import com.ke.bella.openapi.protocol.tts.TtsRequest;

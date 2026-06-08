@@ -27,7 +27,7 @@ public class AwsMessageProperty extends CompletionProperty {
     @Override
     public Map<String, String> description() {
         Map<String, String> map = super.description();
-        map.put("region", "部署区域");
+        map.put("region", "Deployment region");
         return map;
     }
 }

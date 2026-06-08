@@ -16,11 +16,11 @@ public class TranscriptionsAsrPriceInfo implements IPriceInfo, Serializable {
 
     @Override
     public String getUnit() {
-        return "时/元";
+        return "CNY/hour";
     }
 
     @Override
     public Map<String, String> description() {
-        return ImmutableMap.of("price", "每小时价格（元）");
+        return ImmutableMap.of("price", "Price per hour (CNY)");
     }
 }

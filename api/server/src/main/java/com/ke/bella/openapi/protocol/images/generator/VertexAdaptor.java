@@ -25,7 +25,7 @@ public class VertexAdaptor implements ImagesGeneratorAdaptor<ImagesProperty> {
 
     @Override
     public String getDescription() {
-        return "Vertex通信协议";
+        return "Vertex AI Protocol";
     }
 
     @Override

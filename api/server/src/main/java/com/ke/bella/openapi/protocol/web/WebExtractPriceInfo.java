@@ -34,20 +34,20 @@ public class WebExtractPriceInfo implements IPriceInfo, Serializable {
 
     @Override
     public String getUnit() {
-        return "分/请求";
+        return "cents/request";
     }
 
     @Override
     public Map<String, String> description() {
         Map<String, String> map = new LinkedHashMap<>();
-        map.put("basicExtractionPrice", "基础提取价格（分/次提取）");
-        map.put("advancedExtractionPrice", "高级提取价格（分/次提取）");
+        map.put("basicExtractionPrice", "Basic extraction price (cents/extraction)");
+        map.put("advancedExtractionPrice", "Advanced extraction price (cents/extraction)");
         return map;
     }
 
     @Override
     public String toString() {
-        return "基础提取：" + basicExtractionPrice + " 分/5次提取\n" +
-                "高级提取：" + advancedExtractionPrice + " 分/5次提取";
+        return "Basic extraction: " + basicExtractionPrice + " cents/5 extractions\n" +
+                "Advanced extraction: " + advancedExtractionPrice + " cents/5 extractions";
     }
 }

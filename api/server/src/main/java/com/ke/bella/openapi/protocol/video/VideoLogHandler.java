@@ -2,7 +2,7 @@ package com.ke.bella.openapi.protocol.video;
 
 import org.springframework.stereotype.Component;
 
-import com.ke.bella.openapi.EndpointProcessData;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.protocol.log.EndpointLogHandler;
 
 import lombok.extern.slf4j.Slf4j;

@@ -18,7 +18,7 @@ public class YidaoOcrProperty extends OcrProperty {
     @Override
     public Map<String, String> description() {
         Map<String, String> map = super.description();
-        map.put("auth", "鉴权配置");
+        map.put("auth", "Auth config");
         return map;
     }
 }

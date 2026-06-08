@@ -33,20 +33,20 @@ public class WebSearchPriceInfo implements IPriceInfo, Serializable {
 
     @Override
     public String getUnit() {
-        return "分/请求";
+        return "cents/request";
     }
 
     @Override
     public Map<String, String> description() {
         Map<String, String> map = new LinkedHashMap<>();
-        map.put("basicSearchPrice", "基础搜索价格（分/请求）");
-        map.put("advancedSearchPrice", "高级搜索价格（分/请求）");
+        map.put("basicSearchPrice", "Basic search price (cents/request)");
+        map.put("advancedSearchPrice", "Advanced search price (cents/request)");
         return map;
     }
 
     @Override
     public String toString() {
-        return "基础搜索：" + basicSearchPrice + " 分/请求\n" +
-                "高级搜索：" + advancedSearchPrice + " 分/请求";
+        return "Basic search: " + basicSearchPrice + " cents/request\n" +
+                "Advanced search: " + advancedSearchPrice + " cents/request";
     }
 }

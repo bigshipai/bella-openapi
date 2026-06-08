@@ -12,12 +12,12 @@ import java.util.Map;
 public class EmbeddingPriceInfo implements IPriceInfo, Serializable {
     private static final long serialVersionUID = 1L;
     private BigDecimal input;
-    private String unit = "分/千token";
+    private String unit = "cents/1k tokens";
     private double batchDiscount = 1.0;
     private double supplierDiscount = 1.0;
 
     @Override
     public Map<String, String> description() {
-        return ImmutableMap.of("input", "输入token单价（分/千token）");
+        return ImmutableMap.of("input", "Input token unit price (cents/1k tokens)");
     }
 }

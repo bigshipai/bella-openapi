@@ -14,9 +14,9 @@ import java.util.function.Function;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-import com.ke.bella.openapi.EndpointProcessData;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.TaskExecutor;
-import com.ke.bella.openapi.common.exception.BellaException;
+import com.ke.bella.openapi.common.exception.OneTokenException;
 import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.log.EndpointLogger;
 import com.ke.bella.openapi.utils.DateTimeUtils;
@@ -108,7 +108,7 @@ public class HuoshanStreamAsrCallback implements Callbacks.WebSocketCallback {
 			sendFullClientRequest(webSocket);
 		} catch (Exception e) {
 			log.error("ASR onOpen error", e);
-			onError(BellaException.fromException(e));
+			onError(OneTokenException.fromException(e));
 		}
 	}
 
@@ -122,7 +122,7 @@ public class HuoshanStreamAsrCallback implements Callbacks.WebSocketCallback {
 		try {
 			parseResponse(bytes.toByteArray(), webSocket);
 		} catch (Exception e) {
-			onProcessError(BellaException.fromException(e));
+			onProcessError(OneTokenException.fromException(e));
 		}
 	}
 
@@ -145,7 +145,7 @@ public class HuoshanStreamAsrCallback implements Callbacks.WebSocketCallback {
 		int httpCode = response != null ? response.code() : 500;
 		String message = t.getMessage();
 
-		onError(new BellaException.ChannelException(httpCode, message));
+		onError(new OneTokenException.ChannelException(httpCode, message));
 	}
 
 	@Override
@@ -155,9 +155,9 @@ public class HuoshanStreamAsrCallback implements Callbacks.WebSocketCallback {
 			return true;
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
-			throw BellaException.fromException(e);
+			throw OneTokenException.fromException(e);
 		} catch (ExecutionException | TimeoutException e) {
-			throw BellaException.fromException(e);
+			throw OneTokenException.fromException(e);
 		}
 	}
 
@@ -178,13 +178,13 @@ public class HuoshanStreamAsrCallback implements Callbacks.WebSocketCallback {
 	/**
 	 * 处理错误
 	 */
-	private void onError(BellaException exception) {
+	private void onError(OneTokenException exception) {
 		log.warn("ASR error: {}", exception.getMessage(), exception);
 		sender.onError(exception);
 		complete();
 	}
 
-	private void onProcessError(BellaException exception) {
+	private void onProcessError(OneTokenException exception) {
 		log.warn("ASR error: {}", exception.getMessage(), exception);
 		sender.onError(exception);
 		if (!request.isAsync()) {
@@ -201,7 +201,7 @@ public class HuoshanStreamAsrCallback implements Callbacks.WebSocketCallback {
 			webSocket.send(ByteString.of(payload));
 		} catch (Exception e) {
 			log.warn("Error sending full client request", e);
-			onError(BellaException.fromException(e));
+			onError(OneTokenException.fromException(e));
 		}
 	}
 
@@ -283,7 +283,7 @@ public class HuoshanStreamAsrCallback implements Callbacks.WebSocketCallback {
 			byte[] payload = constructAudioPayload(audioData, isLast);
 			webSocket.send(ByteString.of(payload));
 		} catch (Exception e) {
-			onProcessError(BellaException.fromException(e));
+			onProcessError(OneTokenException.fromException(e));
 		}
 	}
 
@@ -325,7 +325,7 @@ public class HuoshanStreamAsrCallback implements Callbacks.WebSocketCallback {
 	 */
 	public void sendAudioDataInChunks(WebSocket webSocket, byte[] audioData, int chunkSize, int intervalMs) {
 		if (audioData == null || audioData.length == 0) {
-			onProcessError(BellaException.fromResponse(400, "No audio data to send"));
+			onProcessError(OneTokenException.fromResponse(400, "No audio data to send"));
 			return;
 		}
 
@@ -346,7 +346,7 @@ public class HuoshanStreamAsrCallback implements Callbacks.WebSocketCallback {
 					}
 				}
 			} catch (Exception e) {
-				onProcessError(BellaException.fromException(e));
+				onProcessError(OneTokenException.fromException(e));
 			}
 		});
 	}
@@ -374,7 +374,7 @@ public class HuoshanStreamAsrCallback implements Callbacks.WebSocketCallback {
 			payloadOffset += 4;
 			payloadOffset += 4;
 		} else {
-			onProcessError(BellaException.fromResponse(400, "Unsupported message type"));
+			onProcessError(OneTokenException.fromResponse(400, "Unsupported message type"));
 			return;
 		}
 
@@ -452,7 +452,7 @@ public class HuoshanStreamAsrCallback implements Callbacks.WebSocketCallback {
 	private void handleTranscriptionFailed(int code, String errorMsg) {
 		log.error("Transcription failed: {}", errorMsg);
 		isRunning = false;
-		sender.onError(new BellaException.ChannelException(getHttpCode(code), errorMsg));
+		sender.onError(new OneTokenException.ChannelException(getHttpCode(code), errorMsg));
 		if (!request.isAsync()) {
 			complete();
 		}

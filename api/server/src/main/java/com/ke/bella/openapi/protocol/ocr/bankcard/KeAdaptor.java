@@ -28,7 +28,7 @@ public class KeAdaptor implements BankcardAdaptor<KeOcrProperty> {
 
     @Override
     public String getDescription() {
-        return "Ke OCR银行卡识别协议";
+        return "Ke OCR Bank Card Recognition Protocol";
     }
 
     @Override

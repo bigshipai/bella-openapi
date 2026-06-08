@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-import com.ke.bella.openapi.metadata.Channel;
+import com.ke.bella.openapi.resource.channel.Channel;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
 
@@ -12,13 +12,13 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.net.HttpHeaders;
-import com.ke.bella.openapi.BellaResponse;
-import com.ke.bella.openapi.EndpointProcessData;
+import com.ke.bella.openapi.common.response.OneTokenResponse;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.apikey.ApikeyInfo;
-import com.ke.bella.openapi.common.exception.BellaException;
-import com.ke.bella.openapi.metadata.Model;
-import com.ke.bella.openapi.protocol.route.RouteRequest;
-import com.ke.bella.openapi.protocol.route.RouteResult;
+import com.ke.bella.openapi.common.exception.OneTokenException;
+import com.ke.bella.openapi.resource.model.Model;
+import com.ke.bella.openapi.gateway.route.RouteRequest;
+import com.ke.bella.openapi.gateway.route.RouteResult;
 import com.ke.bella.openapi.utils.HttpUtils;
 import com.ke.bella.openapi.utils.JacksonUtils;
 
@@ -57,7 +57,7 @@ public class OpenapiClient {
             }
             return apikeyInfo;
         } catch (ExecutionException e) {
-            throw BellaException.fromException(e);
+            throw OneTokenException.fromException(e);
         }
     }
 
@@ -82,7 +82,7 @@ public class OpenapiClient {
                 .url(url)
                 .addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + apikey)
                 .build();
-        BellaResponse<ApikeyInfo> bellaResp = HttpUtils.httpRequest(request, new TypeReference<BellaResponse<ApikeyInfo>>() {
+        OneTokenResponse<ApikeyInfo> bellaResp = HttpUtils.httpRequest(request, new TypeReference<OneTokenResponse<ApikeyInfo>>() {
         });
         return bellaResp == null || bellaResp.getData() == null ? new ApikeyInfo() : bellaResp.getData();
     }
@@ -91,7 +91,7 @@ public class OpenapiClient {
         try {
             return modelCache.get(modelName, () -> requestModel(modelName));
         } catch (ExecutionException e) {
-            throw BellaException.fromException(e);
+            throw OneTokenException.fromException(e);
         }
     }
 
@@ -106,7 +106,7 @@ public class OpenapiClient {
                 .url(url)
                 .addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + serviceAk)
                 .build();
-        BellaResponse<Model> bellaResp = HttpUtils.httpRequest(request, new TypeReference<BellaResponse<Model>>() {
+        OneTokenResponse<Model> bellaResp = HttpUtils.httpRequest(request, new TypeReference<OneTokenResponse<Model>>() {
         });
         return bellaResp == null || bellaResp.getData() == null ? new Model() : bellaResp.getData();
     }
@@ -121,10 +121,10 @@ public class OpenapiClient {
                 .addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + serviceAk)
                 .post(RequestBody.create(JacksonUtils.serialize(routeRequest), MediaType.parse("application/json")))
                 .build();
-        BellaResponse<RouteResult> bellaResp = HttpUtils.httpRequest(request, new TypeReference<BellaResponse<RouteResult>>() {
+        OneTokenResponse<RouteResult> bellaResp = HttpUtils.httpRequest(request, new TypeReference<OneTokenResponse<RouteResult>>() {
         });
         if(bellaResp.getCode() != 200) {
-            throw BellaException.fromResponse(bellaResp.getCode(), bellaResp.getMessage());
+            throw OneTokenException.fromResponse(bellaResp.getCode(), bellaResp.getMessage());
         }
         return bellaResp.getData();
     }
@@ -139,10 +139,10 @@ public class OpenapiClient {
                 .addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + serviceAk)
                 .post(RequestBody.create(JacksonUtils.serialize(routeRequest), MediaType.parse("application/json")))
                 .build();
-        BellaResponse<List<RouteResult>> bellaResp = HttpUtils.httpRequest(request, new TypeReference<BellaResponse<List<RouteResult>>>() {
+        OneTokenResponse<List<RouteResult>> bellaResp = HttpUtils.httpRequest(request, new TypeReference<OneTokenResponse<List<RouteResult>>>() {
         });
         if(bellaResp.getCode() != 200) {
-            throw BellaException.fromResponse(bellaResp.getCode(), bellaResp.getMessage());
+            throw OneTokenException.fromResponse(bellaResp.getCode(), bellaResp.getMessage());
         }
         return bellaResp.getData();
     }
@@ -159,10 +159,10 @@ public class OpenapiClient {
                 .addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + serviceAk)
                 .post(RequestBody.create(JacksonUtils.serialize(processData), MediaType.parse("application/json")))
                 .build();
-        BellaResponse<Boolean> bellaResp = HttpUtils.httpRequest(request, new TypeReference<BellaResponse<Boolean>>() {
+        OneTokenResponse<Boolean> bellaResp = HttpUtils.httpRequest(request, new TypeReference<OneTokenResponse<Boolean>>() {
         });
         if(bellaResp.getCode() != 200) {
-            throw BellaException.fromResponse(bellaResp.getCode(), bellaResp.getMessage());
+            throw OneTokenException.fromResponse(bellaResp.getCode(), bellaResp.getMessage());
         }
         return bellaResp.getData();
     }
@@ -177,10 +177,10 @@ public class OpenapiClient {
                 .addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + consoleApikey)
                 .post(RequestBody.create(JacksonUtils.serialize(routeRequest), MediaType.parse("application/json")))
                 .build();
-        BellaResponse<RouteResult> bellaResp = HttpUtils.httpRequest(request, new TypeReference<BellaResponse<RouteResult>>() {
+        OneTokenResponse<RouteResult> bellaResp = HttpUtils.httpRequest(request, new TypeReference<OneTokenResponse<RouteResult>>() {
         });
         if(bellaResp.getCode() != 200) {
-            throw BellaException.fromResponse(bellaResp.getCode(), bellaResp.getMessage());
+            throw OneTokenException.fromResponse(bellaResp.getCode(), bellaResp.getMessage());
         }
         return bellaResp.getData();
     }
@@ -194,11 +194,11 @@ public class OpenapiClient {
                 .addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + serviceAk)
                 .get()
                 .build();
-        BellaResponse<Channel> bellaResp = HttpUtils.httpRequest(request,
-                new TypeReference<BellaResponse<Channel>>() {
+        OneTokenResponse<Channel> bellaResp = HttpUtils.httpRequest(request,
+                new TypeReference<OneTokenResponse<Channel>>() {
                 });
         if(bellaResp.getCode() != 200) {
-            throw BellaException.fromResponse(bellaResp.getCode(), bellaResp.getMessage());
+            throw OneTokenException.fromResponse(bellaResp.getCode(), bellaResp.getMessage());
         }
         return bellaResp.getData();
     }
@@ -215,10 +215,10 @@ public class OpenapiClient {
                 .addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + consoleApikey)
                 .post(RequestBody.create(JacksonUtils.serialize(processData), MediaType.parse("application/json")))
                 .build();
-        BellaResponse<Boolean> bellaResp = HttpUtils.httpRequest(request, new TypeReference<BellaResponse<Boolean>>() {
+        OneTokenResponse<Boolean> bellaResp = HttpUtils.httpRequest(request, new TypeReference<OneTokenResponse<Boolean>>() {
         });
         if(bellaResp.getCode() != 200) {
-            throw BellaException.fromResponse(bellaResp.getCode(), bellaResp.getMessage());
+            throw OneTokenException.fromResponse(bellaResp.getCode(), bellaResp.getMessage());
         }
         return bellaResp.getData();
     }

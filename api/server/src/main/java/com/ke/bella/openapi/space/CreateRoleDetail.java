@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
 /**
- * function: 创建角色明细
+ * function: Create role detail
  *
  * @author chenhongliang001
  */
@@ -17,14 +17,14 @@ import jakarta.validation.constraints.Size;
 @NoArgsConstructor
 public class CreateRoleDetail {
 
-    @NotEmpty(message = "roleCode不能为空")
-    @Size(max = 64, message = "roleCode不能超过64个字符")
+    @NotEmpty(message = "roleCode cannot be empty")
+    @Size(max = 64, message = "roleCode cannot exceed 64 characters")
     private String roleCode;
 
-    @NotEmpty(message = "roleName不能为空")
-    @Size(max = 64, message = "roleName不能超过64个字符")
+    @NotEmpty(message = "roleName cannot be empty")
+    @Size(max = 64, message = "roleName cannot exceed 64 characters")
     private String roleName;
 
-    @Size(max = 64, message = "roleDesc不能超过64个字符")
+    @Size(max = 64, message = "roleDesc cannot exceed 64 characters")
     private String roleDesc;
 }

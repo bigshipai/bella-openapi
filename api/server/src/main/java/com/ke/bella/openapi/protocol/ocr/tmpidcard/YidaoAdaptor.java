@@ -21,7 +21,7 @@ public class YidaoAdaptor implements TmpIdcardAdaptor<YidaoOcrProperty> {
 
     @Override
     public String getDescription() {
-        return "易道OCR临时身份证协议";
+        return "Yidao OCR Temporary ID Card Protocol";
     }
 
     @Override

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import com.ke.bella.openapi.BellaContext;
+import com.ke.bella.openapi.common.context.OneTokenContext;
 import com.ke.bella.openapi.protocol.OpenapiResponse;
 import com.ke.bella.openapi.protocol.ocr.ImageRetrievalService;
 import com.ke.bella.openapi.protocol.ocr.OcrRequest;
@@ -34,7 +34,7 @@ public class KeOcrHelper {
             }
             builder.imageBase64(base64Data);
         }
-        String requestId = BellaContext.getRequestId();
+        String requestId = OneTokenContext.getRequestId();
         return KeRequest.builder()
                 .requestId(requestId)
                 .data(builder.build())

@@ -497,7 +497,7 @@ public class AwsCompletionConverter {
 
     private static List<ContentBlock> convert2ImageBlock(String image, Map<String, Object> cacheControl, AwsProperty property) {
         if(!ImageUtils.isDateBase64(image)) {
-            throw new IllegalArgumentException("aws的图片仅支持data base64String");
+            throw new IllegalArgumentException("AWS images only support data base64String");
         }
 
         List<ContentBlock> contentBlocks = new ArrayList<>();

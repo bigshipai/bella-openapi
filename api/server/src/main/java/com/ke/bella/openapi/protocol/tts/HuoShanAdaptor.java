@@ -4,13 +4,13 @@ import java.util.Base64;
 import java.util.Map;
 import java.util.UUID;
 
-import com.ke.bella.openapi.common.exception.BellaException;
+import com.ke.bella.openapi.common.exception.OneTokenException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
-import com.ke.bella.openapi.EndpointContext;
-import com.ke.bella.openapi.EndpointProcessData;
+import com.ke.bella.openapi.common.context.EndpointContext;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.protocol.BellaWebSocketListener;
 import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.log.EndpointLogger;
@@ -132,7 +132,7 @@ public class HuoShanAdaptor implements TtsAdaptor<HuoShanProperty> {
         if(huoshanResponse == null || huoshanResponse.getCode() != HuoShanResponseCodeEnum.OK.code || huoshanResponse.getData() == null) {
             HttpStatus status = getHttpStatus(HuoShanAdaptor.HuoShanResponseCodeEnum
                     .getByCode(huoshanResponse == null ? HuoShanResponseCodeEnum.OTHER_ERROR.code : huoshanResponse.getCode()));
-            throw new BellaException.ChannelException(status.value(), status.getReasonPhrase(),
+            throw new OneTokenException.ChannelException(status.value(), status.getReasonPhrase(),
                     huoshanResponse == null ? HuoShanResponseCodeEnum.OTHER_ERROR.message : huoshanResponse.getMessage());
         }
         return BASE64_DECODER.decode(huoshanResponse.getData());
@@ -169,7 +169,7 @@ public class HuoShanAdaptor implements TtsAdaptor<HuoShanProperty> {
 
     @Override
     public String getDescription() {
-        return "火山协议";
+        return "Huoshan Protocol";
     }
 
     @Override
@@ -178,19 +178,19 @@ public class HuoShanAdaptor implements TtsAdaptor<HuoShanProperty> {
     }
 
     public enum HuoShanResponseCodeEnum {
-        OK(3000, "请求正确"),
-        INVALID_REQUEST(3001, "无效的请求"),
-        CONCURRENT_LIMIT_EXCEEDED(3003, "并发超限"),
-        BACKEND_SERVICE_BUSY(3005, "后端服务忙"),
-        SERVICE_INTERRUPTED(3006, "服务中断"),
-        TEXT_LENGTH_LIMIT_EXCEEDED(3010, "文本长度超限"),
-        INVALID_TEXT(3011, "无效文本"),
-        PROCESSING_TIMEOUT(3030, "处理超时"),
-        PROCESSING_ERROR(3031, "处理错误"),
-        AUDIO_ACQUISITION_TIMEOUT(3032, "等待获取音频超时"),
-        BACKEND_LINK_ERROR(3040, "后端链路连接错误"),
-        VOICE_STYLE_NOT_EXIST(3050, "音色不存在"),
-        OTHER_ERROR(3060, "未知错误");
+        OK(3000, "Request OK"),
+        INVALID_REQUEST(3001, "Invalid request"),
+        CONCURRENT_LIMIT_EXCEEDED(3003, "Concurrent limit exceeded"),
+        BACKEND_SERVICE_BUSY(3005, "Backend service busy"),
+        SERVICE_INTERRUPTED(3006, "Service interrupted"),
+        TEXT_LENGTH_LIMIT_EXCEEDED(3010, "Text length exceeded"),
+        INVALID_TEXT(3011, "Invalid text"),
+        PROCESSING_TIMEOUT(3030, "Processing timeout"),
+        PROCESSING_ERROR(3031, "Processing error"),
+        AUDIO_ACQUISITION_TIMEOUT(3032, "Audio acquisition timeout"),
+        BACKEND_LINK_ERROR(3040, "Backend link connection error"),
+        VOICE_STYLE_NOT_EXIST(3050, "Voice style does not exist"),
+        OTHER_ERROR(3060, "Unknown error");
 
         public final Integer code;
         public final String message;

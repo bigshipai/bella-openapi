@@ -25,7 +25,7 @@ public class Renders {
 
             text = writer.toString();
         } catch (Exception e) {
-            throw new IllegalArgumentException("模版渲染失败: " + e.getMessage(), e);
+            throw new IllegalArgumentException("Template rendering failed: " + e.getMessage(), e);
         }
 
         return text;

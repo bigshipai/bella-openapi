@@ -3,7 +3,7 @@ package com.ke.bella.openapi.protocol.ocr;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.ke.bella.openapi.EndpointProcessData;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.protocol.log.EndpointLogHandler;
 import com.ke.bella.openapi.utils.DateTimeUtils;
 

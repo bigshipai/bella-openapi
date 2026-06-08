@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.space;
 
-import com.ke.bella.openapi.Operator;
+import com.ke.bella.openapi.common.model.Operator;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,15 +19,15 @@ import jakarta.validation.constraints.Size;
 public class UpdateSpaceNameOp extends Operator {
 
     /**
-     * 空间编码
+     * Space code
      */
-    @NotEmpty(message = "spaceCode不能为空")
+    @NotEmpty(message = "spaceCode cannot be empty")
     private String spaceCode;
 
     /**
-     * 空间名称
+     * Space name
      */
-    @Size(max = 128, message = "spaceName不能超过128个字符")
+    @Size(max = 128, message = "spaceName cannot exceed 128 characters")
     private String spaceName;
 
 }

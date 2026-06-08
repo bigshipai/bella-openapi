@@ -15,8 +15,8 @@ public class TTSModelFeatures implements IModelFeatures {
     @Override
     public Map<String, String> description() {
         Map<String, String> desc = new LinkedHashMap<>();
-        desc.put("stream", "是否支持流式输出");
-        desc.put("customize_sound_color", "是否支持自定义音色");
+        desc.put("stream", "Support streaming output");
+        desc.put("customize_sound_color", "Support custom voice");
         return desc;
     }
 }

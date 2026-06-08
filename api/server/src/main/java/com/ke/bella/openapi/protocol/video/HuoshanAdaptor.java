@@ -2,7 +2,7 @@ package com.ke.bella.openapi.protocol.video;
 
 import org.springframework.stereotype.Component;
 
-import com.ke.bella.openapi.common.exception.BellaException;
+import com.ke.bella.openapi.common.exception.OneTokenException;
 import com.ke.bella.openapi.utils.HttpUtils;
 import com.ke.bella.openapi.utils.JacksonUtils;
 
@@ -32,14 +32,14 @@ public class HuoshanAdaptor implements VideoAdaptor<HuoshanProperty> {
                 HuoshanVideoResponse.class);
 
         if(response.getCode() != null && response.getCode() != 0) {
-            throw new BellaException.ChannelException(502,
+            throw new OneTokenException.ChannelException(502,
                     "Huoshan API error: code=" + response.getCode() +
                             ", message=" + response.getMessage());
         }
 
         String channelVideoId = response.getId();
         if(channelVideoId == null) {
-            throw new BellaException.ChannelException(502, "Huoshan API returned null id");
+            throw new OneTokenException.ChannelException(502, "Huoshan API returned null id");
         }
 
         return channelVideoId;
@@ -59,7 +59,7 @@ public class HuoshanAdaptor implements VideoAdaptor<HuoshanProperty> {
                 HuoshanVideoQueryResponse.class);
 
         if(response.getCode() != null && response.getCode() != 0) {
-            throw new BellaException.ChannelException(502,
+            throw new OneTokenException.ChannelException(502,
                     "Huoshan query API error: code=" + response.getCode() +
                             ", message=" + response.getMessage());
         }
@@ -81,13 +81,13 @@ public class HuoshanAdaptor implements VideoAdaptor<HuoshanProperty> {
                 HuoshanVideoQueryResponse.class);
 
         if(response.getCode() != null && response.getCode() != 0) {
-            throw new BellaException.ChannelException(502,
+            throw new OneTokenException.ChannelException(502,
                     "Huoshan query API error: code=" + response.getCode() +
                             ", message=" + response.getMessage());
         }
 
         if(response.getContent() == null || response.getContent().getVideo_url() == null) {
-            throw new BellaException.ChannelException(502, "Video URL not found in Huoshan response");
+            throw new OneTokenException.ChannelException(502, "Video URL not found in Huoshan response");
         }
 
         String videoUrl = response.getContent().getVideo_url();
@@ -102,13 +102,13 @@ public class HuoshanAdaptor implements VideoAdaptor<HuoshanProperty> {
 
         } catch (java.io.IOException e) {
             log.error("[HuoshanAdaptor] Failed to transfer video: videoUrl={}", videoUrl, e);
-            throw new BellaException.ChannelException(502, "Failed to transfer video: " + e.getMessage());
+            throw new OneTokenException.ChannelException(502, "Failed to transfer video: " + e.getMessage());
         }
     }
 
     @Override
     public String getDescription() {
-        return "火山方舟视频生成";
+        return "Huoshan Video Generation";
     }
 
     @Override

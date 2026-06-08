@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.login.session;
 
-import com.ke.bella.openapi.Operator;
+import com.ke.bella.openapi.common.model.Operator;
 
 import jakarta.servlet.http.HttpServletRequest;
 

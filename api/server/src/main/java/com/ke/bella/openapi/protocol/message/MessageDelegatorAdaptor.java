@@ -1,7 +1,7 @@
 package com.ke.bella.openapi.protocol.message;
 
-import com.ke.bella.openapi.EndpointContext;
-import com.ke.bella.openapi.EndpointProcessData;
+import com.ke.bella.openapi.common.context.EndpointContext;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.completion.AnthropicProperty;
 import com.ke.bella.openapi.protocol.completion.CompletionAdaptor;

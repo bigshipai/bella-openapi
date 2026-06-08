@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.db.repo;
 
-import com.ke.bella.openapi.BellaContext;
+import com.ke.bella.openapi.common.context.OneTokenContext;
 import org.apache.commons.lang3.StringUtils;
 import org.jooq.DSLContext;
 import org.jooq.Query;
@@ -16,9 +16,9 @@ import java.util.Collection;
  */
 public interface BaseRepo {
     default void fillCreatorInfo(Object object) {
-        Assert.isTrue(object instanceof Operator, "非法的操作类型");
+        Assert.isTrue(object instanceof Operator, "Invalid operation type");
         Operator op = (Operator) object;
-        com.ke.bella.openapi.Operator oper = BellaContext.getOperatorIgnoreNull();
+        com.ke.bella.openapi.common.model.Operator oper = OneTokenContext.getOperatorIgnoreNull();
         if(oper != null) {
             if(oper.getUserId() != null) {
                 op.setCuid(oper.getUserId());
@@ -32,9 +32,9 @@ public interface BaseRepo {
     }
 
     default void fillUpdatorInfo(Object object) {
-        Assert.isTrue(object instanceof Operator, "非法的操作类型");
+        Assert.isTrue(object instanceof Operator, "Invalid operation type");
         Operator op = (Operator) object;
-        com.ke.bella.openapi.Operator oper = BellaContext.getOperatorIgnoreNull();
+        com.ke.bella.openapi.common.model.Operator oper = OneTokenContext.getOperatorIgnoreNull();
         if(oper != null) {
             if(oper.getUserId() != null) {
                 op.setMuid(oper.getUserId());
@@ -49,7 +49,7 @@ public interface BaseRepo {
         int[] rows = db.batch(queries).execute();
         int sum = Arrays.stream(rows).sum();
         if(sum < queries.size()) {
-            throw new IllegalStateException("批处理失败");
+            throw new IllegalStateException("Batch processing failed");
         }
         return sum;
     }
@@ -58,7 +58,7 @@ public interface BaseRepo {
         int[] rows = db.batchInsert(records).execute();
         int sum = Arrays.stream(rows).sum();
         if(sum < records.size()) {
-            throw new IllegalStateException("批处理失败");
+            throw new IllegalStateException("Batch processing failed");
         }
         return sum;
     }

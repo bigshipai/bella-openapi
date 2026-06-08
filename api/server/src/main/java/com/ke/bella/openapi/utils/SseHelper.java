@@ -2,7 +2,7 @@ package com.ke.bella.openapi.utils;
 
 import java.io.IOException;
 
-import com.ke.bella.openapi.BellaContext;
+import com.ke.bella.openapi.common.context.OneTokenContext;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter.SseEventBuilder;
 
@@ -11,13 +11,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SseHelper {
     public static SseEmitter createSse(long timeout, String reqId) {
-        final String traceId = BellaContext.getTraceId();
+        final String traceId = OneTokenContext.getTraceId();
         SseEmitter sse = new SseEmitter(timeout);
 
-        sse.onCompletion(() -> log.info("[traceId={}][{}] 结束连接...................", traceId, reqId));
-        sse.onTimeout(() -> log.info("[traceId={}][{}] 连接超时...................", traceId, reqId));
-        sse.onError(e -> log.info("[traceId={}][{}] 连接异常,{}", traceId, reqId, e.toString()));
-        log.info("[traceId={}][{}] 创建sse连接成功！", traceId, reqId);
+        sse.onCompletion(() -> log.info("[traceId={}][{}] Connection ended...................", traceId, reqId));
+        sse.onTimeout(() -> log.info("[traceId={}][{}] Connection timeout...................", traceId, reqId));
+        sse.onError(e -> log.info("[traceId={}][{}] Connection error,{}", traceId, reqId, e.toString()));
+        log.info("[traceId={}][{}] SSE connection created successfully!", traceId, reqId);
 
         return sse;
     }

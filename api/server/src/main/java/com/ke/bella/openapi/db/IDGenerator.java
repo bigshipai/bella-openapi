@@ -50,7 +50,7 @@ public class IDGenerator {
     public static void setInstanceId(Long id) {
         int idx = id.intValue();
         if(idx > 9999) {
-            throw new IllegalStateException("超出当前所能够支持的最大实例数");
+            throw new IllegalStateException("Exceeded maximum supported instances");
         }
         instanceId = String.format("%04d", idx);
     }

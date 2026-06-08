@@ -1,13 +1,13 @@
 package com.ke.bella.openapi.service;
 
-import com.ke.bella.openapi.BellaContext;
-import com.ke.bella.openapi.EndpointContext;
-import com.ke.bella.openapi.Operator;
+import com.ke.bella.openapi.common.context.OneTokenContext;
+import com.ke.bella.openapi.common.context.EndpointContext;
+import com.ke.bella.openapi.common.model.Operator;
 import com.ke.bella.openapi.apikey.AkOperation;
 import com.ke.bella.openapi.apikey.AkPermissionMatrix;
 import com.ke.bella.openapi.apikey.AkRelation;
 import com.ke.bella.openapi.apikey.ApikeyInfo;
-import com.ke.bella.openapi.common.exception.BellaException;
+import com.ke.bella.openapi.common.exception.OneTokenException;
 import com.ke.bella.openapi.db.repo.ApikeyRepo;
 import com.ke.bella.openapi.tables.pojos.ApikeyDB;
 import org.apache.commons.lang3.StringUtils;
@@ -20,11 +20,11 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.ke.bella.openapi.common.EntityConstants.ALL;
-import static com.ke.bella.openapi.common.EntityConstants.CONSOLE;
-import static com.ke.bella.openapi.common.EntityConstants.ORG;
-import static com.ke.bella.openapi.common.EntityConstants.PERSON;
-import static com.ke.bella.openapi.common.EntityConstants.SYSTEM;
+import static com.ke.bella.openapi.common.constant.EntityConstants.ALL;
+import static com.ke.bella.openapi.common.constant.EntityConstants.CONSOLE;
+import static com.ke.bella.openapi.common.constant.EntityConstants.ORG;
+import static com.ke.bella.openapi.common.constant.EntityConstants.PERSON;
+import static com.ke.bella.openapi.common.constant.EntityConstants.SYSTEM;
 
 @Component
 public class AkPermissionChecker {
@@ -80,14 +80,14 @@ public class AkPermissionChecker {
         // system ownerType：目标非 system 则全放行，否则拒绝
         if (SYSTEM.equals(caller.getOwnerType())) {
             if (SYSTEM.equals(targetDb.getOwnerType())) {
-                throw new BellaException.AuthorizationException("没有操作权限");
+                throw new OneTokenException.AuthorizationException("No operation permission");
             }
             return;
         }
 
         AkRelation relation = resolveRelation(caller, targetDb);
         if (!AkPermissionMatrix.isAllowed(caller.getRoleCode(), relation, operation)) {
-            throw new BellaException.AuthorizationException("没有操作权限");
+            throw new OneTokenException.AuthorizationException("No operation permission");
         }
     }
 
@@ -109,7 +109,7 @@ public class AkPermissionChecker {
      * - 其余情况拒绝
      */
     private void checkOperatorPermission(ApikeyDB targetDb, AkOperation operation) {
-        Operator op = BellaContext.getOperator();
+        Operator op = OneTokenContext.getOperator();
         if (hasAdminPermission()) {
             String roleCode = String.valueOf(op.getOptionalInfo().get("roleCode"));
             if (AkPermissionMatrix.isAllowed(roleCode, AkRelation.UNRELATED, operation)) {
@@ -122,7 +122,7 @@ public class AkPermissionChecker {
                 && userId.equals(targetDb.getOwnerCode());
         if (isOwner) {
             if (!OPERATOR_OWNER_OPS.contains(operation)) {
-                throw new BellaException.AuthorizationException("没有操作权限");
+                throw new OneTokenException.AuthorizationException("No operation permission");
             }
             return;
         }
@@ -131,7 +131,7 @@ public class AkPermissionChecker {
                 && targetDb.getManagerCode().equals(userId);
         if (isManager) {
             if (!OPERATOR_MANAGER_OPS.contains(operation)) {
-                throw new BellaException.AuthorizationException("没有操作权限");
+                throw new OneTokenException.AuthorizationException("No operation permission");
             }
             return;
         }
@@ -146,20 +146,20 @@ public class AkPermissionChecker {
                         && parentDb.getManagerCode().equals(userId);
                 if (isParentOwner) {
                     if (!OPERATOR_OWNER_OPS.contains(operation)) {
-                        throw new BellaException.AuthorizationException("没有操作权限");
+                        throw new OneTokenException.AuthorizationException("No operation permission");
                     }
                     return;
                 }
                 if (isParentManager) {
                     if (!OPERATOR_MANAGER_OPS.contains(operation)) {
-                        throw new BellaException.AuthorizationException("没有操作权限");
+                        throw new OneTokenException.AuthorizationException("No operation permission");
                     }
                     return;
                 }
             }
         }
 
-        throw new BellaException.AuthorizationException("没有操作权限");
+        throw new OneTokenException.AuthorizationException("No operation permission");
     }
 
     public boolean hasAdminPermission() {
@@ -167,7 +167,7 @@ public class AkPermissionChecker {
         if (caller != null && SYSTEM.equals(caller.getOwnerType())) {
             return true;
         }
-        Operator op = BellaContext.getOperatorIgnoreNull();
+        Operator op = OneTokenContext.getOperatorIgnoreNull();
         return op != null
                 && op.getOptionalInfo() != null
                 && (CONSOLE.equals(op.getOptionalInfo().get("roleCode")) || ALL.equals(op.getOptionalInfo().get("roleCode")));

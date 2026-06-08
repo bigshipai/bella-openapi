@@ -21,7 +21,7 @@ import jakarta.validation.Payload;
 @Documented
 public @interface ExactlyOneOf {
 
-    String message() default "image_base64、image_url、file_id、file（在extra_body中）必须四选一";
+    String message() default "image_base64, image_url, file_id, or file (in extra_body) must be provided";
 
     Class<?>[] groups() default {};
 

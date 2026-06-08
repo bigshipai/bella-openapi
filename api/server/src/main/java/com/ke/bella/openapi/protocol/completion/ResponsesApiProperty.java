@@ -25,8 +25,8 @@ public class ResponsesApiProperty extends CompletionProperty {
     @Override
     public Map<String, String> description() {
         Map<String, String> map = super.description();
-        map.put("apiVersion", "API版本(url中需要拼接时填写)");
-        map.put("convertSystemToDeveloper", "是否将system role转换为developer role");
+        map.put("apiVersion", "API version (fill when URL needs version)");
+        map.put("convertSystemToDeveloper", "Convert system role to developer role");
         return map;
     }
 }

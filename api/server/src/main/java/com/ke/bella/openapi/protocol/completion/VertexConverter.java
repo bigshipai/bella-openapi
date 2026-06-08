@@ -300,7 +300,7 @@ public class VertexConverter {
             if(imageUrl != null && imageUrl.get("url") != null) {
                 String url = (String) imageUrl.get("url");
                 if(!ImageUtils.isDateBase64(url)) {
-                    throw new IllegalArgumentException("gemini的图片仅支持data base64String");
+                    throw new IllegalArgumentException("Gemini images only support data base64String");
                 }
                 // Base64 inline data
                 String[] parts = url.split(",", 2);

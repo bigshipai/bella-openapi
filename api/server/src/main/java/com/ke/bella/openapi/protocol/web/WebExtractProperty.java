@@ -25,7 +25,7 @@ public class WebExtractProperty implements IProtocolProperty, Serializable {
     @Override
     public Map<String, String> description() {
         Map<String, String> map = new LinkedHashMap<>();
-        map.put("auth", "鉴权配置");
+        map.put("auth", "Auth config");
         return map;
     }
 }

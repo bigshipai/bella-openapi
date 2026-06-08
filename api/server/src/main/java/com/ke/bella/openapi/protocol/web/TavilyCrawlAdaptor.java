@@ -20,7 +20,7 @@ public class TavilyCrawlAdaptor implements WebCrawlAdaptor<WebCrawlProperty> {
 
     @Override
     public String getDescription() {
-        return "Tavily网络爬虫协议";
+        return "Tavily Web Crawl Protocol";
     }
 
     @Override

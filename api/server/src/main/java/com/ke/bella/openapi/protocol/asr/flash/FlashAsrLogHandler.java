@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.protocol.asr.flash;
 
-import com.ke.bella.openapi.EndpointProcessData;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.protocol.log.EndpointLogHandler;
 import com.ke.bella.openapi.utils.DateTimeUtils;
 import org.springframework.stereotype.Component;

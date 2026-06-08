@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.login.config;
 
-import com.ke.bella.openapi.Operator;
+import com.ke.bella.openapi.common.model.Operator;
 import com.ke.bella.openapi.login.LoginFilter;
 import com.ke.bella.openapi.login.LoginProperties;
 import com.ke.bella.openapi.login.oauth.OAuthLoginFilter;

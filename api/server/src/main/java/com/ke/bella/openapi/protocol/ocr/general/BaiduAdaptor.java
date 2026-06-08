@@ -28,7 +28,7 @@ public class BaiduAdaptor implements GeneralAdaptor<BaiduOcrProperty> {
 
     @Override
     public String getDescription() {
-        return "百度通用OCR协议";
+        return "Baidu General OCR Protocol";
     }
 
     @Override

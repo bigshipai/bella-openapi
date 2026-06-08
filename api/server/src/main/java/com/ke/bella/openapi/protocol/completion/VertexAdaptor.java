@@ -19,7 +19,7 @@ public class VertexAdaptor implements CompletionAdaptor<VertexProperty> {
 
     @Override
     public String getDescription() {
-        return "Vertex AI协议";
+        return "Vertex AI Protocol";
     }
 
     @Override

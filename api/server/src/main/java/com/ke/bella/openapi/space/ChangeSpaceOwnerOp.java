@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.space;
 
-import com.ke.bella.openapi.Operator;
+import com.ke.bella.openapi.common.model.Operator;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 import jakarta.validation.constraints.NotEmpty;
 
 /**
- * function: 团队拥有者变更
+ * function: Change space owner
  *
  * @author chenhongliang001
  */
@@ -20,15 +20,15 @@ import jakarta.validation.constraints.NotEmpty;
 public class ChangeSpaceOwnerOp extends Operator {
 
     /**
-     * 空间编码
+     * Space code
      */
-    @NotEmpty(message = "spaceCode不能为空")
+    @NotEmpty(message = "spaceCode cannot be empty")
     private String spaceCode;
 
     /**
-     * 新的拥有者系统号
+     * New owner UID
      */
-    @NotEmpty(message = "ownerUid不能为空")
+    @NotEmpty(message = "ownerUid cannot be empty")
     private String ownerUid;
 
 }

@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.protocol.completion;
 
-import com.ke.bella.openapi.common.exception.BellaException;
+import com.ke.bella.openapi.common.exception.OneTokenException;
 import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.Callbacks.StreamCompletionCallback;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ public class AwsAdaptor implements CompletionAdaptor<AwsProperty> {
 
     @Override
     public String getDescription() {
-        return "亚马逊协议";
+        return "AWS protocol";
     }
 
     @Override
@@ -37,7 +37,7 @@ public class AwsAdaptor implements CompletionAdaptor<AwsProperty> {
         request.setModel(property.deployName);
         ConverseRequest awsRequest = AwsCompletionConverter.convert2AwsRequest(request, property);
 
-        // 清理大型数据以释放内存，在长时间HTTP请求期间避免内存占用
+        // Clear large data to free memory, avoid memory usage during long HTTP requests
         clearLargeData(request);
 
         BedrockRuntimeClient client = AwsClientManager.client(property.region, url, property.auth.getApiKey(), property.auth.getSecret());
@@ -45,7 +45,7 @@ public class AwsAdaptor implements CompletionAdaptor<AwsProperty> {
             ConverseResponse response = client.converse(awsRequest);
             return AwsCompletionConverter.convert2OpenAIResponse(response);
         } catch (BedrockRuntimeException bedrockException) {
-            throw new BellaException.ChannelException(bedrockException.statusCode(), bedrockException.getMessage());
+            throw new OneTokenException.ChannelException(bedrockException.statusCode(), bedrockException.getMessage());
         }
     }
 
@@ -55,7 +55,7 @@ public class AwsAdaptor implements CompletionAdaptor<AwsProperty> {
         request.setModel(property.deployName);
         ConverseStreamRequest awsRequest = AwsCompletionConverter.convert2AwsStreamRequest(request, property);
 
-        // 清理大型数据以释放内存，在长时间HTTP请求期间避免内存占用
+        // Clear large data to free memory, avoid memory usage during long HTTP requests
         clearLargeData(request);
 
         BedrockRuntimeAsyncClient client = AwsClientManager.asyncClient(property.region, url, property.auth.getApiKey(), property.auth.getSecret());
@@ -67,7 +67,7 @@ public class AwsAdaptor implements CompletionAdaptor<AwsProperty> {
                     .onComplete(awsCallBack)
                     .build());
         } catch (Exception bedrockException) {
-            log.info("sse异常,{}", bedrockException.getMessage());
+            log.info("SSE error,{}", bedrockException.getMessage());
         }
     }
 
@@ -122,10 +122,10 @@ public class AwsAdaptor implements CompletionAdaptor<AwsProperty> {
                     ? throwable.getCause() : throwable;
             if(cause instanceof BedrockRuntimeException) {
                 BedrockRuntimeException bedrockException = (BedrockRuntimeException) cause;
-                callback.finish(new BellaException.ChannelException(bedrockException.statusCode(), bedrockException.getMessage()));
+                callback.finish(new OneTokenException.ChannelException(bedrockException.statusCode(), bedrockException.getMessage()));
                 return;
             }
-            callback.finish(BellaException.fromException(cause));
+            callback.finish(OneTokenException.fromException(cause));
         }
     }
 }

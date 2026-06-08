@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.protocol.log;
 
-import com.ke.bella.openapi.EndpointProcessData;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.lmax.disruptor.RingBuffer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

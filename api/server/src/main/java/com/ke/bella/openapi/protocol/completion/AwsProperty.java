@@ -23,10 +23,10 @@ public class AwsProperty extends CompletionProperty {
     @Override
     public Map<String, String> description() {
         Map<String, String> map = super.description();
-        map.put("region", "部署区域");
-        map.put("supportThink", "是否支持思考过程");
-        map.put("supportCache", "是否支持缓存");
-        map.put("additionalParams", "请求需要的额外参数");
+        map.put("region", "Deployment region");
+        map.put("supportThink", "Support thinking process");
+        map.put("supportCache", "Support caching");
+        map.put("additionalParams", "Additional request parameters");
         return map;
     }
 }

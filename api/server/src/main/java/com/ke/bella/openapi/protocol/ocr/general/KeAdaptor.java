@@ -33,7 +33,7 @@ public class KeAdaptor implements GeneralAdaptor<KeOcrProperty> {
 
     @Override
     public String getDescription() {
-        return "KE OCR通用文字识别协议";
+        return "KE OCR General Text Recognition Protocol";
     }
 
     @Override

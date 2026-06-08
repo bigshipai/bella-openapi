@@ -35,8 +35,8 @@ public class OcrResidencePermitResponse extends OpenapiResponse {
     @Getter
     @AllArgsConstructor
     public enum ResidencePermitSide {
-        PORTRAIT("portrait", "人像面"),
-        NATIONAL_EMBLEM("national_emblem", "国徽面");
+        PORTRAIT("portrait", "Portrait side"),
+        NATIONAL_EMBLEM("national_emblem", "National emblem side");
 
         @JsonValue
         private final String code;

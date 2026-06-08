@@ -1,8 +1,8 @@
 package com.ke.bella.openapi.protocol.limiter;
 
 import com.google.common.collect.Lists;
-import com.ke.bella.openapi.EndpointContext;
-import com.ke.bella.openapi.EndpointProcessData;
+import com.ke.bella.openapi.common.context.EndpointContext;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.script.LuaScriptExecutor;
 import com.ke.bella.openapi.script.ScriptType;
 import com.ke.bella.openapi.utils.DateTimeUtils;

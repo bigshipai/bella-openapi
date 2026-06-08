@@ -27,7 +27,7 @@ public class VertexAdaptor implements ImagesEditorAdaptor<ImagesEditorProperty> 
 
     @Override
     public String getDescription() {
-        return "Vertex AI (Gemini) 图片编辑协议";
+        return "Vertex AI (Gemini) Image Editing Protocol";
     }
 
     @Override

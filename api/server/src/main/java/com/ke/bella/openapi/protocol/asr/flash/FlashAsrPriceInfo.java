@@ -17,11 +17,11 @@ public class FlashAsrPriceInfo implements IPriceInfo, Serializable {
 
     @Override
     public String getUnit() {
-        return "分/次";
+        return "cents/request";
     }
 
     @Override
     public Map<String, String> description() {
-        return ImmutableMap.of("price", "分/次");
+        return ImmutableMap.of("price", "cents/request");
     }
 }

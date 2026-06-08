@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 public class HuoshanAdaptor implements TranscriptionsAsrAdaptor<AsrProperty> {
     @Override
     public String getDescription() {
-        return "火山协议";
+        return "Huoshan Protocol";
     }
 
     @Override

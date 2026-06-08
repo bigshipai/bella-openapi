@@ -15,8 +15,8 @@ public class ImagesProperty implements IProtocolProperty {
     @Override
     public Map<String, String> description() {
         Map<String, String> map = new LinkedHashMap<>();
-        map.put("auth", "鉴权配置");
-        map.put("deployName", "部署名称");
+        map.put("auth", "Auth config");
+        map.put("deployName", "Deployment name");
         return map;
     }
 }

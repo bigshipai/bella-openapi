@@ -15,9 +15,9 @@ public class ImagesModelFeatures implements IModelFeatures {
     @Override
     public Map<String, String> description() {
         Map<String, String> map = new LinkedHashMap<>();
-        map.put("highQuality", "是否支持高质量生成");
-        map.put("multipleStyles", "是否支持多种风格");
-        map.put("customSize", "是否支持自定义尺寸");
+        map.put("highQuality", "Support high quality generation");
+        map.put("multipleStyles", "Support multiple styles");
+        map.put("customSize", "Support custom size");
         return map;
     }
 }

@@ -16,8 +16,8 @@ public class LarkProperty extends DocParseProperty {
         Map<String, String> map = super.description();
         map.put("clientId", "clientId");
         map.put("clientSecret", "clientSecret");
-        map.put("uploadDirToken", "上传文档目录token");
-        map.put("cloudDirToken", "云文档目录token");
+        map.put("uploadDirToken", "Upload document directory token");
+        map.put("cloudDirToken", "Cloud document directory token");
         return map;
     }
 }

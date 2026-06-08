@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.db.log;
 
-import com.ke.bella.openapi.EndpointProcessData;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.protocol.log.CostLogHandler;
 import com.ke.bella.openapi.utils.JacksonUtils;
 import org.slf4j.Logger;

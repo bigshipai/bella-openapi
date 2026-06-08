@@ -26,7 +26,7 @@ public class HuoshanAdaptor implements ImagesEditorAdaptor<ImagesEditorProperty>
 
     @Override
     public String getDescription() {
-        return "火山方舟图片编辑适配器";
+        return "Huoshan Image Editing Adapter";
     }
 
     @Override
@@ -66,7 +66,7 @@ public class HuoshanAdaptor implements ImagesEditorAdaptor<ImagesEditorProperty>
             }
             break;
         case FILE:
-            throw new IllegalStateException("火山方舟不支持直接文件上传");
+            throw new IllegalStateException("Huoshan does not support direct file upload");
         }
 
         if(request.getResponse_format() != null) {

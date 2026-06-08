@@ -10,8 +10,8 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;
 
 import com.google.common.collect.Lists;
-import com.ke.bella.openapi.EndpointProcessData;
-import com.ke.bella.openapi.common.exception.BellaException;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
+import com.ke.bella.openapi.common.exception.OneTokenException;
 import com.ke.bella.openapi.protocol.BellaWebSocketListener;
 import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.asr.AsrRequest;
@@ -45,7 +45,7 @@ public class HuoshanAdaptor implements FlashAsrAdaptor<HuoshanProperty> {
 
     @Override
     public String getDescription() {
-        return "火山协议";
+        return "Huoshan Protocol";
     }
 
     @Override
@@ -138,7 +138,7 @@ public class HuoshanAdaptor implements FlashAsrAdaptor<HuoshanProperty> {
             }
             return response;
         } catch (Exception e) {
-            throw BellaException.fromException(e);
+            throw OneTokenException.fromException(e);
         }
     }
 

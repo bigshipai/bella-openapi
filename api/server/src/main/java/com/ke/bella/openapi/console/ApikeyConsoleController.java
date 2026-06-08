@@ -1,8 +1,8 @@
 package com.ke.bella.openapi.console;
 
-import com.ke.bella.openapi.BellaContext;
-import com.ke.bella.openapi.Operator;
-import com.ke.bella.openapi.annotations.BellaAPI;
+import com.ke.bella.openapi.common.context.OneTokenContext;
+import com.ke.bella.openapi.common.model.Operator;
+import com.ke.bella.openapi.common.annotation.OneTokenAPI;
 import com.ke.bella.openapi.apikey.ApikeyChangeLog;
 import com.ke.bella.openapi.apikey.ApikeyInfo;
 import com.ke.bella.openapi.apikey.ApikeyOps;
@@ -35,10 +35,10 @@ import java.util.HashMap;
 import java.math.BigDecimal;
 import com.ke.bella.openapi.utils.DateTimeUtils;
 
-@BellaAPI
+@OneTokenAPI
 @RestController
 @RequestMapping("/console/apikey")
-@Tag(name = "API Key管理")
+@Tag(name = "API Key Management")
 public class ApikeyConsoleController {
     @Autowired
     private ApikeyService apikeyService;
@@ -48,75 +48,75 @@ public class ApikeyConsoleController {
 
     @PostMapping("/apply")
     public String apply(@RequestBody ApikeyOps.ApplyOp op) {
-        Assert.isTrue(op.getMonthQuota() == null || op.getMonthQuota().doubleValue() > 0, "配额应大于0");
+        Assert.isTrue(op.getMonthQuota() == null || op.getMonthQuota().doubleValue() > 0, "Quota must be greater than 0");
         return apikeyService.apply(op);
     }
 
     @PostMapping("/reset")
     public String reset(@RequestBody ApikeyOps.CodeOp op) {
-        Assert.hasText(op.getCode(), "code不可为空");
+        Assert.hasText(op.getCode(), "code cannot be empty");
         return apikeyService.reset(op);
     }
 
     @PostMapping("/rename")
     public Boolean rename(@RequestBody ApikeyOps.NameOp op) {
-        Assert.hasText(op.getCode(), "code不可为空");
-        Assert.notNull(op.getName(), "name不可为null");
+        Assert.hasText(op.getCode(), "code cannot be empty");
+        Assert.notNull(op.getName(), "name cannot be null");
         apikeyService.rename(op);
         return true;
     }
 
     @PostMapping("/bindService")
     public Boolean bindService(@RequestBody ApikeyOps.ServiceOp op) {
-        Assert.hasText(op.getCode(), "code不可为空");
-        Assert.notNull(op.getServiceId(), "name不可为null");
+        Assert.hasText(op.getCode(), "code cannot be empty");
+        Assert.notNull(op.getServiceId(), "serviceId cannot be null");
         apikeyService.bindService(op);
         return true;
     }
 
     @PostMapping("/role/update")
     public Boolean updateRole(@RequestBody ApikeyOps.RoleOp op) {
-        Assert.hasText(op.getCode(), "code不可为空");
+        Assert.hasText(op.getCode(), "code cannot be empty");
         Assert.isTrue(StringUtils.isNotEmpty(op.getRoleCode())
-                || CollectionUtils.isNotEmpty(op.getPaths()), "权限不可为空");
+                || CollectionUtils.isNotEmpty(op.getPaths()), "Permission cannot be empty");
         apikeyService.updateRole(op);
         return true;
     }
 
     @PostMapping("/quota/update")
     public Boolean updateQuota(@RequestBody ApikeyOps.QuotaOp op) {
-        Assert.hasText(op.getCode(), "code不可为空");
-        Assert.notNull(op.getMonthQuota(), "配额不可为空");
-        Assert.isTrue(op.getMonthQuota().doubleValue() > 0, "配额应大于0");
+        Assert.hasText(op.getCode(), "code cannot be empty");
+        Assert.notNull(op.getMonthQuota(), "Quota cannot be null");
+        Assert.isTrue(op.getMonthQuota().doubleValue() > 0, "Quota must be greater than 0");
         apikeyService.updateQuota(op);
         return true;
     }
 
     @PostMapping("/qpsLimit/update")
     public Boolean updateQpsLimit(@RequestBody ApikeyOps.QpsLimitOp op) {
-        Assert.hasText(op.getCode(), "code不可为空");
+        Assert.hasText(op.getCode(), "code cannot be empty");
         apikeyService.updateQpsLimit(op);
         return true;
     }
 
     @PostMapping("/certify")
     public Boolean certify(@RequestBody ApikeyOps.CertifyOp op) {
-        Assert.hasText(op.getCode(), "code不可为空");
-        Assert.notNull(op.getCertifyCode(), "认证码不可为空");
+        Assert.hasText(op.getCode(), "code cannot be empty");
+        Assert.notNull(op.getCertifyCode(), "Certification code cannot be empty");
         apikeyService.certify(op);
         return true;
     }
 
     @PostMapping("/activate")
     public Boolean activate(@RequestBody ApikeyOps.CodeOp op) {
-        Assert.hasText(op.getCode(), "code不可为空");
+        Assert.hasText(op.getCode(), "code cannot be empty");
         apikeyService.changeStatus(op, true);
         return true;
     }
 
     @PostMapping("/inactivate")
     public Boolean inactivate(@RequestBody ApikeyOps.CodeOp op) {
-        Assert.hasText(op.getCode(), "code不可为空");
+        Assert.hasText(op.getCode(), "code cannot be empty");
         apikeyService.changeStatus(op, false);
         return true;
     }
@@ -157,10 +157,10 @@ public class ApikeyConsoleController {
 
     @PostMapping("/manager/update")
     public Boolean updateManager(@RequestBody ApikeyOps.ManagerOp op) {
-        Assert.hasText(op.getCode(), "code不可为空");
+        Assert.hasText(op.getCode(), "code cannot be empty");
         if(op.getManagerUserId() == null) {
-            Assert.hasText(op.getManagerCode(), "managerCode不可为空");
-            Assert.hasText(op.getManagerName(), "managerName不可为空");
+            Assert.hasText(op.getManagerCode(), "managerCode cannot be empty");
+            Assert.hasText(op.getManagerName(), "managerName cannot be empty");
         }
         apikeyService.updateManager(op);
         return true;
@@ -169,7 +169,7 @@ public class ApikeyConsoleController {
     @PostMapping("/owner/transfer")
     public Boolean transferApikeyOwner(@RequestBody @Validated TransferApikeyOwnerOp op) {
         // 基本参数验证
-        Assert.hasText(op.getAkCode(), "API Key编码不能为空");
+        Assert.hasText(op.getAkCode(), "API Key code cannot be empty");
 
         // 检查是否提供了足够的目标用户信息
         boolean hasUserId = op.getTargetUserId() != null && op.getTargetUserId() > 0;
@@ -177,11 +177,11 @@ public class ApikeyConsoleController {
         boolean hasSourceAndEmail = StringUtils.isNotEmpty(op.getTargetUserSource()) && StringUtils.isNotEmpty(op.getTargetUserEmail());
 
         Assert.isTrue(hasUserId || hasSourceAndSourceId || hasSourceAndEmail,
-                "必须指定目标用户信息：可使用用户ID、source+sourceId或source+email");
+                "Target user info must be specified: use user ID, source+sourceId, or source+email");
 
         // 获取当前操作者信息
-        Operator currentOperator = BellaContext.getOperator();
-        Assert.notNull(currentOperator, "无法获取当前操作者信息");
+        Operator currentOperator = OneTokenContext.getOperator();
+        Assert.notNull(currentOperator, "Cannot obtain current operator info");
 
         return apikeyService.transferApikeyOwner(op, currentOperator);
     }
@@ -203,25 +203,25 @@ public class ApikeyConsoleController {
 
     @GetMapping("/transfer/history")
     public List<ApikeyTransferLog> getTransferHistory(@RequestParam String akCode) {
-        Assert.hasText(akCode, "API Key编码不能为空");
+        Assert.hasText(akCode, "API Key code cannot be empty");
         return apikeyService.getTransferHistory(akCode);
     }
 
     @GetMapping("/change/history")
     public List<ApikeyChangeLog> getChangeHistory(@RequestParam String akCode) {
-        Assert.hasText(akCode, "API Key编码不能为空");
+        Assert.hasText(akCode, "API Key code cannot be empty");
         return apikeyService.getChangeHistory(akCode);
     }
 
     @GetMapping("/qps/topN")
     public List<QpsRankEntry> getQpsTopN(@RequestParam(value = "topN", defaultValue = "10") int topN) {
-        Assert.isTrue(topN > 0 && topN <= 100, "topN 必须在 1-100 之间");
+        Assert.isTrue(topN > 0 && topN <= 100, "topN must be between 1 and 100");
         return qpsLimiterManager.getTopN(topN);
     }
 
     @GetMapping("/qps/{akCode}")
     public Long getCurrentQps(@PathVariable String akCode) {
-        Assert.hasText(akCode, "akCode 不可为空");
+        Assert.hasText(akCode, "akCode cannot be empty");
         return qpsLimiterManager.getCurrentQps(akCode);
     }
 }

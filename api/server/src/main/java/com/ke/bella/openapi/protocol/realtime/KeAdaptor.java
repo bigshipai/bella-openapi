@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.protocol.realtime;
 
-import com.ke.bella.openapi.EndpointProcessData;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.protocol.BellaWebSocketListener;
 import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.log.EndpointLogger;
@@ -71,7 +71,7 @@ public class KeAdaptor implements RealTimeAdaptor<RealtimeProperty> {
 
     @Override
     public String getDescription() {
-        return "贝壳协议";
+        return "Ke Protocol";
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.protocol.message;
 
-import com.ke.bella.openapi.EndpointProcessData;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.protocol.completion.CompletionLogHandler;
 import com.ke.bella.openapi.protocol.log.EndpointLogHandler;
 import org.springframework.beans.factory.annotation.Autowired;

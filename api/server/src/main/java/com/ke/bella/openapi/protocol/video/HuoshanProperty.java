@@ -21,9 +21,9 @@ public class HuoshanProperty implements VideoProperty {
     @Override
     public Map<String, String> description() {
         Map<String, String> map = new LinkedHashMap<>();
-        map.put("auth", "鉴权配置 (required)");
-        map.put("rpm", "RPM限制 (optional)");
-        map.put("deployName", "部署名称 (optional, 有则用，无则透传请求内的)");
+        map.put("auth", "Auth config (required)");
+        map.put("rpm", "RPM limit (optional)");
+        map.put("deployName", "Deployment name (optional)");
         return map;
     }
 }

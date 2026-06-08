@@ -18,7 +18,7 @@ public class OcrProperty implements IProtocolProperty {
     @Override
     public Map<String, String> description() {
         Map<String, String> map = new LinkedHashMap<>();
-        map.put("encodingType", "编码类型");
+        map.put("encodingType", "Encoding type");
         return map;
     }
 }

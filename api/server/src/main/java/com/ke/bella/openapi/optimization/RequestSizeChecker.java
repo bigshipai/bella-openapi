@@ -1,7 +1,7 @@
 package com.ke.bella.openapi.optimization;
 
-import com.ke.bella.openapi.EndpointContext;
-import com.ke.bella.openapi.configuration.RequestOptimizationConfig;
+import com.ke.bella.openapi.common.context.EndpointContext;
+import com.ke.bella.openapi.config.RequestOptimizationConfig;
 import com.ke.bella.openapi.utils.JacksonUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

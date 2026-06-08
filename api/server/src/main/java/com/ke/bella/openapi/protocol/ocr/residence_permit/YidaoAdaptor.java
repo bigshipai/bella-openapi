@@ -22,7 +22,7 @@ public class YidaoAdaptor implements ResidencePermitAdaptor<YidaoOcrProperty> {
 
     @Override
     public String getDescription() {
-        return "易道OCR港澳台居民居住证识别协议";
+        return "Yidao OCR HK-Macau-Taiwan Residence Permit Recognition Protocol";
     }
 
     @Override

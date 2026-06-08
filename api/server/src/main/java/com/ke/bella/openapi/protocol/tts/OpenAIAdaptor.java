@@ -4,7 +4,7 @@ import com.ke.bella.openapi.protocol.BellaStreamCallback;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
-import com.ke.bella.openapi.EndpointProcessData;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.log.EndpointLogger;
 import com.ke.bella.openapi.utils.HttpUtils;
@@ -38,7 +38,7 @@ public class OpenAIAdaptor implements TtsAdaptor<OpenAIProperty> {
 
     @Override
     public String getDescription() {
-        return "OpenAI协议";
+        return "OpenAI Protocol";
     }
 
     @Override

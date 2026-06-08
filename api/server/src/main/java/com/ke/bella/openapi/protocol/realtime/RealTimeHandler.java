@@ -12,8 +12,8 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import com.ke.bella.openapi.EndpointProcessData;
-import com.ke.bella.openapi.common.exception.BellaException;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
+import com.ke.bella.openapi.common.exception.OneTokenException;
 import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.Callbacks.WebSocketCallback;
 import com.ke.bella.openapi.protocol.asr.AsrProperty;
@@ -77,14 +77,14 @@ public class RealTimeHandler extends TextWebSocketHandler {
                 handleStopTranscription(session, realTimeMessage);
                 break;
             default:
-                LOGGER.warn("不支持的事件类型: " + realTimeMessage.getHeader().getName());
-                sendErrorResponse(session, 40000000, "不支持的事件类型: " + realTimeMessage.getHeader().getName());
+                LOGGER.warn("Unsupported event type: " + realTimeMessage.getHeader().getName());
+                sendErrorResponse(session, 40000000, "Unsupported event type: " + realTimeMessage.getHeader().getName());
                 break;
             }
         } catch (Exception e) {
             LOGGER.warn("处理文本消息时出错: {}", e.getMessage());
             LOGGER.warn(e.getMessage(), e);
-            sendErrorResponse(session, 50000000, "处理请求时出错: " + e.getMessage());
+            sendErrorResponse(session, 50000000, "Error processing request: " + e.getMessage());
         }
     }
 
@@ -94,12 +94,12 @@ public class RealTimeHandler extends TextWebSocketHandler {
             byte[] audioData = message.getPayload().array();
 
             if(taskId == null) {
-                sendErrorResponse(session, 40000000, "未开始转录任务，请先发送StartTranscription指令");
+                sendErrorResponse(session, 40000000, "Transcription not started, please send StartTranscription command first");
                 return;
             }
 
             if(ws == null) {
-                sendErrorResponse(session, 50000000, "未连接到ASR服务");
+                sendErrorResponse(session, 50000000, "Not connected to ASR service");
                 return;
             }
 
@@ -114,7 +114,7 @@ public class RealTimeHandler extends TextWebSocketHandler {
                     LOGGER.warn("心跳检测失败，ASR服务连接已断开，关闭客户端连接");
                     ws = null;
                     taskId = null;
-                    sendErrorResponse(session, 50000000, "ASR服务连接已断开");
+                    sendErrorResponse(session, 50000000, "ASR service connection disconnected");
                     try {
                         session.close();
                     } catch (Exception e) {
@@ -122,13 +122,13 @@ public class RealTimeHandler extends TextWebSocketHandler {
                     }
                 } else {
                     // 心跳成功但音频数据发送失败，可能是临时问题
-                    sendErrorResponse(session, 50000000, "发送音频数据失败");
+                    sendErrorResponse(session, 50000000, "Failed to send audio data");
                 }
             }
 
         } catch (Exception e) {
             LOGGER.warn("处理二进制消息时出错: {}", e.getMessage());
-            sendErrorResponse(session, 50000000, "处理音频数据时出错: " + e.getMessage());
+            sendErrorResponse(session, 50000000, "Error processing audio data: " + e.getMessage());
         }
     }
 
@@ -160,7 +160,7 @@ public class RealTimeHandler extends TextWebSocketHandler {
 
     private void handleStartTranscription(WebSocketSession session, RealTimeMessage request) throws IOException {
         if(taskId != null) {
-            sendErrorResponse(session, 40000000, "已有转录任务正在进行");
+            sendErrorResponse(session, 40000000, "A transcription task is already in progress");
             return;
         }
 
@@ -178,7 +178,7 @@ public class RealTimeHandler extends TextWebSocketHandler {
 
         if(ws == null) {
             taskId = null;
-            sendErrorResponse(session, 50000000, "无法连接到ASR服务");
+            sendErrorResponse(session, 50000000, "Cannot connect to ASR service");
             return;
         }
 
@@ -188,13 +188,13 @@ public class RealTimeHandler extends TextWebSocketHandler {
 
     private void handleStopTranscription(WebSocketSession session, RealTimeMessage request) {
         if(taskId == null || ws == null) {
-            sendErrorResponse(session, 40000000, "没有正在进行的转录任务");
+            sendErrorResponse(session, 40000000, "No transcription task in progress");
             return;
         }
 
         String msgTaskId = request.getHeader().getTaskId();
         if(msgTaskId != null && !msgTaskId.equals(taskId)) {
-            sendErrorResponse(session, 40000000, "无效的任务ID");
+            sendErrorResponse(session, 40000000, "Invalid task ID");
             return;
         }
 
@@ -202,7 +202,7 @@ public class RealTimeHandler extends TextWebSocketHandler {
         boolean success = adaptor.stopTranscription(ws, request, callback);
 
         if(!success) {
-            sendErrorResponse(session, 50000000, "无法停止转录任务");
+            sendErrorResponse(session, 50000000, "Cannot stop transcription task");
         }
     }
 
@@ -261,7 +261,7 @@ public class RealTimeHandler extends TextWebSocketHandler {
 
             @Override
             public void onError(Throwable e) {
-                BellaException exception = BellaException.fromException(e);
+                OneTokenException exception = OneTokenException.fromException(e);
                 RealTimeMessage res = sendErrorResponse(session, exception.getHttpCode() < 500 ? 40000000 : 50000000, exception.getMessage());
                 processData.setResponse(res);
             }

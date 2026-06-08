@@ -30,6 +30,6 @@ public class AwsAdaptor implements MessageDelegatorAdaptor<AwsProperty> {
 
     @Override
     public String getDescription() {
-        return "Aws协议模型服务适配/v1/message能力点";
+        return "AWS Protocol Adapter for /v1/messages endpoint";
     }
 }

@@ -1,14 +1,14 @@
 package com.ke.bella.openapi.console;
 
-import com.ke.bella.openapi.annotations.BellaAPI;
-import com.ke.bella.openapi.metadata.Channel;
-import com.ke.bella.openapi.metadata.Condition;
-import com.ke.bella.openapi.metadata.MetaDataOps;
-import com.ke.bella.openapi.metadata.ModelDetails;
-import com.ke.bella.openapi.service.CategoryService;
-import com.ke.bella.openapi.service.ChannelService;
-import com.ke.bella.openapi.service.EndpointService;
-import com.ke.bella.openapi.service.ModelService;
+import com.ke.bella.openapi.common.annotation.OneTokenAPI;
+import com.ke.bella.openapi.resource.channel.Channel;
+import com.ke.bella.openapi.resource.endpoint.Condition;
+import com.ke.bella.openapi.resource.MetaDataOps;
+import com.ke.bella.openapi.resource.model.ModelDetails;
+import com.ke.bella.openapi.resource.category.CategoryService;
+import com.ke.bella.openapi.resource.channel.ChannelService;
+import com.ke.bella.openapi.resource.endpoint.EndpointService;
+import com.ke.bella.openapi.resource.model.ModelService;
 import com.ke.bella.openapi.tables.pojos.CategoryDB;
 import com.ke.bella.openapi.tables.pojos.ChannelDB;
 import com.ke.bella.openapi.tables.pojos.EndpointDB;
@@ -41,10 +41,10 @@ import static com.ke.bella.openapi.console.MetadataValidator.checkModelNameOp;
 import static com.ke.bella.openapi.console.MetadataValidator.checkModelOp;
 import static com.ke.bella.openapi.console.MetadataValidator.checkReplaceEndpointCategoryOp;
 
-@BellaAPI
+@OneTokenAPI
 @RestController
 @RequestMapping("/console")
-@Tag(name = "元数据管理")
+@Tag(name = "Metadata Management")
 public class MetadataConsoleController {
     @Autowired
     private EndpointService endpointService;

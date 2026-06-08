@@ -1,7 +1,7 @@
 package com.ke.bella.openapi.protocol.asr;
 
-import com.ke.bella.openapi.EndpointProcessData;
-import com.ke.bella.openapi.common.exception.BellaException;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
+import com.ke.bella.openapi.common.exception.OneTokenException;
 import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.log.EndpointLogger;
 import com.ke.bella.openapi.utils.DateTimeUtils;
@@ -72,7 +72,7 @@ public class TencentStreamAsrCallback implements Callbacks.WebSocketCallback {
             isRunning = true;
         } catch (Exception e) {
             log.error("Tencent ASR onOpen error", e);
-            onError(BellaException.fromException(e));
+            onError(OneTokenException.fromException(e));
         }
     }
 
@@ -84,7 +84,7 @@ public class TencentStreamAsrCallback implements Callbacks.WebSocketCallback {
             handleResponse(response, webSocket);
         } catch (Exception e) {
             log.error("Error parsing text message", e);
-            onProcessError(BellaException.fromException(e));
+            onProcessError(OneTokenException.fromException(e));
         }
     }
 
@@ -114,7 +114,7 @@ public class TencentStreamAsrCallback implements Callbacks.WebSocketCallback {
         int httpCode = response != null ? response.code() : 500;
         String message = t.getMessage();
 
-        onError(new BellaException.ChannelException(httpCode, message));
+        onError(new OneTokenException.ChannelException(httpCode, message));
     }
 
     @Override
@@ -124,9 +124,9 @@ public class TencentStreamAsrCallback implements Callbacks.WebSocketCallback {
             return true;
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            throw BellaException.fromException(e);
+            throw OneTokenException.fromException(e);
         } catch (ExecutionException | TimeoutException e) {
-            throw BellaException.fromException(e);
+            throw OneTokenException.fromException(e);
         }
     }
 
@@ -202,7 +202,7 @@ public class TencentStreamAsrCallback implements Callbacks.WebSocketCallback {
     private void handleTranscriptionFailed(int code, String errorMsg) {
         log.error("Transcription failed: code={}, message={}", code, errorMsg);
         isRunning = false;
-        sender.onError(new BellaException.ChannelException(getHttpCode(code), errorMsg));
+        sender.onError(new OneTokenException.ChannelException(getHttpCode(code), errorMsg));
 
         complete();
     }
@@ -248,7 +248,7 @@ public class TencentStreamAsrCallback implements Callbacks.WebSocketCallback {
     /**
      * 处理错误
      */
-    private void onError(BellaException exception) {
+    private void onError(OneTokenException exception) {
         log.warn("Tencent ASR error: {}", exception.getMessage(), exception);
         sender.onError(exception);
         complete();
@@ -257,7 +257,7 @@ public class TencentStreamAsrCallback implements Callbacks.WebSocketCallback {
     /**
      * 处理处理过程中的错误
      */
-    private void onProcessError(BellaException exception) {
+    private void onProcessError(OneTokenException exception) {
         log.warn("Tencent ASR process error: {}", exception.getMessage(), exception);
         sender.onError(exception);
         complete();

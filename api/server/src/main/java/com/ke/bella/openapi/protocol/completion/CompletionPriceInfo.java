@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 public class CompletionPriceInfo implements IPriceInfo, Serializable {
     private static final long serialVersionUID = 1L;
 
-    private String unit = "分/千token";
+    private String unit = "cents/1k tokens";
     private double batchDiscount = 1.0;
     private double supplierDiscount = 1.0;
     private List<Tier> tiers;
@@ -28,10 +28,10 @@ public class CompletionPriceInfo implements IPriceInfo, Serializable {
     @Override
     public Map<String, String> description() {
         Map<String, String> map = new LinkedHashMap<>();
-        map.put("batchDiscount", "批量折扣");
-        map.put("supplierDiscount", "供应商折扣");
-        map.put("tiers", "区间价格列表");
-        map.put("toolPrices", "工具调用价格配置(Map<工具名,单价(分/次)>,可选),如:{\"web_search\":0.035}");
+        map.put("batchDiscount", "Batch discount");
+        map.put("supplierDiscount", "Supplier discount");
+        map.put("tiers", "Tier price list");
+        map.put("toolPrices", "Tool call price config (Map<tool name, unit price (cents/call)>, optional), e.g. {\"web_search\":0.035}");
         return map;
     }
 
@@ -119,7 +119,7 @@ public class CompletionPriceInfo implements IPriceInfo, Serializable {
             }
         }
 
-        throw new IllegalStateException("未匹配到任何输入价格区间，inputToken=" + inputToken + ", outputToken=" + outputToken);
+        throw new IllegalStateException("No matching price tier found, inputToken=" + inputToken + ", outputToken=" + outputToken);
     }
 
     public boolean validate() {

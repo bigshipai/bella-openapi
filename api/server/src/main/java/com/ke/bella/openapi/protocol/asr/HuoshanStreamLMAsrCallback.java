@@ -1,8 +1,8 @@
 package com.ke.bella.openapi.protocol.asr;
 
-import com.ke.bella.openapi.EndpointProcessData;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.TaskExecutor;
-import com.ke.bella.openapi.common.exception.BellaException;
+import com.ke.bella.openapi.common.exception.OneTokenException;
 import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.log.EndpointLogger;
 import com.ke.bella.openapi.utils.DateTimeUtils;
@@ -34,7 +34,7 @@ import java.util.zip.GZIPOutputStream;
 @Slf4j
 public class HuoshanStreamLMAsrCallback extends WebSocketListener implements Callbacks.WebSocketCallback {
 
-    // 协议常量
+    // Protocol constants
     private static final byte PROTOCOL_VERSION = 0b0001;
     private static final byte DEFAULT_HEADER_SIZE = 0b0001;
     // Message Type:
@@ -68,7 +68,7 @@ public class HuoshanStreamLMAsrCallback extends WebSocketListener implements Cal
     private boolean first = true;
     private boolean isRunning = false;
     private long startTime = DateTimeUtils.getCurrentMills();
-    private int audioSequence = 1; // 初始化为1
+    private int audioSequence = 1; // Initialize to 1
 
     public HuoshanStreamLMAsrCallback(HuoshanRealTimeAsrRequest request, Callbacks.Sender sender, EndpointProcessData processData,
             EndpointLogger logger, Function<HuoshanLMRealTimeAsrResponse, List<String>> converter) {
@@ -81,7 +81,7 @@ public class HuoshanStreamLMAsrCallback extends WebSocketListener implements Cal
     }
 
     @Data
-    // 客户端请求参数类
+    // Client request parameter class
     private static class ClientRequest {
         private App app;
         private User user;
@@ -135,17 +135,17 @@ public class HuoshanStreamLMAsrCallback extends WebSocketListener implements Cal
     @Override
     public void onOpen(WebSocket webSocket, Response response) {
         try {
-            log.info("WebSocket连接已打开");
+            log.info("WebSocket connection opened");
             sendFullClientRequest(webSocket);
         } catch (Exception e) {
-            log.error("WebSocket打开时出错", e);
-            onError(BellaException.fromException(e));
+            log.error("Error opening WebSocket", e);
+            onError(OneTokenException.fromException(e));
         }
     }
 
     @Override
     public void onMessage(WebSocket webSocket, String text) {
-        log.info("收到文本消息: {}", text);
+        log.info("Received text message: {}", text);
     }
 
     @Override
@@ -153,27 +153,27 @@ public class HuoshanStreamLMAsrCallback extends WebSocketListener implements Cal
         try {
             parseResponse(bytes.toByteArray(), webSocket);
         } catch (Exception e) {
-            log.error("处理WebSocket消息时出错", e);
-            onError(BellaException.fromException(e));
+            log.error("Error processing WebSocket message", e);
+            onError(OneTokenException.fromException(e));
         }
     }
 
     @Override
     public void onClosing(WebSocket webSocket, int code, String reason) {
         complete();
-        log.info("WebSocket正在关闭: code={}, reason={}", code, reason);
+        log.info("WebSocket closing: code={}, reason={}", code, reason);
     }
 
     @Override
     public void onClosed(WebSocket webSocket, int code, String reason) {
-        log.info("WebSocket已关闭: code={}, reason={}", code, reason);
+        log.info("WebSocket closed: code={}, reason={}", code, reason);
         complete();
     }
 
     @Override
     public void onFailure(WebSocket webSocket, Throwable t, Response response) {
-        log.error("WebSocket连接失败", t);
-        onError(BellaException.fromException(t));
+        log.error("WebSocket connection failed", t);
+        onError(OneTokenException.fromException(t));
     }
 
     @Override
@@ -183,14 +183,14 @@ public class HuoshanStreamLMAsrCallback extends WebSocketListener implements Cal
             return true;
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            throw BellaException.fromException(e);
+            throw OneTokenException.fromException(e);
         } catch (ExecutionException | TimeoutException e) {
-            throw BellaException.fromException(e);
+            throw OneTokenException.fromException(e);
         }
     }
 
     /**
-     * 完成处理并关闭连接
+     * Complete processing and close connection
      */
     private void complete() {
         if(!end) {
@@ -204,9 +204,9 @@ public class HuoshanStreamLMAsrCallback extends WebSocketListener implements Cal
     }
 
     /**
-     * 处理错误
+     * Handle error
      */
-    private void onError(BellaException exception) {
+    private void onError(OneTokenException exception) {
         if(!end) {
             end = true;
             sender.onError(exception);
@@ -214,59 +214,59 @@ public class HuoshanStreamLMAsrCallback extends WebSocketListener implements Cal
     }
 
     /**
-     * 处理处理过程中的错误
+     * Handle error during processing
      */
-    private void onProcessError(BellaException exception) {
+    private void onProcessError(OneTokenException exception) {
         if(!end) {
             sender.onError(exception);
         }
     }
 
     /**
-     * 发送完整的客户端请求
+     * Send full client request
      */
     private void sendFullClientRequest(WebSocket webSocket) {
         try {
             byte[] payload = constructFullClientRequest();
             webSocket.send(ByteString.of(payload));
         } catch (Exception e) {
-            log.warn("发送完整客户端请求时出错", e);
-            onError(BellaException.fromException(e));
+            log.warn("Error sending full client request", e);
+            onError(OneTokenException.fromException(e));
         }
     }
 
     /**
-     * 构造完整的客户端请求
+     * Construct full client request
      */
     private byte[] constructFullClientRequest() throws Exception {
-        // 构建请求参数
+        // Build request parameters
         ClientRequest clientRequest = new ClientRequest();
 
-        // 设置App信息
+        // Set App info
         App app = new App();
         app.setAppid(request.getAppId());
         app.setCluster(request.getCluster());
         app.setToken(request.getToken());
         clientRequest.setApp(app);
 
-        // 设置用户信息
+        // Set user info
         User user = new User();
         user.setUid(request.getUid());
         clientRequest.setUser(user);
 
-        // 设置请求信息 - 大模型特有参数
+        // Set request info - LLM specific parameters
         ModelRequest modelRequest = new ModelRequest();
         modelRequest.setReqid(processData.getRequestId());
         modelRequest.setShow_utterances(true);
         modelRequest.setResult_type("single");
         modelRequest.setSequence(1);
-        // 大模型特有参数
-        modelRequest.setModel_name("bigmodel"); // 大模型名称
-        modelRequest.setEnable_punc(request.isEnable_punc()); // 是否启用标点
-        modelRequest.setEnable_itn(request.isEnable_itn()); // 是否启用ITN
-        modelRequest.setEnable_ddc(false); 	// 默认关闭顺滑
+        // LLM specific parameters
+        modelRequest.setModel_name("bigmodel"); // LLM model name
+        modelRequest.setEnable_punc(request.isEnable_punc()); // Whether to enable punctuation
+        modelRequest.setEnable_itn(request.isEnable_itn()); // Whether to enable ITN
+        modelRequest.setEnable_ddc(false); 	// Smoothing disabled by default
 
-        // 设置corpus和热词
+        // Set corpus and hot words
         Corpus corpus = new Corpus();
         if(StringUtils.isNotBlank(request.getHotWords())) {
             corpus.setContext(buildHotWords(request.getHotWords()));
@@ -278,31 +278,31 @@ public class HuoshanStreamLMAsrCallback extends WebSocketListener implements Cal
 
         clientRequest.setRequest(modelRequest);
 
-        // 设置音频信息
+        // Set audio info
         Audio audio = new Audio();
         audio.setFormat(request.getFormat());
         audio.setRate(request.getSampleRate());
-        audio.setBits(16); // 默认为16
-        audio.setChannel(1); // 默认单声道
-        audio.setCodec("raw"); // 默认为raw(pcm)
+        audio.setBits(16); // Default 16
+        audio.setChannel(1); // Default mono
+        audio.setCodec("raw"); // Default raw(PCM)
         clientRequest.setAudio(audio);
 
-        // 将参数转换为JSON
+        // Convert parameters to JSON
         byte[] jsonPayload = JacksonUtils.toByte(clientRequest);
 
-        // GZIP压缩
+        // GZIP compress
         byte[] compressedPayload = gzipCompress(jsonPayload);
 
-        // 构建header
+        // Build header
         byte[] header = getHeader(FULL_CLIENT_REQUEST, POS_SEQUENCE, JSON, GZIP, (byte) 0);
 
-        // 构建序列号
+        // Build sequence number
         byte[] seqBytes = intToBytes(audioSequence);
 
-        // 构建payload长度字节
+        // Build payload length bytes
         byte[] payloadSizeBytes = intToBytes(compressedPayload.length);
 
-        // 拼接header、序列号、payload长度和payload
+        // Concatenate header, sequence number, payload length and payload
         byte[] fullClientRequest = new byte[header.length + seqBytes.length + payloadSizeBytes.length + compressedPayload.length];
         int destPos = 0;
         System.arraycopy(header, 0, fullClientRequest, destPos, header.length);
@@ -317,34 +317,34 @@ public class HuoshanStreamLMAsrCallback extends WebSocketListener implements Cal
     }
 
     /**
-     * 发送音频数据
+     * Send audio data
      */
     public void sendAudioData(WebSocket webSocket, byte[] audioData, boolean isLast) {
         try {
             audioSequence++;
 
-            // 如果是最后一块，将序列号设为负值
+            // If it is the last chunk, set sequence number to negative
             int seq = audioSequence;
             if(isLast) {
                 seq = -seq;
             }
 
-            // 构造音频数据负载
+            // Construct audio data payload
             byte messageTypeSpecificFlags = isLast ? NEG_WITH_SEQUENCE : POS_SEQUENCE;
 
-            // 构建header
+            // Build header
             byte[] header = getHeader(AUDIO_ONLY_REQUEST, messageTypeSpecificFlags, JSON, GZIP, (byte) 0);
 
-            // 构建序列号
+            // Build sequence number
             byte[] sequenceBytes = intToBytes(seq);
 
-            // 压缩音频数据
+            // Compress audio data
             byte[] compressedAudio = gzipCompress(audioData);
 
-            // 构建payload长度字节
+            // Build payload length bytes
             byte[] payloadSizeBytes = intToBytes(compressedAudio.length);
 
-            // 拼接header、序列号、payload长度和payload
+            // Concatenate header, sequence number, payload length and payload
             byte[] audioOnlyRequest = new byte[header.length + sequenceBytes.length + payloadSizeBytes.length + compressedAudio.length];
             int destPos = 0;
             System.arraycopy(header, 0, audioOnlyRequest, destPos, header.length);
@@ -357,12 +357,12 @@ public class HuoshanStreamLMAsrCallback extends WebSocketListener implements Cal
 
             webSocket.send(ByteString.of(audioOnlyRequest));
         } catch (Exception e) {
-            onProcessError(BellaException.fromException(e));
+            onProcessError(OneTokenException.fromException(e));
         }
     }
 
     /**
-     * 分块发送音频数据
+     * Send audio data in chunks
      */
     public void sendAudioDataInChunks(WebSocket webSocket, byte[] audioData, int chunkSize, int intervalMs) {
         TaskExecutor.submit(() -> {
@@ -384,59 +384,59 @@ public class HuoshanStreamLMAsrCallback extends WebSocketListener implements Cal
                     }
                 }
             } catch (Exception e) {
-                log.error("分块发送音频数据时出错", e);
-                onProcessError(BellaException.fromException(e));
+                log.error("Error sending audio chunk data", e);
+                onProcessError(OneTokenException.fromException(e));
             }
         });
     }
 
     /**
-     * 解析服务器响应
-     * 按照官方样例的逻辑：先解析结构，最后才解压缩
+     * Parse server response
+     * Follows official sample logic: parse structure first, decompress at the end
      */
     private void parseResponse(byte[] message, WebSocket webSocket) {
         if(message == null || message.length == 0) {
-            log.warn("收到空消息");
+            log.warn("Received empty message");
             return;
         }
 
-        // 解析头部 - 按照官方样例的逻辑
-        int headerSize = message[0] & 0x0f; // 从header第一个字节读取headerSize
-        int headerLen = headerSize * 4; // header实际长度
+        // Parse header - following official sample logic
+        int headerSize = message[0] & 0x0f; // Read headerSize from first byte of header
+        int headerLen = headerSize * 4; // Actual header length
         int messageType = (message[1] & 0xf0) >> 4;
         int messageTypeFlag = message[1] & 0x0f;
         int messageSerial = (message[2] & 0xf0) >> 4;
         int messageCompress = message[2] & 0x0f;
 
-        // 从headerLen位置开始提取剩余数据（payload区域）
+        // Extract remaining data starting from headerLen (payload area)
         if(message.length < headerLen) {
-            log.error("消息长度不足，无法解析header: messageLength={}, headerLen={}", message.length, headerLen);
+            log.error("Insufficient message length, cannot parse header: messageLength={}, headerLen={}", message.length, headerLen);
             return;
         }
 
         byte[] payload = Arrays.copyOfRange(message, headerLen, message.length);
 
-        // 根据messageTypeSpecificFlags动态解析序列号等字段（按照官方样例）
+        // Dynamically parse sequence number and other fields based on messageTypeSpecificFlags (following official sample)
         boolean isLastPackage = false;
 
         if((messageTypeFlag & 0x01) != 0) {
-            // 有序列号
+            // Has sequence number
             if(payload.length < 4) {
-                log.error("消息长度不足，无法解析序列号: payloadLength={}", payload.length);
+                log.error("Insufficient message length, cannot parse sequence number: payloadLength={}", payload.length);
                 return;
             }
             payload = Arrays.copyOfRange(payload, 4, payload.length);
         }
 
         if((messageTypeFlag & 0x02) != 0) {
-            // 是最后包
+            // Is last package
             isLastPackage = true;
         }
 
         if((messageTypeFlag & 0x04) != 0) {
-            // 有event字段
+            // Has event field
             if(payload.length < 4) {
-                log.error("消息长度不足，无法解析event: payloadLength={}", payload.length);
+                log.error("Insufficient message length, cannot parse event: payloadLength={}", payload.length);
                 return;
             }
             payload = Arrays.copyOfRange(payload, 4, payload.length);
@@ -445,67 +445,67 @@ public class HuoshanStreamLMAsrCallback extends WebSocketListener implements Cal
         if(messageType == SERVER_ERROR_RESPONSE) {
             // SERVER_ERROR_RESPONSE: errorCode(4) + payloadSize(4)
             if(payload.length < 8) {
-                log.error("错误消息长度不足: payloadLength={}", payload.length);
+                log.error("Error message length insufficient: payloadLength={}", payload.length);
                 return;
             }
             int errorCode = bytesToInt(Arrays.copyOfRange(payload, 0, 4));
             int actualPayloadSize = bytesToInt(Arrays.copyOfRange(payload, 4, 8));
             payload = Arrays.copyOfRange(payload, 8, payload.length);
 
-            // 提取实际的payload数据
+            // Extract actual payload data
             if(actualPayloadSize > 0 && payload.length >= actualPayloadSize) {
                 payload = Arrays.copyOfRange(payload, 0, actualPayloadSize);
 
-                // 解压缩并处理错误
+                // Decompress and handle error
                 if(messageCompress == GZIP) {
                     payload = gzipDecompress(payload);
                 }
 
                 String errorMsg = new String(payload);
-                log.error("服务器错误: code={}, message={}", errorCode, errorMsg);
+                log.error("Server error: code={}, message={}", errorCode, errorMsg);
                 handleTranscriptionFailed(mapErrorCodeToHttpStatus(errorCode), errorMsg);
             }
         } else if(messageType == FULL_SERVER_RESPONSE) {
-            // FULL_SERVER_RESPONSE: payloadSize在payload的开头（已跳过序列号）
+            // FULL_SERVER_RESPONSE: payloadSize at start of payload (sequence number already skipped)
             if(payload.length < 4) {
-                log.error("消息长度不足，无法解析payloadSize: payloadLength={}", payload.length);
+                log.error("Insufficient message length, cannot parse payloadSize: payloadLength={}", payload.length);
                 return;
             }
             int actualPayloadSize = bytesToInt(Arrays.copyOfRange(payload, 0, 4));
             payload = Arrays.copyOfRange(payload, 4, payload.length);
 
-            // 提取实际的payload数据
+            // Extract actual payload data
             if(actualPayloadSize > 0) {
                 if(payload.length < actualPayloadSize) {
-                    log.error("payload长度不足: payloadLength={}, expectedSize={}", payload.length, actualPayloadSize);
+                    log.error("Payload length insufficient: payloadLength={}, expectedSize={}", payload.length, actualPayloadSize);
                     return;
                 }
                 payload = Arrays.copyOfRange(payload, 0, actualPayloadSize);
             }
 
-            // 最后才解压缩（按照官方样例的顺序）
+            // Decompress at the end (following official sample order)
             if(messageCompress == GZIP && payload.length > 0) {
                 payload = gzipDecompress(payload);
             }
 
-            // 处理FULL_SERVER_RESPONSE消息
+            // Handle FULL_SERVER_RESPONSE message
             if(payload.length > 0) {
-                // 解析JSON响应
+                // Parse JSON response
                 HuoshanLMRealTimeAsrResponse response = JacksonUtils.deserialize(payload, HuoshanLMRealTimeAsrResponse.class);
 
-                // 检查响应状态
+                // Check response status
                 if(response == null) {
-                    log.error("大模型ASR响应错误: {}", new String(payload));
+                    log.error("LLM ASR response error: {}", new String(payload));
                     handleTranscriptionFailed(503, new String(payload));
                     return;
                 }
 
-                // 处理响应
+                // Handle response
                 if(!isRunning) {
-                    // 首次响应，设置运行标志
+                    // First response, set running flag
                     isRunning = true;
 
-                    // 非流式请求直接发送文件，流式请求由客户端发送文件
+                    // Non-stream request sends file directly, stream request is sent by client
                     if(!request.isAsync()) {
                         sendAudioDataInChunks(webSocket, request.getAudioData(), request.getChunkSize(), request.getIntervalMs());
                     } else {
@@ -513,14 +513,14 @@ public class HuoshanStreamLMAsrCallback extends WebSocketListener implements Cal
                     }
                 }
 
-                // 检查响应码
+                // Check response code
                 if(response.getCode() != 0) {
-                    log.error("大模型ASR响应错误: code={}, message={}", response.getCode(), response.getMessage());
+                    log.error("LLM ASR response error: code={}, message={}", response.getCode(), response.getMessage());
                     handleTranscriptionFailed(getHttpCode(response.getCode()), response.getMessage());
                     return;
                 }
 
-                // 判断是中间响应还是最终响应
+                // Determine if it's an intermediate or final response
                 if(isLastPackage) {
                     response.setCompletion(true);
                     handleFinalResponse(response);
@@ -529,12 +529,12 @@ public class HuoshanStreamLMAsrCallback extends WebSocketListener implements Cal
                 }
             }
         } else {
-            log.warn("收到未知消息类型: messageType={}, messageLength={}", messageType, message.length);
+            log.warn("Received unknown message type: messageType={}, messageLength={}", messageType, message.length);
         }
     }
 
     /**
-     * 处理中间响应
+     * Handle intermediate response
      */
     private void handleIntermediateResponse(HuoshanLMRealTimeAsrResponse response) {
         try {
@@ -547,12 +547,12 @@ public class HuoshanStreamLMAsrCallback extends WebSocketListener implements Cal
                 }
             }
         } catch (Exception e) {
-            log.error("处理中间响应时出错", e);
+            log.error("Error processing intermediate response", e);
         }
     }
 
     /**
-     * 处理最终响应
+     * Handle final response
      */
     private void handleFinalResponse(HuoshanLMRealTimeAsrResponse response) {
         try {
@@ -566,27 +566,27 @@ public class HuoshanStreamLMAsrCallback extends WebSocketListener implements Cal
             }
             complete();
         } catch (Exception e) {
-            log.error("处理最终响应时出错", e);
-            onError(BellaException.fromException(e));
+            log.error("Error processing final response", e);
+            onError(OneTokenException.fromException(e));
         }
     }
 
     /**
-     * 处理转录失败事件
+     * Handle transcription failed event
      */
     private void handleTranscriptionFailed(int code, String errorMsg) {
-        onError(new BellaException.ChannelException(code, errorMsg));
+        onError(new OneTokenException.ChannelException(code, errorMsg));
     }
 
     /**
-     * 获取HTTP状态码
+     * Get HTTP status code
      */
     private int getHttpCode(int code) {
         return code == 0 ? 200 : 500;
     }
 
     /**
-     * 将火山引擎错误码映射为HTTP状态码
+     * Map Volcano Engine error code to HTTP status code
      */
     private int mapErrorCodeToHttpStatus(int errorCode) {
         if(errorCode == ERROR_CODE_RATE_LIMIT) {
@@ -603,7 +603,7 @@ public class HuoshanStreamLMAsrCallback extends WebSocketListener implements Cal
     }
 
     /**
-     * 获取消息头部
+     * Get message header
      */
     private byte[] getHeader(byte messageType, byte messageTypeSpecificFlags, byte serialMethod, byte compressionType,
             byte reservedData) {
@@ -621,7 +621,7 @@ public class HuoshanStreamLMAsrCallback extends WebSocketListener implements Cal
     }
 
     /**
-     * 整数转字节数组
+     * Integer to byte array
      */
     private byte[] intToBytes(int a) {
         return new byte[] {
@@ -633,7 +633,7 @@ public class HuoshanStreamLMAsrCallback extends WebSocketListener implements Cal
     }
 
     /**
-     * 字节数组转整数
+     * Byte array to integer
      */
     private int bytesToInt(byte[] src) {
         if(src == null || (src.length != 4)) {
@@ -646,7 +646,7 @@ public class HuoshanStreamLMAsrCallback extends WebSocketListener implements Cal
     }
 
     /**
-     * GZIP压缩
+     * GZIP compression
      */
     private byte[] gzipCompress(byte[] src) {
         if(src == null || src.length == 0) {
@@ -658,13 +658,13 @@ public class HuoshanStreamLMAsrCallback extends WebSocketListener implements Cal
             gzip = new GZIPOutputStream(out);
             gzip.write(src);
         } catch (IOException e) {
-            log.error("GZIP压缩失败", e);
+            log.error("GZIP compression failed", e);
         } finally {
             if(gzip != null) {
                 try {
                     gzip.close();
                 } catch (IOException e) {
-                    log.error("关闭GZIP输出流失败", e);
+                    log.error("Failed to close GZIP output stream", e);
                 }
             }
         }
@@ -672,7 +672,7 @@ public class HuoshanStreamLMAsrCallback extends WebSocketListener implements Cal
     }
 
     /**
-     * GZIP解压缩
+     * GZIP decompression
      */
     private byte[] gzipDecompress(byte[] src) {
         if(src == null || src.length == 0) {
@@ -689,13 +689,13 @@ public class HuoshanStreamLMAsrCallback extends WebSocketListener implements Cal
                 out.write(buffer, 0, n);
             }
         } catch (IOException e) {
-            log.error("GZIP解压缩失败", e);
+            log.error("GZIP decompression failed", e);
         } finally {
             if(gzip != null) {
                 try {
                     gzip.close();
                 } catch (IOException e) {
-                    log.error("关闭GZIP输入流失败", e);
+                    log.error("Failed to close GZIP input stream", e);
                 }
             }
         }
@@ -703,16 +703,16 @@ public class HuoshanStreamLMAsrCallback extends WebSocketListener implements Cal
     }
 
     /**
-     * 将逗号分隔的热词字符串转换为JSON格式
-     * 输入: "热词1号,热词2号"
-     * 输出: {"hotwords":[{"word":"热词1号"}, {"word":"热词2号"}]}
+     * Convert comma-separated hot word string to JSON format
+     * Input: "hotword1,hotword2"
+     * Output: {"hotwords":[{"word":"hotword1"}, {"word":"hotword2"}]}
      */
     private String buildHotWords(String hotWords) {
         if(StringUtils.isBlank(hotWords)) {
             return null;
         }
 
-        // 使用Stream API简化处理
+        // Use Stream API to simplify processing
         List<HotWord> hotWordList = Arrays.stream(hotWords.split(","))
                 .map(String::trim)
                 .filter(StringUtils::isNotBlank)

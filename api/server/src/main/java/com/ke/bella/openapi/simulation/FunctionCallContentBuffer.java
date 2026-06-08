@@ -32,7 +32,7 @@ public class FunctionCallContentBuffer extends Reader {
                 wait(10);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                throw new IOException("解析 function call 时线程中断", e);
+                throw new IOException("Thread interrupted while parsing function call", e);
             }
         }
 
