@@ -2,9 +2,9 @@ package com.ke.bella.openapi.protocol.asr.transcription;
 
 import com.ke.bella.openapi.common.context.EndpointContext;
 import com.ke.bella.openapi.common.context.EndpointProcessData;
-import com.ke.bella.openapi.gateway.route.ChannelRouter;
+import com.ke.bella.openapi.domain.route.ChannelRouter;
 import com.ke.bella.openapi.protocol.log.EndpointLogHandler;
-import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
+import com.ke.bella.openapi.jooqgen.tables.pojos.ChannelDB;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

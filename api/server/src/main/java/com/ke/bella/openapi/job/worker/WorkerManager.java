@@ -1,16 +1,16 @@
 package com.ke.bella.openapi.job.worker;
 
-import com.ke.bella.openapi.TaskExecutor;
+import com.ke.bella.openapi.config.TaskExecutor;
 import com.ke.bella.openapi.client.OneTokenServerClient;
 import com.ke.bella.openapi.protocol.AdaptorManager;
 import com.ke.bella.openapi.protocol.limiter.LimiterManager;
-import com.ke.bella.openapi.modules.safety.ISafetyCheckService;
-import com.ke.bella.openapi.modules.safety.SafetyCheckRequest;
-import com.ke.bella.openapi.script.LuaScriptExecutor;
+import com.ke.bella.openapi.controller.safety.ISafetyCheckService;
+import com.ke.bella.openapi.controller.safety.SafetyCheckRequest;
+import com.ke.bella.openapi.common.script.LuaScriptExecutor;
 import com.ke.bella.openapi.config.OpenAiServiceFactory;
-import com.ke.bella.openapi.config.OneTokenApiProperties;
-import com.ke.bella.openapi.modules.channel.ChannelService;
-import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
+import com.ke.bella.openapi.config.properties.OneTokenApiProperties;
+import com.ke.bella.openapi.controller.channel.ChannelService;
+import com.ke.bella.openapi.jooqgen.tables.pojos.ChannelDB;
 import com.theokanning.openai.service.OpenAiService;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;

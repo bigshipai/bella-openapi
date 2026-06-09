@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import com.ke.bella.openapi.common.exception.OneTokenException;
+import com.ke.bella.openapi.controller.endpoint.dto.TtsRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 

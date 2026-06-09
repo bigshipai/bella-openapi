@@ -3,13 +3,13 @@ package com.ke.bella.openapi.protocol.completion.callback;
 import org.apache.commons.lang3.StringUtils;
 
 import com.ke.bella.openapi.common.context.EndpointProcessData;
-import com.ke.bella.openapi.TaskExecutor;
+import com.ke.bella.openapi.config.TaskExecutor;
 import com.ke.bella.openapi.common.exception.OneTokenException;
 import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.completion.StreamCompletionResponse;
-import com.ke.bella.openapi.simulation.FunctionCallContentBuffer;
-import com.ke.bella.openapi.simulation.FunctionCallListener;
-import com.ke.bella.openapi.simulation.SimulationHepler;
+import com.ke.bella.openapi.common.simulation.FunctionCallContentBuffer;
+import com.ke.bella.openapi.common.simulation.FunctionCallListener;
+import com.ke.bella.openapi.common.simulation.SimulationHepler;
 
 import lombok.extern.slf4j.Slf4j;
 

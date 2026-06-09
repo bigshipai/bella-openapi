@@ -2,7 +2,7 @@ package com.ke.bella.openapi.protocol.gemini;
 
 import com.ke.bella.openapi.common.context.EndpointContext;
 import com.ke.bella.openapi.common.context.EndpointProcessData;
-import com.ke.bella.openapi.TaskExecutor;
+import com.ke.bella.openapi.config.TaskExecutor;
 import com.ke.bella.openapi.common.exception.OneTokenException;
 import com.ke.bella.openapi.protocol.completion.CompletionResponse;
 import com.ke.bella.openapi.protocol.completion.VertexConverter;

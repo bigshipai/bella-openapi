@@ -7,6 +7,7 @@ import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.common.exception.OneTokenException;
+import com.ke.bella.openapi.controller.endpoint.dto.TtsRequest;
 import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.OpenapiResponse;
 import com.ke.bella.openapi.protocol.log.EndpointLogger;

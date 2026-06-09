@@ -1,5 +1,6 @@
 package com.ke.bella.openapi.protocol.tts;
 
+import com.ke.bella.openapi.controller.endpoint.dto.TtsRequest;
 import org.springframework.stereotype.Component;
 
 import com.ke.bella.openapi.common.context.EndpointProcessData;

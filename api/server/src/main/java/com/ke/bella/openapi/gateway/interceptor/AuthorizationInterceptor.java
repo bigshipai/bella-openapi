@@ -15,9 +15,9 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import com.ke.bella.openapi.common.context.OneTokenContext;
 import com.ke.bella.openapi.common.context.EndpointContext;
 import com.ke.bella.openapi.common.model.Operator;
-import com.ke.bella.openapi.modules.apikey.ApikeyInfo;
+import com.ke.bella.openapi.controller.apikey.dto.ApikeyInfo;
 import com.ke.bella.openapi.common.exception.OneTokenException;
-import com.ke.bella.openapi.service.ApikeyService;
+import com.ke.bella.openapi.domain.apikey.ApikeyService;
 
 /**
  * Authorization interceptor for console and API endpoints.

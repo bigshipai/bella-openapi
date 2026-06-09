@@ -11,9 +11,9 @@
     <!-- ==================== 数据库连接配置 ==================== -->
     <jdbc>
         <driver>com.mysql.cj.jdbc.Driver</driver>
-        <url>jdbc:mysql://127.0.0.1:3306/bella_openapi?useSSL=false</url>
+        <url>jdbc:mysql://192.168.160.128:3306/bella_openapi?useSSL=false</url>
         <user>root</user>
-        <password>password</password>
+        <password>mysql_2QA45f</password>
     </jdbc>
 
     <generator>
@@ -61,7 +61,7 @@
 
         <!-- ==================== 输出目标 ==================== -->
         <target>
-            <packageName>com.ke.bella.openapi.generated</packageName>
+            <packageName>com.ke.bella.openapi.jooqgen</packageName>
             <directory>src/main/java</directory>
             <encoding>UTF-8</encoding>
         </target>

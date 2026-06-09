@@ -2,9 +2,7 @@ package com.ke.bella.openapi.protocol.tts;
 
 import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.common.response.RequestMetrics;
-import com.ke.bella.openapi.protocol.OpenapiResponse;
-import com.ke.bella.openapi.protocol.embedding.EmbeddingRequest;
-import com.ke.bella.openapi.protocol.tts.TtsRequest;
+import com.ke.bella.openapi.controller.endpoint.dto.TtsRequest;
 import com.ke.bella.openapi.protocol.log.EndpointLogHandler;
 import com.ke.bella.openapi.utils.DateTimeUtils;
 import com.ke.bella.openapi.utils.JacksonUtils;

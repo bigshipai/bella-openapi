@@ -1,10 +1,9 @@
 package com.ke.bella.openapi;
 
-import com.ke.bella.openapi.db.repo.ApikeyCostRepo;
-import com.ke.bella.openapi.service.ApikeyService;
+import com.ke.bella.openapi.domain.apikey.repo.ApikeyCostRepo;
+import com.ke.bella.openapi.domain.apikey.ApikeyService;
 import com.ke.bella.openapi.utils.DateTimeUtils;
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;

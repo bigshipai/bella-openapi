@@ -6,7 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import com.ke.bella.openapi.common.context.EndpointProcessData;
-import com.ke.bella.openapi.modules.apikey.ApikeyInfo;
+import com.ke.bella.openapi.controller.apikey.dto.ApikeyInfo;
 import com.ke.bella.openapi.common.exception.OneTokenException;
 import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.completion.ResponsesApiResponse;

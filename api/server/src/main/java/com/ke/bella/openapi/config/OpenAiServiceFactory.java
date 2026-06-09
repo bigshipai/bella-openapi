@@ -2,6 +2,7 @@ package com.ke.bella.openapi.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ke.bella.openapi.common.context.OneTokenContext;
+import com.ke.bella.openapi.config.properties.OneTokenApiProperties;
 import com.ke.bella.openapi.gateway.interceptor.BellaInterceptor;
 import com.theokanning.openai.client.OpenAiApi;
 import com.theokanning.openai.service.OpenAiService;

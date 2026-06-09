@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.math.BigDecimal;
 
-import static com.ke.bella.openapi.generated.Tables.APIKEY_MONTH_COST;
+import static com.ke.bella.openapi.jooqgen.Tables.APIKEY_MONTH_COST;
 
 @Component
 public class CacheRepoTest {

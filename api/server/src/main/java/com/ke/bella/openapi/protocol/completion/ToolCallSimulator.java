@@ -3,7 +3,7 @@ package com.ke.bella.openapi.protocol.completion;
 import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.protocol.Callbacks.StreamCompletionCallback;
 import com.ke.bella.openapi.protocol.completion.CompletionResponse.Choice;
-import com.ke.bella.openapi.simulation.SimulationHepler;
+import com.ke.bella.openapi.common.simulation.SimulationHepler;
 
 import lombok.extern.slf4j.Slf4j;
 

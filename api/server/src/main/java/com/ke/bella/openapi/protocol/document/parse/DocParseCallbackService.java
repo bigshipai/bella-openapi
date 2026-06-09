@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.protocol.document.parse;
 
-import com.ke.bella.openapi.TaskExecutor;
+import com.ke.bella.openapi.config.TaskExecutor;
 import com.ke.bella.openapi.protocol.AdaptorManager;
 import com.ke.bella.openapi.job.callback.CallbackTaskService;
 import com.ke.bella.openapi.job.callback.TaskCompletionCallback;
@@ -39,7 +39,7 @@ public class DocParseCallbackService extends CallbackTaskService<DocParseCallbac
 
     /**
      * 添加文档解析回调任务
-     * 
+     *
      * @param protocol        协议名称
      * @param taskId          任务ID
      * @param callbackUrl     回调地址

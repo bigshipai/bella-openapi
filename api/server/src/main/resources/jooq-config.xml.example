@@ -61,7 +61,7 @@
 
         <!-- ==================== 输出目标 ==================== -->
         <target>
-            <packageName>com.ke.bella.openapi.generated</packageName>
+            <packageName>com.ke.bella.openapi.jooqgen</packageName>
             <directory>src/main/java</directory>
             <encoding>UTF-8</encoding>
         </target>

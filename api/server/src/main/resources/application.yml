@@ -13,9 +13,9 @@ spring:
   profiles:
     active: dev
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/bella_openapi?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://192.168.160.128:3306/bella_openapi?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
     username: root
-    password: password
+    password: mysql_2QA45f
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       maximum-pool-size: 20
@@ -24,8 +24,8 @@ spring:
     redisson:
       config: |
         singleServerConfig:
-          address: "redis://127.0.0.1:6379"
-          password: "password"
+          address: "redis://192.168.160.128:6379"
+          password: "redis_mzYsNS"
         codec: !<org.redisson.client.codec.StringCodec> {}
   servlet:
     multipart:

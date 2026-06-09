@@ -1,7 +1,7 @@
 package com.ke.bella.openapi.protocol.log;
 
 import com.ke.bella.openapi.common.context.EndpointProcessData;
-import com.ke.bella.openapi.common.log.LogRepo;
+import com.ke.bella.openapi.domain.log.LogRepo;
 import com.lmax.disruptor.EventHandler;
 import lombok.Builder;
 import lombok.Data;

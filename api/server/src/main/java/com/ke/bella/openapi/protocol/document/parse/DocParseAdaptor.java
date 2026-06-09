@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.protocol.document.parse;
 
-import com.ke.bella.openapi.TaskExecutor;
+import com.ke.bella.openapi.config.TaskExecutor;
 import com.ke.bella.openapi.common.exception.OneTokenException;
 import com.ke.bella.openapi.protocol.IProtocolAdaptor;
 import com.ke.bella.openapi.utils.JacksonUtils;

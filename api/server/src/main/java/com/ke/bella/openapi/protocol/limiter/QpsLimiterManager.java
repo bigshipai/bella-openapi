@@ -1,8 +1,8 @@
 package com.ke.bella.openapi.protocol.limiter;
 
 import com.google.common.collect.Lists;
-import com.ke.bella.openapi.script.LuaScriptExecutor;
-import com.ke.bella.openapi.script.ScriptType;
+import com.ke.bella.openapi.common.script.LuaScriptExecutor;
+import com.ke.bella.openapi.common.script.ScriptType;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RMap;

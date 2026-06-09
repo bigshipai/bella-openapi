@@ -1,9 +1,9 @@
 package com.ke.bella.openapi.config;
 
-import com.ke.bella.openapi.TaskExecutor;
-import com.ke.bella.openapi.db.IDGenerator;
-import com.ke.bella.openapi.common.log.LogRepo;
-import com.ke.bella.openapi.db.repo.InstanceRepo;
+import com.ke.bella.openapi.config.properties.OneTokenApiProperties;
+import com.ke.bella.openapi.utils.IDGenerator;
+import com.ke.bella.openapi.domain.log.LogRepo;
+import com.ke.bella.openapi.domain.instance.InstanceRepo;
 import com.ke.bella.openapi.job.queue.QueueClient;
 import com.ke.bella.openapi.protocol.AdaptorManager;
 import com.ke.bella.openapi.protocol.IProtocolAdaptor;
@@ -11,8 +11,8 @@ import com.ke.bella.openapi.protocol.cost.CostCounter;
 import com.ke.bella.openapi.protocol.limiter.LimiterManager;
 import com.ke.bella.openapi.protocol.log.*;
 import com.ke.bella.openapi.protocol.metrics.MetricsManager;
-import com.ke.bella.openapi.modules.endpoint.EndpointService;
-import com.ke.bella.openapi.service.ApikeyService;
+import com.ke.bella.openapi.controller.endpoint.EndpointService;
+import com.ke.bella.openapi.domain.apikey.ApikeyService;
 import com.lmax.disruptor.RingBuffer;
 import com.lmax.disruptor.SleepingWaitStrategy;
 import com.lmax.disruptor.dsl.Disruptor;
@@ -98,6 +98,9 @@ public class OneTokenAutoConf {
 		return QueueClient.getInstance(oneTokenApiProperties.getHost());
 	}
 
+	/**
+	 * 优雅的关闭
+	 */
 	@PreDestroy
 	public void gracefulShutdown() {
 		TaskExecutor.shutdown();

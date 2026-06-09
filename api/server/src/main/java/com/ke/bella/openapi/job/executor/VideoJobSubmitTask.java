@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.job.executor;
 
-import com.ke.bella.openapi.db.repo.VideoRepo;
+import com.ke.bella.openapi.domain.video.VideoRepo;
 import com.ke.bella.openapi.protocol.AdaptorManager;
 import com.ke.bella.openapi.protocol.video.VideoAdaptor;
 import com.ke.bella.openapi.protocol.video.VideoCreateRequest;
@@ -9,8 +9,8 @@ import com.ke.bella.openapi.protocol.video.VideoJob;
 import com.ke.bella.openapi.protocol.video.VideoJob.Status;
 import com.ke.bella.openapi.protocol.video.VideoProperty;
 import com.ke.bella.openapi.job.queue.VideoJobQueues;
-import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
-import com.ke.bella.openapi.generated.tables.pojos.VideoJobDB;
+import com.ke.bella.openapi.jooqgen.tables.pojos.ChannelDB;
+import com.ke.bella.openapi.jooqgen.tables.pojos.VideoJobDB;
 import com.ke.bella.openapi.utils.JacksonUtils;
 
 import lombok.Builder;

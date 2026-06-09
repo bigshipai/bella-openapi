@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ke.bella.openapi.controller.endpoint.dto.TtsRequest;
 import com.ke.bella.openapi.protocol.IMemoryClearable;
 import com.ke.bella.openapi.protocol.ITransfer;
 import lombok.AllArgsConstructor;

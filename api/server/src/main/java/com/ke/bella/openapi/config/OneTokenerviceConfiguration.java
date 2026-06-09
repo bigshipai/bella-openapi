@@ -2,6 +2,7 @@ package com.ke.bella.openapi.config;
 
 import com.ke.bella.openapi.client.OneTokenServerClient;
 import com.ke.bella.openapi.common.constant.EntityConstants;
+import com.ke.bella.openapi.config.properties.OneTokenApiProperties;
 import com.ke.bella.openapi.gateway.interceptor.AuthorizationInterceptor;
 import com.ke.bella.openapi.gateway.interceptor.ConcurrentStartInterceptor;
 import com.ke.bella.openapi.gateway.interceptor.MonthQuotaInterceptor;

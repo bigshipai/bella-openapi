@@ -1,13 +1,13 @@
 package com.ke.bella.openapi.job.worker;
 
 import com.ke.bella.openapi.common.context.EndpointProcessData;
-import com.ke.bella.openapi.modules.apikey.ApikeyInfo;
+import com.ke.bella.openapi.controller.apikey.dto.ApikeyInfo;
 import com.ke.bella.openapi.common.exception.OneTokenException;
 import com.ke.bella.openapi.protocol.OpenapiResponse;
 import com.ke.bella.openapi.protocol.completion.StreamCompletionResponse;
 import com.ke.bella.openapi.protocol.completion.callback.StreamCompletionCallback;
-import com.ke.bella.openapi.modules.safety.ISafetyCheckService;
-import com.ke.bella.openapi.modules.safety.SafetyCheckRequest;
+import com.ke.bella.openapi.controller.safety.ISafetyCheckService;
+import com.ke.bella.openapi.controller.safety.SafetyCheckRequest;
 import com.ke.bella.openapi.job.queue.TaskWrapper;
 import lombok.extern.slf4j.Slf4j;
 

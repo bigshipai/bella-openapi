@@ -3,7 +3,7 @@ package com.ke.bella.openapi.endpoints.testdata;
 import com.ke.bella.openapi.protocol.images.ImagesRequest;
 import com.ke.bella.openapi.protocol.images.ImagesEditRequest;
 import com.ke.bella.openapi.protocol.images.ImagesResponse;
-import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
+import com.ke.bella.openapi.jooqgen.tables.pojos.ChannelDB;
 import lombok.Getter;
 import lombok.Setter;
 

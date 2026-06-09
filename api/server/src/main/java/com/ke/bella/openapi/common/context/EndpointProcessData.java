@@ -9,7 +9,7 @@ import org.apache.commons.lang3.SerializationUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ke.bella.openapi.modules.apikey.ApikeyInfo;
+import com.ke.bella.openapi.controller.apikey.dto.ApikeyInfo;
 import com.ke.bella.openapi.protocol.OpenapiResponse;
 import com.ke.bella.openapi.protocol.cost.CostDetails;
 

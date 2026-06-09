@@ -1,9 +1,9 @@
 package com.ke.bella.openapi.job.worker;
 
 import com.ke.bella.openapi.protocol.limiter.LimiterManager;
-import com.ke.bella.openapi.script.LuaScriptExecutor;
-import com.ke.bella.openapi.script.ScriptType;
-import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
+import com.ke.bella.openapi.common.script.LuaScriptExecutor;
+import com.ke.bella.openapi.common.script.ScriptType;
+import com.ke.bella.openapi.jooqgen.tables.pojos.ChannelDB;
 import com.ke.bella.openapi.utils.DateTimeUtils;
 import com.ke.bella.openapi.utils.JacksonUtils;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
 import org.redisson.api.RedissonClient;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;

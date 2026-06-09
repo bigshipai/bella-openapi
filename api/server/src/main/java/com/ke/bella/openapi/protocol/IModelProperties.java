@@ -1,7 +1,7 @@
 package com.ke.bella.openapi.protocol;
 
 import com.ke.bella.openapi.common.contract.IDescription;
-import com.ke.bella.openapi.modules.model.CompletionModelProperties;
+import com.ke.bella.openapi.controller.model.CompletionModelProperties;
 import com.ke.bella.openapi.protocol.tts.VoiceProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

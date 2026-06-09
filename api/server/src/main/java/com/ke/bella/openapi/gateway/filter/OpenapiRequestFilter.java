@@ -2,8 +2,8 @@ package com.ke.bella.openapi.gateway.filter;
 
 import com.ke.bella.openapi.common.context.OneTokenContext;
 import com.ke.bella.openapi.common.context.EndpointContext;
-import com.ke.bella.openapi.modules.apikey.ApikeyInfo;
-import com.ke.bella.openapi.service.ApikeyService;
+import com.ke.bella.openapi.controller.apikey.dto.ApikeyInfo;
+import com.ke.bella.openapi.domain.apikey.ApikeyService;
 import com.ke.bella.openapi.utils.DateTimeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

@@ -26,7 +26,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 //import com.ke.bella.openapi.EndpointProcessData;EndpointProcessData
 import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.OpenapiResponse;
-import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
+import com.ke.bella.openapi.jooqgen.tables.pojos.ChannelDB;
 //import com.ke.bella.openapi.worker.WorkerStreamingCallback;
 //import com.ke.bella.openapi.queue.QueueClient;
 //import com.ke.bella.openapi.queue.TaskWrapper;

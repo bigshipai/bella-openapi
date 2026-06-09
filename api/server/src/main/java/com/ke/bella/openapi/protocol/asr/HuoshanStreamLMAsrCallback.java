@@ -1,7 +1,7 @@
 package com.ke.bella.openapi.protocol.asr;
 
 import com.ke.bella.openapi.common.context.EndpointProcessData;
-import com.ke.bella.openapi.TaskExecutor;
+import com.ke.bella.openapi.config.TaskExecutor;
 import com.ke.bella.openapi.common.exception.OneTokenException;
 import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.log.EndpointLogger;

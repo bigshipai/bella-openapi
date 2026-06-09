@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.ke.bella.openapi.common.exception.OneTokenException;
+import com.ke.bella.openapi.controller.endpoint.dto.TtsRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
