@@ -15,7 +15,7 @@ import com.ke.bella.openapi.protocol.images.ImagesEditRequest;
 import com.ke.bella.openapi.protocol.images.ImagesVariationRequest;
 import com.ke.bella.openapi.protocol.images.ImagesResponse;
 import com.ke.bella.openapi.protocol.limiter.LimiterManager;
-import com.ke.bella.openapi.resource.endpoint.EndpointDataService;
+import com.ke.bella.openapi.modules.endpoint.EndpointDataService;
 import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
 import com.ke.bella.openapi.utils.ImagesEditRequestUtils;
 import com.ke.bella.openapi.utils.JacksonUtils;
@@ -69,9 +69,9 @@ public class ImagesController {
 
     /**
      * 图片编辑接口 - 使用工具类处理multipart请求
-     * 
+     *
      * @param servletRequest HTTP请求对象
-     * 
+     *
      * @return 编辑后的图片响应
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -104,9 +104,9 @@ public class ImagesController {
 
     /**
      * 图片变化接口
-     * 
+     *
      * @param request 图片变化请求参数
-     * 
+     *
      * @return 变化后的图片响应
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })

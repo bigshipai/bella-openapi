@@ -62,13 +62,25 @@ public class OpenAPIDocConfig {
                 .build();
     }
 
-    private OpenApiCustomizer customiseOpenApi() {
+	@Bean
+	public GroupedOpenApi oauthApi() {
+		return GroupedOpenApi.builder()
+			.group("Oauth")
+			.pathsToMatch("/openapi/**")
+//			.pathsToExclude("/v1/apikey/**", "/v1/meta/**")
+			.addOpenApiCustomizer(customiseOpenApi())
+			.build();
+	}
+
+
+
+	private OpenApiCustomizer customiseOpenApi() {
         return openApi -> openApi.getPaths().values().stream()
                 .flatMap(pathItem -> pathItem.readOperations().stream())
                 .forEach(operation -> operation.addParametersItem(new Parameter()
                         .in("header")
                         .name("Authorization")
-                        .required(true)
+                        .required(false)
                         .description("Authorization header")
                         .schema(new io.swagger.v3.oas.models.media.StringSchema())));
     }

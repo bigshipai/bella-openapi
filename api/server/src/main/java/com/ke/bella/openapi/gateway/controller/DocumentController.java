@@ -13,7 +13,7 @@ import com.ke.bella.openapi.protocol.document.parse.DocParseRequest;
 import com.ke.bella.openapi.protocol.document.parse.DocParseResponse;
 import com.ke.bella.openapi.protocol.document.parse.TaskIdUtils;
 import com.ke.bella.openapi.protocol.limiter.LimiterManager;
-import com.ke.bella.openapi.resource.endpoint.EndpointDataService;
+import com.ke.bella.openapi.modules.endpoint.EndpointDataService;
 import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
 import com.ke.bella.openapi.utils.JacksonUtils;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -25,8 +25,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import static com.ke.bella.openapi.protocol.document.parse.LarkClientUtils.deleteFile;
 
 @EndpointAPI
 @RestController

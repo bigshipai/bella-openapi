@@ -1,9 +1,9 @@
 package com.ke.bella.openapi.db.repo;
 
 import com.ke.bella.openapi.common.model.Operator;
-import com.ke.bella.openapi.apikey.ApikeyChangeLog;
-import com.ke.bella.openapi.apikey.ApikeyInfo;
-import com.ke.bella.openapi.apikey.ApikeyOps;
+import com.ke.bella.openapi.modules.apikey.ApikeyChangeLog;
+import com.ke.bella.openapi.modules.apikey.ApikeyInfo;
+import com.ke.bella.openapi.modules.apikey.ApikeyOps;
 import com.ke.bella.openapi.generated.tables.pojos.ApikeyDB;
 import com.ke.bella.openapi.generated.tables.records.ApikeyChangeLogRecord;
 import com.ke.bella.openapi.utils.JacksonUtils;

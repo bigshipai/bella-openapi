@@ -24,7 +24,7 @@ import com.ke.bella.openapi.protocol.ocr.overseaspassport.OverseasPassportAdapto
 import com.ke.bella.openapi.protocol.ocr.hmt_travel_permit.HmtTravelPermitAdaptor;
 import com.ke.bella.openapi.protocol.ocr.residence_permit.ResidencePermitAdaptor;
 import com.ke.bella.openapi.protocol.ocr.tmpidcard.TmpIdcardAdaptor;
-import com.ke.bella.openapi.resource.endpoint.EndpointDataService;
+import com.ke.bella.openapi.modules.endpoint.EndpointDataService;
 import com.ke.bella.openapi.utils.JacksonUtils;
 
 import io.swagger.v3.oas.annotations.tags.Tag;

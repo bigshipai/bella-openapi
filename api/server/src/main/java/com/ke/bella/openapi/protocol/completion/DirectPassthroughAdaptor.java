@@ -11,7 +11,7 @@ import com.ke.bella.openapi.common.context.OneTokenContext;
 import com.ke.bella.openapi.common.context.EndpointContext;
 import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.TaskExecutor;
-import com.ke.bella.openapi.apikey.ApikeyInfo;
+import com.ke.bella.openapi.modules.apikey.ApikeyInfo;
 import com.ke.bella.openapi.common.exception.OneTokenException;
 import com.ke.bella.openapi.protocol.AuthorizationProperty;
 import com.ke.bella.openapi.protocol.Callbacks;

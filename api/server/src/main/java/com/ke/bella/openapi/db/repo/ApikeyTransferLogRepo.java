@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.db.repo;
 
-import com.ke.bella.openapi.apikey.ApikeyTransferLog;
+import com.ke.bella.openapi.modules.apikey.ApikeyTransferLog;
 import com.ke.bella.openapi.generated.tables.records.ApikeyTransferLogRecord;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Component;

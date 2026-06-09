@@ -1,7 +1,7 @@
 package com.ke.bella.openapi.protocol;
 
 import com.ke.bella.openapi.common.contract.IDescription;
-import com.ke.bella.openapi.resource.model.CompletionModelFeatures;
+import com.ke.bella.openapi.modules.model.CompletionModelFeatures;
 import com.ke.bella.openapi.protocol.tts.TTSModelFeatures;
 import com.ke.bella.openapi.protocol.images.ImagesModelFeatures;
 import lombok.AllArgsConstructor;

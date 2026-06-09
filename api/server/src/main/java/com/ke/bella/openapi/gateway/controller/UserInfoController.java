@@ -4,7 +4,7 @@ import com.ke.bella.openapi.common.context.OneTokenContext;
 import com.ke.bella.openapi.common.model.Operator;
 import com.ke.bella.openapi.common.annotation.OneTokenAPI;
 import com.ke.bella.openapi.db.repo.UserRepo;
-import com.ke.bella.openapi.user.UserSearchResult;
+import com.ke.bella.openapi.modules.user.UserSearchResult;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

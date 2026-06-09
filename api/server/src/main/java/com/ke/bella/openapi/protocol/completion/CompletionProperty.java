@@ -2,7 +2,7 @@ package com.ke.bella.openapi.protocol.completion;
 
 import com.ke.bella.openapi.protocol.AuthorizationProperty;
 import com.ke.bella.openapi.protocol.IProtocolProperty;
-import com.ke.bella.openapi.safety.SafetyCheckMode;
+import com.ke.bella.openapi.modules.safety.SafetyCheckMode;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 

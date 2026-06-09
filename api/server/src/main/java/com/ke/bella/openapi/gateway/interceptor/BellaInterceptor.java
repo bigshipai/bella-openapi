@@ -9,7 +9,7 @@ import org.apache.commons.collections4.MapUtils;
 import org.jetbrains.annotations.NotNull;
 
 import com.ke.bella.openapi.common.model.Operator;
-import com.ke.bella.openapi.apikey.ApikeyInfo;
+import com.ke.bella.openapi.modules.apikey.ApikeyInfo;
 
 import lombok.NoArgsConstructor;
 import okhttp3.Interceptor;

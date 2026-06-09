@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.common.annotation.OneTokenAPI;
-import com.ke.bella.openapi.apikey.ApikeyInfo;
+import com.ke.bella.openapi.modules.apikey.ApikeyInfo;
 import com.ke.bella.openapi.common.exception.BizParamCheckException;
 import com.ke.bella.openapi.protocol.log.EndpointLogger;
 import com.ke.bella.openapi.service.ApikeyService;

@@ -15,7 +15,7 @@ import com.ke.bella.openapi.db.VideoIdGenerator;
 import com.ke.bella.openapi.db.repo.VideoRepo;
 import com.ke.bella.openapi.protocol.log.EndpointLogger;
 import com.ke.bella.openapi.protocol.video.ChannelVideoResult;
-import com.ke.bella.openapi.resource.channel.ChannelService;
+import com.ke.bella.openapi.modules.channel.ChannelService;
 import com.ke.bella.openapi.protocol.video.VideoCreateRequest;
 import com.ke.bella.openapi.protocol.video.VideoJob.Status;
 import com.ke.bella.openapi.job.queue.VideoJobQueues;

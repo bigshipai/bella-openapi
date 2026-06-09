@@ -9,7 +9,7 @@ import com.ke.bella.openapi.protocol.embedding.EmbeddingAdaptor;
 import com.ke.bella.openapi.protocol.embedding.EmbeddingProperty;
 import com.ke.bella.openapi.protocol.embedding.EmbeddingRequest;
 import com.ke.bella.openapi.protocol.limiter.LimiterManager;
-import com.ke.bella.openapi.resource.endpoint.EndpointDataService;
+import com.ke.bella.openapi.modules.endpoint.EndpointDataService;
 import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
 import com.ke.bella.openapi.utils.JacksonUtils;
 import io.swagger.v3.oas.annotations.tags.Tag;

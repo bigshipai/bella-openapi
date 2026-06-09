@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.gateway.controller;
 
-import com.ke.bella.openapi.apikey.ApikeyInfo;
+import com.ke.bella.openapi.modules.apikey.ApikeyInfo;
 import com.ke.bella.openapi.common.exception.BizParamCheckException;
 import com.ke.bella.openapi.gateway.route.ChannelRouter;
 import com.ke.bella.openapi.gateway.route.RouteRequest;

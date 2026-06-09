@@ -2,11 +2,11 @@ package com.ke.bella.openapi.gateway.controller;
 
 import com.ke.bella.openapi.common.annotation.EndpointAPI;
 import com.ke.bella.openapi.common.constant.EntityConstants;
-import com.ke.bella.openapi.resource.endpoint.Condition;
-import com.ke.bella.openapi.resource.model.Model;
+import com.ke.bella.openapi.modules.endpoint.Condition;
+import com.ke.bella.openapi.modules.model.Model;
 import com.ke.bella.openapi.protocol.model.ModelInfo;
 import com.ke.bella.openapi.protocol.model.ModelListResponse;
-import com.ke.bella.openapi.resource.model.ModelService;
+import com.ke.bella.openapi.modules.model.ModelService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;

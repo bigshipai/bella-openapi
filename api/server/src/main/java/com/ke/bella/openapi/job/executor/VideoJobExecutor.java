@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.TaskExecutor;
-import com.ke.bella.openapi.apikey.ApikeyInfo;
+import com.ke.bella.openapi.modules.apikey.ApikeyInfo;
 import com.ke.bella.openapi.db.repo.VideoRepo;
 import com.ke.bella.openapi.protocol.AdaptorManager;
 import com.ke.bella.openapi.protocol.limiter.ChannelRpmLimiter;
@@ -25,10 +25,10 @@ import com.ke.bella.openapi.protocol.video.VideoJob.Status;
 import com.ke.bella.openapi.protocol.video.VideoProperty;
 import com.ke.bella.openapi.job.queue.VideoJobQueues;
 import com.ke.bella.openapi.config.OpenAiServiceFactory;
-import com.ke.bella.openapi.config.OpenapiProperties;
+import com.ke.bella.openapi.config.OneTokenApiProperties;
 import com.ke.bella.openapi.service.ApikeyService;
-import com.ke.bella.openapi.resource.channel.ChannelService;
-import com.ke.bella.openapi.resource.model.ModelService;
+import com.ke.bella.openapi.modules.channel.ChannelService;
+import com.ke.bella.openapi.modules.model.ModelService;
 import com.ke.bella.openapi.service.VideoService;
 import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
 import com.ke.bella.openapi.generated.tables.pojos.VideoJobDB;
@@ -63,7 +63,7 @@ public class VideoJobExecutor {
     private AdaptorManager adaptorManager;
 
     @Resource
-    private OpenapiProperties openapiProperties;
+    private OneTokenApiProperties oneTokenApiProperties;
 
     @Resource
     private VideoService videoService;
@@ -108,7 +108,7 @@ public class VideoJobExecutor {
         validateConfig();
 
         videoFileService = openAiServiceFactory.create(
-                openapiProperties.getServiceAk(),
+                oneTokenApiProperties.getServiceAk(),
                 VIDEO_FILE_CONNECT_TIMEOUT,
                 VIDEO_FILE_READ_TIMEOUT);
         log.info("[VideoJob] Created video file service with timeout: connect={}s, read={}s",

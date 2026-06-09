@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.common.context;
 
-import com.ke.bella.openapi.apikey.ApikeyInfo;
+import com.ke.bella.openapi.modules.apikey.ApikeyInfo;
 import com.ke.bella.openapi.common.constant.EntityConstants;
 import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
 import org.apache.commons.lang3.StringUtils;

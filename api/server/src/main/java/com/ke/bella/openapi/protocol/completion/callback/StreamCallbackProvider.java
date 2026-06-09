@@ -1,13 +1,13 @@
 package com.ke.bella.openapi.protocol.completion.callback;
 
 import com.ke.bella.openapi.common.context.EndpointProcessData;
-import com.ke.bella.openapi.apikey.ApikeyInfo;
+import com.ke.bella.openapi.modules.apikey.ApikeyInfo;
 import com.ke.bella.openapi.protocol.Callbacks;
 import com.ke.bella.openapi.protocol.completion.CompletionProperty;
 import com.ke.bella.openapi.protocol.log.EndpointLogger;
 import com.ke.bella.openapi.protocol.message.StreamMessagesCallback;
-import com.ke.bella.openapi.safety.ISafetyCheckService;
-import com.ke.bella.openapi.safety.SafetyCheckRequest;
+import com.ke.bella.openapi.modules.safety.ISafetyCheckService;
+import com.ke.bella.openapi.modules.safety.SafetyCheckRequest;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 public class StreamCallbackProvider {

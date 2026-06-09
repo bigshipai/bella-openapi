@@ -15,7 +15,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import com.ke.bella.openapi.common.context.OneTokenContext;
 import com.ke.bella.openapi.common.context.EndpointContext;
 import com.ke.bella.openapi.common.model.Operator;
-import com.ke.bella.openapi.apikey.ApikeyInfo;
+import com.ke.bella.openapi.modules.apikey.ApikeyInfo;
 import com.ke.bella.openapi.common.exception.OneTokenException;
 import com.ke.bella.openapi.service.ApikeyService;
 
@@ -42,7 +42,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        // Check if there's an operator context (console/admin access via LoginFilter)
+        // Check if there's an operator context (console/admin access via SessionAuthFilter)
         Operator op = OneTokenContext.getOperatorIgnoreNull();
         if (op != null) {
             String apikey = op.getManagerAk();

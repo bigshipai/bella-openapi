@@ -1,15 +1,14 @@
 package com.ke.bella.openapi.job.worker;
 
 import com.ke.bella.openapi.TaskExecutor;
-import com.ke.bella.openapi.client.OpenapiClient;
+import com.ke.bella.openapi.client.OneTokenServerClient;
 import com.ke.bella.openapi.protocol.AdaptorManager;
 import com.ke.bella.openapi.protocol.limiter.LimiterManager;
 import com.ke.bella.openapi.job.queue.TaskWrapper;
-import com.ke.bella.openapi.safety.ISafetyCheckService;
-import com.ke.bella.openapi.safety.SafetyCheckRequest;
+import com.ke.bella.openapi.modules.safety.ISafetyCheckService;
+import com.ke.bella.openapi.modules.safety.SafetyCheckRequest;
 import com.ke.bella.openapi.script.LuaScriptExecutor;
 import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
-import com.ke.bella.openapi.job.worker.Worker;
 import com.theokanning.openai.queue.Take;
 import com.theokanning.openai.service.OpenAiService;
 import lombok.Builder;
@@ -35,7 +34,7 @@ public class WorkerContext {
     private final ChannelDB channel;
     private final RedissonClient redissonClient;
     private final OpenAiService openAiService;
-    private final OpenapiClient openapiClient;
+    private final OneTokenServerClient oneTokenServerClient;
     private final AdaptorManager adaptorManager;
     private final LuaScriptExecutor luaScriptExecutor;
     private final LimiterManager limiterManager;
@@ -48,7 +47,7 @@ public class WorkerContext {
         TaskProcessor taskProcessor = TaskProcessor.builder()
                 .channel(channel)
                 .adaptorManager(adaptorManager)
-                .openapiClient(openapiClient)
+                .oneTokenServerClient(oneTokenServerClient)
                 .chatSafetyCheckService(chatSafetyCheckService)
                 .build();
         Map<String, Object> channelInfoMap = JacksonUtils.toMap(channel.getChannelInfo());
@@ -94,7 +93,7 @@ public class WorkerContext {
     @Slf4j
     public static class BackoffTask implements Runnable {
         private final Worker worker;
-        private OpenapiClient openapiClient;
+        private OneTokenServerClient oneTokenServerClient;
         private final RedissonClient redissonClient;
         private final CapacityCalculator capacityCalculator;
         private final ChannelDB channel;

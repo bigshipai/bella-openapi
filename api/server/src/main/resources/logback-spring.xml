@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <define name="INSTANCE_IDENTIFIER" class="com.ke.bella.openapi.config.InstanceIdentifierPropertyDefiner"/>
+    <define name="INSTANCE_IDENTIFIER" class="com.ke.bella.openapi.config.LogbackIdentifierPropertyDefiner"/>
     <property name="LOG_FILE_MAX_HISTORY" value="7"/>
     <property name="FILE_MAX_SIZE" value="300MB"/>
     <property name="LOG_TOTAL_FILE_SIZE" value="2GB"/>

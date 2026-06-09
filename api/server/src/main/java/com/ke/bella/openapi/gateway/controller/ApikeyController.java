@@ -2,9 +2,9 @@ package com.ke.bella.openapi.gateway.controller;
 
 import com.ke.bella.openapi.common.context.EndpointContext;
 import com.ke.bella.openapi.common.annotation.OneTokenAPI;
-import com.ke.bella.openapi.apikey.ApikeyCreateOp;
-import com.ke.bella.openapi.apikey.ApikeyInfo;
-import com.ke.bella.openapi.apikey.SubApikeyUpdateOp;
+import com.ke.bella.openapi.modules.apikey.ApikeyCreateOp;
+import com.ke.bella.openapi.modules.apikey.ApikeyInfo;
+import com.ke.bella.openapi.modules.apikey.SubApikeyUpdateOp;
 import com.ke.bella.openapi.service.ApikeyService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.collections4.CollectionUtils;

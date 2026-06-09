@@ -2,8 +2,8 @@ package com.ke.bella.openapi.job.worker;
 
 import com.ke.bella.openapi.common.context.EndpointContext;
 import com.ke.bella.openapi.common.context.EndpointProcessData;
-import com.ke.bella.openapi.apikey.ApikeyInfo;
-import com.ke.bella.openapi.client.OpenapiClient;
+import com.ke.bella.openapi.modules.apikey.ApikeyInfo;
+import com.ke.bella.openapi.client.OneTokenServerClient;
 import com.ke.bella.openapi.common.constant.EntityConstants;
 import com.ke.bella.openapi.protocol.AdaptorManager;
 import com.ke.bella.openapi.protocol.Callbacks;
@@ -15,8 +15,8 @@ import com.ke.bella.openapi.protocol.completion.CompletionResponse;
 import com.ke.bella.openapi.protocol.completion.callback.MergeReasoningCallback;
 import com.ke.bella.openapi.protocol.completion.callback.SplitReasoningCallback;
 import com.ke.bella.openapi.protocol.completion.callback.ToolCallSimulatorCallback;
-import com.ke.bella.openapi.safety.ISafetyCheckService;
-import com.ke.bella.openapi.safety.SafetyCheckRequest;
+import com.ke.bella.openapi.modules.safety.ISafetyCheckService;
+import com.ke.bella.openapi.modules.safety.SafetyCheckRequest;
 import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
 import com.ke.bella.openapi.utils.JacksonUtils;
 import com.ke.bella.openapi.job.queue.TaskWrapper;
@@ -35,7 +35,7 @@ public class TaskProcessor {
 
     private final ChannelDB channel;
     private final AdaptorManager adaptorManager;
-    private final OpenapiClient openapiClient;
+    private final OneTokenServerClient oneTokenServerClient;
     private final ISafetyCheckService<SafetyCheckRequest.Chat> chatSafetyCheckService;
 
     public void executeTask(TaskWrapper taskWrapper, Runnable releaseSlot) {
@@ -87,7 +87,7 @@ public class TaskProcessor {
 
         EndpointContext.setEncodingType(property.getEncodingType());
         if(request.isStream()) {
-            ApikeyInfo apikeyInfo = openapiClient.whoami(taskWrapper.getTask().getAk());
+            ApikeyInfo apikeyInfo = oneTokenServerClient.whoami(taskWrapper.getTask().getAk());
             Callbacks.StreamCompletionCallbackNode root = new SplitReasoningCallback(property);
             root.addLast(new ToolCallSimulatorCallback(processData));
             root.addLast(new MergeReasoningCallback(property));

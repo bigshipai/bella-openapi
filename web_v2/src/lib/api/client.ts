@@ -174,6 +174,15 @@ apiClient.interceptors.response.use(
 
           if (!isUserInfoRequest && loginUrl && typeof window !== 'undefined') {
 
+            // 防止重定向循环：已在登录页则不跳转
+            const currentPath = window.location.pathname;
+            const isOnLoginPage = currentPath === '/login' || currentPath.startsWith('/login/')
+                || /\/[a-z]{2}-[A-Z]{2}\/login/.test(currentPath);
+            if (isOnLoginPage) {
+              // 已在登录页，不重复跳转，让 Promise reject 以便调用方处理
+              break;
+            }
+
             // CAS模式：直接跳转到企业登录页
             // 添加回跳 URL 参数（包含当前页面地址）
             const redirectUrl = loginUrl + encodeURIComponent(window.location.href);

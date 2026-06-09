@@ -3,7 +3,7 @@ package com.ke.bella.openapi.gateway.interceptor;
 import com.ke.bella.openapi.common.context.OneTokenContext;
 import com.ke.bella.openapi.common.context.EndpointContext;
 import com.ke.bella.openapi.common.model.Operator;
-import com.ke.bella.openapi.apikey.ApikeyInfo;
+import com.ke.bella.openapi.modules.apikey.ApikeyInfo;
 import com.ke.bella.openapi.common.constant.EntityConstants;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;

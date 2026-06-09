@@ -24,7 +24,7 @@ import com.ke.bella.openapi.protocol.completion.ResponsesApiRequest;
 import com.ke.bella.openapi.protocol.completion.ResponsesApiResponse;
 import com.ke.bella.openapi.protocol.completion.callback.ResponsesApiSseCallback;
 import com.ke.bella.openapi.protocol.log.EndpointLogger;
-import com.ke.bella.openapi.resource.endpoint.EndpointDataService;
+import com.ke.bella.openapi.modules.endpoint.EndpointDataService;
 import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
 import com.ke.bella.openapi.utils.DateTimeUtils;
 import com.ke.bella.openapi.utils.JacksonUtils;

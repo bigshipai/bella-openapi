@@ -2,7 +2,7 @@ package com.ke.bella.openapi.config;
 
 import com.ke.bella.openapi.TaskExecutor;
 import com.ke.bella.openapi.db.IDGenerator;
-import com.ke.bella.openapi.db.log.LogRepo;
+import com.ke.bella.openapi.common.log.LogRepo;
 import com.ke.bella.openapi.db.repo.InstanceRepo;
 import com.ke.bella.openapi.job.queue.QueueClient;
 import com.ke.bella.openapi.protocol.AdaptorManager;
@@ -11,7 +11,7 @@ import com.ke.bella.openapi.protocol.cost.CostCounter;
 import com.ke.bella.openapi.protocol.limiter.LimiterManager;
 import com.ke.bella.openapi.protocol.log.*;
 import com.ke.bella.openapi.protocol.metrics.MetricsManager;
-import com.ke.bella.openapi.resource.endpoint.EndpointService;
+import com.ke.bella.openapi.modules.endpoint.EndpointService;
 import com.ke.bella.openapi.service.ApikeyService;
 import com.lmax.disruptor.RingBuffer;
 import com.lmax.disruptor.SleepingWaitStrategy;
@@ -31,7 +31,7 @@ import java.util.Objects;
  * @ EnableConfigurationProperties 的动作：它告诉 Spring，“
  * 请把 OpenapiProperties 这个类实例化，并把它当作一个 Bean 放入 Spring 容器中管理”。
  */
-@EnableConfigurationProperties(OpenapiProperties.class)
+@EnableConfigurationProperties(OneTokenApiProperties.class)
 @Configuration
 public class OneTokenAutoConf {
 
@@ -53,8 +53,8 @@ public class OneTokenAutoConf {
 	 */
 	@PostConstruct
 	public void registerInstance() {
-		Long id = instanceRepo.register(BellaServerContextHolder.getIp(),
-			Objects.requireNonNull(BellaServerContextHolder.getPort()));
+		Long id = instanceRepo.register(OneTokenContextHolder.getIp(),
+			Objects.requireNonNull(OneTokenContextHolder.getPort()));
 		IDGenerator.setInstanceId(id);
 	}
 
@@ -94,8 +94,8 @@ public class OneTokenAutoConf {
 	}
 
 	@Bean
-	public QueueClient queueClient(OpenapiProperties openapiProperties) {
-		return QueueClient.getInstance(openapiProperties.getHost());
+	public QueueClient queueClient(OneTokenApiProperties oneTokenApiProperties) {
+		return QueueClient.getInstance(oneTokenApiProperties.getHost());
 	}
 
 	@PreDestroy
@@ -108,6 +108,6 @@ public class OneTokenAutoConf {
 			costCounter.flush();
 		}
 
-		instanceRepo.unregister(BellaServerContextHolder.getIp(), BellaServerContextHolder.getPort());
+		instanceRepo.unregister(OneTokenContextHolder.getIp(), OneTokenContextHolder.getPort());
 	}
 }

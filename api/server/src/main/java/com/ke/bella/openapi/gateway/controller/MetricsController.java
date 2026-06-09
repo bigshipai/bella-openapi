@@ -2,11 +2,11 @@ package com.ke.bella.openapi.gateway.controller;
 
 import com.ke.bella.openapi.common.annotation.OneTokenAPI;
 import com.ke.bella.openapi.common.constant.EntityConstants;
-import com.ke.bella.openapi.resource.endpoint.Condition;
+import com.ke.bella.openapi.modules.endpoint.Condition;
 import com.ke.bella.openapi.protocol.metrics.MetricsManager;
 import com.ke.bella.openapi.protocol.metrics.MetricsQueryResult;
-import com.ke.bella.openapi.resource.channel.ChannelService;
-import com.ke.bella.openapi.resource.model.ModelService;
+import com.ke.bella.openapi.modules.channel.ChannelService;
+import com.ke.bella.openapi.modules.model.ModelService;
 import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
 import com.ke.bella.openapi.generated.tables.pojos.ModelDB;
 import io.swagger.v3.oas.annotations.tags.Tag;

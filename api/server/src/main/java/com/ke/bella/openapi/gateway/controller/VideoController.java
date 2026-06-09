@@ -33,9 +33,9 @@ import com.ke.bella.openapi.protocol.video.VideoJob;
 import com.ke.bella.openapi.protocol.video.VideoJob.Status;
 import com.ke.bella.openapi.protocol.video.VideoRemixRequest;
 import com.ke.bella.openapi.config.OpenAiServiceFactory;
-import com.ke.bella.openapi.config.OpenapiProperties;
-import com.ke.bella.openapi.resource.channel.ChannelService;
-import com.ke.bella.openapi.resource.model.ModelService;
+import com.ke.bella.openapi.config.OneTokenApiProperties;
+import com.ke.bella.openapi.modules.channel.ChannelService;
+import com.ke.bella.openapi.modules.model.ModelService;
 import com.ke.bella.openapi.service.VideoService;
 import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
 import com.ke.bella.openapi.generated.tables.pojos.ModelDB;
@@ -67,7 +67,7 @@ public class VideoController {
     OpenAiServiceFactory openAiServiceFactory;
 
     @Autowired
-    OpenapiProperties openapiProperties;
+	OneTokenApiProperties oneTokenApiProperties;
 
     private OpenAiService videoFileService;
 
@@ -77,7 +77,7 @@ public class VideoController {
     @PostConstruct
     public void init() {
         videoFileService = openAiServiceFactory.create(
-                openapiProperties.getServiceAk(),
+                oneTokenApiProperties.getServiceAk(),
                 VIDEO_FILE_CONNECT_TIMEOUT,
                 VIDEO_FILE_READ_TIMEOUT);
         log.info("[VideoJob] Created video file service for controller with timeout: connect={}s, read={}s",

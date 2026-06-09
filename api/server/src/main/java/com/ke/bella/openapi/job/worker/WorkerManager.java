@@ -1,15 +1,15 @@
 package com.ke.bella.openapi.job.worker;
 
 import com.ke.bella.openapi.TaskExecutor;
-import com.ke.bella.openapi.client.OpenapiClient;
+import com.ke.bella.openapi.client.OneTokenServerClient;
 import com.ke.bella.openapi.protocol.AdaptorManager;
 import com.ke.bella.openapi.protocol.limiter.LimiterManager;
-import com.ke.bella.openapi.safety.ISafetyCheckService;
-import com.ke.bella.openapi.safety.SafetyCheckRequest;
+import com.ke.bella.openapi.modules.safety.ISafetyCheckService;
+import com.ke.bella.openapi.modules.safety.SafetyCheckRequest;
 import com.ke.bella.openapi.script.LuaScriptExecutor;
 import com.ke.bella.openapi.config.OpenAiServiceFactory;
-import com.ke.bella.openapi.config.OpenapiProperties;
-import com.ke.bella.openapi.resource.channel.ChannelService;
+import com.ke.bella.openapi.config.OneTokenApiProperties;
+import com.ke.bella.openapi.modules.channel.ChannelService;
 import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
 import com.theokanning.openai.service.OpenAiService;
 import lombok.Getter;
@@ -41,9 +41,9 @@ public class WorkerManager {
     @Resource
     private OpenAiServiceFactory openAiServiceFactory;
     @Resource
-    private OpenapiProperties openapiProperties;
+    private OneTokenApiProperties oneTokenApiProperties;
     @Resource
-    private OpenapiClient openapiClient;
+    private OneTokenServerClient oneTokenServerClient;
     @Resource
     private LuaScriptExecutor luaScriptExecutor;
     @Resource
@@ -69,7 +69,7 @@ public class WorkerManager {
 
     @PostConstruct
     public void init() {
-        openAiService = openAiServiceFactory.create(openapiProperties.getServiceAk());
+        openAiService = openAiServiceFactory.create(oneTokenApiProperties.getServiceAk());
         TaskExecutor.scheduleAtFixedRate(() -> {
             try {
                 refreshWorkers();
@@ -103,7 +103,7 @@ public class WorkerManager {
                             .channel(channel)
                             .redissonClient(redissonClient)
                             .openAiService(openAiService)
-                            .openapiClient(openapiClient)
+                            .oneTokenServerClient(oneTokenServerClient)
                             .adaptorManager(adaptorManager)
                             .luaScriptExecutor(luaScriptExecutor)
                             .limiterManager(limiterManager)

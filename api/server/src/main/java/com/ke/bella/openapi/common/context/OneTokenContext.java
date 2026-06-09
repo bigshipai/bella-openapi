@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.common.context;
 
-import com.ke.bella.openapi.apikey.ApikeyInfo;
+import com.ke.bella.openapi.modules.apikey.ApikeyInfo;
 import com.ke.bella.openapi.common.model.Operator;
 import com.ke.bella.openapi.utils.JacksonUtils;
 import org.springframework.beans.BeanUtils;

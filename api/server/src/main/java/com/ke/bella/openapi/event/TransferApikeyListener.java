@@ -1,9 +1,8 @@
 package com.ke.bella.openapi.event;
 
-import com.ke.bella.openapi.apikey.ApikeyInfo;
-import com.ke.bella.openapi.apikey.ApikeyOps;
+import com.ke.bella.openapi.modules.apikey.ApikeyInfo;
+import com.ke.bella.openapi.modules.apikey.ApikeyOps;
 import com.ke.bella.openapi.db.repo.ApikeyRepo;
-import com.ke.bella.openapi.event.ApiKeyTransferEvent;
 import com.ke.bella.openapi.service.ApikeyService;
 import com.ke.bella.openapi.generated.tables.pojos.ApikeyDB;
 import lombok.extern.slf4j.Slf4j;

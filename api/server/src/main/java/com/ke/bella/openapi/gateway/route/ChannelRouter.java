@@ -1,15 +1,15 @@
 package com.ke.bella.openapi.gateway.route;
 
 import com.ke.bella.openapi.common.context.EndpointContext;
-import com.ke.bella.openapi.apikey.ApikeyInfo;
+import com.ke.bella.openapi.modules.apikey.ApikeyInfo;
 import com.ke.bella.openapi.protocol.AdaptorManager;
 import com.ke.bella.openapi.common.constant.EntityConstants;
 import com.ke.bella.openapi.common.exception.BizParamCheckException;
 import com.ke.bella.openapi.common.exception.OneTokenException;
 import com.ke.bella.openapi.protocol.limiter.LimiterManager;
 import com.ke.bella.openapi.protocol.metrics.MetricsManager;
-import com.ke.bella.openapi.resource.channel.ChannelService;
-import com.ke.bella.openapi.resource.model.ModelService;
+import com.ke.bella.openapi.modules.channel.ChannelService;
+import com.ke.bella.openapi.modules.model.ModelService;
 import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
 import com.ke.bella.openapi.job.queue.QueueMode;
 import org.apache.commons.collections4.CollectionUtils;

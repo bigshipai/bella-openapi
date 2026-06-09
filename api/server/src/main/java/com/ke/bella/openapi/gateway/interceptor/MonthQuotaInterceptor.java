@@ -1,7 +1,7 @@
 package com.ke.bella.openapi.gateway.interceptor;
 
 import com.ke.bella.openapi.common.context.EndpointContext;
-import com.ke.bella.openapi.apikey.ApikeyInfo;
+import com.ke.bella.openapi.modules.apikey.ApikeyInfo;
 import com.ke.bella.openapi.common.exception.OneTokenException;
 import com.ke.bella.openapi.service.ApikeyService;
 import com.ke.bella.openapi.utils.DateTimeUtils;

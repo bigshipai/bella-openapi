@@ -17,10 +17,10 @@ import java.util.concurrent.TimeUnit;
  */
 public class OpenAiServiceFactory {
 
-    private final OpenapiProperties openapiProperties;
+    private final OneTokenApiProperties oneTokenApiProperties;
 
-    public OpenAiServiceFactory(OpenapiProperties openapiProperties) {
-        this.openapiProperties = openapiProperties;
+    public OpenAiServiceFactory(OneTokenApiProperties oneTokenApiProperties) {
+        this.oneTokenApiProperties = oneTokenApiProperties;
     }
 
     /**
@@ -39,12 +39,12 @@ public class OpenAiServiceFactory {
 
         // 创建带有自定义超时的client
         OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(new BellaInterceptor(openapiProperties.getHost(), OneTokenContext.snapshot()))
+                .addInterceptor(new BellaInterceptor(oneTokenApiProperties.getHost(), OneTokenContext.snapshot()))
                 .connectTimeout(connectTimeoutSeconds, TimeUnit.SECONDS)
                 .readTimeout(readTimeoutSeconds, TimeUnit.SECONDS)
                 .build();
 
-        Retrofit retrofit = OpenAiService.defaultRetrofit(client, mapper, openapiProperties.getHost() + "/v1/");
+        Retrofit retrofit = OpenAiService.defaultRetrofit(client, mapper, oneTokenApiProperties.getHost() + "/v1/");
         OpenAiApi openAiApi = retrofit.create(OpenAiApi.class);
         ExecutorService executorService = client.dispatcher().executorService();
 
@@ -63,7 +63,7 @@ public class OpenAiServiceFactory {
 
         // 创建带有自定义超时的client
         OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(new BellaInterceptor(openapiProperties.getHost(), OneTokenContext.snapshot()))
+                .addInterceptor(new BellaInterceptor(oneTokenApiProperties.getHost(), OneTokenContext.snapshot()))
                 .addInterceptor(chain -> {
                     Request originalRequest = chain.request();
                     Request.Builder bellaRequest = originalRequest.newBuilder();
@@ -74,7 +74,7 @@ public class OpenAiServiceFactory {
                 .readTimeout(readTimeoutSeconds, TimeUnit.SECONDS)
                 .build();
 
-        Retrofit retrofit = OpenAiService.defaultRetrofit(client, mapper, openapiProperties.getHost() + "/v1/");
+        Retrofit retrofit = OpenAiService.defaultRetrofit(client, mapper, oneTokenApiProperties.getHost() + "/v1/");
         OpenAiApi openAiApi = retrofit.create(OpenAiApi.class);
         ExecutorService executorService = client.dispatcher().executorService();
 

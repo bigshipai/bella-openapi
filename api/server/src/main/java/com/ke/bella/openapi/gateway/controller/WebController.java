@@ -18,7 +18,7 @@ import com.ke.bella.openapi.protocol.web.WebSearchAdaptor;
 import com.ke.bella.openapi.protocol.web.WebSearchProperty;
 import com.ke.bella.openapi.protocol.web.WebSearchRequest;
 import com.ke.bella.openapi.protocol.web.WebSearchResponse;
-import com.ke.bella.openapi.resource.endpoint.EndpointDataService;
+import com.ke.bella.openapi.modules.endpoint.EndpointDataService;
 import com.ke.bella.openapi.generated.tables.pojos.ChannelDB;
 import com.ke.bella.openapi.utils.JacksonUtils;
 import io.swagger.v3.oas.annotations.Operation;

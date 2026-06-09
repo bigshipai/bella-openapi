@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  */
 @Data
 @Component
-@ConfigurationProperties(prefix = "bella.request.optimization")
+@ConfigurationProperties(prefix = "one-token.request.optimization")
 public class RequestOptimizationConfig {
 
     /**

@@ -14,15 +14,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ke.bella.openapi.common.model.Operator;
-import com.ke.bella.openapi.apikey.ApikeyInfo;
+import com.ke.bella.openapi.modules.apikey.ApikeyInfo;
 import com.ke.bella.openapi.common.constant.EntityConstants;
-import com.ke.bella.openapi.login.user.IUserRepo;
+import com.ke.bella.openapi.modules.login.user.IUserRepo;
 import com.ke.bella.openapi.generated.tables.pojos.UserDB;
 import com.ke.bella.openapi.generated.tables.records.UserRecord;
-import com.ke.bella.openapi.user.UserSearchResult;
+import com.ke.bella.openapi.modules.user.UserSearchResult;
 import com.ke.bella.openapi.utils.EncryptUtils;
 import com.ke.bella.openapi.utils.JacksonUtils;
-import org.springframework.util.Assert;
 
 import java.util.List;
 
