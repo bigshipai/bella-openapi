@@ -1,2 +1,2 @@
 org.springframework.context.ApplicationContextInitializer=\
-com.ke.bella.openapi.initialize.OneTokenContextInitializer
+com.ke.bella.openapi.config.initialize.OneTokenContextInitializer

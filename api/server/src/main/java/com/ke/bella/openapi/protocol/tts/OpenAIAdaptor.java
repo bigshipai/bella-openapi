@@ -49,7 +49,7 @@ public class OpenAIAdaptor implements TtsAdaptor<OpenAIProperty> {
 
     private Request buildRequest(TtsRequest request, String url, OpenAIProperty property) {
         if(StringUtils.isNotBlank(property.deployName)) {
-            request.model = property.deployName;
+            request.setModel(property.deployName);
         }
         Request.Builder builder = authorizationRequestBuilder(property.getAuth())
                 .url(url)

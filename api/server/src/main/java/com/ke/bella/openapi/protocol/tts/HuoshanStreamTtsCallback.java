@@ -272,7 +272,7 @@ public class HuoshanStreamTtsCallback implements Callbacks.WebSocketCallback {
 
         public AudioParams(TtsRequest request) {
             this.speechRate = resolveSpeechRate(request);
-            this.format = request.responseFormat;
+            this.format = request.getResponseFormat();
         }
 
         private Number resolveSpeechRate(TtsRequest request) {
@@ -284,7 +284,7 @@ public class HuoshanStreamTtsCallback implements Callbacks.WebSocketCallback {
             if(speechRate != null) {
                 return speechRate;
             }
-            return convertSpeedToSpeechRate(request.speed);
+            return convertSpeedToSpeechRate(request.getSpeed());
         }
 
         private Number getSpeechRateFromRequestAudioParams(TtsRequest request) {
@@ -351,11 +351,11 @@ public class HuoshanStreamTtsCallback implements Callbacks.WebSocketCallback {
                 }
             }
 
-            this.text = request.input;
-            if(request.voice == null) {
+            this.text = request.getInput();
+            if(request.getVoice() == null) {
                 this.speaker = "zh_female_shuangkuaisisi_moon_bigtts";
             } else {
-                this.speaker = request.voice;
+                this.speaker = request.getVoice();
             }
 
             if (this.textType == null) {
