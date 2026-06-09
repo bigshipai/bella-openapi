@@ -20,7 +20,7 @@ import org.jooq.impl.UpdatableRecordImpl;
  * 用户表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Record10<Long, String, String, String, String, String, String, LocalDateTime, LocalDateTime, String> {
+public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Record10<Long, String, String, String, String, String, String, String, LocalDateTime, LocalDateTime> {
 
     private static final long serialVersionUID = 1L;
 
@@ -67,101 +67,101 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
     }
 
     /**
+     * Setter for <code>user.password</code>. 密码
+     */
+    public void setPassword(String value) {
+        set(3, value);
+    }
+
+    /**
+     * Getter for <code>user.password</code>. 密码
+     */
+    public String getPassword() {
+        return (String) get(3);
+    }
+
+    /**
      * Setter for <code>user.source</code>. 用户来源
      */
     public void setSource(String value) {
-        set(3, value);
+        set(4, value);
     }
 
     /**
      * Getter for <code>user.source</code>. 用户来源
      */
     public String getSource() {
-        return (String) get(3);
+        return (String) get(4);
     }
 
     /**
      * Setter for <code>user.source_id</code>. 来源ID
      */
     public void setSourceId(String value) {
-        set(4, value);
+        set(5, value);
     }
 
     /**
      * Getter for <code>user.source_id</code>. 来源ID
      */
     public String getSourceId() {
-        return (String) get(4);
+        return (String) get(5);
     }
 
     /**
      * Setter for <code>user.manager_ak</code>. 管理员ak-code
      */
     public void setManagerAk(String value) {
-        set(5, value);
+        set(6, value);
     }
 
     /**
      * Getter for <code>user.manager_ak</code>. 管理员ak-code
      */
     public String getManagerAk() {
-        return (String) get(5);
+        return (String) get(6);
     }
 
     /**
      * Setter for <code>user.optional_info</code>. 扩展信息
      */
     public void setOptionalInfo(String value) {
-        set(6, value);
+        set(7, value);
     }
 
     /**
      * Getter for <code>user.optional_info</code>. 扩展信息
      */
     public String getOptionalInfo() {
-        return (String) get(6);
+        return (String) get(7);
     }
 
     /**
      * Setter for <code>user.ctime</code>. 创建时间
      */
     public void setCtime(LocalDateTime value) {
-        set(7, value);
+        set(8, value);
     }
 
     /**
      * Getter for <code>user.ctime</code>. 创建时间
      */
     public LocalDateTime getCtime() {
-        return (LocalDateTime) get(7);
+        return (LocalDateTime) get(8);
     }
 
     /**
      * Setter for <code>user.mtime</code>. 最后一次更新时间
      */
     public void setMtime(LocalDateTime value) {
-        set(8, value);
+        set(9, value);
     }
 
     /**
      * Getter for <code>user.mtime</code>. 最后一次更新时间
      */
     public LocalDateTime getMtime() {
-        return (LocalDateTime) get(8);
-    }
-
-    /**
-     * Setter for <code>user.password</code>. BCrypt密码哈希
-     */
-    public void setPassword(String value) {
-        set(9, value);
-    }
-
-    /**
-     * Getter for <code>user.password</code>. BCrypt密码哈希
-     */
-    public String getPassword() {
-        return (String) get(9);
+        return (LocalDateTime) get(9);
     }
 
     // -------------------------------------------------------------------------
@@ -178,12 +178,12 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
     // -------------------------------------------------------------------------
 
     @Override
-    public Row10<Long, String, String, String, String, String, String, LocalDateTime, LocalDateTime, String> fieldsRow() {
+    public Row10<Long, String, String, String, String, String, String, String, LocalDateTime, LocalDateTime> fieldsRow() {
         return (Row10) super.fieldsRow();
     }
 
     @Override
-    public Row10<Long, String, String, String, String, String, String, LocalDateTime, LocalDateTime, String> valuesRow() {
+    public Row10<Long, String, String, String, String, String, String, String, LocalDateTime, LocalDateTime> valuesRow() {
         return (Row10) super.valuesRow();
     }
 
@@ -204,37 +204,37 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
 
     @Override
     public Field<String> field4() {
-        return User.USER.SOURCE;
+        return User.USER.PASSWORD;
     }
 
     @Override
     public Field<String> field5() {
-        return User.USER.SOURCE_ID;
+        return User.USER.SOURCE;
     }
 
     @Override
     public Field<String> field6() {
-        return User.USER.MANAGER_AK;
+        return User.USER.SOURCE_ID;
     }
 
     @Override
     public Field<String> field7() {
+        return User.USER.MANAGER_AK;
+    }
+
+    @Override
+    public Field<String> field8() {
         return User.USER.OPTIONAL_INFO;
     }
 
     @Override
-    public Field<LocalDateTime> field8() {
+    public Field<LocalDateTime> field9() {
         return User.USER.CTIME;
     }
 
     @Override
-    public Field<LocalDateTime> field9() {
+    public Field<LocalDateTime> field10() {
         return User.USER.MTIME;
-    }
-
-    @Override
-    public Field<String> field10() {
-        return User.USER.PASSWORD;
     }
 
     @Override
@@ -254,37 +254,37 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
 
     @Override
     public String component4() {
-        return getSource();
+        return getPassword();
     }
 
     @Override
     public String component5() {
-        return getSourceId();
+        return getSource();
     }
 
     @Override
     public String component6() {
-        return getManagerAk();
+        return getSourceId();
     }
 
     @Override
     public String component7() {
+        return getManagerAk();
+    }
+
+    @Override
+    public String component8() {
         return getOptionalInfo();
     }
 
     @Override
-    public LocalDateTime component8() {
+    public LocalDateTime component9() {
         return getCtime();
     }
 
     @Override
-    public LocalDateTime component9() {
+    public LocalDateTime component10() {
         return getMtime();
-    }
-
-    @Override
-    public String component10() {
-        return getPassword();
     }
 
     @Override
@@ -304,37 +304,37 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
 
     @Override
     public String value4() {
-        return getSource();
+        return getPassword();
     }
 
     @Override
     public String value5() {
-        return getSourceId();
+        return getSource();
     }
 
     @Override
     public String value6() {
-        return getManagerAk();
+        return getSourceId();
     }
 
     @Override
     public String value7() {
+        return getManagerAk();
+    }
+
+    @Override
+    public String value8() {
         return getOptionalInfo();
     }
 
     @Override
-    public LocalDateTime value8() {
+    public LocalDateTime value9() {
         return getCtime();
     }
 
     @Override
-    public LocalDateTime value9() {
+    public LocalDateTime value10() {
         return getMtime();
-    }
-
-    @Override
-    public String value10() {
-        return getPassword();
     }
 
     @Override
@@ -357,48 +357,48 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
 
     @Override
     public UserRecord value4(String value) {
-        setSource(value);
-        return this;
-    }
-
-    @Override
-    public UserRecord value5(String value) {
-        setSourceId(value);
-        return this;
-    }
-
-    @Override
-    public UserRecord value6(String value) {
-        setManagerAk(value);
-        return this;
-    }
-
-    @Override
-    public UserRecord value7(String value) {
-        setOptionalInfo(value);
-        return this;
-    }
-
-    @Override
-    public UserRecord value8(LocalDateTime value) {
-        setCtime(value);
-        return this;
-    }
-
-    @Override
-    public UserRecord value9(LocalDateTime value) {
-        setMtime(value);
-        return this;
-    }
-
-    @Override
-    public UserRecord value10(String value) {
         setPassword(value);
         return this;
     }
 
     @Override
-    public UserRecord values(Long value1, String value2, String value3, String value4, String value5, String value6, String value7, LocalDateTime value8, LocalDateTime value9, String value10) {
+    public UserRecord value5(String value) {
+        setSource(value);
+        return this;
+    }
+
+    @Override
+    public UserRecord value6(String value) {
+        setSourceId(value);
+        return this;
+    }
+
+    @Override
+    public UserRecord value7(String value) {
+        setManagerAk(value);
+        return this;
+    }
+
+    @Override
+    public UserRecord value8(String value) {
+        setOptionalInfo(value);
+        return this;
+    }
+
+    @Override
+    public UserRecord value9(LocalDateTime value) {
+        setCtime(value);
+        return this;
+    }
+
+    @Override
+    public UserRecord value10(LocalDateTime value) {
+        setMtime(value);
+        return this;
+    }
+
+    @Override
+    public UserRecord values(Long value1, String value2, String value3, String value4, String value5, String value6, String value7, String value8, LocalDateTime value9, LocalDateTime value10) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -426,19 +426,19 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
     /**
      * Create a detached, initialised UserRecord
      */
-    public UserRecord(Long id, String userName, String email, String source, String sourceId, String managerAk, String optionalInfo, LocalDateTime ctime, LocalDateTime mtime, String password) {
+    public UserRecord(Long id, String userName, String email, String password, String source, String sourceId, String managerAk, String optionalInfo, LocalDateTime ctime, LocalDateTime mtime) {
         super(User.USER);
 
         setId(id);
         setUserName(userName);
         setEmail(email);
+        setPassword(password);
         setSource(source);
         setSourceId(sourceId);
         setManagerAk(managerAk);
         setOptionalInfo(optionalInfo);
         setCtime(ctime);
         setMtime(mtime);
-        setPassword(password);
         resetChangedOnNotNull();
     }
 
@@ -452,13 +452,13 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
             setId(value.getId());
             setUserName(value.getUserName());
             setEmail(value.getEmail());
+            setPassword(value.getPassword());
             setSource(value.getSource());
             setSourceId(value.getSourceId());
             setManagerAk(value.getManagerAk());
             setOptionalInfo(value.getOptionalInfo());
             setCtime(value.getCtime());
             setMtime(value.getMtime());
-            setPassword(value.getPassword());
             resetChangedOnNotNull();
         }
     }

@@ -19,13 +19,13 @@ public class UserDB implements Serializable {
     private Long id;
     private String userName;
     private String email;
+    private String password;
     private String source;
     private String sourceId;
     private String managerAk;
     private String optionalInfo;
     private LocalDateTime ctime;
     private LocalDateTime mtime;
-    private String password;
 
     public UserDB() {}
 
@@ -33,37 +33,37 @@ public class UserDB implements Serializable {
         this.id = value.id;
         this.userName = value.userName;
         this.email = value.email;
+        this.password = value.password;
         this.source = value.source;
         this.sourceId = value.sourceId;
         this.managerAk = value.managerAk;
         this.optionalInfo = value.optionalInfo;
         this.ctime = value.ctime;
         this.mtime = value.mtime;
-        this.password = value.password;
     }
 
     public UserDB(
         Long id,
         String userName,
         String email,
+        String password,
         String source,
         String sourceId,
         String managerAk,
         String optionalInfo,
         LocalDateTime ctime,
-        LocalDateTime mtime,
-        String password
+        LocalDateTime mtime
     ) {
         this.id = id;
         this.userName = userName;
         this.email = email;
+        this.password = password;
         this.source = source;
         this.sourceId = sourceId;
         this.managerAk = managerAk;
         this.optionalInfo = optionalInfo;
         this.ctime = ctime;
         this.mtime = mtime;
-        this.password = password;
     }
 
     /**
@@ -106,6 +106,20 @@ public class UserDB implements Serializable {
      */
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    /**
+     * Getter for <code>user.password</code>. 密码
+     */
+    public String getPassword() {
+        return this.password;
+    }
+
+    /**
+     * Setter for <code>user.password</code>. 密码
+     */
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     /**
@@ -192,20 +206,6 @@ public class UserDB implements Serializable {
         this.mtime = mtime;
     }
 
-    /**
-     * Getter for <code>user.password</code>. BCrypt密码哈希
-     */
-    public String getPassword() {
-        return this.password;
-    }
-
-    /**
-     * Setter for <code>user.password</code>. BCrypt密码哈希
-     */
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -232,6 +232,12 @@ public class UserDB implements Serializable {
                 return false;
         }
         else if (!this.email.equals(other.email))
+            return false;
+        if (this.password == null) {
+            if (other.password != null)
+                return false;
+        }
+        else if (!this.password.equals(other.password))
             return false;
         if (this.source == null) {
             if (other.source != null)
@@ -269,12 +275,6 @@ public class UserDB implements Serializable {
         }
         else if (!this.mtime.equals(other.mtime))
             return false;
-        if (this.password == null) {
-            if (other.password != null)
-                return false;
-        }
-        else if (!this.password.equals(other.password))
-            return false;
         return true;
     }
 
@@ -285,13 +285,13 @@ public class UserDB implements Serializable {
         result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
         result = prime * result + ((this.userName == null) ? 0 : this.userName.hashCode());
         result = prime * result + ((this.email == null) ? 0 : this.email.hashCode());
+        result = prime * result + ((this.password == null) ? 0 : this.password.hashCode());
         result = prime * result + ((this.source == null) ? 0 : this.source.hashCode());
         result = prime * result + ((this.sourceId == null) ? 0 : this.sourceId.hashCode());
         result = prime * result + ((this.managerAk == null) ? 0 : this.managerAk.hashCode());
         result = prime * result + ((this.optionalInfo == null) ? 0 : this.optionalInfo.hashCode());
         result = prime * result + ((this.ctime == null) ? 0 : this.ctime.hashCode());
         result = prime * result + ((this.mtime == null) ? 0 : this.mtime.hashCode());
-        result = prime * result + ((this.password == null) ? 0 : this.password.hashCode());
         return result;
     }
 
@@ -302,13 +302,13 @@ public class UserDB implements Serializable {
         sb.append(id);
         sb.append(", ").append(userName);
         sb.append(", ").append(email);
+        sb.append(", ").append(password);
         sb.append(", ").append(source);
         sb.append(", ").append(sourceId);
         sb.append(", ").append(managerAk);
         sb.append(", ").append(optionalInfo);
         sb.append(", ").append(ctime);
         sb.append(", ").append(mtime);
-        sb.append(", ").append(password);
 
         sb.append(")");
         return sb.toString();

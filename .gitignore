@@ -96,6 +96,9 @@ web_v2/bin
 
 private-loggers.xml
 
+# jOOQ local config (template: api/server/src/main/resources/jooq-config.xml.example)
+jooq-config.xml
+
 # Playwright
 /test-results/
 /playwright-report/

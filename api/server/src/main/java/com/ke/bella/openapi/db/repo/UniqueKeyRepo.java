@@ -1,7 +1,6 @@
 package com.ke.bella.openapi.db.repo;
 
 import org.jooq.DSLContext;
-import org.jooq.Field;
 import org.jooq.TableField;
 import org.jooq.impl.TableImpl;
 import org.jooq.impl.UpdatableRecordImpl;
@@ -12,7 +11,7 @@ import jakarta.annotation.Resource;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-public abstract class UniqueKeyRepo<T extends Operator, R extends UpdatableRecordImpl<R>, K> implements BaseRepo {
+public abstract class UniqueKeyRepo<T, R extends UpdatableRecordImpl<R>, K> implements BaseRepo {
     @Resource
     protected DSLContext db;
 
@@ -42,8 +41,8 @@ public abstract class UniqueKeyRepo<T extends Operator, R extends UpdatableRecor
     protected R getRecForInsert(Object op) {
         R rec = table().newRecord();
         rec.from(op);
-        if(AutogenCodeRepo.class.isAssignableFrom(getClass())) {
-            ((AutogenCodeRepo) this).autogen(rec);
+        if (AutogenCodeRepo.class.isAssignableFrom(getClass())) {
+            ((AutogenCodeRepo<R>) this).autogen(rec);
         }
         fillCreatorInfo(rec);
         return rec;
@@ -104,6 +103,7 @@ public abstract class UniqueKeyRepo<T extends Operator, R extends UpdatableRecor
                 exist ? "Entity does not exist" : "Entity already exists");
     }
 
+    @SuppressWarnings("unchecked")
     private Class<T> entityClass() {
         Type type = getClass().getGenericSuperclass();
         ParameterizedType parameterizedType = (ParameterizedType) type;

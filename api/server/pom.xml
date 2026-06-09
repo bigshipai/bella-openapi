@@ -7,11 +7,11 @@
         <version>3.4.1</version>
         <relativePath/>
     </parent>
-    <groupId>top.bella</groupId>
-    <artifactId>openapi-server</artifactId>
+    <groupId>one.token</groupId>
+    <artifactId>one-token</artifactId>
     <version>1.2.75</version>
-    <name>bella-openapi</name>
-    <description>Bella OpenAPI SDK</description>
+    <name>one-token</name>
+    <description>one token - 大模型聚合、路由、检测管理服务</description>
     <packaging>jar</packaging>
 
     <properties>
@@ -22,12 +22,6 @@
         <redisson.version>3.23.2</redisson.version>
         <awssdk.version>2.31.65</awssdk.version>
         <bella-openai.version>0.24.5</bella-openai.version>
-        <!-- jooq数据库连接配置，jooq生成代码时替换为真实数据库配置 -->
-        <db.driver>com.mysql.cj.jdbc.Driver</db.driver>
-        <db.url>jdbc:mysql://192.168.160.128:3306/bella_openapi?useSSL=false</db.url>
-        <db.username>root</db.username>
-        <db.password>mysql_2QA45f</db.password>
-        <db.schema>bella_openapi</db.schema>
     </properties>
 
     <dependencies>
@@ -271,7 +265,7 @@
     </dependencies>
 
     <build>
-        <finalName>bella-openapi</finalName>
+        <finalName>one-token</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -286,49 +280,9 @@
                 <artifactId>jooq-codegen-maven</artifactId>
                 <version>${jooq.version}</version>
                 <configuration>
-                    <jdbc>
-                        <driver>${db.driver}</driver>
-                        <url>${db.url}</url>
-                        <user>${db.username}</user>
-                        <password>${db.password}</password>
-                    </jdbc>
-                    <generator>
-                        <database>
-                            <inputSchema>${db.schema}</inputSchema>
-                            <outputSchemaToDefault>true</outputSchemaToDefault>
-                            <includes>.*</includes>
-                            <excludes>video_job_\d+.*</excludes>
-                            <unsignedTypes>false</unsignedTypes>
-                        </database>
-                        <strategy>
-                            <name>org.jooq.codegen.DefaultGeneratorStrategy</name>
-                            <matchers>
-                                <tables>
-                                    <table>
-                                        <daoClass>
-                                            <transform>PASCAL</transform>
-                                            <expression>$0_D_B_Dao</expression>
-                                        </daoClass>
-                                        <pojoClass>
-                                            <transform>PASCAL</transform>
-                                            <expression>$0_D_B</expression>
-                                        </pojoClass>
-                                    </table>
-                                </tables>
-                            </matchers>
-                        </strategy>
-                        <generate>
-                            <deprecated>false</deprecated>
-                            <records>true</records>
-                            <pojos>true</pojos>
-                            <daos>false</daos>
-                        </generate>
-                        <target>
-                            <packageName>com.ke.bella.openapi.generated</packageName>
-                            <directory>src/main/java</directory>
-                            <encoding>UTF-8</encoding>
-                        </target>
-                    </generator>
+                    <!-- jOOQ 代码生成配置已外置到 src/main/resources/jooq-config.xml -->
+                    <!-- 首次使用: cp jooq-config.xml.example jooq-config.xml 并修改数据库连接信息 -->
+                    <configurationFile>src/main/resources/jooq-config.xml</configurationFile>
                 </configuration>
             </plugin>
             <plugin>

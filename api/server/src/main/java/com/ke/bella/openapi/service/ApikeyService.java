@@ -573,7 +573,15 @@ public class ApikeyService {
             db.setManagerCode(StringUtils.defaultString(op.getManagerCode(), ""));
             db.setManagerName(StringUtils.defaultString(op.getManagerName(), ""));
         }
-        apikeyRepo.fillUpdatorInfo(db);
+        com.ke.bella.openapi.common.model.Operator oper = OneTokenContext.getOperatorIgnoreNull();
+        if (oper != null) {
+            if (oper.getUserId() != null) {
+                db.setMuid(oper.getUserId());
+            }
+            if (StringUtils.isNotEmpty(oper.getUserName())) {
+                db.setMuName(oper.getUserName());
+            }
+        }
         apikeyRepo.update(db, op.getCode());
         boolean syncChildren = Boolean.TRUE.equals(op.getSyncChildren());
         List<ApikeyDB> children = syncChildren ? listChildren(op.getCode()) : new ArrayList<>();

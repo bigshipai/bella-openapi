@@ -37,7 +37,7 @@ public class OpenapiRequestFilter extends BellaRequestFilter {
         try {
             // 直接验证 API Key，不走 HTTP 自调用
             String auth = request.getHeader("Authorization");
-            if (auth != null && StringUtils.isNotBlank(auth)) {
+            if (StringUtils.isNotBlank(auth)) {
                 ApikeyInfo apikeyInfo = verifyAuthHeader(auth);
                 if (apikeyInfo != null) {
                     OneTokenContext.setApikey(apikeyInfo);

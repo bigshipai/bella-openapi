@@ -25,8 +25,6 @@ public class EndpointDB implements Serializable {
     private String maintainerName;
     private String status;
     private String costScript;
-    private String categoryCode;
-    private Integer sort;
     private Long cuid;
     private String cuName;
     private Long muid;
@@ -46,8 +44,6 @@ public class EndpointDB implements Serializable {
         this.maintainerName = value.maintainerName;
         this.status = value.status;
         this.costScript = value.costScript;
-        this.categoryCode = value.categoryCode;
-        this.sort = value.sort;
         this.cuid = value.cuid;
         this.cuName = value.cuName;
         this.muid = value.muid;
@@ -66,8 +62,6 @@ public class EndpointDB implements Serializable {
         String maintainerName,
         String status,
         String costScript,
-        String categoryCode,
-        Integer sort,
         Long cuid,
         String cuName,
         Long muid,
@@ -84,8 +78,6 @@ public class EndpointDB implements Serializable {
         this.maintainerName = maintainerName;
         this.status = status;
         this.costScript = costScript;
-        this.categoryCode = categoryCode;
-        this.sort = sort;
         this.cuid = cuid;
         this.cuName = cuName;
         this.muid = muid;
@@ -221,34 +213,6 @@ public class EndpointDB implements Serializable {
     }
 
     /**
-     * Getter for <code>endpoint.category_code</code>. 类别编码
-     */
-    public String getCategoryCode() {
-        return this.categoryCode;
-    }
-
-    /**
-     * Setter for <code>endpoint.category_code</code>. 类别编码
-     */
-    public void setCategoryCode(String categoryCode) {
-        this.categoryCode = categoryCode;
-    }
-
-    /**
-     * Getter for <code>endpoint.sort</code>. 排序
-     */
-    public Integer getSort() {
-        return this.sort;
-    }
-
-    /**
-     * Setter for <code>endpoint.sort</code>. 排序
-     */
-    public void setSort(Integer sort) {
-        this.sort = sort;
-    }
-
-    /**
      * Getter for <code>endpoint.cuid</code>. 创建人id
      */
     public Long getCuid() {
@@ -305,28 +269,28 @@ public class EndpointDB implements Serializable {
     }
 
     /**
-     * Getter for <code>endpoint.ctime</code>. 创建时间
+     * Getter for <code>endpoint.ctime</code>.
      */
     public LocalDateTime getCtime() {
         return this.ctime;
     }
 
     /**
-     * Setter for <code>endpoint.ctime</code>. 创建时间
+     * Setter for <code>endpoint.ctime</code>.
      */
     public void setCtime(LocalDateTime ctime) {
         this.ctime = ctime;
     }
 
     /**
-     * Getter for <code>endpoint.mtime</code>. 更改时间
+     * Getter for <code>endpoint.mtime</code>.
      */
     public LocalDateTime getMtime() {
         return this.mtime;
     }
 
     /**
-     * Setter for <code>endpoint.mtime</code>. 更改时间
+     * Setter for <code>endpoint.mtime</code>.
      */
     public void setMtime(LocalDateTime mtime) {
         this.mtime = mtime;
@@ -395,18 +359,6 @@ public class EndpointDB implements Serializable {
         }
         else if (!this.costScript.equals(other.costScript))
             return false;
-        if (this.categoryCode == null) {
-            if (other.categoryCode != null)
-                return false;
-        }
-        else if (!this.categoryCode.equals(other.categoryCode))
-            return false;
-        if (this.sort == null) {
-            if (other.sort != null)
-                return false;
-        }
-        else if (!this.sort.equals(other.sort))
-            return false;
         if (this.cuid == null) {
             if (other.cuid != null)
                 return false;
@@ -459,8 +411,6 @@ public class EndpointDB implements Serializable {
         result = prime * result + ((this.maintainerName == null) ? 0 : this.maintainerName.hashCode());
         result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
         result = prime * result + ((this.costScript == null) ? 0 : this.costScript.hashCode());
-        result = prime * result + ((this.categoryCode == null) ? 0 : this.categoryCode.hashCode());
-        result = prime * result + ((this.sort == null) ? 0 : this.sort.hashCode());
         result = prime * result + ((this.cuid == null) ? 0 : this.cuid.hashCode());
         result = prime * result + ((this.cuName == null) ? 0 : this.cuName.hashCode());
         result = prime * result + ((this.muid == null) ? 0 : this.muid.hashCode());
@@ -483,8 +433,6 @@ public class EndpointDB implements Serializable {
         sb.append(", ").append(maintainerName);
         sb.append(", ").append(status);
         sb.append(", ").append(costScript);
-        sb.append(", ").append(categoryCode);
-        sb.append(", ").append(sort);
         sb.append(", ").append(cuid);
         sb.append(", ").append(cuName);
         sb.append(", ").append(muid);

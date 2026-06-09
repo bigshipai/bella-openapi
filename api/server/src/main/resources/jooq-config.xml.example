@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  jOOQ 代码生成配置文件
+  使用方法: cp jooq-config.xml.example jooq-config.xml 并修改为真实数据库配置
+  然后执行: mvn jooq:generate -pl server
+
+  注意: jooq-config.xml 已加入 .gitignore，不会提交到仓库
+-->
+<configuration xmlns="http://www.jooq.org/xsd/jooq-codegen-3.18.0.xsd">
+
+    <!-- ==================== 数据库连接配置 ==================== -->
+    <jdbc>
+        <driver>com.mysql.cj.jdbc.Driver</driver>
+        <url>jdbc:mysql://127.0.0.1:3306/bella_openapi?useSSL=false</url>
+        <user>root</user>
+        <password>your_password_here</password>
+    </jdbc>
+
+    <generator>
+        <!-- ==================== 数据库配置 ==================== -->
+        <database>
+            <!-- jOOQ 会根据 JDBC URL 自动检测数据库类型，也可手动指定:
+            <name>org.jooq.meta.mysql.MySQLDatabase</name>
+            -->
+            <inputSchema>bella_openapi</inputSchema>
+            <outputSchemaToDefault>true</outputSchemaToDefault>
+            <includes>.*</includes>
+            <!-- 排除分表: video_job_0, video_job_1 等 -->
+            <excludes>video_job_\d+.*</excludes>
+            <unsignedTypes>false</unsignedTypes>
+        </database>
+
+        <!-- ==================== 生成策略 ==================== -->
+        <strategy>
+            <name>org.jooq.codegen.DefaultGeneratorStrategy</name>
+            <matchers>
+                <tables>
+                    <table>
+                        <!-- DAO 类名: XxxDao -->
+                        <daoClass>
+                            <transform>PASCAL</transform>
+                            <expression>$0_Dao</expression>
+                        </daoClass>
+                        <!-- POJO 类名: XxxDB -->
+                        <pojoClass>
+                            <transform>PASCAL</transform>
+                            <expression>$0_D_B</expression>
+                        </pojoClass>
+                    </table>
+                </tables>
+            </matchers>
+        </strategy>
+
+        <!-- ==================== 生成内容 ==================== -->
+        <generate>
+            <deprecated>false</deprecated>
+            <records>true</records>
+            <pojos>true</pojos>
+            <daos>true</daos>
+        </generate>
+
+        <!-- ==================== 输出目标 ==================== -->
+        <target>
+            <packageName>com.ke.bella.openapi.generated</packageName>
+            <directory>src/main/java</directory>
+            <encoding>UTF-8</encoding>
+        </target>
+    </generator>
+</configuration>

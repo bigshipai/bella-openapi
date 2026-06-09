@@ -69,6 +69,11 @@ public class User extends TableImpl<UserRecord> {
     public final TableField<UserRecord, String> EMAIL = createField(DSL.name("email"), SQLDataType.VARCHAR(128), this, "邮箱");
 
     /**
+     * The column <code>user.password</code>. 密码
+     */
+    public final TableField<UserRecord, String> PASSWORD = createField(DSL.name("password"), SQLDataType.VARCHAR(255), this, "密码");
+
+    /**
      * The column <code>user.source</code>. 用户来源
      */
     public final TableField<UserRecord, String> SOURCE = createField(DSL.name("source"), SQLDataType.VARCHAR(32).nullable(false), this, "用户来源");
@@ -97,11 +102,6 @@ public class User extends TableImpl<UserRecord> {
      * The column <code>user.mtime</code>. 最后一次更新时间
      */
     public final TableField<UserRecord, LocalDateTime> MTIME = createField(DSL.name("mtime"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "最后一次更新时间");
-
-    /**
-     * The column <code>user.password</code>. BCrypt密码哈希
-     */
-    public final TableField<UserRecord, String> PASSWORD = createField(DSL.name("password"), SQLDataType.VARCHAR(255), this, "BCrypt密码哈希");
 
     private User(Name alias, Table<UserRecord> aliased) {
         this(alias, aliased, null);
@@ -200,14 +200,14 @@ public class User extends TableImpl<UserRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row10<Long, String, String, String, String, String, String, LocalDateTime, LocalDateTime, String> fieldsRow() {
+    public Row10<Long, String, String, String, String, String, String, String, LocalDateTime, LocalDateTime> fieldsRow() {
         return (Row10) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function10<? super Long, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? super String, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function10<? super Long, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -215,7 +215,7 @@ public class User extends TableImpl<UserRecord> {
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function10<? super Long, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? super String, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function10<? super Long, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }
