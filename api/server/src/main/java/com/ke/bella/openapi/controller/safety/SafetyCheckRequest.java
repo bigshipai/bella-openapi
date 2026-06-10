@@ -2,8 +2,8 @@ package com.ke.bella.openapi.controller.safety;
 
 import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.controller.apikey.dto.ApikeyInfo;
-import com.ke.bella.openapi.protocol.completion.CompletionRequest;
-import com.ke.bella.openapi.protocol.completion.CompletionResponse;
+import com.ke.bella.openapi.domain.protocol.completion.CompletionRequest;
+import com.ke.bella.openapi.domain.protocol.completion.CompletionResponse;
 import com.ke.bella.openapi.utils.JacksonUtils;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -49,7 +49,7 @@ public class SafetyCheckRequest {
         }
 
         public static Chat convertFrom(CompletionRequest completionRequest, EndpointProcessData processData, ApikeyInfo apikeyInfo) {
-            com.ke.bella.openapi.protocol.completion.Message message = completionRequest.getMessages()
+            com.ke.bella.openapi.domain.protocol.completion.Message message = completionRequest.getMessages()
                     .get(completionRequest.getMessages().size() - 1);
             return Chat.builder()
                     .requestId(processData.getRequestId())
@@ -70,7 +70,7 @@ public class SafetyCheckRequest {
             if(CollectionUtils.isEmpty(completionResponse.getChoices())) {
                 return null;
             }
-            List<com.ke.bella.openapi.protocol.completion.Message> messages = completionResponse.getChoices().stream()
+            List<com.ke.bella.openapi.domain.protocol.completion.Message> messages = completionResponse.getChoices().stream()
                     .map(CompletionResponse.Choice::getMessage)
                     .collect(Collectors.toList());
             return Chat.builder()
@@ -88,15 +88,15 @@ public class SafetyCheckRequest {
                     .build();
         }
 
-        public static List<Message> convertFrom(List<com.ke.bella.openapi.protocol.completion.Message> messages) {
+        public static List<Message> convertFrom(List<com.ke.bella.openapi.domain.protocol.completion.Message> messages) {
             List<Message> checks = new ArrayList<>();
-            for (com.ke.bella.openapi.protocol.completion.Message message : messages) {
+            for (com.ke.bella.openapi.domain.protocol.completion.Message message : messages) {
                 checks.addAll(convertFrom(message));
             }
             return checks;
         }
 
-        public static List<Message> convertFrom(com.ke.bella.openapi.protocol.completion.Message message) {
+        public static List<Message> convertFrom(com.ke.bella.openapi.domain.protocol.completion.Message message) {
             return convertFrom(message.getRole(), message.getContent());
         }
 

@@ -6,6 +6,8 @@ server:
   max-http-header-size: 10240
 
 spring:
+  application:
+    name: one-token
   main:
     allow-circular-references: true
   profiles:
@@ -61,7 +63,7 @@ springdoc:
     enabled: true
 
 
-bella:
+one-token:
   console:
     user-quota-edit-enabled: false
   limiter:
@@ -86,17 +88,6 @@ bella:
 app:
   id: bella-openapi
 
-apollo:
-  bootstrap:
-    enabled: false
-    eagerLoad:
-      enabled: true
-    namespaces: application
-  property:
-    order:
-      enabled: true
-  cacheDir: ./config-cache
-  cluster: default
 management:
   endpoints:
     web:
@@ -114,23 +105,23 @@ test:
 ---
 # 登录配置
 bella:
- oauth:
-   client-index: http://localhost:3000  # 客户端首页URL
-   redirect: http://localhost:8080
-   providers:  # 支持多个OAuth提供商
-     google:  # Google OAuth配置
-       enabled: true
-       client-id: your-google-client-id
-       client-secret: your-google-client-secret
-       auth-uri: https://accounts.google.com/o/oauth2/v2/auth
-       token-uri: https://oauth2.googleapis.com/token
-       user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
-       scope: profile email
-     github:  # GitHub OAuth配置
-       enabled: true
-       client-id: your-github-client-id
-       client-secret: your-github-client-secret
-       scope: read:user user:email
-       authUri: https://github.com/login/oauth/authorize
-       tokenUri: https://github.com/login/oauth/access_token
-       userInfoUri: https://api.github.com/user
+  oauth:
+    client-index: http://localhost:3000  # 客户端首页URL
+    redirect: http://localhost:8080
+    providers: # 支持多个OAuth提供商
+      google: # Google OAuth配置
+        enabled: true
+        client-id: your-google-client-id
+        client-secret: your-google-client-secret
+        auth-uri: https://accounts.google.com/o/oauth2/v2/auth
+        token-uri: https://oauth2.googleapis.com/token
+        user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+        scope: profile email
+      github: # GitHub OAuth配置
+        enabled: true
+        client-id: your-github-client-id
+        client-secret: your-github-client-secret
+        scope: read:user user:email
+        authUri: https://github.com/login/oauth/authorize
+        tokenUri: https://github.com/login/oauth/access_token
+        userInfoUri: https://api.github.com/user

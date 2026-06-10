@@ -11,7 +11,7 @@ import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.common.annotation.OneTokenAPI;
 import com.ke.bella.openapi.controller.apikey.dto.ApikeyInfo;
 import com.ke.bella.openapi.common.exception.BizParamCheckException;
-import com.ke.bella.openapi.protocol.log.EndpointLogger;
+import com.ke.bella.openapi.domain.protocol.log.EndpointLogger;
 import com.ke.bella.openapi.domain.apikey.ApikeyService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;

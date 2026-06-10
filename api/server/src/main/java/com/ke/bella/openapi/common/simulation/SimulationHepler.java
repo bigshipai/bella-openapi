@@ -15,11 +15,11 @@ import org.apache.commons.collections4.CollectionUtils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ke.bella.openapi.protocol.completion.CompletionRequest;
-import com.ke.bella.openapi.protocol.completion.CompletionResponse;
-import com.ke.bella.openapi.protocol.completion.CompletionResponse.Choice;
-import com.ke.bella.openapi.protocol.completion.Message;
-import com.ke.bella.openapi.protocol.completion.Message.Function;
+import com.ke.bella.openapi.domain.protocol.completion.CompletionRequest;
+import com.ke.bella.openapi.domain.protocol.completion.CompletionResponse;
+import com.ke.bella.openapi.domain.protocol.completion.CompletionResponse.Choice;
+import com.ke.bella.openapi.domain.protocol.completion.Message;
+import com.ke.bella.openapi.domain.protocol.completion.Message.Function;
 import com.ke.bella.openapi.utils.Renders;
 
 public class SimulationHepler {

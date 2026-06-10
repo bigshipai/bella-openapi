@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.controller.model;
 
-import com.ke.bella.openapi.protocol.IModelFeatures;
+import com.ke.bella.openapi.domain.protocol.IModelFeatures;
 import lombok.Data;
 
 import java.util.LinkedHashMap;

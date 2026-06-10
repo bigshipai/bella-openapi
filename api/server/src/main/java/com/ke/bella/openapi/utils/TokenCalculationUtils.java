@@ -1,10 +1,10 @@
 package com.ke.bella.openapi.utils;
 
 import com.google.common.collect.Lists;
-import com.ke.bella.openapi.protocol.completion.CompletionRequest;
-import com.ke.bella.openapi.protocol.completion.CompletionResponse;
-import com.ke.bella.openapi.protocol.completion.Message;
-import com.ke.bella.openapi.protocol.embedding.EmbeddingRequest;
+import com.ke.bella.openapi.domain.protocol.completion.CompletionRequest;
+import com.ke.bella.openapi.domain.protocol.completion.CompletionResponse;
+import com.ke.bella.openapi.domain.protocol.completion.Message;
+import com.ke.bella.openapi.domain.protocol.embedding.EmbeddingRequest;
 import com.knuddels.jtokkit.api.EncodingType;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;

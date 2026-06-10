@@ -8,9 +8,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import com.google.common.util.concurrent.AtomicDouble;
-import com.ke.bella.openapi.protocol.cost.CostCounter;
-import com.ke.bella.openapi.protocol.log.CostLogHandler;
-import com.ke.bella.openapi.protocol.log.LogEvent;
+import com.ke.bella.openapi.domain.protocol.cost.CostCounter;
+import com.ke.bella.openapi.domain.protocol.log.CostLogHandler;
+import com.ke.bella.openapi.domain.protocol.log.LogEvent;
 
 public class CostLogHandlerTest {
 

@@ -1,5 +1,6 @@
 package com.ke.bella.openapi.protocol.completion;
 
+import com.ke.bella.openapi.domain.protocol.completion.CompletionPriceInfo;
 import org.junit.Test;
 
 import java.math.BigDecimal;

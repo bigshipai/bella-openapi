@@ -1,36 +1,37 @@
 package com.ke.bella.openapi.controller.endpoint;
 
+import com.ke.bella.openapi.domain.endpoint.EndpointDataService;
 import com.ke.bella.openapi.job.queue.config.JobQueueProperties;
 import com.ke.bella.openapi.common.context.EndpointContext;
 import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.common.annotation.EndpointAPI;
-import com.ke.bella.openapi.protocol.AdaptorManager;
+import com.ke.bella.openapi.domain.protocol.AdaptorManager;
 import com.ke.bella.openapi.domain.route.ChannelRouter;
-import com.ke.bella.openapi.protocol.StreamByteSender;
-import com.ke.bella.openapi.protocol.asr.AsrProperty;
-import com.ke.bella.openapi.protocol.asr.AsrRequest;
-import com.ke.bella.openapi.protocol.asr.AudioTranscriptionRequest.AudioTranscriptionReq;
-import com.ke.bella.openapi.protocol.asr.AudioTranscriptionRequest.AudioTranscriptionResultReq;
-import com.ke.bella.openapi.protocol.asr.AudioTranscriptionResponse.AudioTranscriptionResp;
-import com.ke.bella.openapi.protocol.asr.AudioTranscriptionResponse.AudioTranscriptionResultResp;
-import com.ke.bella.openapi.protocol.asr.diarization.SpeakerDiarizationAdaptor;
-import com.ke.bella.openapi.protocol.asr.diarization.SpeakerDiarizationProperty;
-import com.ke.bella.openapi.protocol.asr.diarization.SpeakerDiarizationResponse;
-import com.ke.bella.openapi.protocol.asr.transcription.TranscriptionsRequest;
-import com.ke.bella.openapi.protocol.asr.transcription.TranscriptionsResponse;
+import com.ke.bella.openapi.domain.protocol.StreamByteSender;
+import com.ke.bella.openapi.domain.protocol.asr.AsrProperty;
+import com.ke.bella.openapi.domain.protocol.asr.AsrRequest;
+import com.ke.bella.openapi.domain.protocol.asr.AudioTranscriptionRequest.AudioTranscriptionReq;
+import com.ke.bella.openapi.domain.protocol.asr.AudioTranscriptionRequest.AudioTranscriptionResultReq;
+import com.ke.bella.openapi.domain.protocol.asr.AudioTranscriptionResponse.AudioTranscriptionResp;
+import com.ke.bella.openapi.domain.protocol.asr.AudioTranscriptionResponse.AudioTranscriptionResultResp;
+import com.ke.bella.openapi.domain.protocol.asr.diarization.SpeakerDiarizationAdaptor;
+import com.ke.bella.openapi.domain.protocol.asr.diarization.SpeakerDiarizationProperty;
+import com.ke.bella.openapi.domain.protocol.asr.diarization.SpeakerDiarizationResponse;
+import com.ke.bella.openapi.domain.protocol.asr.transcription.TranscriptionsRequest;
+import com.ke.bella.openapi.domain.protocol.asr.transcription.TranscriptionsResponse;
 import com.ke.bella.openapi.utils.TranscriptionsConverter;
-import com.ke.bella.openapi.protocol.asr.flash.FlashAsrAdaptor;
-import com.ke.bella.openapi.protocol.asr.flash.FlashAsrResponse;
-import com.ke.bella.openapi.protocol.limiter.LimiterManager;
-import com.ke.bella.openapi.protocol.log.EndpointLogger;
-import com.ke.bella.openapi.protocol.realtime.RealTimeAdaptor;
-import com.ke.bella.openapi.protocol.realtime.RealTimeHandler;
-import com.ke.bella.openapi.protocol.speaker.SpeakerEmbeddingAdaptor;
-import com.ke.bella.openapi.protocol.speaker.SpeakerEmbeddingProperty;
-import com.ke.bella.openapi.protocol.speaker.SpeakerEmbeddingRequest;
-import com.ke.bella.openapi.protocol.speaker.SpeakerEmbeddingResponse;
-import com.ke.bella.openapi.protocol.tts.TtsAdaptor;
-import com.ke.bella.openapi.protocol.tts.TtsProperty;
+import com.ke.bella.openapi.domain.protocol.asr.flash.FlashAsrAdaptor;
+import com.ke.bella.openapi.domain.protocol.asr.flash.FlashAsrResponse;
+import com.ke.bella.openapi.domain.protocol.limiter.LimiterManager;
+import com.ke.bella.openapi.domain.protocol.log.EndpointLogger;
+import com.ke.bella.openapi.domain.protocol.realtime.RealTimeAdaptor;
+import com.ke.bella.openapi.domain.protocol.realtime.RealTimeHandler;
+import com.ke.bella.openapi.domain.protocol.speaker.SpeakerEmbeddingAdaptor;
+import com.ke.bella.openapi.domain.protocol.speaker.SpeakerEmbeddingProperty;
+import com.ke.bella.openapi.domain.protocol.speaker.SpeakerEmbeddingRequest;
+import com.ke.bella.openapi.domain.protocol.speaker.SpeakerEmbeddingResponse;
+import com.ke.bella.openapi.domain.protocol.tts.TtsAdaptor;
+import com.ke.bella.openapi.domain.protocol.tts.TtsProperty;
 import com.ke.bella.openapi.controller.endpoint.dto.TtsRequest;
 import com.ke.bella.openapi.jooqgen.tables.pojos.ChannelDB;
 import com.ke.bella.openapi.utils.JacksonUtils;
@@ -75,18 +76,24 @@ import static com.ke.bella.openapi.common.constant.AudioFormatEnum.getContentTyp
 @Tag(name = "Audio Endpoints")
 @Slf4j
 public class AudioController {
+
 	private static final int DEFAULT_QUEUE_TIMEOUT_SECONDS = 60 * 60 * 72;
 
 	@Autowired
 	private ChannelRouter router;
+
 	@Autowired
 	private AdaptorManager adaptorManager;
+
 	@Autowired
 	private LimiterManager limiterManager;
+
 	@Autowired
 	private EndpointLogger logger;
+
 	@Autowired
 	private JobQueueProperties jobQueueProperties;
+
 	@Autowired
 	private EndpointDataService endpointDataService;
 

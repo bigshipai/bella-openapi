@@ -10,8 +10,8 @@ import org.apache.commons.lang3.SerializationUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ke.bella.openapi.controller.apikey.dto.ApikeyInfo;
-import com.ke.bella.openapi.protocol.OpenapiResponse;
-import com.ke.bella.openapi.protocol.cost.CostDetails;
+import com.ke.bella.openapi.domain.protocol.ApiResponse;
+import com.ke.bella.openapi.domain.protocol.cost.CostDetails;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -71,7 +71,7 @@ public class EndpointProcessData {
     @JsonIgnore
     private volatile boolean requestOptimized = false;
 
-    private OpenapiResponse response;
+    private ApiResponse response;
     private Object usage;
     private Map<String, Object> metrics = new HashMap<>();
     private String forwardUrl;
@@ -101,7 +101,7 @@ public class EndpointProcessData {
     }
 
     // 保存副本，防止日志处理中对response的修改影响返回结果
-    public void setResponse(OpenapiResponse response) {
+    public void setResponse(ApiResponse response) {
         if(response == null) {
             this.response = null;
             return;

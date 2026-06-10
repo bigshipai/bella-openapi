@@ -4,8 +4,8 @@ package com.ke.bella.openapi.common.simulation;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ke.bella.openapi.protocol.completion.Message.ToolCall;
-import com.ke.bella.openapi.protocol.completion.StreamCompletionResponse;
+import com.ke.bella.openapi.domain.protocol.completion.Message.ToolCall;
+import com.ke.bella.openapi.domain.protocol.completion.StreamCompletionResponse;
 import com.ke.bella.openapi.utils.JacksonUtils;
 
 import lombok.Getter;

@@ -3,18 +3,18 @@ package com.ke.bella.openapi.job.worker;
 import com.ke.bella.openapi.common.context.EndpointContext;
 import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.controller.apikey.dto.ApikeyInfo;
-import com.ke.bella.openapi.client.OneTokenServerClient;
+import com.ke.bella.openapi.config.client.OneTokenServerClient;
 import com.ke.bella.openapi.common.constant.EntityConstants;
-import com.ke.bella.openapi.protocol.AdaptorManager;
-import com.ke.bella.openapi.protocol.Callbacks;
-import com.ke.bella.openapi.protocol.OpenapiResponse;
-import com.ke.bella.openapi.protocol.completion.CompletionAdaptor;
-import com.ke.bella.openapi.protocol.completion.CompletionProperty;
-import com.ke.bella.openapi.protocol.completion.CompletionRequest;
-import com.ke.bella.openapi.protocol.completion.CompletionResponse;
-import com.ke.bella.openapi.protocol.completion.callback.MergeReasoningCallback;
-import com.ke.bella.openapi.protocol.completion.callback.SplitReasoningCallback;
-import com.ke.bella.openapi.protocol.completion.callback.ToolCallSimulatorCallback;
+import com.ke.bella.openapi.domain.protocol.AdaptorManager;
+import com.ke.bella.openapi.domain.protocol.Callbacks;
+import com.ke.bella.openapi.domain.protocol.ApiResponse;
+import com.ke.bella.openapi.domain.protocol.completion.CompletionAdaptor;
+import com.ke.bella.openapi.domain.protocol.completion.CompletionProperty;
+import com.ke.bella.openapi.domain.protocol.completion.CompletionRequest;
+import com.ke.bella.openapi.domain.protocol.completion.CompletionResponse;
+import com.ke.bella.openapi.domain.protocol.completion.callback.MergeReasoningCallback;
+import com.ke.bella.openapi.domain.protocol.completion.callback.SplitReasoningCallback;
+import com.ke.bella.openapi.domain.protocol.completion.callback.ToolCallSimulatorCallback;
 import com.ke.bella.openapi.controller.safety.ISafetyCheckService;
 import com.ke.bella.openapi.controller.safety.SafetyCheckRequest;
 import com.ke.bella.openapi.jooqgen.tables.pojos.ChannelDB;
@@ -43,7 +43,7 @@ public class TaskProcessor {
         log.info("Task started, taskId: {}, channel: {}", taskId, channel.getChannelCode());
         boolean streamingStarted = false;
         try {
-            OpenapiResponse response = processRequest(taskWrapper.getTask().getData(), taskWrapper, releaseSlot);
+            ApiResponse response = processRequest(taskWrapper.getTask().getData(), taskWrapper, releaseSlot);
             if(response != null) {
                 taskWrapper.markComplete(createResult(response));
                 log.info("Task completed, taskId: {}, channel: {}", taskId, channel.getChannelCode());
@@ -53,8 +53,8 @@ public class TaskProcessor {
             }
         } catch (Exception e) {
             log.error("Task execution failed, taskId: {}, channel: {}", taskId, channel.getChannelCode(), e);
-            OpenapiResponse errorResponse = OpenapiResponse.errorResponse(
-                    OpenapiResponse.OpenapiError.builder().httpCode(500).message(e.getMessage()).build());
+            ApiResponse errorResponse = ApiResponse.errorResponse(
+                    ApiResponse.OpenapiError.builder().httpCode(500).message(e.getMessage()).build());
             taskWrapper.markComplete(createResult(errorResponse));
         } finally {
             EndpointContext.clearAll();
@@ -64,7 +64,7 @@ public class TaskProcessor {
         }
     }
 
-    private OpenapiResponse processRequest(Map<String, Object> requestData, TaskWrapper taskWrapper, Runnable releaseSlot) {
+    private ApiResponse processRequest(Map<String, Object> requestData, TaskWrapper taskWrapper, Runnable releaseSlot) {
         // todo:: support more entity types
         if(EntityConstants.MODEL.equals(channel.getEntityType())) {
             return processCompletionRequest(requestData, taskWrapper, releaseSlot);
@@ -98,7 +98,7 @@ public class TaskProcessor {
         return adaptor.completion(request, processData.getForwardUrl(), property);
     }
 
-    private Map<String, Object> createResult(OpenapiResponse response) {
+    private Map<String, Object> createResult(ApiResponse response) {
         int httpCode = Optional.ofNullable(response.getError())
                 .map(error -> Optional.ofNullable(error.getHttpCode()).orElse(500))
                 .orElse(200);

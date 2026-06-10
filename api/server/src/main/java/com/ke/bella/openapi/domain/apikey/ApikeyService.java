@@ -16,16 +16,16 @@ import com.ke.bella.openapi.controller.console.dto.ApikeyChangeLog;
 import com.ke.bella.openapi.controller.console.dto.ApikeyOps;
 import com.ke.bella.openapi.controller.console.dto.ApikeyTransferLog;
 import com.ke.bella.openapi.controller.console.dto.TransferApikeyOwnerOp;
+import com.ke.bella.openapi.controller.safety.ISafetyAuditService;
+import com.ke.bella.openapi.domain.apikey.event.ApiKeyChangeEvent;
+import com.ke.bella.openapi.domain.apikey.event.ApiKeyTransferEvent;
 import com.ke.bella.openapi.domain.apikey.repo.*;
 import com.ke.bella.openapi.domain.common.Page;
 import com.ke.bella.openapi.domain.user.UserRepo;
-import com.ke.bella.openapi.domain.apikey.event.ApiKeyChangeEvent;
-import com.ke.bella.openapi.domain.apikey.event.ApiKeyTransferEvent;
 import com.ke.bella.openapi.jooqgen.tables.pojos.ApikeyDB;
 import com.ke.bella.openapi.jooqgen.tables.pojos.ApikeyMonthCostDB;
 import com.ke.bella.openapi.jooqgen.tables.pojos.ApikeyRoleDB;
 import com.ke.bella.openapi.jooqgen.tables.pojos.UserDB;
-import com.ke.bella.openapi.controller.safety.ISafetyAuditService;
 import com.ke.bella.openapi.utils.EncryptUtils;
 import com.ke.bella.openapi.utils.JacksonUtils;
 import com.ke.bella.openapi.utils.MatchUtils;
@@ -341,6 +341,8 @@ public class ApikeyService {
 			String displayAk = EncryptUtils.desensitize(ak);
 			throw new OneTokenException.AuthorizationException("API key does not exist, request header: " + display + ", apikey: " + displayAk);
 		}
+
+		//查询key的父key,这个计划后续去掉,不在使用.太复杂了
 		if (StringUtils.isNotEmpty(info.getParentCode())) {
 			ApikeyInfo parent = queryByCode(info.getParentCode(), true);
 			if (parent == null) {

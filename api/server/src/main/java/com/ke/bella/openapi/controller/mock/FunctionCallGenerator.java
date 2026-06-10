@@ -8,7 +8,7 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ke.bella.openapi.protocol.completion.Message;
+import com.ke.bella.openapi.domain.protocol.completion.Message;
 import com.ke.bella.openapi.utils.JacksonUtils;
 
 /**

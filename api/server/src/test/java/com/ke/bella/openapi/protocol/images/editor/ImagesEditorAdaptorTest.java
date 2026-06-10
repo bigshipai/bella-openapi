@@ -1,10 +1,11 @@
 package com.ke.bella.openapi.protocol.images.editor;
 
 import com.ke.bella.openapi.common.exception.BizParamCheckException;
-import com.ke.bella.openapi.protocol.images.ImagesEditRequest;
-import com.ke.bella.openapi.protocol.images.ImagesEditorProperty;
-import com.ke.bella.openapi.protocol.images.ImageDataType;
-import com.ke.bella.openapi.protocol.images.ImagesResponse;
+import com.ke.bella.openapi.domain.protocol.images.ImagesEditRequest;
+import com.ke.bella.openapi.domain.protocol.images.ImagesEditorProperty;
+import com.ke.bella.openapi.domain.protocol.images.ImageDataType;
+import com.ke.bella.openapi.domain.protocol.images.ImagesResponse;
+import com.ke.bella.openapi.domain.protocol.images.editor.ImagesEditorAdaptor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

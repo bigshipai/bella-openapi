@@ -14,6 +14,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 
 import com.ke.bella.openapi.common.context.EndpointProcessData;
+import com.ke.bella.openapi.domain.protocol.completion.*;
 import com.ke.bella.openapi.job.queue.QueueClient;
 import com.ke.bella.openapi.job.queue.TaskWrapper;
 import com.ke.bella.openapi.job.worker.WorkerStreamingCallback;
@@ -24,8 +25,8 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 //import com.ke.bella.openapi.EndpointProcessData;EndpointProcessData
-import com.ke.bella.openapi.protocol.Callbacks;
-import com.ke.bella.openapi.protocol.OpenapiResponse;
+import com.ke.bella.openapi.domain.protocol.Callbacks;
+import com.ke.bella.openapi.domain.protocol.ApiResponse;
 import com.ke.bella.openapi.jooqgen.tables.pojos.ChannelDB;
 //import com.ke.bella.openapi.worker.WorkerStreamingCallback;
 //import com.ke.bella.openapi.queue.QueueClient;
@@ -160,7 +161,7 @@ public class QueueAdaptorChannelCodeTest {
 
     @Test
     public void openapiResponse_channelCodeFieldExists() {
-        OpenapiResponse response = new OpenapiResponse();
+        ApiResponse response = new ApiResponse();
         assertNull(response.getChannelCode());
         response.setChannelCode("ch-task-001");
         assertEquals("ch-task-001", response.getChannelCode());

@@ -1,10 +1,11 @@
 package com.ke.bella.openapi.protocol.images.editor;
 
-import com.ke.bella.openapi.protocol.images.ImagesEditRequest;
-import com.ke.bella.openapi.protocol.images.ImagesEditorProperty;
-import com.ke.bella.openapi.protocol.images.ImageDataType;
-import com.ke.bella.openapi.protocol.AuthorizationProperty;
-import com.ke.bella.openapi.protocol.AuthorizationProperty.AuthType;
+import com.ke.bella.openapi.domain.protocol.images.ImagesEditRequest;
+import com.ke.bella.openapi.domain.protocol.images.ImagesEditorProperty;
+import com.ke.bella.openapi.domain.protocol.images.ImageDataType;
+import com.ke.bella.openapi.domain.protocol.AuthorizationProperty;
+import com.ke.bella.openapi.domain.protocol.AuthorizationProperty.AuthType;
+import com.ke.bella.openapi.domain.protocol.images.editor.HuoshanAdaptor;
 import com.ke.bella.openapi.utils.JacksonUtils;
 import okhttp3.Request;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,7 +1,7 @@
 package com.ke.bella.openapi.endpoints.testdata;
 
-import com.ke.bella.openapi.protocol.embedding.EmbeddingRequest;
-import com.ke.bella.openapi.protocol.embedding.EmbeddingResponse;
+import com.ke.bella.openapi.domain.protocol.embedding.EmbeddingRequest;
+import com.ke.bella.openapi.domain.protocol.embedding.EmbeddingResponse;
 import com.ke.bella.openapi.jooqgen.tables.pojos.ChannelDB;
 import lombok.Getter;
 import lombok.Setter;

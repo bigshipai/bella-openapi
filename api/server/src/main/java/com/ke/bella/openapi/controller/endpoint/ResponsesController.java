@@ -1,5 +1,6 @@
 package com.ke.bella.openapi.controller.endpoint;
 
+import com.ke.bella.openapi.domain.endpoint.EndpointDataService;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -16,14 +17,14 @@ import com.ke.bella.openapi.common.context.EndpointContext;
 import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.common.annotation.EndpointAPI;
 import com.ke.bella.openapi.common.exception.BizParamCheckException;
-import com.ke.bella.openapi.protocol.AdaptorManager;
+import com.ke.bella.openapi.domain.protocol.AdaptorManager;
 import com.ke.bella.openapi.domain.route.ChannelRouter;
-import com.ke.bella.openapi.protocol.completion.ResponsesAdaptor;
-import com.ke.bella.openapi.protocol.completion.ResponsesApiProperty;
-import com.ke.bella.openapi.protocol.completion.ResponsesApiRequest;
-import com.ke.bella.openapi.protocol.completion.ResponsesApiResponse;
-import com.ke.bella.openapi.protocol.completion.callback.ResponsesApiSseCallback;
-import com.ke.bella.openapi.protocol.log.EndpointLogger;
+import com.ke.bella.openapi.domain.protocol.completion.ResponsesAdaptor;
+import com.ke.bella.openapi.domain.protocol.completion.ResponsesApiProperty;
+import com.ke.bella.openapi.domain.protocol.completion.ResponsesApiRequest;
+import com.ke.bella.openapi.domain.protocol.completion.ResponsesApiResponse;
+import com.ke.bella.openapi.domain.protocol.completion.callback.ResponsesApiSseCallback;
+import com.ke.bella.openapi.domain.protocol.log.EndpointLogger;
 import com.ke.bella.openapi.jooqgen.tables.pojos.ChannelDB;
 import com.ke.bella.openapi.utils.DateTimeUtils;
 import com.ke.bella.openapi.utils.JacksonUtils;

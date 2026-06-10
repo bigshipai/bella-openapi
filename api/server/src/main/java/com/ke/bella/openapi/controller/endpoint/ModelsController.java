@@ -2,9 +2,10 @@ package com.ke.bella.openapi.controller.endpoint;
 
 import com.ke.bella.openapi.common.annotation.EndpointAPI;
 import com.ke.bella.openapi.common.constant.EntityConstants;
+import com.ke.bella.openapi.controller.endpoint.dto.Condition;
 import com.ke.bella.openapi.controller.model.Model;
-import com.ke.bella.openapi.protocol.model.ModelInfo;
-import com.ke.bella.openapi.protocol.model.ModelListResponse;
+import com.ke.bella.openapi.domain.protocol.model.ModelInfo;
+import com.ke.bella.openapi.domain.protocol.model.ModelListResponse;
 import com.ke.bella.openapi.controller.model.ModelService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

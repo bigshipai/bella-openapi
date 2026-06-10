@@ -1,13 +1,13 @@
 package com.ke.bella.openapi.controller.console;
 
 import com.ke.bella.openapi.common.annotation.OneTokenAPI;
-import com.ke.bella.openapi.controller.channel.Channel;
-import com.ke.bella.openapi.controller.endpoint.Condition;
+import com.ke.bella.openapi.domain.channel.Channel;
+import com.ke.bella.openapi.controller.endpoint.dto.Condition;
 import com.ke.bella.openapi.controller.meta.dto.MetaDataOps;
 import com.ke.bella.openapi.controller.model.ModelDetails;
-import com.ke.bella.openapi.controller.category.CategoryService;
-import com.ke.bella.openapi.controller.channel.ChannelService;
-import com.ke.bella.openapi.controller.endpoint.EndpointService;
+import com.ke.bella.openapi.domain.category.CategoryService;
+import com.ke.bella.openapi.domain.channel.ChannelService;
+import com.ke.bella.openapi.domain.endpoint.EndpointService;
 import com.ke.bella.openapi.controller.model.ModelService;
 import com.ke.bella.openapi.jooqgen.tables.pojos.CategoryDB;
 import com.ke.bella.openapi.jooqgen.tables.pojos.ChannelDB;

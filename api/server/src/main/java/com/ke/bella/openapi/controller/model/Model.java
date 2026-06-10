@@ -2,8 +2,8 @@ package com.ke.bella.openapi.controller.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ke.bella.openapi.common.dto.BaseDto;
-import com.ke.bella.openapi.protocol.IModelFeatures;
-import com.ke.bella.openapi.protocol.IModelProperties;
+import com.ke.bella.openapi.domain.protocol.IModelFeatures;
+import com.ke.bella.openapi.domain.protocol.IModelProperties;
 import com.ke.bella.openapi.utils.JacksonUtils;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

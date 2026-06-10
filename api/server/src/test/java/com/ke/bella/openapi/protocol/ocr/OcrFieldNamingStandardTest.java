@@ -12,7 +12,7 @@ import java.util.Set;
 import org.junit.Test;
 import org.reflections.Reflections;
 
-import com.ke.bella.openapi.protocol.OpenapiResponse;
+import com.ke.bella.openapi.domain.protocol.ApiResponse;
 
 /**
  * OCR证件字段命名规范测试
@@ -27,7 +27,7 @@ public class OcrFieldNamingStandardTest {
         List<Class<?>> classes = new ArrayList<>();
 
         Reflections reflections = new Reflections("com.ke.bella.openapi.protocol.ocr");
-        Set<Class<? extends OpenapiResponse>> responseClasses = reflections.getSubTypesOf(OpenapiResponse.class);
+        Set<Class<? extends ApiResponse>> responseClasses = reflections.getSubTypesOf(ApiResponse.class);
 
         for (Class<?> responseClass : responseClasses) {
             for (Class<?> innerClass : responseClass.getDeclaredClasses()) {

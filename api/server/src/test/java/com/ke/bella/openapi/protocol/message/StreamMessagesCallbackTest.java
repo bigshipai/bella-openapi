@@ -2,9 +2,12 @@ package com.ke.bella.openapi.protocol.message;
 
 //import com.ke.bella.openapi.EndpointProcessData;
 import com.ke.bella.openapi.common.context.EndpointProcessData;
-import com.ke.bella.openapi.protocol.completion.CompletionResponse;
-import com.ke.bella.openapi.protocol.completion.Message;
-import com.ke.bella.openapi.protocol.completion.StreamCompletionResponse;
+import com.ke.bella.openapi.domain.protocol.completion.CompletionResponse;
+import com.ke.bella.openapi.domain.protocol.completion.Message;
+import com.ke.bella.openapi.domain.protocol.completion.StreamCompletionResponse;
+import com.ke.bella.openapi.domain.protocol.message.MessageResponse;
+import com.ke.bella.openapi.domain.protocol.message.StreamMessageResponse;
+import com.ke.bella.openapi.domain.protocol.message.StreamMessagesCallback;
 import org.junit.Test;
 
 import java.util.ArrayList;

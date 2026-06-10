@@ -1,0 +1,35 @@
+package com.ke.bella.openapi.domain.protocol.speaker;
+
+import com.google.common.collect.ImmutableMap;
+import com.ke.bella.openapi.domain.protocol.IPriceInfo;
+import lombok.Data;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Map;
+
+/**
+ * Price information for speaker embedding requests
+ * 基于音频时长计费
+ */
+@Data
+public class SpeakerEmbeddingPriceInfo implements IPriceInfo, Serializable {
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 音频处理单价（元/小时）
+     */
+    private BigDecimal price;
+    private double batchDiscount = 1.0;
+    private double supplierDiscount = 1.0;
+
+    @Override
+    public String getUnit() {
+        return "CNY/hour";
+    }
+
+    @Override
+    public Map<String, String> description() {
+        return ImmutableMap.of("price", "Price per hour (CNY)");
+    }
+}

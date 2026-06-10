@@ -1,5 +1,6 @@
 package com.ke.bella.openapi.controller.endpoint;
 
+import com.ke.bella.openapi.domain.endpoint.EndpointDataService;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,20 +11,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ke.bella.openapi.common.context.EndpointContext;
 import com.ke.bella.openapi.common.annotation.EndpointAPI;
-import com.ke.bella.openapi.protocol.AdaptorManager;
+import com.ke.bella.openapi.domain.protocol.AdaptorManager;
 import com.ke.bella.openapi.domain.route.ChannelRouter;
-import com.ke.bella.openapi.protocol.limiter.LimiterManager;
-import com.ke.bella.openapi.protocol.ocr.OcrContext;
-import com.ke.bella.openapi.protocol.ocr.OcrProperty;
-import com.ke.bella.openapi.protocol.ocr.OcrRequest;
-import com.ke.bella.openapi.protocol.ocr.bankcard.BankcardAdaptor;
-import com.ke.bella.openapi.protocol.ocr.businesslicense.BusinessLicenseAdaptor;
-import com.ke.bella.openapi.protocol.ocr.general.GeneralAdaptor;
-import com.ke.bella.openapi.protocol.ocr.idcard.IdcardAdaptor;
-import com.ke.bella.openapi.protocol.ocr.overseaspassport.OverseasPassportAdaptor;
-import com.ke.bella.openapi.protocol.ocr.hmt_travel_permit.HmtTravelPermitAdaptor;
-import com.ke.bella.openapi.protocol.ocr.residence_permit.ResidencePermitAdaptor;
-import com.ke.bella.openapi.protocol.ocr.tmpidcard.TmpIdcardAdaptor;
+import com.ke.bella.openapi.domain.protocol.limiter.LimiterManager;
+import com.ke.bella.openapi.domain.protocol.ocr.OcrContext;
+import com.ke.bella.openapi.domain.protocol.ocr.OcrProperty;
+import com.ke.bella.openapi.controller.endpoint.dto.OcrRequest;
+import com.ke.bella.openapi.domain.protocol.ocr.bankcard.BankcardAdaptor;
+import com.ke.bella.openapi.domain.protocol.ocr.businesslicense.BusinessLicenseAdaptor;
+import com.ke.bella.openapi.domain.protocol.ocr.general.GeneralAdaptor;
+import com.ke.bella.openapi.domain.protocol.ocr.idcard.IdcardAdaptor;
+import com.ke.bella.openapi.domain.protocol.ocr.overseaspassport.OverseasPassportAdaptor;
+import com.ke.bella.openapi.domain.protocol.ocr.hmt_travel_permit.HmtTravelPermitAdaptor;
+import com.ke.bella.openapi.domain.protocol.ocr.residence_permit.ResidencePermitAdaptor;
+import com.ke.bella.openapi.domain.protocol.ocr.tmpidcard.TmpIdcardAdaptor;
 import com.ke.bella.openapi.utils.JacksonUtils;
 
 import io.swagger.v3.oas.annotations.tags.Tag;

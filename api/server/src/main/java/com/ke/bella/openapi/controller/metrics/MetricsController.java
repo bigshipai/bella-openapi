@@ -2,10 +2,10 @@ package com.ke.bella.openapi.controller.metrics;
 
 import com.ke.bella.openapi.common.annotation.OneTokenAPI;
 import com.ke.bella.openapi.common.constant.EntityConstants;
-import com.ke.bella.openapi.controller.endpoint.Condition;
-import com.ke.bella.openapi.protocol.metrics.MetricsManager;
-import com.ke.bella.openapi.protocol.metrics.MetricsQueryResult;
-import com.ke.bella.openapi.controller.channel.ChannelService;
+import com.ke.bella.openapi.controller.endpoint.dto.Condition;
+import com.ke.bella.openapi.domain.protocol.metrics.MetricsManager;
+import com.ke.bella.openapi.domain.protocol.metrics.MetricsQueryResult;
+import com.ke.bella.openapi.domain.channel.ChannelService;
 import com.ke.bella.openapi.controller.model.ModelService;
 import com.ke.bella.openapi.jooqgen.tables.pojos.ChannelDB;
 import com.ke.bella.openapi.jooqgen.tables.pojos.ModelDB;

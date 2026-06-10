@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.utils;
 
-import com.ke.bella.openapi.protocol.images.ImagesEditRequest;
+import com.ke.bella.openapi.domain.protocol.images.ImagesEditRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,220 +15,222 @@ import java.util.*;
 @Slf4j
 public class ImagesEditRequestUtils {
 
-    /**
-     * 从MultipartHttpServletRequest读取并构建ImagesEditRequest
-     */
-    public static ImagesEditRequest readFromMultipartRequest(MultipartHttpServletRequest request) {
-        try {
-            ImagesEditRequest editRequest = new ImagesEditRequest();
+	/**
+	 * 从MultipartHttpServletRequest读取并构建ImagesEditRequest
+	 */
+	public static ImagesEditRequest readFromMultipartRequest(MultipartHttpServletRequest request) {
 
-            // 设置基本参数
-            setBasicParameters(request, editRequest);
+		try {
 
-            // 处理图片文件
-            processImageFiles(request, editRequest);
+			ImagesEditRequest editRequest = new ImagesEditRequest();
 
-            // 处理mask文件
-            processMaskFile(request, editRequest);
+			// 设置基本参数
+			setBasicParameters(request, editRequest);
 
-            // 处理其他参数
-            processOtherParameters(request, editRequest);
+			// 处理图片文件
+			processImageFiles(request, editRequest);
 
-            return editRequest;
-        } catch (Exception e) {
-            log.error("Failed to convert multipart request to ImagesEditRequest", e);
-            throw new HttpMessageNotReadableException("Failed to read ImagesEditRequest from multipart data", e);
-        }
-    }
+			// 处理mask文件
+			processMaskFile(request, editRequest);
 
-    /**
-     * 设置基本参数
-     */
-    private static void setBasicParameters(MultipartHttpServletRequest request, ImagesEditRequest editRequest) {
-        editRequest.setModel(request.getParameter("model"));
-        editRequest.setPrompt(request.getParameter("prompt"));
-        editRequest.setSize(request.getParameter("size"));
-        editRequest.setResponse_format(request.getParameter("response_format"));
-        editRequest.setUser(request.getParameter("user"));
+			// 处理其他参数
+			processOtherParameters(request, editRequest);
 
-        // 处理数字参数
-        parseIntegerParameter(request.getParameter("n"), editRequest::setN);
-    }
+			return editRequest;
+		} catch (Exception e) {
+			log.error("Failed to convert multipart request to ImagesEditRequest", e);
+			throw new HttpMessageNotReadableException("Failed to read ImagesEditRequest from multipart data", e);
+		}
+	}
 
-    /**
-     * 处理图片文件
-     */
-    private static void processImageFiles(MultipartHttpServletRequest request, ImagesEditRequest editRequest) {
-        List<MultipartFile> imageFiles = collectImageFiles(request);
+	/**
+	 * 设置基本参数
+	 */
+	private static void setBasicParameters(MultipartHttpServletRequest request, ImagesEditRequest editRequest) {
+		editRequest.setModel(request.getParameter("model"));
+		editRequest.setPrompt(request.getParameter("prompt"));
+		editRequest.setSize(request.getParameter("size"));
+		editRequest.setResponse_format(request.getParameter("response_format"));
+		editRequest.setUser(request.getParameter("user"));
 
-        if(!imageFiles.isEmpty() && !imageFiles.stream().allMatch(MultipartFile::isEmpty)) {
-            MultipartFile[] validFiles = imageFiles.stream()
-                    .filter(file -> !file.isEmpty())
-                    .toArray(MultipartFile[]::new);
+		// 处理数字参数
+		parseIntegerParameter(request.getParameter("n"), editRequest::setN);
+	}
 
-            editRequest.setImage(validFiles);
-        }
+	/**
+	 * 处理图片文件
+	 */
+	private static void processImageFiles(MultipartHttpServletRequest request, ImagesEditRequest editRequest) {
+		List<MultipartFile> imageFiles = collectImageFiles(request);
 
-    }
+		if (!imageFiles.isEmpty() && !imageFiles.stream().allMatch(MultipartFile::isEmpty)) {
+			MultipartFile[] validFiles = imageFiles.stream()
+				.filter(file -> !file.isEmpty())
+				.toArray(MultipartFile[]::new);
 
-    /**
-     * 处理mask文件
-     */
-    private static void processMaskFile(MultipartHttpServletRequest request, ImagesEditRequest editRequest) {
-        MultipartFile maskFile = request.getFile("mask");
-        if(maskFile != null && !maskFile.isEmpty()) {
-            editRequest.setMask(maskFile);
-        }
-    }
+			editRequest.setImage(validFiles);
+		}
 
-    /**
-     * 处理其他参数
-     */
-    private static void processOtherParameters(MultipartHttpServletRequest request, ImagesEditRequest editRequest) {
-        processImageUrls(request, editRequest);
-        processImageBase64(request, editRequest);
-        processExtraBodyParameters(request, editRequest);
-    }
+	}
 
-    /**
-     * 收集图片文件
-     */
-    private static List<MultipartFile> collectImageFiles(MultipartHttpServletRequest request) {
-        List<MultipartFile> imageFiles = new ArrayList<>();
-        imageFiles.addAll(request.getFiles("image"));
-        imageFiles.addAll(request.getFiles("image[]"));
-        return imageFiles;
-    }
+	/**
+	 * 处理mask文件
+	 */
+	private static void processMaskFile(MultipartHttpServletRequest request, ImagesEditRequest editRequest) {
+		MultipartFile maskFile = request.getFile("mask");
+		if (maskFile != null && !maskFile.isEmpty()) {
+			editRequest.setMask(maskFile);
+		}
+	}
 
-    /**
-     * 处理图片URL参数
-     */
-    private static void processImageUrls(MultipartHttpServletRequest request, ImagesEditRequest editRequest) {
-        String[] urls = mergeParameterArrays(
-                request.getParameterValues("image_url"),
-                request.getParameterValues("image_url[]"));
-        if(urls.length > 0) {
-            editRequest.setImage_url(urls);
-        }
-    }
+	/**
+	 * 处理其他参数
+	 */
+	private static void processOtherParameters(MultipartHttpServletRequest request, ImagesEditRequest editRequest) {
+		processImageUrls(request, editRequest);
+		processImageBase64(request, editRequest);
+		processExtraBodyParameters(request, editRequest);
+	}
 
-    /**
-     * 处理图片Base64参数
-     */
-    private static void processImageBase64(MultipartHttpServletRequest request, ImagesEditRequest editRequest) {
-        String[] base64s = mergeParameterArrays(
-                request.getParameterValues("image_b64_json"),
-                request.getParameterValues("image_b64_json[]"));
-        if(base64s.length > 0) {
-            editRequest.setImage_b64_json(base64s);
-        }
-    }
+	/**
+	 * 收集图片文件
+	 */
+	private static List<MultipartFile> collectImageFiles(MultipartHttpServletRequest request) {
+		List<MultipartFile> imageFiles = new ArrayList<>();
+		imageFiles.addAll(request.getFiles("image"));
+		imageFiles.addAll(request.getFiles("image[]"));
+		return imageFiles;
+	}
 
-    /**
-     * 处理额外的body参数
-     */
-    private static void processExtraBodyParameters(MultipartHttpServletRequest request, ImagesEditRequest editRequest) {
-        Set<String> knownParams = getKnownParameters();
-        Map<String, String[]> parameterMap = request.getParameterMap();
+	/**
+	 * 处理图片URL参数
+	 */
+	private static void processImageUrls(MultipartHttpServletRequest request, ImagesEditRequest editRequest) {
+		String[] urls = mergeParameterArrays(
+			request.getParameterValues("image_url"),
+			request.getParameterValues("image_url[]"));
+		if (urls.length > 0) {
+			editRequest.setImage_url(urls);
+		}
+	}
 
-        for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
-            String key = entry.getKey();
-            if(!knownParams.contains(key)) {
-                Object value = convertParameterValues(entry.getValue());
-                editRequest.setExtraBodyField(key, value);
-            }
-        }
-    }
+	/**
+	 * 处理图片Base64参数
+	 */
+	private static void processImageBase64(MultipartHttpServletRequest request, ImagesEditRequest editRequest) {
+		String[] base64s = mergeParameterArrays(
+			request.getParameterValues("image_b64_json"),
+			request.getParameterValues("image_b64_json[]"));
+		if (base64s.length > 0) {
+			editRequest.setImage_b64_json(base64s);
+		}
+	}
 
-    /**
-     * 获取已知参数列表
-     */
-    private static Set<String> getKnownParameters() {
-        return new HashSet<>(Arrays.asList(
-                "model", "prompt", "size", "response_format", "user", "n",
-                "image_url", "image_url[]", "image_b64_json", "image_b64_json[]"));
-    }
+	/**
+	 * 处理额外的body参数
+	 */
+	private static void processExtraBodyParameters(MultipartHttpServletRequest request, ImagesEditRequest editRequest) {
+		Set<String> knownParams = getKnownParameters();
+		Map<String, String[]> parameterMap = request.getParameterMap();
 
-    /**
-     * 合并参数数组
-     */
-    private static String[] mergeParameterArrays(String[] array1, String[] array2) {
-        List<String> result = new ArrayList<>();
-        if(array1 != null) {
-            result.addAll(Arrays.asList(array1));
-        }
-        if(array2 != null) {
-            result.addAll(Arrays.asList(array2));
-        }
-        return result.toArray(new String[0]);
-    }
+		for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
+			String key = entry.getKey();
+			if (!knownParams.contains(key)) {
+				Object value = convertParameterValues(entry.getValue());
+				editRequest.setExtraBodyField(key, value);
+			}
+		}
+	}
 
-    /**
-     * 解析整数参数
-     */
-    private static void parseIntegerParameter(String paramValue, java.util.function.Consumer<Integer> setter) {
-        if(paramValue != null && !paramValue.trim().isEmpty()) {
-            try {
-                setter.accept(Integer.valueOf(paramValue));
-            } catch (NumberFormatException e) {
-                log.warn("Invalid integer parameter value: {}", paramValue);
-            }
-        }
-    }
+	/**
+	 * 获取已知参数列表
+	 */
+	private static Set<String> getKnownParameters() {
+		return new HashSet<>(Arrays.asList(
+			"model", "prompt", "size", "response_format", "user", "n",
+			"image_url", "image_url[]", "image_b64_json", "image_b64_json[]"));
+	}
 
-    /**
-     * 转换参数值
-     */
-    private static Object convertParameterValues(String[] values) {
-        if(values.length == 1) {
-            return convertBasicType(values[0]);
-        } else {
-            return Arrays.stream(values)
-                    .map(ImagesEditRequestUtils::convertBasicType)
-                    .toArray();
-        }
-    }
+	/**
+	 * 合并参数数组
+	 */
+	private static String[] mergeParameterArrays(String[] array1, String[] array2) {
+		List<String> result = new ArrayList<>();
+		if (array1 != null) {
+			result.addAll(Arrays.asList(array1));
+		}
+		if (array2 != null) {
+			result.addAll(Arrays.asList(array2));
+		}
+		return result.toArray(new String[0]);
+	}
 
-    /**
-     * 简单的类型转换
-     */
-    private static Object convertBasicType(String value) {
-        if(value == null) {
-            return null;
-        }
+	/**
+	 * 解析整数参数
+	 */
+	private static void parseIntegerParameter(String paramValue, java.util.function.Consumer<Integer> setter) {
+		if (paramValue != null && !paramValue.trim().isEmpty()) {
+			try {
+				setter.accept(Integer.valueOf(paramValue));
+			} catch (NumberFormatException e) {
+				log.warn("Invalid integer parameter value: {}", paramValue);
+			}
+		}
+	}
 
-        String trimmed = value.trim();
+	/**
+	 * 转换参数值
+	 */
+	private static Object convertParameterValues(String[] values) {
+		if (values.length == 1) {
+			return convertBasicType(values[0]);
+		} else {
+			return Arrays.stream(values)
+				.map(ImagesEditRequestUtils::convertBasicType)
+				.toArray();
+		}
+	}
 
-        // 布尔类型
-        if("true".equalsIgnoreCase(trimmed)) {
-            return true;
-        }
-        if("false".equalsIgnoreCase(trimmed)) {
-            return false;
-        }
+	/**
+	 * 简单的类型转换
+	 */
+	private static Object convertBasicType(String value) {
+		if (value == null) {
+			return null;
+		}
 
-        // 整数类型
-        if(trimmed.matches("-?\\d+")) {
-            try {
-                return Integer.parseInt(trimmed);
-            } catch (NumberFormatException e) {
-                try {
-                    return Long.parseLong(trimmed);
-                } catch (NumberFormatException e2) {
-                    return value;
-                }
-            }
-        }
+		String trimmed = value.trim();
 
-        // 小数类型
-        if(trimmed.matches("-?\\d+\\.\\d+")) {
-            try {
-                return Double.parseDouble(trimmed);
-            } catch (NumberFormatException e) {
-                return value;
-            }
-        }
+		// 布尔类型
+		if ("true".equalsIgnoreCase(trimmed)) {
+			return true;
+		}
+		if ("false".equalsIgnoreCase(trimmed)) {
+			return false;
+		}
 
-        return value;
-    }
+		// 整数类型
+		if (trimmed.matches("-?\\d+")) {
+			try {
+				return Integer.parseInt(trimmed);
+			} catch (NumberFormatException e) {
+				try {
+					return Long.parseLong(trimmed);
+				} catch (NumberFormatException e2) {
+					return value;
+				}
+			}
+		}
+
+		// 小数类型
+		if (trimmed.matches("-?\\d+\\.\\d+")) {
+			try {
+				return Double.parseDouble(trimmed);
+			} catch (NumberFormatException e) {
+				return value;
+			}
+		}
+
+		return value;
+	}
 }

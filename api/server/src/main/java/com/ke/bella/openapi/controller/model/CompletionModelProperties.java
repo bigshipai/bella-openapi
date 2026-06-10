@@ -1,7 +1,7 @@
 package com.ke.bella.openapi.controller.model;
 
 import com.google.common.collect.ImmutableSortedMap;
-import com.ke.bella.openapi.protocol.IModelProperties;
+import com.ke.bella.openapi.domain.protocol.IModelProperties;
 import lombok.Data;
 
 import java.util.Map;

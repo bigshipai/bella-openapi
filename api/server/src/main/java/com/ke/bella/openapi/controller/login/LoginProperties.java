@@ -5,7 +5,13 @@ import lombok.Data;
 @Data
 public class LoginProperties {
 
-    private String loginPageUrl;
+	/**
+	 * 登录的地址
+	 */
+	private String loginPageUrl;
 
-    private String authorizationHeader = "Authorization";
+	/**
+	 * 认证Header
+	 */
+	private String authorizationHeader = "Authorization";
 }

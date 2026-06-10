@@ -7,6 +7,9 @@ import static org.mockito.Mockito.when;
 import java.util.Collections;
 
 import com.ke.bella.openapi.common.context.EndpointProcessData;
+import com.ke.bella.openapi.domain.protocol.log.EndpointLogHandler;
+import com.ke.bella.openapi.domain.protocol.log.EndpointLogger;
+import com.ke.bella.openapi.domain.protocol.log.LogEvent;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

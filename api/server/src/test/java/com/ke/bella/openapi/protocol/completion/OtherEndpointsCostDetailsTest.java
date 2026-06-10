@@ -1,15 +1,15 @@
 package com.ke.bella.openapi.protocol.completion;
 
-import com.ke.bella.openapi.protocol.cost.CostCalculator;
-import com.ke.bella.openapi.protocol.cost.CostDetails;
-import com.ke.bella.openapi.protocol.embedding.EmbeddingPriceInfo;
-import com.ke.bella.openapi.protocol.embedding.EmbeddingResponse;
-import com.ke.bella.openapi.protocol.images.ImagesPriceInfo;
-import com.ke.bella.openapi.protocol.images.ImagesResponse;
-import com.ke.bella.openapi.protocol.ocr.OcrPriceInfo;
-import com.ke.bella.openapi.protocol.tts.TtsPriceInfo;
-import com.ke.bella.openapi.protocol.video.VideoPriceInfo;
-import com.ke.bella.openapi.protocol.video.VideoUsage;
+import com.ke.bella.openapi.domain.protocol.cost.CostCalculator;
+import com.ke.bella.openapi.domain.protocol.cost.CostDetails;
+import com.ke.bella.openapi.domain.protocol.embedding.EmbeddingPriceInfo;
+import com.ke.bella.openapi.domain.protocol.embedding.EmbeddingResponse;
+import com.ke.bella.openapi.domain.protocol.images.ImagesPriceInfo;
+import com.ke.bella.openapi.domain.protocol.images.ImagesResponse;
+import com.ke.bella.openapi.domain.protocol.ocr.OcrPriceInfo;
+import com.ke.bella.openapi.domain.protocol.tts.TtsPriceInfo;
+import com.ke.bella.openapi.domain.protocol.video.VideoPriceInfo;
+import com.ke.bella.openapi.domain.protocol.video.VideoUsage;
 import com.ke.bella.openapi.utils.JacksonUtils;
 import org.junit.Test;
 

@@ -30,6 +30,7 @@ public class ProxyUtils {
 	private static final String PROP_PROXY_TYPE = "one-token.proxy.type";
 	// Multiple domains separated by commas
 	private static final String PROP_PROXY_DOMAINS = "one-token.proxy.domains";
+
 	// Static initializer, reads proxy config from environment variables and system properties
 	static {
 		logger.info("ProxyUtils static initializer started...");

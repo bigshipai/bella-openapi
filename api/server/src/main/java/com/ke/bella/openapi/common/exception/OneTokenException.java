@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.common.exception;
 
-import com.ke.bella.openapi.protocol.OpenapiResponse;
+import com.ke.bella.openapi.domain.protocol.ApiResponse;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageConversionException;
@@ -83,14 +83,14 @@ public abstract class OneTokenException extends RuntimeException {
      */
     public abstract String getType();
 
-    public OpenapiResponse.OpenapiError convertToOpenapiError() {
+    public ApiResponse.OpenapiError convertToOpenapiError() {
         if(this instanceof ChannelException) {
             return ((ChannelException) this).getResponse();
         } else if(this instanceof SafetyCheckException) {
-            return new OpenapiResponse.OpenapiError(this.getType(), this.getMessage(), this.getHttpCode(),
+            return new ApiResponse.OpenapiError(this.getType(), this.getMessage(), this.getHttpCode(),
                     ((SafetyCheckException) this).getSensitive());
         } else {
-            return new OpenapiResponse.OpenapiError(this.getType(), this.getMessage(), this.getHttpCode());
+            return new ApiResponse.OpenapiError(this.getType(), this.getMessage(), this.getHttpCode());
         }
     }
 
@@ -145,17 +145,17 @@ public abstract class OneTokenException extends RuntimeException {
 
         protected final Integer httpCode;
         protected final String type;
-        private final OpenapiResponse.OpenapiError response;
+        private final ApiResponse.OpenapiError response;
 
         public ChannelException(Integer httpCode, String message) {
             this(httpCode, "Channel Exception", message);
         }
 
         public ChannelException(Integer httpCode, String type, String message) {
-            this(httpCode, type, message, new OpenapiResponse.OpenapiError(type, message, httpCode));
+            this(httpCode, type, message, new ApiResponse.OpenapiError(type, message, httpCode));
         }
 
-        public ChannelException(Integer httpCode, String type, String message, OpenapiResponse.OpenapiError error) {
+        public ChannelException(Integer httpCode, String type, String message, ApiResponse.OpenapiError error) {
             super(message);
             this.httpCode = httpCode >= 500 ? HttpStatus.SERVICE_UNAVAILABLE.value() : httpCode;
             if(httpCode >= 500) {
@@ -163,7 +163,7 @@ public abstract class OneTokenException extends RuntimeException {
             }
             this.type = type;
             if(error == null) {
-                this.response = new OpenapiResponse.OpenapiError(type, message, httpCode);
+                this.response = new ApiResponse.OpenapiError(type, message, httpCode);
             } else {
                 error.setHttpCode(httpCode);
                 this.response = error;

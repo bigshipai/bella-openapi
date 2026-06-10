@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.ke.bella.openapi.protocol.completion.StreamCompletionResponse;
+import com.ke.bella.openapi.domain.protocol.completion.StreamCompletionResponse;
 
 import lombok.Getter;
 

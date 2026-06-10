@@ -9,7 +9,7 @@ import com.ke.bella.openapi.jooqgen.tables.records.ModelAuthorizerRelRecord;
 import com.ke.bella.openapi.jooqgen.tables.records.ModelEndpointRelRecord;
 import com.ke.bella.openapi.jooqgen.tables.records.ModelRecord;
 import com.ke.bella.openapi.controller.meta.dto.MetaDataOps;
-import com.ke.bella.openapi.controller.endpoint.Condition;
+import com.ke.bella.openapi.controller.endpoint.dto.Condition;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jooq.Record;

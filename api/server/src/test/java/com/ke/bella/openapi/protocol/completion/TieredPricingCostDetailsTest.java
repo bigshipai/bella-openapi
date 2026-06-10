@@ -1,7 +1,9 @@
 package com.ke.bella.openapi.protocol.completion;
 
-import com.ke.bella.openapi.protocol.cost.CostCalculator;
-import com.ke.bella.openapi.protocol.cost.CostDetails;
+import com.ke.bella.openapi.domain.protocol.completion.CompletionPriceInfo;
+import com.ke.bella.openapi.domain.protocol.completion.CompletionResponse;
+import com.ke.bella.openapi.domain.protocol.cost.CostCalculator;
+import com.ke.bella.openapi.domain.protocol.cost.CostDetails;
 import com.ke.bella.openapi.utils.JacksonUtils;
 import org.junit.Test;
 

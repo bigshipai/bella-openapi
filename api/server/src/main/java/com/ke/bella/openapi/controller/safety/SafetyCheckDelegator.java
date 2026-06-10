@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.controller.safety;
 
-import com.ke.bella.openapi.config.TaskExecutor;
+import com.ke.bella.openapi.config.executor.TaskExecutor;
 import com.ke.bella.openapi.common.exception.OneTokenException;
 
 import lombok.AllArgsConstructor;

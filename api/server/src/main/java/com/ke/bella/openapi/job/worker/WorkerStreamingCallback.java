@@ -3,9 +3,9 @@ package com.ke.bella.openapi.job.worker;
 import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.controller.apikey.dto.ApikeyInfo;
 import com.ke.bella.openapi.common.exception.OneTokenException;
-import com.ke.bella.openapi.protocol.OpenapiResponse;
-import com.ke.bella.openapi.protocol.completion.StreamCompletionResponse;
-import com.ke.bella.openapi.protocol.completion.callback.StreamCompletionCallback;
+import com.ke.bella.openapi.domain.protocol.ApiResponse;
+import com.ke.bella.openapi.domain.protocol.completion.StreamCompletionResponse;
+import com.ke.bella.openapi.domain.protocol.completion.callback.StreamCompletionCallback;
 import com.ke.bella.openapi.controller.safety.ISafetyCheckService;
 import com.ke.bella.openapi.controller.safety.SafetyCheckRequest;
 import com.ke.bella.openapi.job.queue.TaskWrapper;
@@ -81,7 +81,7 @@ public class WorkerStreamingCallback extends StreamCompletionCallback {
 
     @Override
     public void finish(OneTokenException exception) {
-        OpenapiResponse.OpenapiError openapiError = exception.convertToOpenapiError();
+        ApiResponse.OpenapiError openapiError = exception.convertToOpenapiError();
         Map<String, Object> result = new HashMap<>();
         result.put("status_code", Optional.ofNullable(openapiError.getHttpCode()).orElse(500));
         result.put("error", openapiError.getMessage());

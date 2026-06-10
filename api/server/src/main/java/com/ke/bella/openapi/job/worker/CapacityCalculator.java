@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.job.worker;
 
-import com.ke.bella.openapi.protocol.limiter.LimiterManager;
+import com.ke.bella.openapi.domain.protocol.limiter.LimiterManager;
 import com.ke.bella.openapi.common.script.LuaScriptExecutor;
 import com.ke.bella.openapi.common.script.ScriptType;
 import com.ke.bella.openapi.jooqgen.tables.pojos.ChannelDB;

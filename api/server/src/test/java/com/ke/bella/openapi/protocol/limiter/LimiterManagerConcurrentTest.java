@@ -2,6 +2,7 @@ package com.ke.bella.openapi.protocol.limiter;
 
 import com.ke.bella.openapi.common.script.LuaScriptExecutor;
 import com.ke.bella.openapi.common.script.ScriptType;
+import com.ke.bella.openapi.domain.protocol.limiter.LimiterManager;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

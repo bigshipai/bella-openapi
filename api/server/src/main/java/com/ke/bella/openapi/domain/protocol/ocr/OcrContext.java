@@ -1,0 +1,49 @@
+package com.ke.bella.openapi.domain.protocol.ocr;
+
+import com.ke.bella.openapi.common.context.EndpointContext;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
+import com.ke.bella.openapi.controller.endpoint.dto.OcrRequest;
+import com.ke.bella.openapi.domain.route.ChannelRouter;
+import com.ke.bella.openapi.domain.protocol.limiter.LimiterManager;
+import com.ke.bella.openapi.domain.endpoint.EndpointDataService;
+import com.ke.bella.openapi.jooqgen.tables.pojos.ChannelDB;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+public class OcrContext {
+    private final ChannelDB channel;
+    private final String endpoint;
+    private final String url;
+    private final String protocol;
+    private final String channelInfo;
+
+    public static OcrContext initialize(
+            OcrRequest request,
+            EndpointDataService endpointDataService,
+            ChannelRouter router,
+            LimiterManager limiterManager) {
+
+        String endpoint = EndpointContext.getRequest().getRequestURI();
+        String model = request.getModel();
+
+        endpointDataService.setEndpointData(endpoint, model, request.summary());
+        EndpointProcessData processData = EndpointContext.getProcessData();
+
+        ChannelDB channel = router.route(endpoint, model, EndpointContext.getApikey(), processData.isMock());
+        endpointDataService.setChannel(channel);
+
+        if(!processData.isPrivate()) {
+            limiterManager.incrementConcurrentCount(processData.getAkCode(), model);
+        }
+
+        return new OcrContext(
+                channel,
+                endpoint,
+                processData.getForwardUrl(),
+                processData.getProtocol(),
+                channel.getChannelInfo());
+    }
+}

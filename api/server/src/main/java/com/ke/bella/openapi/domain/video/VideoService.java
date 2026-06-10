@@ -12,11 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.utils.VideoIdGenerator;
-import com.ke.bella.openapi.protocol.log.EndpointLogger;
-import com.ke.bella.openapi.protocol.video.ChannelVideoResult;
-import com.ke.bella.openapi.controller.channel.ChannelService;
-import com.ke.bella.openapi.protocol.video.VideoCreateRequest;
-import com.ke.bella.openapi.protocol.video.VideoJob.Status;
+import com.ke.bella.openapi.domain.protocol.log.EndpointLogger;
+import com.ke.bella.openapi.domain.protocol.video.ChannelVideoResult;
+import com.ke.bella.openapi.domain.channel.ChannelService;
+import com.ke.bella.openapi.domain.protocol.video.VideoCreateRequest;
+import com.ke.bella.openapi.domain.protocol.video.VideoJob.Status;
 import com.ke.bella.openapi.job.queue.VideoJobQueues;
 import com.ke.bella.openapi.jooqgen.tables.pojos.ChannelDB;
 import com.ke.bella.openapi.jooqgen.tables.pojos.VideoJobDB;

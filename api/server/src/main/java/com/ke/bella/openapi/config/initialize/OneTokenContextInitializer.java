@@ -1,7 +1,7 @@
 package com.ke.bella.openapi.config.initialize;
 
-import com.ke.bella.openapi.config.OneTokenContextHolder;
-import com.ke.bella.openapi.config.OneTokenServerContext;
+import com.ke.bella.openapi.config.web.OneTokenContextHolder;
+import com.ke.bella.openapi.config.web.OneTokenServerContext;
 import com.ke.bella.openapi.utils.NetworkUtils;
 import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;

@@ -1,7 +1,10 @@
 package com.ke.bella.openapi.protocol.message;
 
-import com.ke.bella.openapi.protocol.completion.CompletionResponse;
-import com.ke.bella.openapi.protocol.completion.StreamCompletionResponse;
+import com.ke.bella.openapi.domain.protocol.completion.CompletionResponse;
+import com.ke.bella.openapi.domain.protocol.completion.StreamCompletionResponse;
+import com.ke.bella.openapi.domain.protocol.message.MessageResponse;
+import com.ke.bella.openapi.domain.protocol.message.StreamMessageResponse;
+import com.ke.bella.openapi.domain.protocol.message.TransferToCompletionsUtils;
 import org.junit.Before;
 import org.junit.Test;
 

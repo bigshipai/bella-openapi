@@ -1,7 +1,7 @@
 package com.ke.bella.openapi.endpoints.testdata;
 
 import com.ke.bella.openapi.jooqgen.tables.pojos.ChannelDB;
-import com.ke.bella.openapi.protocol.asr.AsrRequest;
+import com.ke.bella.openapi.domain.protocol.asr.AsrRequest;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,0 +1,26 @@
+package com.ke.bella.openapi.domain.protocol.ocr;
+
+import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import com.ke.bella.openapi.domain.protocol.AuthorizationProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+/**
+ * 百度OCR配置属性
+ */
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class BaiduOcrProperty extends OcrProperty {
+    AuthorizationProperty auth;
+
+    @Override
+    public Map<String, String> description() {
+        Map<String, String> map = super.description();
+        map.put("auth", "Auth config");
+        return map;
+    }
+}

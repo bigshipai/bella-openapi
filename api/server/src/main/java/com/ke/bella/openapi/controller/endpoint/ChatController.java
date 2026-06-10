@@ -1,12 +1,30 @@
 package com.ke.bella.openapi.controller.endpoint;
 
-import java.io.IOException;
-import java.util.Map;
-
+import com.ke.bella.openapi.common.annotation.EndpointAPI;
+import com.ke.bella.openapi.common.context.EndpointContext;
+import com.ke.bella.openapi.common.context.EndpointProcessData;
+import com.ke.bella.openapi.common.context.OneTokenContext;
+import com.ke.bella.openapi.common.exception.BizParamCheckException;
+import com.ke.bella.openapi.common.exception.OneTokenException;
+import com.ke.bella.openapi.domain.channel.ChannelRepo;
+import com.ke.bella.openapi.controller.safety.ISafetyCheckService;
+import com.ke.bella.openapi.controller.safety.SafetyCheckHelper;
+import com.ke.bella.openapi.controller.safety.SafetyCheckRequest;
+import com.ke.bella.openapi.domain.endpoint.EndpointDataService;
+import com.ke.bella.openapi.domain.protocol.AdaptorManager;
+import com.ke.bella.openapi.domain.protocol.completion.*;
+import com.ke.bella.openapi.domain.protocol.completion.callback.StreamCallbackProvider;
+import com.ke.bella.openapi.domain.protocol.limiter.LimiterManager;
+import com.ke.bella.openapi.domain.protocol.log.EndpointLogger;
+import com.ke.bella.openapi.domain.route.ChannelRouter;
+import com.ke.bella.openapi.job.queue.QueueClient;
+import com.ke.bella.openapi.jooqgen.tables.pojos.ChannelDB;
+import com.ke.bella.openapi.utils.JacksonUtils;
+import com.ke.bella.openapi.utils.SseHelper;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import com.ke.bella.openapi.job.queue.QueueClient;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,35 +34,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import com.ke.bella.openapi.common.context.OneTokenContext;
-import com.ke.bella.openapi.common.context.EndpointContext;
-import com.ke.bella.openapi.common.context.EndpointProcessData;
-import com.ke.bella.openapi.common.annotation.EndpointAPI;
-import com.ke.bella.openapi.common.exception.BizParamCheckException;
-import com.ke.bella.openapi.common.exception.OneTokenException;
-import com.ke.bella.openapi.protocol.AdaptorManager;
-import com.ke.bella.openapi.domain.route.ChannelRouter;
-import com.ke.bella.openapi.protocol.completion.CompletionAdaptor;
-import com.ke.bella.openapi.protocol.completion.CompletionAdaptorDelegator;
-import com.ke.bella.openapi.protocol.completion.CompletionProperty;
-import com.ke.bella.openapi.protocol.completion.CompletionRequest;
-import com.ke.bella.openapi.protocol.completion.CompletionResponse;
-import com.ke.bella.openapi.protocol.completion.DirectPassthroughAdaptor;
-import com.ke.bella.openapi.protocol.completion.QueueAdaptor;
-import com.ke.bella.openapi.protocol.completion.ToolCallSimulator;
-import com.ke.bella.openapi.protocol.completion.callback.StreamCallbackProvider;
-import com.ke.bella.openapi.protocol.limiter.LimiterManager;
-import com.ke.bella.openapi.protocol.log.EndpointLogger;
-import com.ke.bella.openapi.controller.safety.ISafetyCheckService;
-import com.ke.bella.openapi.controller.safety.SafetyCheckHelper;
-import com.ke.bella.openapi.controller.safety.SafetyCheckRequest;
-import com.ke.bella.openapi.controller.channel.ChannelRepo;
-import com.ke.bella.openapi.jooqgen.tables.pojos.ChannelDB;
-import com.ke.bella.openapi.utils.JacksonUtils;
-import com.ke.bella.openapi.utils.SseHelper;
-
-import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.extern.slf4j.Slf4j;
+import java.io.IOException;
+import java.util.Map;
 
 @EndpointAPI
 @RestController
@@ -52,31 +43,43 @@ import lombok.extern.slf4j.Slf4j;
 @Tag(name = "Chat Endpoints")
 @Slf4j
 public class ChatController {
+
 	@Autowired
 	private ChannelRouter router;
+
 	@Autowired
 	private AdaptorManager adaptorManager;
+
 	@Autowired
 	private LimiterManager limiterManager;
+
 	@Autowired
 	private EndpointLogger logger;
+
 	@Autowired
 	private ISafetyCheckService.IChatSafetyCheckService safetyCheckService;
+
 	@Autowired
 	private EndpointDataService endpointDataService;
-	@Value("${bella.openapi.max-models-per-request:3}")
+
+	@Value("${one-token.openapi.max-models-per-request:3}")
 	private Integer maxModelsPerRequest;
+
 	@Autowired
 	private QueueClient queueClient;
+
 	@Autowired
 	private ChannelRepo channelRepo;
 
 	@PostMapping("/completions")
-	public Object completion(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws IOException {
+	public Object completion(HttpServletRequest httpRequest, HttpServletResponse httpResponse)
+		throws IOException {
+
 		String endpoint = httpRequest.getRequestURI();
+		//1、判断是否在header中指定了模型参数
 		boolean isDirectMode = OneTokenContext.isDirectMode();
 
-		// Read and parse request body (common for both modes)
+		//2、 Read and parse request body (common for both modes)
 		byte[] bodyBytes = IOUtils.toByteArray(httpRequest.getInputStream());
 		CompletionRequest request = JacksonUtils.deserialize(bodyBytes, CompletionRequest.class);
 
@@ -86,7 +89,7 @@ public class ChatController {
 		// Set endpoint data (common for both modes)
 		endpointDataService.setEndpointData(endpoint, model, request);
 
-		// Check for direct mode
+		// Check for direct mode,如果指定了模型,则直接处理,不用进行后续的判断
 		if (isDirectMode) {
 			return processDirectModeRequest(endpoint, bodyBytes, httpResponse);
 		}
@@ -134,6 +137,7 @@ public class ChatController {
 
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	private Object processCompletionRequest(String endpoint, String model, CompletionRequest request) {
+
 		boolean isMock = EndpointContext.getProcessData().isMock();
 
 		// Initialize channel using common method

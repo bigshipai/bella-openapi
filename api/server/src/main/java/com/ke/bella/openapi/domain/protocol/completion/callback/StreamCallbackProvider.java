@@ -1,0 +1,31 @@
+package com.ke.bella.openapi.domain.protocol.completion.callback;
+
+import com.ke.bella.openapi.common.context.EndpointProcessData;
+import com.ke.bella.openapi.controller.apikey.dto.ApikeyInfo;
+import com.ke.bella.openapi.domain.protocol.Callbacks;
+import com.ke.bella.openapi.domain.protocol.completion.CompletionProperty;
+import com.ke.bella.openapi.domain.protocol.log.EndpointLogger;
+import com.ke.bella.openapi.domain.protocol.message.StreamMessagesCallback;
+import com.ke.bella.openapi.controller.safety.ISafetyCheckService;
+import com.ke.bella.openapi.controller.safety.SafetyCheckRequest;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+
+public class StreamCallbackProvider {
+    public static Callbacks.StreamCompletionCallback provide(SseEmitter sse, EndpointProcessData processData, ApikeyInfo apikeyInfo,
+            EndpointLogger logger, ISafetyCheckService<SafetyCheckRequest.Chat> safetyService, CompletionProperty property) {
+        Callbacks.StreamCompletionCallbackNode root = new SplitReasoningCallback(property);
+        root.addLast(new ToolCallSimulatorCallback(processData));
+        root.addLast(new MergeReasoningCallback(property));
+        root.addLast(new StreamCompletionCallback(sse, processData, apikeyInfo, logger, safetyService));
+        return root;
+    }
+
+    public static Callbacks.StreamCompletionCallback provideForMessage(SseEmitter sse, EndpointProcessData processData, ApikeyInfo apikeyInfo,
+            EndpointLogger logger, ISafetyCheckService<SafetyCheckRequest.Chat> safetyService, CompletionProperty property) {
+        Callbacks.StreamCompletionCallbackNode root = new SplitReasoningCallback(property);
+        root.addLast(new ToolCallSimulatorCallback(processData));
+        root.addLast(new MergeReasoningCallback(property));
+        root.addLast(new StreamMessagesCallback(sse, processData, apikeyInfo, logger, safetyService));
+        return root;
+    }
+}

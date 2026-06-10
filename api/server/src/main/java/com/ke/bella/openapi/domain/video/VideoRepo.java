@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ke.bella.openapi.utils.IDGenerator;
 import com.ke.bella.openapi.utils.VideoIdGenerator;
-import com.ke.bella.openapi.protocol.video.VideoJob.Status;
+import com.ke.bella.openapi.domain.protocol.video.VideoJob.Status;
 import com.ke.bella.openapi.jooqgen.tables.pojos.VideoJobDB;
 import com.ke.bella.openapi.jooqgen.tables.records.VideoJobRecord;
 

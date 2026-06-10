@@ -27,14 +27,14 @@ import com.ke.bella.openapi.common.context.EndpointContext;
 import com.ke.bella.openapi.common.annotation.EndpointAPI;
 import com.ke.bella.openapi.common.exception.BizParamCheckException;
 import com.ke.bella.openapi.common.exception.ResourceNotFoundException;
-import com.ke.bella.openapi.protocol.OpenapiListResponse;
-import com.ke.bella.openapi.protocol.video.VideoCreateRequest;
-import com.ke.bella.openapi.protocol.video.VideoJob;
-import com.ke.bella.openapi.protocol.video.VideoJob.Status;
-import com.ke.bella.openapi.protocol.video.VideoRemixRequest;
-import com.ke.bella.openapi.config.OpenAiServiceFactory;
+import com.ke.bella.openapi.domain.protocol.ApiListResponse;
+import com.ke.bella.openapi.domain.protocol.video.VideoCreateRequest;
+import com.ke.bella.openapi.domain.protocol.video.VideoJob;
+import com.ke.bella.openapi.domain.protocol.video.VideoJob.Status;
+import com.ke.bella.openapi.domain.protocol.video.VideoRemixRequest;
+import com.ke.bella.openapi.config.client.OpenAiServiceFactory;
 import com.ke.bella.openapi.config.properties.OneTokenApiProperties;
-import com.ke.bella.openapi.controller.channel.ChannelService;
+import com.ke.bella.openapi.domain.channel.ChannelService;
 import com.ke.bella.openapi.controller.model.ModelService;
 import com.ke.bella.openapi.domain.video.VideoService;
 import com.ke.bella.openapi.jooqgen.tables.pojos.ChannelDB;
@@ -192,7 +192,7 @@ public class VideoController {
     }
 
     @GetMapping
-    public OpenapiListResponse<VideoJob> listVideos(
+    public ApiListResponse<VideoJob> listVideos(
             @RequestParam(required = false) String after,
             @RequestParam(required = false) Integer limit,
             @RequestParam(required = false) String order) {
@@ -215,7 +215,7 @@ public class VideoController {
                 .map(this::transferToVideoJob)
                 .collect(Collectors.toList());
 
-        OpenapiListResponse<VideoJob> response = new OpenapiListResponse<>();
+        ApiListResponse<VideoJob> response = new ApiListResponse<>();
 
         if(videoJobs.size() > limit) {
             videoJobs = videoJobs.subList(0, limit);

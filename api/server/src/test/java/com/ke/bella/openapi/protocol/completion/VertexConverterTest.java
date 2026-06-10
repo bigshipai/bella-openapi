@@ -1,8 +1,9 @@
 package com.ke.bella.openapi.protocol.completion;
 
-import com.ke.bella.openapi.protocol.completion.gemini.Content;
-import com.ke.bella.openapi.protocol.completion.gemini.GeminiRequest;
-import com.ke.bella.openapi.protocol.completion.gemini.UsageMetadata;
+import com.ke.bella.openapi.domain.protocol.completion.*;
+import com.ke.bella.openapi.domain.protocol.completion.gemini.Content;
+import com.ke.bella.openapi.domain.protocol.completion.gemini.GeminiRequest;
+import com.ke.bella.openapi.domain.protocol.completion.gemini.UsageMetadata;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -408,12 +409,12 @@ class VertexConverterTest {
 		assertEquals(105, result.getCompletion_tokens());
 		assertEquals(405, result.getTotal_tokens());
 		assertEquals(50, result.getCache_read_tokens());
-		
+
 		assertNotNull(result.getPrompt_tokens_details());
 		assertEquals(50, result.getPrompt_tokens_details().getCached_tokens());
 		assertEquals(130, result.getPrompt_tokens_details().getImage_tokens());
 		assertEquals(100, result.getPrompt_tokens_details().getAudio_tokens());
-		
+
 		assertNotNull(result.getCompletion_tokens_details());
 		assertEquals(60, result.getCompletion_tokens_details().getImage_tokens());
 		assertEquals(0, result.getCompletion_tokens_details().getAudio_tokens());
@@ -554,7 +555,7 @@ class VertexConverterTest {
 	@Test
 	void testConvertToVertexRequest_WithMultimodalEmptyTextContent_ShouldPreserveEmptyText() {
 		List<Map<String, Object>> contentList = new ArrayList<>();
-		
+
 		Map<String, Object> textPart = new HashMap<>();
 		textPart.put("type", "text");
 		textPart.put("text", "");
@@ -587,7 +588,7 @@ class VertexConverterTest {
 	@Test
 	void testConvertToVertexRequest_WithMultimodalWhitespaceTextContent_ShouldPreserveWhitespace() {
 		List<Map<String, Object>> contentList = new ArrayList<>();
-		
+
 		Map<String, Object> textPart = new HashMap<>();
 		textPart.put("type", "text");
 		textPart.put("text", "  \t\n  ");

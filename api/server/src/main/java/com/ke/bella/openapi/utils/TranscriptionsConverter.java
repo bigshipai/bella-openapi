@@ -1,7 +1,7 @@
 package com.ke.bella.openapi.utils;
 
-import com.ke.bella.openapi.protocol.asr.flash.FlashAsrResponse;
-import com.ke.bella.openapi.protocol.asr.transcription.TranscriptionsResponse;
+import com.ke.bella.openapi.domain.protocol.asr.flash.FlashAsrResponse;
+import com.ke.bella.openapi.domain.protocol.asr.transcription.TranscriptionsResponse;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,7 +17,7 @@ public class TranscriptionsConverter {
      *
      * @param flashResponse  Flash ASR 响应
      * @param responseFormat 响应格式 (json, verbose_json, text, srt, vtt)
-     * 
+     *
      * @return OpenAI 格式的转录响应
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -59,7 +59,7 @@ public class TranscriptionsConverter {
      * 从文件名获取音频格式
      *
      * @param filename 文件名
-     * 
+     *
      * @return 音频格式（小写），默认为 "wav"
      */
     public static String getAudioFormatFromFilename(String filename) {

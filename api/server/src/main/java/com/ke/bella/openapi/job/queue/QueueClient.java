@@ -1,7 +1,7 @@
 package com.ke.bella.openapi.job.queue;
 
-import com.ke.bella.openapi.protocol.BellaEventSourceListener;
-import com.ke.bella.openapi.protocol.Callbacks;
+import com.ke.bella.openapi.domain.protocol.BellaEventSourceListener;
+import com.ke.bella.openapi.domain.protocol.Callbacks;
 import com.ke.bella.openapi.utils.HttpUtils;
 import com.ke.bella.openapi.utils.JacksonUtils;
 import com.theokanning.openai.queue.Put;

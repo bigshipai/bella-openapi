@@ -18,7 +18,7 @@ import com.ke.bella.openapi.common.response.OneTokenResponse;
 import com.ke.bella.openapi.controller.login.LoginProperties;
 import com.ke.bella.openapi.controller.login.session.SessionManager;
 
-import static com.ke.bella.openapi.controller.login.config.OneTokenLoginConfiguration.redirectParameter;
+import static com.ke.bella.openapi.config.OneTokenLoginConfiguration.redirectParameter;
 
 /**
  * 认证 Controller，处理登录、注册、登出和用户信息查询。

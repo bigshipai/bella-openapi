@@ -34,10 +34,10 @@ import org.springframework.util.StreamUtils;
 
 import com.google.common.collect.Lists;
 import com.ke.bella.openapi.common.exception.OneTokenException;
-import com.ke.bella.openapi.protocol.completion.CompletionResponse;
-import com.ke.bella.openapi.protocol.completion.Message;
-import com.ke.bella.openapi.protocol.completion.ResponseHelper;
-import com.ke.bella.openapi.protocol.completion.StreamCompletionResponse;
+import com.ke.bella.openapi.domain.protocol.completion.CompletionResponse;
+import com.ke.bella.openapi.domain.protocol.completion.Message;
+import com.ke.bella.openapi.domain.protocol.completion.ResponseHelper;
+import com.ke.bella.openapi.domain.protocol.completion.StreamCompletionResponse;
 import com.ke.bella.openapi.utils.JacksonUtils;
 
 

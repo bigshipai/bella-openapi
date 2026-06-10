@@ -1,5 +1,7 @@
 package com.ke.bella.openapi.protocol.message;
 
+import com.ke.bella.openapi.domain.protocol.message.MessageResponse;
+import com.ke.bella.openapi.domain.protocol.message.StreamMessageResponse;
 import com.ke.bella.openapi.utils.JacksonUtils;
 import org.junit.Test;
 

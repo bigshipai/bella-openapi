@@ -4,12 +4,14 @@ import com.ke.bella.openapi.common.context.EndpointContext;
 import com.ke.bella.openapi.common.context.EndpointProcessData;
 import com.ke.bella.openapi.common.annotation.EndpointAPI;
 import com.ke.bella.openapi.common.exception.BizParamCheckException;
-import com.ke.bella.openapi.protocol.AdaptorManager;
+import com.ke.bella.openapi.domain.endpoint.EndpointDataService;
+import com.ke.bella.openapi.domain.protocol.gemini.VertexAdaptor;
+import com.ke.bella.openapi.domain.protocol.AdaptorManager;
 import com.ke.bella.openapi.domain.route.ChannelRouter;
-import com.ke.bella.openapi.protocol.completion.CompletionProperty;
-import com.ke.bella.openapi.protocol.gemini.GeminiAdaptor;
-import com.ke.bella.openapi.protocol.completion.gemini.GeminiRequest;
-import com.ke.bella.openapi.protocol.limiter.LimiterManager;
+import com.ke.bella.openapi.domain.protocol.completion.CompletionProperty;
+import com.ke.bella.openapi.domain.protocol.gemini.GeminiAdaptor;
+import com.ke.bella.openapi.domain.protocol.completion.gemini.GeminiRequest;
+import com.ke.bella.openapi.domain.protocol.limiter.LimiterManager;
 import com.ke.bella.openapi.jooqgen.tables.pojos.ChannelDB;
 import com.ke.bella.openapi.utils.JacksonUtils;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,7 +31,7 @@ import java.io.IOException;
  * 响应直接从后端（Vertex AI）透传给客户端，以保持协议的一致性。
  * </p>
  *
- * @see com.ke.bella.openapi.protocol.gemini.VertexAdaptor
+ * @see VertexAdaptor
  */
 @EndpointAPI
 @RestController

@@ -160,19 +160,11 @@ apiClient.interceptors.response.use(
             localStorage.removeItem('X-Auth-Token');
           }
 
-          // 与旧版 web 对齐：用户信息探测接口的 401 不主动重定向
-          // 避免在登录页初始化阶段被强制拉起 CAS/OAuth 跳转
-          const requestUrl = error.config?.url || '';
-          const responseUrl = typeof (error.request as any)?.responseURL === 'string'
-            ? (error.request as any).responseURL
-            : '';
-          const isUserInfoRequest = requestUrl.includes('/console/userInfo') || responseUrl.includes('/console/userInfo');
-
           // 401 自动重定向逻辑
           // 检查是否有 X-Redirect-Login 响应头（CAS企业登录模式）
           const loginUrl = error.response.headers['X-Redirect-Login'] || error.response.headers['x-redirect-login'];
 
-          if (!isUserInfoRequest && loginUrl && typeof window !== 'undefined') {
+          if (loginUrl && typeof window !== 'undefined') {
 
             // 防止重定向循环：已在登录页则不跳转
             const currentPath = window.location.pathname;
@@ -183,16 +175,17 @@ apiClient.interceptors.response.use(
               break;
             }
 
-            // CAS模式：直接跳转到企业登录页
-            // 添加回跳 URL 参数（包含当前页面地址）
+            // 企业登录模式：直接跳转到企业登录页
+            // 后端返回的 X-Redirect-Login 格式为: <loginPageUrl>?redirect=
+            // 拼接当前页面地址作为回跳 URL，登录成功后后端可重定向回来
             const redirectUrl = loginUrl + encodeURIComponent(window.location.href);
             window.location.href = redirectUrl;
             // 返回永不 resolve 的 Promise，阻塞后续请求
             return new Promise(() => {});
           }
 
-          // OAuth模式：没有X-Redirect-Login响应头
-          // 由AuthGuard组件处理重定向到/login页面
+          // 没有重定向 header 的 401（OAuth 模式或未配置登录页）
+          // 由 AuthGuard 组件处理重定向到 /login 页面
           break;
         }
         case 403:

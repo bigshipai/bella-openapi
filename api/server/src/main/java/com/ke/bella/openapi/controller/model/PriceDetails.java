@@ -1,6 +1,6 @@
 package com.ke.bella.openapi.controller.model;
 
-import com.ke.bella.openapi.protocol.IPriceInfo;
+import com.ke.bella.openapi.domain.protocol.IPriceInfo;
 import lombok.Data;
 
 import java.io.Serializable;

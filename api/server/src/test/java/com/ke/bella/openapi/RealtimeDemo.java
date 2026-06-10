@@ -1,8 +1,8 @@
 package com.ke.bella.openapi;
 
-import com.ke.bella.openapi.protocol.realtime.RealTimeEventType;
-import com.ke.bella.openapi.protocol.realtime.RealTimeHeader;
-import com.ke.bella.openapi.protocol.realtime.RealTimeMessage;
+import com.ke.bella.openapi.domain.protocol.realtime.RealTimeEventType;
+import com.ke.bella.openapi.domain.protocol.realtime.RealTimeHeader;
+import com.ke.bella.openapi.domain.protocol.realtime.RealTimeMessage;
 import com.ke.bella.openapi.utils.JacksonUtils;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
