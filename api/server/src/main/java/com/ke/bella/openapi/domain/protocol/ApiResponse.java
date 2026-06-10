@@ -14,7 +14,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class OpenapiResponse implements Serializable {
+public class ApiResponse implements Serializable {
 
     @Serial
 	private static final long serialVersionUID = 1L;
@@ -40,8 +40,8 @@ public class OpenapiResponse implements Serializable {
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private String channelCode;
 
-    public static OpenapiResponse errorResponse(OpenapiError error) {
-        OpenapiResponse response = new OpenapiResponse();
+    public static ApiResponse errorResponse(OpenapiError error) {
+		ApiResponse response = new ApiResponse();
         response.setError(error);
         return response;
     }

@@ -45,7 +45,7 @@ public class HuoshanAdaptor implements ImagesEditorAdaptor<ImagesEditorProperty>
     /**
      * 构建HTTP请求
      */
-    protected Request buildRequest(ImagesEditRequest request, String url, ImagesEditorProperty property, ImageDataType dataType) {
+	public Request buildRequest(ImagesEditRequest request, String url, ImagesEditorProperty property, ImageDataType dataType) {
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("prompt", request.getPrompt());
         requestMap.put("model", property.getDeployName());
